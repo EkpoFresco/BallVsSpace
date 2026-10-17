@@ -1,0 +1,59 @@
+# Ball VS Space build status
+
+Updated 17 October 2026. Canonical implementation is under `game/`; original research/evidence is intact.
+
+## October 17 repository and territory handoff
+
+The Git repository now starts at the pack root on `main`, with the existing game history preserved and an ignored recovery bundle in `.local/`. Root README, contributing guide, partner setup, backlog, PR/issue templates and a pinned Windows build workflow are included. Source, specification and all reference files travel in the same clone. No remote or invitation has been created. Studio was rediscovered and the intended local `BallVsSpace.rbxl` verified (PlaceId/GameId 0).
+
+The current visual implementation is approximate, not 1:1: font choices, symbol edge smoothing, panel detail and ball/lobby art still differ. This continuation replaces the settings glyph with an authored gear, the plain diamond with a faceted gem and the overlapping heart pieces with a continuous silhouette. Territory overlay and area totals are restored as the default; Settings can hide them for reference comparisons. This exposes the existing space mechanic; it does not complete the territory readability, 2v2 or progression backlog.
+
+Verified this continuation:
+
+- Formatting, Selene, strict Luau analysis and binary/XML builds pass. All 37 canonical sources match the verified Studio (`source-consistency.json`). Ten Studio logic groups pass (`replica-handoff-logic.json`).
+- Live Practice UI test passes default-on, settings off/on, symbol presence, aiming score visibility and a full round. Independently counted 239 cyan / 237 coral visible cells, matching displayed 23.3% / 23.1%. Round ended at tick 1800 with `final_area`, counts 433/415 (`handoff-ui-result.json`). Actual-click captures were inspected; this run checks one round, not a new full multiplayer acceptance run.
+- All 63 archived reference files retain their original hashes (`handoff-reference-integrity.json`). CI YAML and PowerShell parse, and the official Rokit 1.2.0 archive matches the workflow's pinned SHA-256 (`handoff-ci-validation.json`). Hosted Actions execution remains pending the first push.
+- The observed console contains Roblox Core UI and account-avatar asset warnings, with no observed project exception. Studio has been returned to Edit mode with device emulation reset. Existing unrelated Studio test windows were left alone.
+
+The new repository's clean-clone build and final saved-place hash are being checked before the handoff is finalized. Earlier pass evidence is retained below. See [partner onboarding](game/docs/partner-onboarding.md) for publishing the prepared repository and adding your partner; see [backlog](game/docs/backlog.md) for unfinished work.
+
+## Current result and priority
+
+**0.2.0-reference is built, saved and playable in the verified BallVsSpace Studio.** The user's latest instruction moved visual reconstruction ahead of differentiation and the earlier M3 schedule. This pass replaces the small primitive-ball presentation with a reconstruction of the supplied reference screens. Full-game completion and subjective near-exact acceptance are not claimed: lobby detail, full roster, later multiplayer/progression features and human/device gates remain open.
+
+The [comparison page](game/test-evidence/replica-comparison.html) shows lobby, draft, compact collection, aim, battle and results, with interactive overlays. It uses final live captures and untouched original evidence. Read [visual-fidelity.md](game/docs/visual-fidelity.md) for remaining differences.
+
+## Playable place and source
+
+- `game/builds/BallVsSpace.rbxl` and `.rbxlx` are the current binary/XML builds. Open the binary in Studio, press Play, then Practice. For 1v1, start two local clients and click Play in each.
+- The binary is also saved at `C:\Users\nsidi\Desktop\VibeCode\Reaction Game\BallVsSpace.rbxl`; its SHA-256 matches the build. Evidence: `game/test-evidence/replica-local-place-saved.json`. The pre-pass place is backed up as `game/builds/BallVsSpace-before-replica.rbxl`; the original empty-place backup is retained.
+- The original Studio connection was reverified explicitly: MCP `d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0`, name `BallVsSpace.rbxl`, PlaceId 0, GameId 0. All 37 canonical sources match Studio byte-for-byte (`source-consistency.json`). Studio is left in Edit mode with device simulation reset. Rediscover IDs on continuation.
+- The Git repository is now local at the pack root. Earlier source checkpoint `005099b` and evidence checkpoint `b910879` are preserved in history. The earlier clean-checkout binary result is retained in `replica-clean-build.json`; the October 17 handoff supersedes that binary. No public publishing, remote push, spending or unrelated-place edits occurred.
+
+## What changed
+
+Measured 803×602 design framing: 512×510 navy mitred court, 446×446 inner field, 82.23-pixel main ball diameter, mirrored spawn around x269/534, outlined reference-style type, three tall draft cards, dashed triangular aim arrow and gold Lock Aim. Actual account avatars and portraits flank the court. Seven original reconstructed appearances are available: Verity, Axe, Poison, Burst, Cell, Vampire and Acid. The compact picker uses icon selection plus No/Yes. The lobby is walkable, with blue plaza, kiosks, floating gold signs, arena rows, purple prop, store/inventory/emotes, session practice checklist and Play/Practice. Results show a purple striped panel, crown, actual winner and rematch. Reduced motion and territory overlay are exposed in the lobby gear.
+
+Motion is explicitly versioned `bvs-motion-2`: body radius 5.9, center bound 26.1, spawn ±19. Collision geometry now agrees with the visible shells. Speeds and abilities remain proposed territory-game values, not recovered reference physics. Seven appearances map to the existing two kits; they are not seven distinct ability implementations. Draft/aim limits are 20/30 seconds, with early lock floors 3/2 seconds and a 360-second watchdog.
+
+The signed 32×32 influence grid, maximum-per-team pressure, swept painting, server authority, team-union scoring, tick-1800 cutoff and exact overtime/draw rules remain intact. Ball labels display actual territory percentages. Large hearts indicate rounds remaining. The capture grid and area totals are on by default as of October 17; a clean floor is optional in View Settings. Session-only profiles and zero currency remain explicit.
+
+## Verified October 16 presentation pass
+
+- Formatting, Selene and strict Luau analysis pass; binary and XML Rojo builds pass. `game/tools/verify.ps1` reproduces these checks.
+- Ten Studio logic groups pass (`replica-logic-verified.json`): grid centers, 126 influence cases, random recount/order/nonstacking, swept collisions, draft, protocol, exact cutoff/overtime, deadlines and disconnect/profile cases. A stale hardcoded deadline fixture was corrected after changing aim duration; the failed run remains preserved.
+- 200 mirrored pairs / 400 rounds pass with the enlarged geometry (`replica-mirrored-fixtures.json`). Eight appearance validation/privacy/projection assertions pass (`replica-release-contract.json`).
+- Fresh two-client normal match: one completion, six grid/tick comparisons, six selected-appearance comparisons, zero mismatches, visual failures or aborts (`replica-multiplayer-result.json`). The older ten-match/80-comparison M1 evidence is retained separately and predates this motion/presentation version.
+- Three complete desktop Practice regressions used real GUI clicks through inventory, collection, Acid/Axe choice, changed aim, lock and normal results. Final build flow: `replica-release-*`, final tick 1800, match_points, counts 450/386. The final compact-modal refinement separately passes cancel/restore, correct stacking, Burst confirmation/rendering, and no modal leakage into Aim (`replica-collection-final-*`).
+- Settings toggles were clicked and checked. Phone-emulated portrait/landscape court bounds pass. A safe-area/fullscreen aiming mismatch was fixed; the live GUI diagonal check differs by 0.15° within a 0.5° pixel-rounding tolerance, and primary touch height is 44.32 UI units (`replica-layout-*-assertions-verified.json`). Screens were inspected.
+- Phone-mode MCP mouse injection did not activate Practice. That attempt is retained as failed input evidence. Successful phone layout captures use actual desktop clicks before switching device views. Physical touch, gamepad and device performance remain unvalidated.
+- Final console has no observed project script exception. Roblox Core UI warnings and an account-avatar asset-type warning are preserved. Minimized/unselected Studio caused blank or 1×1 captures; restoring/focusing Client recovered rendering. Those failures are not counted as visual passes.
+
+## Resume work
+
+1. Review the comparison and refine remaining visual differences, starting with lobby prop density/lighting and ball mesh/texture detail. Keep visual work ahead of differentiation as requested. The full reference roster and exact hidden motion/weapon formulas have not been recovered. REA was reviewed; no reference binary/source was supplied or extracted.
+2. Keep human M1 acceptance pending: ten unfamiliar observers, 8/10 leader recognition within two seconds, 8/10 reinforced-cell capture understanding, 6/10 voluntary rematch. The test sheet remains blank. Use the territory overlay for territory-comprehension checks. These gates do not defer further visual work.
+3. M2 remains unfinished: reliable 2v2/parties/four arenas, original-ack replay for duplicate commands, asynchronous command inbox, full disconnect/network/exploit matrix and capacity testing.
+4. Later work remains: six additional ability kits, audio/accessibility/guided practice, 100-reset leak testing, physical-phone profiling, durable profiles/rewards/economy, human beta and rollout. No human results, durable-save claims or release readiness are invented.
+
+Reproducible commands, implementation decisions and the playtest report are under `game/docs/`. Re-audit tools and target identity on another computer; do not reuse this session's IDs blindly.

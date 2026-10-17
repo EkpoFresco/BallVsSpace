@@ -1,0 +1,367 @@
+{
+  "pack": "Ball_VS_Space_Build_Pack",
+  "prepared": "2026-10-16",
+  "note": "Snapshot verification before editing. No executable applications or credentials included.",
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 3009,
+      "sha256": "574e7cfbd85163fa8f6d2019266b4faa5dfe911decb6549ccbf679c1e5827036"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/file-integrity.json",
+      "bytes": 11079,
+      "sha256": "40386cbf279671a6f0642c8b3e12c557ba08b4014c766c272dc5c5fd1da6549f"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/FINDINGS.md",
+      "bytes": 4685,
+      "sha256": "1007cf63ff39e734103379544563164e131d4c146c0df9fd567cab7c6cc7d8c1"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-001-mode-selection.jpg",
+      "bytes": 48990,
+      "sha256": "d1dd9911c1d642036f0d0191b59a8816a886e8f80e788f410b0c57c17b612a01"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-002-2v2-teleport.jpg",
+      "bytes": 54721,
+      "sha256": "a4ec8da41b3b1594cd17b24f07ef932b49c6e32c378d065cac9b0ae4ebf5abfa"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-003-2v2-level-gate.jpg",
+      "bytes": 44145,
+      "sha256": "fed7c8ea556673af97c9723a38fdc98334d8419a52f736e1352d0d6802f42bce"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-004-2v2-portal-location.jpg",
+      "bytes": 99636,
+      "sha256": "86753852cfec20010f45dd3d2d71a18205d195e8e23f929b639f9683bf5d366c"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-005-1v1-match-four-countdown.jpg",
+      "bytes": 75226,
+      "sha256": "f48fd3d071ffae477d2b7caec3d9097ced08e274ff32c355b248169d798b7576"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-006-draft-three-cards.jpg",
+      "bytes": 61475,
+      "sha256": "1807cb5b38527d2bbd24f5839a848e0114723c9a1704706cb8c1b060cd23da0f"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-007-aim-axe-versus-acid.jpg",
+      "bytes": 62902,
+      "sha256": "0b54e9219306eab1c3db5afda0a1c8de1f78acaa5271adcacedde305178eed02"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-008-combat-axe-acid.jpg",
+      "bytes": 59696,
+      "sha256": "1905ba79f27281f00ac39e26585be65ad46e21bd843997b785d930810555dacc"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-009-combat-effect-density.jpg",
+      "bytes": 63074,
+      "sha256": "16ee1983c7108b1887ecd56a12e6374795d89c54eb792036369ebed17d9c1bad"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-010-round-two-draft-hearts.jpg",
+      "bytes": 61291,
+      "sha256": "b276d32c62c84853cd41b6779e15f987f5d02d0cdba208b1c6a7785db52f3331"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-011-free-collection-picker.jpg",
+      "bytes": 54032,
+      "sha256": "a3b4f29238f758912ccda7744d87076bf483812c496d959d90d27257a07a579a"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-012-aim-thirty-seconds.jpg",
+      "bytes": 62840,
+      "sha256": "d927904d59e2e8e959739a2880c2274d67be4d0cbb8707ebd64c5837d3b633c4"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-013-resume-lobby.jpg",
+      "bytes": 92014,
+      "sha256": "da4ba574fa1179021bc856a128dbd70bfdb5eb89827a172579322ab510fc31b5"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-014-physical-queue-pad.jpg",
+      "bytes": 82344,
+      "sha256": "07559e0259af38651ef211a14b308ec88af76f8c4d7c778dec57fe358046ec42"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-015-draft-burst-offer.jpg",
+      "bytes": 62200,
+      "sha256": "ecde54bcc5fabcd77548b0a155843931e120553b90c80031d93935534b10795b"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-016-launch-directions-revealed.jpg",
+      "bytes": 61250,
+      "sha256": "f6e21f74130dcaf05b96e043598359da4bd7840a2741146377cce180d5265838"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-017-burst-orbit-abilities.jpg",
+      "bytes": 66729,
+      "sha256": "9a85a2f88a504844013ea5dd744619684780ac4ca5093583f55006ddc6eace59"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-018-round-two-burst-ray.jpg",
+      "bytes": 64875,
+      "sha256": "8be1b00c763d4cab677048e4c6524ac8288a31600bf90c32b753fae82d268e2a"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-019-burst-ray-wall-emitters.jpg",
+      "bytes": 63326,
+      "sha256": "768064fbfda38e11c151c9f7c08105c26eeb911fb06ea00d94b9c785b03d64a4"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-020-ray-active-beam.jpg",
+      "bytes": 69057,
+      "sha256": "c755a4e40c7aa117be86acef9bc94383d211550c964c0f2de15f3a51555cc9b8"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-021-round-end-camera-transition.jpg",
+      "bytes": 47544,
+      "sha256": "b9e2d0af59b8a332e4a5cfba1de768929a93c929a363572cb142cd1ad62d3ff7"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-022-poison-wall-spikes.jpg",
+      "bytes": 64610,
+      "sha256": "47e245589131d280583db132ea7c2818b96b6df35f3299225cefc3032c7bd866"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-023-fifth-round-one-life-each.jpg",
+      "bytes": 61661,
+      "sha256": "7e7709622cc134a559594cdbe97d1178fad6d8ce7111a1b382b4911b0f24affe"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-024-post-match-five-reward.jpg",
+      "bytes": 73726,
+      "sha256": "654d8a6db6c9503c05a2c385aeb864039bff724246b1a069efb4d67b7cb723c6"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-025-second-free-reward-blade.jpg",
+      "bytes": 74422,
+      "sha256": "556d1870b468aa5b254d54f711c021b08460b3cbb1a1542c1419ccb3eb0c3e99"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-026-2v2-lobby-loaded.jpg",
+      "bytes": 89095,
+      "sha256": "b5bca903d82e05c31f02519eeb807493b7fef7b1af4d2c87c1aef1937d3961ec"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-027-2v2-four-player-queue.jpg",
+      "bytes": 89118,
+      "sha256": "538ae0a76a7ca1a8efe2dd659009ed271932f8c9ae5435f9ba05069ffbbd263d"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-028-2v2-first-draft.jpg",
+      "bytes": 64509,
+      "sha256": "5181f41b12ca4c1a64a32d76b55a787c24771203561d5dfa95a61b75be04212b"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-029-2v2-aim-four-balls.jpg",
+      "bytes": 66206,
+      "sha256": "8b611e98635d757cad60a5bc7197b52b2302c87a3f26b8fd99bb87f8361f253e"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-030-2v2-launch-hp-team-outlines.jpg",
+      "bytes": 65058,
+      "sha256": "f1d75fd0fe42b88764bddfc141c30e05c9b98c22dda480dd269221e589ee6890"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-031-2v2-distinct-health-and-effects.jpg",
+      "bytes": 72122,
+      "sha256": "77cb0c58ea3aa7dde09809b11925806e6eb27fed4a18e11dab02ee2ae81bcd13"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-032-2v2-three-balls-remain.jpg",
+      "bytes": 64193,
+      "sha256": "9c578da7c4e630943f9235182d3bbfb573ecbb1748679724ecb8307ff9d36ab9"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-033-2v2-round-loss-transition.jpg",
+      "bytes": 48441,
+      "sha256": "fa43423ebc6abaab026ab1f40d5eddc6e3b5f9fd8719d6e5cdacc23d3fa46f59"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-034-2v2-round-two-lives.jpg",
+      "bytes": 64133,
+      "sha256": "35b523d4cf72c67f3dc29e02fcbaf2798aab71571870995d31b68a3ba54922eb"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-035-2v2-varied-hp-second-round.jpg",
+      "bytes": 137784,
+      "sha256": "0f74b22bf4723c8a39819c93823d4dcce357567a868d19d753e9cae802cd9642"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-036-2v2-numbered-grid-ability.jpg",
+      "bytes": 173550,
+      "sha256": "2bf9a347b6086ef0f98987198a82b0d46c35363a01ec56d29a4b52f39af62a36"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-037-2v2-third-round-one-life.jpg",
+      "bytes": 155281,
+      "sha256": "2534069923a9f7310fedcada4555a44c21cc3458aac89ecb152c4d9f9cdec521"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-038-2v2-fourth-round-team-lives.jpg",
+      "bytes": 136182,
+      "sha256": "92b511742eed209ce06b118ce439503b409761dee3b75d373e414970fde51fe0"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-039-2v2-fourth-round-combat.jpg",
+      "bytes": 144435,
+      "sha256": "a8e71ec244a6f048a9227fec53d24cabed2757fb216a66b6efe889824bb92f5d"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-040-2v2-fifth-round-one-heart-each.jpg",
+      "bytes": 148488,
+      "sha256": "3807396d6426b7ee6cb8499b013699024d1c37cc4463e136da69ea1b4309ae68"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-041-2v2-final-round-effect-density.jpg",
+      "bytes": 168677,
+      "sha256": "5098a90b192492469a4e8f6166c6f9a4f6ad6ca1a1330ceffd58ccae38f4f9e3"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-042-2v2-final-result-loss.jpg",
+      "bytes": 158561,
+      "sha256": "96ff6a68ec36d3e9a09de5d6edc06a6c30e7d2ed8b1ed905656418f9ebdb6950"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-043-2v2-lobby-result-balance.jpg",
+      "bytes": 201832,
+      "sha256": "128b16a85eaa9755b580c0179911dd6c21267245452d068aed85204a4586ddaa"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-044-collection-with-earned-balls.jpg",
+      "bytes": 231316,
+      "sha256": "98ef9c006765d932efb3083a267e82830bd91f476d5da15ef76a520f1336cda9"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-045-collection-help-published-claims.jpg",
+      "bytes": 212117,
+      "sha256": "c37bdf46835c1852d40f981f637b1f181c3cdb715f001204eed8291117643cd8"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-046-wdc-description.jpg",
+      "bytes": 210220,
+      "sha256": "0a5c2149bdfe66fb5d1152adecdf3bbc2a61f4743c7d639aa5fc356a64429768"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-047-store-daily-offers.jpg",
+      "bytes": 266534,
+      "sha256": "f4170a6536b36207ebc9c48f7c19f088dad5acdc960eab0162d3c8b614776353"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/live-screenshots/L2-048-gacha-prices-and-disclosed-odds.jpg",
+      "bytes": 260010,
+      "sha256": "92ed19dfa99e655ca74df7157d63ca1fbbf140cc41ab3d6f7230ef6354bd3aeb"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/manifest.json",
+      "bytes": 24695,
+      "sha256": "183b503d62ecbd522d9388e48af8ac75d3f06c63501daa78ad6948d13d4399d3"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/notes/session-01-observations.md",
+      "bytes": 7306,
+      "sha256": "2e52b79a82e7a4fee59948639fdb2c33adf7c04048f53a2587afb8e22d9a2418"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/notes/session-02-observations.md",
+      "bytes": 8923,
+      "sha256": "b0d34a3620249efa24c7bbf4aea6e771a2484b37a6523400c33df4e8f63c5f46"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/notes/spec-verification.json",
+      "bytes": 342,
+      "sha256": "48b06cc5c8a2d4ea469d7cba41b5650bcdf17495876baa0be2039bdc73ca58fa"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/README.md",
+      "bytes": 19391,
+      "sha256": "67ccbd548c3f01403ea1765a1e9241fc2b1784f184fdbee7dad7dabe0e1ac79f"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/sources/original-brief.txt",
+      "bytes": 7239,
+      "sha256": "6658425cfa29d3facbae3970e7be4fe507ae3956c77913406d76bb7b36549969"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/sources/roblox-public-metadata-2026-10-16.json",
+      "bytes": 1507,
+      "sha256": "f3fcdcc9dda6f88e447082c0bdba49a6e65795c8be429cbeaba6c01542ea8dd7"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/original-territory-reference.mp4",
+      "bytes": 23192628,
+      "sha256": "ca665206bbb46662d2db0469a2b39ea0d13a2dd4a6639ad2f575cfdb4b6fe57a"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_000.jpg",
+      "bytes": 138061,
+      "sha256": "ebe8a78ea96dc86150a0bf850ce0282edb10722e93344f85b9d99566526552d5"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_006.jpg",
+      "bytes": 142369,
+      "sha256": "ed5f36333cf4103a6544427505171884b23ff1154382d4d2dae8d456324dc0ae"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_022.jpg",
+      "bytes": 139777,
+      "sha256": "7c7987fd4209bb7621df1674cf2e1b991feaadd44b1fa2e7fe4699b4e4251a54"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_042.jpg",
+      "bytes": 140351,
+      "sha256": "5a66a1192fd3796088e22d0254ed1575c85ca20a7de480a195e7a215821204d2"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_054.jpg",
+      "bytes": 139323,
+      "sha256": "11796f7233ad1438957699ab9a15bc9dddee2c209aea188b735d25e5baf9b7fc"
+    },
+    {
+      "file": "Ball_VS_Space_Evidence/video-reference/upright_072.jpg",
+      "bytes": 141064,
+      "sha256": "956c1657efe9f59c0571f3fabd3385e97c9981a57a734e2efa8cbc7ca8308127"
+    },
+    {
+      "file": "BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md",
+      "bytes": 142183,
+      "sha256": "96420062f7f8e2ab170c282febd350edcf24a8814eb8335d4336df2f1fd86008"
+    },
+    {
+      "file": "BUILD_STATUS.md",
+      "bytes": 1652,
+      "sha256": "6acc858381f1afdb32dceb6ed52971ce0a6ca8036554712c89a33e5a636653cd"
+    },
+    {
+      "file": "checks/verify_spec.py",
+      "bytes": 2903,
+      "sha256": "e821ec7969747d545f78436ae8d04a1dab099f29d31c0178e9bae8abd2c84405"
+    },
+    {
+      "file": "checks/verify_transfer.py",
+      "bytes": 986,
+      "sha256": "14d8bfe248e42d8f154b7170d86d61bd094fdc7861f7efdff2b1ef3e2fd88658"
+    },
+    {
+      "file": "RUN_PROMPT.txt",
+      "bytes": 3879,
+      "sha256": "6a4079f2f3258e83bd7f0c82be11069c089260e888d2e82c54dc98246e5189c3"
+    },
+    {
+      "file": "SETUP.md",
+      "bytes": 5925,
+      "sha256": "fc5c1e4938567f4bdd374be2ad653b73990a62423984d94cb0c4a5d158f39c08"
+    },
+    {
+      "file": "START_HERE.md",
+      "bytes": 4298,
+      "sha256": "fd98d5982c3f308547c223262ace5fe7a3af6a9c61ea2955541e11782af68c64"
+    }
+  ]
+}

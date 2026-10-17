@@ -1,0 +1,53 @@
+name: Build and validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clear historical logs from checkout
+        run: |
+          foreach ($name in 'format.log', 'lint.log', 'typecheck.log', 'build-hashes.json') {
+            $logPath = Join-Path 'game/test-evidence' $name
+            if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath }
+          }
+      - name: Install pinned Rokit
+        run: ./game/tools/install-rokit-ci.ps1
+      - name: Install pinned tools
+        run: rokit install --no-trust-check
+      - name: Check source and build places
+        run: ./game/tools/verify.ps1
+      - name: Upload place builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: BallVsSpace-${{ github.sha }}
+          path: |
+            game/builds/BallVsSpace.rbxl
+            game/builds/BallVsSpace.rbxlx
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload check logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-${{ github.sha }}
+          path: |
+            game/test-evidence/format.log
+            game/test-evidence/lint.log
+            game/test-evidence/typecheck.log
+            game/test-evidence/build-hashes.json
+          if-no-files-found: warn
+          retention-days: 14

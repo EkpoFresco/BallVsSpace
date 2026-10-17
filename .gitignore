@@ -1,8 +1,8 @@
-builds/
-sourcemap.json
-tools/request.json
-tools/*-request.json
-test-evidence/capture-probe*
-test-evidence/*.mp4
-test-evidence/*.png
-test-evidence/*.jpg
+.local/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.rbxl.lock
+*.rbxlx.lock

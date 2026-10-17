@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"passed\":true,\"coralPercent\":23.1,\"phase\":\"Battle\",\"cyanPercent\":23.3,\"cyanCells\":239,\"coralCells\":237}"
+      }
+    ],
+    "isError": false
+  }
+}

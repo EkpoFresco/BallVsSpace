@@ -1,42 +1,54 @@
-# Ball VS Space — reference presentation build
+# Ball VS Space
 
-The current build reconstructs the reference game's presentation first, following the user's revised priority. Large shaded Acid, Axe, Cell, Poison, Verity, Burst and Vampire balls, a beveled navy court, real avatar displays, three-card draft, white dashed aiming arrows and a blue walkable lobby replace the earlier small-ball prototype. All ball models and UI geometry are authored in this project. Avatar appearance comes from the participating Roblox accounts.
+A Roblox territory battler in development. Choose a ball, aim, then let the server simulate the round while each team claims space. The presentation is being reconstructed from the supplied Ball vs Ball reference before further differentiation.
 
-The existing authoritative territory game still runs underneath: Drift powers Acid/Cell/Poison appearances and Anchor powers Axe. This pass does not implement the reference's hidden HP, damage or weapon formulas. Ball numbers show actual territory percentages; the large hearts indicate rounds remaining. Progress is session-only and currency displays remain zero. No purchases are enabled.
+**Current build: playable local 1v1 and solo Practice; unfinished game and unfinished visual replication.** Seven appearances use two ability kits. Territory, scoring, overtime and round flow work; 2v2, parties, more abilities and durable progression remain open. See [BUILD_STATUS.md](BUILD_STATUS.md) for verified results and [the backlog](game/docs/backlog.md) for the next work.
 
-## Play
+![Live territory battle with cyan and coral ownership](game/test-evidence/handoff-ui-20-territory-battle-0.jpg)
 
-Open `builds/BallVsSpace.rbxl` in Roblox Studio. Press **Play**, then the purple **Practice** button for a solo match. For human 1v1, use Studio **Test → Server & Clients**, select **2 clients**, start, and click the green **Play** button in each client. Ordinary Play never starts the automated test driver.
+## Get running
 
-Click a ball card to select and lock it, or open **All Balls**, select an icon and press **YES** in the seven-appearance picker. Drag or click on the court to aim, then press **Lock Aim**. Draft allows 20 seconds and aim allows 30; both can finish early when everyone locks. Battles run automatically for 30 seconds. Exact ties enter overtime. A 2-cell lead held for 10 consecutive updates wins overtime; an unheld lead at the cap is a draw. Win = 1 match point, draw = ½ each; first to 2 points or the higher total after three rounds wins. The result screen offers **Rematch**.
-
-The clean reference-style floor is the default. Before a match, open the lobby gear and enable **Territory overlay** to see the original capture grid and area totals. The same settings panel offers reduced motion. Store and Inventory open the free appearance picker; there is no commercial store. The lobby practice checklist tracks the current session; it grants no currency or durable rewards.
-
-## Build from source
-
-Run commands from this `game/` directory, using PowerShell:
+Install Git, [Roblox Studio](https://create.roblox.com/), PowerShell 7, and [Rokit 1.2.0](https://github.com/rojo-rbx/rokit/releases/tag/v1.2.0). Clone this repository, open a terminal at its root, then run:
 
 ```powershell
 rokit install
-./tools/verify.ps1
+pwsh -File game/tools/verify.ps1
 ```
 
-The pinned tools are in `rokit.toml`. `verify.ps1` checks formatting, lint, strict types, and creates binary/XML place builds. Install Rokit if missing; the receiving machine must be audited again. Node is needed only for the optional MCP scripts. No Wally runtime dependencies are required.
+Open `game/builds/BallVsSpace.rbxl` in Studio. Press **Play**, then **Practice**. Choose a ball, aim on the court and press **Lock Aim**. Territory is visible by default; the lobby gear can hide the overlay for reference comparisons. For a human match, start **Test → Server & Clients → 2 clients**, then click **Play** in each client.
 
-Canonical source maps through `default.project.json`. `src/shared` becomes ReplicatedStorage.Shared, `src/server` becomes ServerScriptService.Server, and `src/client` becomes StarterPlayerScripts.Client. All court geometry is generated from original primitives at runtime; client tiles and balls are visual proxies for the server's numerical simulation. `assets/runtime` is reserved for future original assets.
+The build script runs formatting, lint and strict type analysis, then generates `.rbxl` and `.rbxlx` files. Generated places are ignored by Git; source is canonical. GitHub Actions runs the same checks and attaches place builds to successful runs. Studio runtime and multiplayer checks are separate; CI does not claim to run Roblox.
 
-For normal live development, run `rojo serve default.project.json` and connect the Rojo Studio plugin to this project. If using the included Studio MCP fallback, first list and independently verify the intended local place, then pass its explicit ID to `node tools/sync-studio.mjs <studio-id>`. The sync refuses published PlaceIds and replaces only the project's named scripts. It is not a substitute for testing or saving a built file.
+## Work together
 
-## Verify in Studio
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [partner onboarding](game/docs/partner-onboarding.md), including the owner's exact GitHub publishing steps. This checkout has a `main` branch and preserves the earlier game history. No GitHub remote is configured yet.
 
-The detailed commands and gates are in [docs/testing.md](docs/testing.md). The core test suite is `ServerScriptService.Server.Tests.Suite`; run in the Edit command bar:
+For live source sync:
 
-```lua
-require(game.ServerScriptService.Server.Tests.Suite).run()
+```powershell
+rojo serve game/default.project.json
 ```
 
-For the ten-match automation, run the contents of `tools/start-multiplayer.luau` in the Edit command bar. It starts two actual clients through StudioTestService and ends after ten completed matches. The clients use ordinary remotes and standard clocks. Allow roughly 20–25 minutes. Do not count these as human testers.
+Connect the Rojo Studio plugin to that server in your local BallVsSpace place. Keep scripts in `game/src/`; Studio-only edits are overwritten by source sync. Optional Studio MCP tools require Node.js 24 and the installed Studio MCP transport; see [toolchain notes](game/docs/toolchain-notes.md).
 
-Read [docs/replica-pass.md](docs/replica-pass.md) for this pass, [docs/decisions.md](docs/decisions.md) for implementation choices, and the pack-root `BUILD_STATUS.md` for current verification and the resume task. Human and real-device gates remain unvalidated; they no longer defer the user's requested visual reconstruction.
+## Repository map
 
-Keep Studio restored while capturing: a minimized Studio produced screenshots containing UI but no 3D world or ViewportFrame models. The `replica-*` evidence belongs to this build; `visual-qa-*` and the older two-client video show the superseded prototype.
+| Path | Purpose |
+| --- | --- |
+| `game/src/shared/` | Rules, grid, physics, protocol and shared types |
+| `game/src/server/` | Authoritative matches, queues, replication and runtime tests |
+| `game/src/client/` | Input, camera, territory, ball rendering and UI |
+| `game/assets/runtime/` | Original runtime assets managed by Rojo |
+| `game/default.project.json` | Canonical filesystem-to-Studio mapping |
+| `game/tools/` | Builds, source sync, Studio QA and comparison tools |
+| `game/docs/` | Architecture decisions, testing, visual gaps and onboarding |
+| `game/test-evidence/` | Saved test results and curated screenshots |
+| `Ball_VS_Space_Evidence/` | Untouched reference screenshots, notes and video |
+| `BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md` | Full research and design contracts |
+| `BUILD_STATUS.md` | Current state, evidence, failures and resume task |
+
+Open [the visual comparison](game/test-evidence/replica-comparison.html) locally in a browser for six phases with an overlay slider. GitHub displays its source; the references are included in this repository so it works after cloning.
+
+`START_HERE.md`, `RUN_PROMPT.txt`, `SETUP.md` and the transfer manifest describe the original research handoff. Their statements about an empty pack are historical; use this README and BUILD_STATUS for the implemented project. The `checks/` Python scripts validate research math, not the game runtime.
+
+Game art is reconstructed with original code and primitives; reference evidence is kept separately. No project license has been selected. Public game release is a separate milestone from publishing this source repository.

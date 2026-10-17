@@ -1,0 +1,482 @@
+[
+  {
+    "id": "L2-001",
+    "file": "live-screenshots/L2-001-mode-selection.jpg",
+    "capturedAtUTC": "2026-10-16T21:21:48.114Z",
+    "phase": "mode-entry",
+    "description": "Select Mode offers 1V1 and 2V2. My Party shows 1/4 and a message that the party will teleport together. A 2V2 world sign is visible behind the menu. User navigated here.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-002",
+    "file": "live-screenshots/L2-002-2v2-teleport.jpg",
+    "capturedAtUTC": "2026-10-16T21:22:40.228Z",
+    "phase": "mode-entry",
+    "description": "Selected 2V2 card is outlined; Teleporting message appears while party count remains 1/4. Confirms separate mode entry transition.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-003",
+    "file": "live-screenshots/L2-003-2v2-level-gate.jpg",
+    "capturedAtUTC": "2026-10-16T21:22:48.266Z",
+    "phase": "access-gate",
+    "description": "After selecting 2V2, a modal states 2V2 unlocks at Lv 5. This account is currently blocked from entering. The preceding Teleporting label did not complete a teleport.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-004",
+    "file": "live-screenshots/L2-004-2v2-portal-location.jpg",
+    "capturedAtUTC": "2026-10-16T21:24:35.546Z",
+    "phase": "lobby",
+    "description": "The 2V2 portal is a glowing doorway between leaderboard displays. An E interaction prompt is visible. The user brought the avatar here; the walking route from spawn was not recorded. Balance is 730 coins at this follow-up, up from 430 in the earlier session; intervening user actions were not observed.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-005",
+    "file": "live-screenshots/L2-005-1v1-match-four-countdown.jpg",
+    "capturedAtUTC": "2026-10-16T21:25:45.266Z",
+    "phase": "1v1-countdown",
+    "description": "Fourth account match begins in 1v1, with three hearts per player, a countdown, and Invite/Leave buttons. It is not a 2v2 match.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-006",
+    "file": "live-screenshots/L2-006-draft-three-cards.jpg",
+    "capturedAtUTC": "2026-10-16T21:25:58.064Z",
+    "phase": "1v1-draft",
+    "description": "Draft offers Cell, Axe and Poison Spike with short ability text. All Balls is Free and Reroll displays 3 diamonds. Countdown is 18.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-007",
+    "file": "live-screenshots/L2-007-aim-axe-versus-acid.jpg",
+    "capturedAtUTC": "2026-10-16T21:26:24.033Z",
+    "phase": "1v1-aim",
+    "description": "Aim phase displays 22 seconds, horizontal dashed arrow and Lock Aim. Local player is Axe on the right versus Acid on the left. The attempted Cell click did not register before draft timeout; the observed selection was Axe.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-008",
+    "file": "live-screenshots/L2-008-combat-axe-acid.jpg",
+    "capturedAtUTC": "2026-10-16T21:26:51.971Z",
+    "phase": "1v1-combat",
+    "description": "Automatic combat: Axe has 112 HP, Acid 96. A red -2 popup, extended rotating axe, green effect and trail particles are visible. Full vertical court remains in frame.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-009",
+    "file": "live-screenshots/L2-009-combat-effect-density.jpg",
+    "capturedAtUTC": "2026-10-16T21:27:17.483Z",
+    "phase": "1v1-combat",
+    "description": "Late round: Axe 22 HP versus Acid 29, multiple overlapping -2 and -10 damage labels and large green effects. Useful evidence of readability under heavy effects; exact effect damage formulas are unknown.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-010",
+    "file": "live-screenshots/L2-010-round-two-draft-hearts.jpg",
+    "capturedAtUTC": "2026-10-16T21:27:27.864Z",
+    "phase": "1v1-round-transition",
+    "description": "Next draft repeats Cell/Axe/Poison. Local player now has two avatar hearts versus opponent three, supporting a round-one loss. All Balls is still Free.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-011",
+    "file": "live-screenshots/L2-011-free-collection-picker.jpg",
+    "capturedAtUTC": "2026-10-16T21:27:37.582Z",
+    "phase": "1v1-collection-picker",
+    "description": "Free collection picker now shows six balls: Verity, Axe, Poison Spike, Burst, Cell, Vampire. Burst was not in the earlier five-ball inventory; its acquisition occurred outside the observed sequence. Timer continues at 15 seconds with No/Yes controls.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-012",
+    "file": "live-screenshots/L2-012-aim-thirty-seconds.jpg",
+    "capturedAtUTC": "2026-10-16T21:27:55.005Z",
+    "phase": "1v1-aim",
+    "description": "Round two aim begins at 30 seconds with Axe versus Acid again. The free picker was not confirmed before the draft ended; a Vampire choice is not evidenced.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-013",
+    "file": "live-screenshots/L2-013-resume-lobby.jpg",
+    "capturedAtUTC": "2026-10-16T23:17:59.739Z",
+    "phase": "resume-state",
+    "description": "After the user-requested pause, lobby shows Play 10 times 4/10, Win 3 times 3/3, 1470 coins and 0 diamonds. The previous match ended during the pause; its remaining rounds and reward breakdown were not observed.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-014",
+    "file": "live-screenshots/L2-014-physical-queue-pad.jpg",
+    "capturedAtUTC": "2026-10-16T23:18:23.760Z",
+    "phase": "1v1-queue",
+    "description": "Ordinary Play places the avatar on a physical 1v1 queue pad labelled 1/2 PLAYERS and Win 100 coins, with Invite and Leave controls.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-015",
+    "file": "live-screenshots/L2-015-draft-burst-offer.jpg",
+    "capturedAtUTC": "2026-10-16T23:18:40.673Z",
+    "phase": "1v1-draft",
+    "description": "Next match offers Poison Spike, Axe and Burst. Burst description: bursts of speed and power. Three lives per player; free collection choice and 3-diamond reroll are visible.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-016",
+    "file": "live-screenshots/L2-016-launch-directions-revealed.jpg",
+    "capturedAtUTC": "2026-10-16T23:19:16.594Z",
+    "phase": "1v1-launch",
+    "description": "At launch, Burst and Orbit each display 100 HP and both launch arrows are visible. Burst points right; Orbit points up-left. Only the local arrow was visible in the preceding aim samples.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-017",
+    "file": "live-screenshots/L2-017-burst-orbit-abilities.jpg",
+    "capturedAtUTC": "2026-10-16T23:19:27.456Z",
+    "phase": "1v1-combat",
+    "description": "Burst appears brightly lit with an orange afterimage trail at 78 HP. Orbit has several small satellites and circular paths around its 50-HP body. This shows distinct ability silhouettes without proving their trigger or damage formulas.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-018",
+    "file": "live-screenshots/L2-018-round-two-burst-ray.jpg",
+    "capturedAtUTC": "2026-10-16T23:20:40.112Z",
+    "phase": "1v1-round-transition",
+    "description": "Second-round aim: local Burst has two lives; opposing Ray has three. Round-one loss is inferred from the heart change; intervening draft/result transition was not captured.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-019",
+    "file": "live-screenshots/L2-019-burst-ray-wall-emitters.jpg",
+    "capturedAtUTC": "2026-10-16T23:20:53.430Z",
+    "phase": "1v1-combat",
+    "description": "Burst versus Ray combat shows glowing yellow objects at wall positions, with Burst 100 and Ray 95 HP in this sample. Their complete targeting, duration and damage rules are not established.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-020",
+    "file": "live-screenshots/L2-020-ray-active-beam.jpg",
+    "capturedAtUTC": "2026-10-16T23:21:06.249Z",
+    "phase": "1v1-combat",
+    "description": "A bright yellow vertical beam spans the court during Ray combat, with numerous wall emitters and -4 damage popups. Burst shows 50 HP and Ray 25.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-021",
+    "file": "live-screenshots/L2-021-round-end-camera-transition.jpg",
+    "capturedAtUTC": "2026-10-16T23:21:15.733Z",
+    "phase": "round-transition-camera",
+    "description": "Between combat and the next draft, the camera shifts toward the opposing avatar and a large Burst ball is partly visible above the court. This is a transition snapshot; it does not alone establish the winner or animation purpose.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-022",
+    "file": "live-screenshots/L2-022-poison-wall-spikes.jpg",
+    "capturedAtUTC": "2026-10-16T23:22:22.132Z",
+    "phase": "1v1-combat",
+    "description": "Poison Spike versus Thief: many green triangular spikes point inward from court walls. Poison shows 67 HP; the opposing ball is obscured by effects and a -1 popup.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-023",
+    "file": "live-screenshots/L2-023-fifth-round-one-life-each.jpg",
+    "capturedAtUTC": "2026-10-16T23:24:04.471Z",
+    "phase": "1v1-final-round",
+    "description": "Fifth round of the resumed 1v1 match: each avatar has one heart. The same Poison Spike/Axe/Burst offers persist and the unconfirmed collection override remains Free.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-024",
+    "file": "live-screenshots/L2-024-post-match-five-reward.jpg",
+    "capturedAtUTC": "2026-10-16T23:26:09.973Z",
+    "phase": "post-match-reward",
+    "description": "After the fifth recorded account play, the lobby shows 1,570 coins, Play 5/10, a WDC ball reward with Receive, and the next Lv 6 Reward label. The final round outcome and XP animation were not captured.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-025",
+    "file": "live-screenshots/L2-025-second-free-reward-blade.jpg",
+    "capturedAtUTC": "2026-10-16T23:26:27.800Z",
+    "phase": "post-match-reward",
+    "description": "A second Receive reward card shows Blade Ball after collecting WDC. Both appeared without spending currency.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-026",
+    "file": "live-screenshots/L2-026-2v2-lobby-loaded.jpg",
+    "capturedAtUTC": "2026-10-16T23:27:04.469Z",
+    "phase": "2v2-lobby",
+    "description": "The transfer completes to a lobby whose mode-switch button now reads 1V1. Coins remain 1,570 and the next reward is Lv 6. This confirms successful entry after the prior Lv 5 gate.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-027",
+    "file": "live-screenshots/L2-027-2v2-four-player-queue.jpg",
+    "capturedAtUTC": "2026-10-16T23:27:15.834Z",
+    "phase": "2v2-queue",
+    "description": "Play places the solo account on a physical queue pad labeled /4 PLAYERS and Win 100 coins, with Invite and Leave controls. The leading count is cropped at this camera position.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-028",
+    "file": "live-screenshots/L2-028-2v2-first-draft.jpg",
+    "capturedAtUTC": "2026-10-16T23:27:54.225Z",
+    "phase": "2v2-draft",
+    "description": "First team draft: four avatars around the board, each showing three hearts; Blade, Axe and Verity offers; All Balls Free and reroll 3 diamonds. A small other-player portrait and question-mark ball appear beneath the cards.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-029",
+    "file": "live-screenshots/L2-029-2v2-aim-four-balls.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:01.594Z",
+    "phase": "2v2-aim",
+    "description": "The team aim phase shows four balls in a rectangle, two white dashed arrows on the right side and three hearts over each of four avatars. The selected Blade Ball is lower right; teammate ball is upper right. Displayed aim timer is 30 seconds.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-030",
+    "file": "live-screenshots/L2-030-2v2-launch-hp-team-outlines.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:10.462Z",
+    "phase": "2v2-launch",
+    "description": "At release, all four balls show 100 HP and launch arrows. Two opposing balls have red outlines and red HP numerals; friendly balls show white HP numerals.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-031",
+    "file": "live-screenshots/L2-031-2v2-distinct-health-and-effects.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:28.897Z",
+    "phase": "2v2-combat",
+    "description": "Ongoing team fight shows distinct HP for each ball (52 and 16 friendly; 62 and 10 opposing), multiple blades, shuriken projectiles, small numbered bombs and a cyan beam. Damage and visual density overlap near the lower court.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-032",
+    "file": "live-screenshots/L2-032-2v2-three-balls-remain.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:35.199Z",
+    "phase": "2v2-elimination",
+    "description": "Three main balls remain visible after the opposing bomb disappears: friendly HP 4 and 22 versus opposing shuriken HP 30. All four avatars still show three hearts at this sampled moment; fight continues.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-033",
+    "file": "live-screenshots/L2-033-2v2-round-loss-transition.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:41.581Z",
+    "phase": "2v2-round-transition",
+    "description": "A round-end camera move shows local Taco with two hearts while the upper-right teammate still has three at this transition instant. A large opposing shuriken remains. Do not infer the final team-life rule from this transient frame alone.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-034",
+    "file": "live-screenshots/L2-034-2v2-round-two-lives.jpg",
+    "capturedAtUTC": "2026-10-16T23:28:48.286Z",
+    "phase": "2v2-round-two",
+    "description": "The next draft resolves the transition: both friendly/right avatars have two hearts, while both opposing/left avatars retain three. The same Blade/Axe/Verity offer set repeats.",
+    "width": 804,
+    "height": 632,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-035",
+    "file": "live-screenshots/L2-035-2v2-varied-hp-second-round.jpg",
+    "capturedAtUTC": "2026-10-16T23:29:28.970Z",
+    "phase": "2v2-combat",
+    "description": "Early second-round combat: friendly Axe displays 115 HP and arrow-emblem teammate 100; opposing blue grid WDC shows 120 and pink ball 100. This is a sampled combat frame, not a controlled starting-stat measurement. The preceding automated aim drag did not visibly change the local horizontal arrow.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-036",
+    "file": "live-screenshots/L2-036-2v2-numbered-grid-ability.jpg",
+    "capturedAtUTC": "2026-10-16T23:29:37.831Z",
+    "phase": "2v2-ability",
+    "description": "During the WDC matchup a 3 by 3 numbered grid overlays the court while ordinary HP combat continues. Visible values include 54, 7, 8, 24, 50, 1 and 31. This is an ability presentation; no territory ownership score is established.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-037",
+    "file": "live-screenshots/L2-037-2v2-third-round-one-life.jpg",
+    "capturedAtUTC": "2026-10-16T23:30:24.162Z",
+    "phase": "2v2-round-three",
+    "description": "Third-round aim: both friendly avatars have one heart, supporting a second team-round loss. The intervening result and draft were missed; local ball is now Verity, teammate an icy-pattern ball, opponents shuriken and red spiked ball. The selection cause is unobserved.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-038",
+    "file": "live-screenshots/L2-038-2v2-fourth-round-team-lives.jpg",
+    "capturedAtUTC": "2026-10-16T23:31:01.740Z",
+    "phase": "2v2-round-four",
+    "description": "Fourth draft shows both opponents with two hearts and both friendlies with one, supporting a third-round team win. Blade/Axe/Verity offers persist; teammate preview and free picker remain visible.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-039",
+    "file": "live-screenshots/L2-039-2v2-fourth-round-combat.jpg",
+    "capturedAtUTC": "2026-10-16T23:31:18.873Z",
+    "phase": "2v2-combat",
+    "description": "Fourth-round combat shows local Verity at 88 HP, teammate at 69, opposing green ball at 95 and bomb at 3. Manual input was detected before the attempted agent card click; selection/launch cannot be attributed solely to the agent.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-040",
+    "file": "live-screenshots/L2-040-2v2-fifth-round-one-heart-each.jpg",
+    "capturedAtUTC": "2026-10-16T23:32:00.743Z",
+    "phase": "2v2-final-round",
+    "description": "Fifth-round waiting state shows one heart over every avatar. Both friendly arrows are angled; manual input was detected in this segment, so the local aim change is not attributed to the earlier automated drag.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-041",
+    "file": "live-screenshots/L2-041-2v2-final-round-effect-density.jpg",
+    "capturedAtUTC": "2026-10-16T23:32:31.164Z",
+    "phase": "2v2-combat-readability",
+    "description": "Deciding-round combat shows overlapping red rings, beams and damage numerals with all four balls still visible at low health. This frame documents a readability stress case, not exact damage attribution.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-042",
+    "file": "live-screenshots/L2-042-2v2-final-result-loss.jpg",
+    "capturedAtUTC": "2026-10-16T23:32:38.788Z",
+    "phase": "2v2-match-result",
+    "description": "Final result shows the opposing two avatars on a crown panel, one heart each; both friendly avatars show skull icons. The top progress bar reads Lv 1 to Lv 2, 10/30 at this animation instant. Its relation to the earlier level-5 entry gate is unresolved.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-043",
+    "file": "live-screenshots/L2-043-2v2-lobby-result-balance.jpg",
+    "capturedAtUTC": "2026-10-16T23:32:47.534Z",
+    "phase": "2v2-lobby-return",
+    "description": "After the five-round 2v2 loss, the lobby shows Play 6/10 and 1,600 coins, up 30 from the pre-match 1,570. Quick Join displays four slots with red/blue grouping, Win 100 and Join. Lv 6 Reward remains visible. No purchase or quest reward was claimed during the match.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-044",
+    "file": "live-screenshots/L2-044-collection-with-earned-balls.jpg",
+    "capturedAtUTC": "2026-10-16T23:33:14.750Z",
+    "phase": "collection",
+    "description": "Collection now visibly includes WDC and Blade alongside Verity, Poison Spike, Axe and Vampire, each shown x1. The selected Verity panel lists Classic 1, Shiny 0, Rainbow 0 and Equipped Classic. Additional cards continue below the viewport.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-045",
+    "file": "live-screenshots/L2-045-collection-help-published-claims.jpg",
+    "capturedAtUTC": "2026-10-16T23:33:22.981Z",
+    "phase": "collection-help",
+    "description": "In-game help says rarity affects acquisition rather than strength; counters, choice timing and launch direction affect outcomes; free/gifted balls are trade-locked, gacha purchases tradable, and more balls expand choices. These are displayed developer claims, not independently verified balance or trade rules.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-046",
+    "file": "live-screenshots/L2-046-wdc-description.jpg",
+    "capturedAtUTC": "2026-10-16T23:33:44.899Z",
+    "phase": "ball-description",
+    "description": "WDC inventory description reads: Your cell's number = your damage. This supports interpreting the numbered grid as a damage ability; exact timing, distribution and damage implementation remain unverified.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-047",
+    "file": "live-screenshots/L2-047-store-daily-offers.jpg",
+    "capturedAtUTC": "2026-10-16T23:34:04.315Z",
+    "phase": "store",
+    "description": "Daily Store displays Laser Ball 149 Robux, Voltstrike 69, Colorful Balloon 149, Blue Parasol 2,000 coins and Lightwing bundle 1,599 Robux. Prices are timestamped UI observations; nothing was purchased.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  },
+  {
+    "id": "L2-048",
+    "file": "live-screenshots/L2-048-gacha-prices-and-disclosed-odds.jpg",
+    "capturedAtUTC": "2026-10-16T23:34:13.072Z",
+    "phase": "store-odds",
+    "description": "Coins Ball Gacha displays Rare/Epic/Legendary 79%/19%/2%, costs 600 for one or 6,000 for ten. Diamonds Ball Gacha displays 58%/33%/9%, costs 60 or 600, and a Tradable label. Odds are published UI claims, not audited probabilities; no roll was purchased.",
+    "width": 1707,
+    "height": 1019,
+    "source": "Native Roblox Player screenshot; visually checked before saving"
+  }
+]
