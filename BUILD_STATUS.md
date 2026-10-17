@@ -15,7 +15,7 @@ Verified this continuation:
 - All 63 archived reference files retain their original hashes (`handoff-reference-integrity.json`). CI YAML and PowerShell parse, and the official Rokit 1.2.0 archive matches the workflow's pinned SHA-256 (`handoff-ci-validation.json`). Hosted Actions execution remains pending the first push.
 - The observed console contains Roblox Core UI and account-avatar asset warnings, with no observed project exception. Studio has been returned to Edit mode with device emulation reset. Existing unrelated Studio test windows were left alone.
 
-The new repository's clean-clone build and final saved-place hash are being checked before the handoff is finalized. Earlier pass evidence is retained below. See [partner onboarding](game/docs/partner-onboarding.md) for publishing the prepared repository and adding your partner; see [backlog](game/docs/backlog.md) for unfinished work.
+The clean clone of source checkpoint `975b4a8` passes formatting, lint, strict types and both place builds. Its binary is identical to the saved build: SHA-256 `D3625E8E5A06312CB453A61470B885078A1DE69151526B24DD02079ED4A953ED` (`handoff-clean-clone.json`). All 63 archived reference hashes and all 51 checked documentation/comparison links also pass in the clone; prior history remains an ancestor (`handoff-clone-portability.json`). The local place copy matches (`handoff-local-place-saved.json`). Earlier pass evidence is retained below. See [partner onboarding](game/docs/partner-onboarding.md) for publishing the prepared repository and adding your partner; see [backlog](game/docs/backlog.md) for unfinished work.
 
 ## Current result and priority
 
@@ -26,7 +26,7 @@ The [comparison page](game/test-evidence/replica-comparison.html) shows lobby, d
 ## Playable place and source
 
 - `game/builds/BallVsSpace.rbxl` and `.rbxlx` are the current binary/XML builds. Open the binary in Studio, press Play, then Practice. For 1v1, start two local clients and click Play in each.
-- The binary is also saved at `C:\Users\nsidi\Desktop\VibeCode\Reaction Game\BallVsSpace.rbxl`; its SHA-256 matches the build. Evidence: `game/test-evidence/replica-local-place-saved.json`. The pre-pass place is backed up as `game/builds/BallVsSpace-before-replica.rbxl`; the original empty-place backup is retained.
+- The binary is also saved at `C:\Users\nsidi\Desktop\VibeCode\Reaction Game\BallVsSpace.rbxl`; its SHA-256 matches the October 17 build. Evidence: `game/test-evidence/handoff-local-place-saved.json`. The previous binary is backed up in `.local/BallVsSpace-before-handoff.rbxl`; the pre-reconstruction and original empty-place backups remain under `game/builds/`.
 - The original Studio connection was reverified explicitly: MCP `d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0`, name `BallVsSpace.rbxl`, PlaceId 0, GameId 0. All 37 canonical sources match Studio byte-for-byte (`source-consistency.json`). Studio is left in Edit mode with device simulation reset. Rediscover IDs on continuation.
 - The Git repository is now local at the pack root. Earlier source checkpoint `005099b` and evidence checkpoint `b910879` are preserved in history. The earlier clean-checkout binary result is retained in `replica-clean-build.json`; the October 17 handoff supersedes that binary. No public publishing, remote push, spending or unrelated-place edits occurred.
 
@@ -51,7 +51,7 @@ The signed 32×32 influence grid, maximum-per-team pressure, swept painting, ser
 
 ## Resume work
 
-1. Review the comparison and refine remaining visual differences, starting with lobby prop density/lighting and ball mesh/texture detail. Keep visual work ahead of differentiation as requested. The full reference roster and exact hidden motion/weapon formulas have not been recovered. REA was reviewed; no reference binary/source was supplied or extracted.
+1. Continue the authored UI match: typography, symbol edge smoothing, store/inventory detail, panel styling and missing functional screens; then lobby prop density/lighting and ball mesh/texture detail. Use the October 16 comparison plus the October 17 captures in visual-fidelity.md. Keep the territory display enabled in normal play and finish the ownership/pressure feedback described in the backlog. The full reference roster and exact hidden motion/weapon formulas have not been recovered. REA was reviewed; no reference binary/source was supplied or extracted.
 2. Keep human M1 acceptance pending: ten unfamiliar observers, 8/10 leader recognition within two seconds, 8/10 reinforced-cell capture understanding, 6/10 voluntary rematch. The test sheet remains blank. Use the territory overlay for territory-comprehension checks. These gates do not defer further visual work.
 3. M2 remains unfinished: reliable 2v2/parties/four arenas, original-ack replay for duplicate commands, asynchronous command inbox, full disconnect/network/exploit matrix and capacity testing.
 4. Later work remains: six additional ability kits, audio/accessibility/guided practice, 100-reset leak testing, physical-phone profiling, durable profiles/rewards/economy, human beta and rollout. No human results, durable-save claims or release readiness are invented.
