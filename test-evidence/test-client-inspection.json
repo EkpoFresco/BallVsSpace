@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"board\":1530590169,\"phase\":\"Battle\",\"serverPhase\":\"Battle\",\"camera\":\"0, 360.587311, 99.1190796, 1, 0, -0, -0, 0.258819044, 0.965925813, 0, -0.965925813, 0.258819044\",\"serverBoard\":833150863,\"cameraType\":\"Enum.CameraType.Scriptable\",\"tick\":703,\"status\":\"1V1 · session-only prototype · You: ○ CORAL\",\"cell\":\"7, 0, -1\",\"serverTick\":713,\"size\":\"1274, 487.333344\"}"
+      }
+    ],
+    "isError": false
+  }
+}

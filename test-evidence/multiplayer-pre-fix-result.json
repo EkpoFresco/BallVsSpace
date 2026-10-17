@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"mismatches\":0,\"comparisons\":16,\"matches\":2,\"reason\":\"restart_with_solver_and_camera_fixes\"}"
+      }
+    ],
+    "isError": false
+  }
+}

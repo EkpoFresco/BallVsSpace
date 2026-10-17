@@ -1,0 +1,10 @@
+{
+  "name": "BallVsSpace",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {"Shared": {"$path": "src/shared"}, "Art": {"$path": "assets/runtime"}},
+    "ServerScriptService": {"Server": {"$path": "src/server"}},
+    "StarterPlayer": {"StarterPlayerScripts": {"Client": {"$path": "src/client"}}},
+    "Workspace": {"$properties": {"Gravity": 196.2, "StreamingEnabled": false}, "AuthoredWorld": {"$className":"Folder", "$ignoreUnknownInstances":true}}
+  }
+}

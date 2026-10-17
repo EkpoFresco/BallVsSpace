@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"studios\":[{\"id\":\"021ee03a-884f-4d55-92f1-7aae83319780\",\"name\":null},{\"id\":\"490c6d7e-86d9-429f-abfd-67ca7b15874f\",\"name\":null},{\"id\":\"ac9061fe-8415-49be-8dcf-d37b62ac8fb5\",\"name\":null},{\"id\":\"d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0\",\"name\":\"Place1\"}]}"
+      }
+    ],
+    "isError": false
+  }
+}

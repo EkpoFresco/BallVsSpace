@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"workspaceChildren\":{\"1\":\"Camera:Camera\",\"4\":\"SpawnLocation:SpawnLocation\",\"3\":\"Terrain:Terrain\",\"2\":\"Baseplate:Part\"},\"name\":\"Place1\",\"scripts\":0,\"jobId\":\"\",\"placeId\":0,\"studio\":true,\"gameId\":0}"
+      }
+    ],
+    "isError": false
+  }
+}

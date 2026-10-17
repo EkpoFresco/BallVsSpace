@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"orientation\":\"Enum.ScreenOrientation.Sensor\",\"devices\":{\"20\":{\"id\":\"samsung_galaxy_tab_S11\",\"name\":\"Samsung Galaxy Tab S11\"},\"19\":{\"id\":\"samsung_galaxy_tab_a9+\",\"name\":\"Samsung Galaxy Tab A9+\"},\"18\":{\"id\":\"samsung_galaxy_tab_a9\",\"name\":\"Samsung Galaxy Tab A9\"},\"9\":{\"id\":\"iphone_14\",\"name\":\"iPhone 14\"},\"1\":{\"id\":\"iphone_6_Plus\",\"name\":\"iPhone 6 Plus\"},\"15\":{\"id\":\"samsung_galaxy_s22_ultra\",\"name\":\"Samsung Galaxy S22 Ultra\"},\"3\":{\"id\":\"iphone_XR\",\"name\":\"iPhone XR\"},\"2\":{\"id\":\"iphone_7\",\"name\":\"iPhone 7\"},\"5\":{\"id\":\"samsung_galaxy_a06\",\"name\":\"Samsung Galaxy A06\"},\"4\":{\"id\":\"iphone_11\",\"name\":\"iPhone 11\"},\"7\":{\"id\":\"iphone_13_pro\",\"name\":\"iPhone 13 Pro\"},\"6\":{\"id\":\"iphone_13\",\"name\":\"iPhone 13\"},\"14\":{\"id\":\"iphone_17_pro\",\"name\":\"iPhone 17 Pro\"},\"8\":{\"id\":\"iphone_13_pro_max\",\"name\":\"iPhone 13 Pro Max\"},\"16\":{\"id\":\"samsung_galaxy_s25_ultra\",\"name\":\"Samsung Galaxy S25 Ultra\"},\"17\":{\"id\":\"samsung_galaxy_tab_a8\",\"name\":\"Samsung Galaxy Tab A8\"},\"13\":{\"id\":\"iphone_16_pro_max\",\"name\":\"iPhone 16 Pro Max\"},\"12\":{\"id\":\"iphone_16_pro\",\"name\":\"iPhone 16 Pro\"},\"11\":{\"id\":\"iphone_16\",\"name\":\"iPhone 16\"},\"10\":{\"id\":\"samsung_galaxy_a16\",\"name\":\"Samsung Galaxy A16\"}}}"
+      }
+    ],
+    "isError": false
+  }
+}

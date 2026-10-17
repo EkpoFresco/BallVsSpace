@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"board\":1445012620,\"phase\":\"Aim\",\"serverPhase\":\"Aim\",\"camera\":\"0, 403.105072, 110.511673, 1, 0, -0, -0, 0.258819044, 0.965925872, 0, -0.965925872, 0.258819044\",\"serverBoard\":1445012620,\"cameraType\":\"Enum.CameraType.Scriptable\",\"tick\":0,\"status\":\"PRACTICE · no competitive rewards · You: ◇ CYAN\",\"cell\":\"7, 0, -1\",\"serverTick\":0,\"size\":\"434, 464\"}"
+      }
+    ],
+    "isError": false
+  }
+}

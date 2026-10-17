@@ -1,0 +1,20 @@
+warning[roblox_manual_fromscale_or_fromoffset]: this UDim2.new call only sets offset, and can be simplified using UDim2.fromOffset
+    ┌─ src\client\Controllers\HudController.luau:127:82
+    │
+127 │     local left = Hud.button(footer, "Left", "PLAY 1V1", UDim2.new(0.5, -12, 0, 64), UDim2.new(0, 8, 0, 54))
+    │                                                                                     ^^^^^^^^^^^^^^^^^^^^^^
+    │
+    = try: UDim2.fromOffset(8, 54)
+
+warning[roblox_manual_fromscale_or_fromoffset]: this UDim2.new call only sets offset, and can be simplified using UDim2.fromOffset
+    ┌─ src\client\Controllers\HudController.luau:138:3
+    │
+138 │         UDim2.new(0, 12, 0, 110),
+    │         ^^^^^^^^^^^^^^^^^^^^^^^^
+    │
+    = try: UDim2.fromOffset(12, 110)
+
+Results:
+0 errors
+2 warnings
+0 parse errors

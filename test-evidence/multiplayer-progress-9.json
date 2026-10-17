@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"players\":{\"1\":{\"id\":-1,\"name\":\"Player1\"},\"2\":{\"id\":-2,\"name\":\"Player2\"}},\"workspace\":{\"BVSMatchId\":\"d229c83d-af48-45da-8cf0-3177a303421a\",\"BVSCountA\":257,\"BVSPhase\":\"Battle\",\"BVSTestMismatches\":2,\"BVSCompletedMatches\":9,\"BVSTick\":1022,\"BVSBoardHash\":1919229414,\"BVSCountB\":433,\"BVSTestComparisons\":74,\"BVSTestMatches\":9},\"isServer\":true}"
+      }
+    ],
+    "isError": false
+  }
+}

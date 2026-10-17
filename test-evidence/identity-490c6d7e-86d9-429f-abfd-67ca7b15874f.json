@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"players\":{\"1\":{\"id\":-1,\"name\":\"Player1\"},\"2\":{\"id\":-2,\"name\":\"Player2\"}},\"localPlayer\":-1,\"workspace\":[],\"isServer\":false,\"gui\":[]}"
+      }
+    ],
+    "isError": false
+  }
+}
