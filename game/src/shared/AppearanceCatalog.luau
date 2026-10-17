@@ -1,6 +1,36 @@
 --!strict
 export type Appearance = { name: string, kit: string, description: string, color: Color3 }
 local entries: { [string]: Appearance } = {
+	Blade = {
+		name = "Blade Ball",
+		kit = "Anchor",
+		description = "A sharp silhouette.\nHolds its path and\nclaims wider space.",
+		color = Color3.fromRGB(63, 204, 244),
+	},
+	WDC = {
+		name = "WDC",
+		kit = "Drift",
+		description = "A blue grid shell\nfor an expanding\nterritory pulse.",
+		color = Color3.fromRGB(43, 105, 244),
+	},
+	Orbit = {
+		name = "Orbit Ball",
+		kit = "Drift",
+		description = "A ringed shell\nthat sweeps across\nthe arena.",
+		color = Color3.fromRGB(78, 206, 239),
+	},
+	Ray = {
+		name = "Ray Ball",
+		kit = "Drift",
+		description = "A radiant shell\nfor claiming\nopen ground.",
+		color = Color3.fromRGB(246, 173, 69),
+	},
+	Laser = {
+		name = "Laser Ball",
+		kit = "Drift",
+		description = "A violet glow\nwith an expanding\nterritory pulse.",
+		color = Color3.fromRGB(192, 71, 244),
+	},
 	Verity = {
 		name = "Verity Ball",
 		kit = "Drift",
@@ -49,7 +79,20 @@ for _, entry in entries do
 end
 local Catalog = {
 	entries = table.freeze(entries),
-	ids = table.freeze({ "Verity", "Axe", "Poison", "Burst", "Cell", "Vampire", "Acid" }),
+	ids = table.freeze({
+		"Verity",
+		"Axe",
+		"Poison",
+		"Burst",
+		"Cell",
+		"Vampire",
+		"Acid",
+		"Blade",
+		"WDC",
+		"Orbit",
+		"Ray",
+		"Laser",
+	}),
 }
 function Catalog.default(kit: string): string
 	return if kit == "Anchor" then "Axe" else "Acid"

@@ -12,6 +12,7 @@ local Court = require(script.Parent.Services.CourtService)
 local Profiles = require(script.Parent.Services.ProfileService)
 local Queue = require(script.Parent.Services.QueueService)
 local Replication = require(script.Parent.Services.ReplicationService)
+local History = require(script.Parent.Services.CommandHistory)
 Players.CharacterAutoLoads = true
 Court.build()
 local remotes = Instance.new("Folder")
@@ -38,7 +39,7 @@ type Gate = {
 	aim: number,
 	join: number,
 	snapshot: number,
-	lastId: number,
+	history: History.State,
 	ready: boolean,
 	rejected: number,
 }
@@ -65,7 +66,7 @@ local function add(p: Player)
 		aim = 0,
 		join = 0,
 		snapshot = 0,
-		lastId = 0,
+		history = History.new(),
 		ready = false,
 		rejected = 0,
 	}
@@ -149,11 +150,15 @@ command.OnServerEvent:Connect(function(p, raw: unknown)
 		g.rejected += 1
 		return
 	end
-	if c.id <= g.lastId then
+	local cached = History.lookup(g.history, c.id)
+	if cached then
+		ack:FireClient(p, c.id, cached.accepted, cached.reason)
+		return
+	end
+	if c.id <= g.history.latest then
 		ack:FireClient(p, c.id, false, "duplicate")
 		return
 	end
-	g.lastId = c.id
 	local interval = if c.kind == "Aim"
 		then 0.1
 		elseif c.kind == "Queue" or c.kind == "Practice" then 1
@@ -164,6 +169,7 @@ command.OnServerEvent:Connect(function(p, raw: unknown)
 		else g.actions
 	if now - stamp < interval then
 		g.rejected += 1
+		History.record(g.history, c.id, false, "rate")
 		ack:FireClient(p, c.id, false, "rate")
 		return
 	end
@@ -196,7 +202,9 @@ command.OnServerEvent:Connect(function(p, raw: unknown)
 			sendLobby(p)
 		end
 	end
-	ack:FireClient(p, c.id, accepted, if accepted then "ok" else "invalid_state")
+	local reason = if accepted then "ok" else "invalid_state"
+	History.record(g.history, c.id, accepted, reason)
+	ack:FireClient(p, c.id, accepted, reason)
 end)
 RunService.Heartbeat:Connect(function(dt)
 	local now = Workspace:GetServerTimeNow()
@@ -272,27 +280,21 @@ RunService.Heartbeat:Connect(function(dt)
 	local grid = m.territorySerial ~= lastTerritory
 	local moving = m.sim.tick ~= lastMotion and grid
 	local forceFull = now - lastFull >= 2 or changed or m.territorySerial - lastTerritory > 1
+	-- These buffers are identical for every participant. Build once per update.
+	local territoryPayload = if grid or forceFull
+		then Protocol.territory(m.board, m.lastChanges, m.lastBase, m.sim.tick - m.sim.tick % 6, forceFull)
+		else nil
+	local motionPayload = if moving or changed then Protocol.motion(m.sim.balls, m.sim.tick) else nil
 	for _, p in Players:GetPlayers() do
 		if participant(m, p) and gates[p] and gates[p].ready then
 			if changed then
 				stateRemote:FireClient(p, Replication.stateFor(m, p.UserId))
 			end
-			if grid or forceFull then
-				territoryRemote:FireClient(
-					p,
-					m.id,
-					m.roundId,
-					Protocol.territory(
-						m.board,
-						m.lastChanges,
-						m.lastBase,
-						m.sim.tick - m.sim.tick % 6,
-						forceFull
-					)
-				)
+			if territoryPayload then
+				territoryRemote:FireClient(p, m.id, m.roundId, territoryPayload)
 			end
-			if moving or changed then
-				motion:FireClient(p, m.id, m.roundId, Protocol.motion(m.sim.balls, m.sim.tick))
+			if motionPayload then
+				motion:FireClient(p, m.id, m.roundId, motionPayload)
 			end
 		end
 	end
@@ -307,7 +309,9 @@ RunService.Heartbeat:Connect(function(dt)
 	if RunService:IsStudio() then
 		Workspace:SetAttribute("BVSPhase", m.phase)
 		Workspace:SetAttribute("BVSTick", m.sim.tick)
-		Workspace:SetAttribute("BVSBoardHash", Math.hash(m.board.q))
+		if grid or changed then
+			Workspace:SetAttribute("BVSBoardHash", Math.hash(m.board.q))
+		end
 		Workspace:SetAttribute("BVSCountA", m.board.counts[1])
 		Workspace:SetAttribute("BVSCountB", m.board.counts[2])
 		Workspace:SetAttribute("BVSMatchId", m.id)

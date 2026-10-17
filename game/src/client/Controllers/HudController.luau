@@ -7,7 +7,9 @@ local Appearances = require(Shared.AppearanceCatalog)
 local Types = require(Shared.Types)
 local ViewTypes = require(Shared.ViewTypes)
 local Art = require(script.Parent.BallArt)
+local Artwork = require(script.Parent.Artwork)
 local Layout = require(script.Parent.ReferenceLayout)
+local Panels = require(script.Parent.LobbyPanels)
 local Ui = require(script.Parent.ReferenceUi)
 local Hud = {}
 local purple = Color3.fromRGB(132, 123, 184)
@@ -242,11 +244,16 @@ function Hud.new()
 	Ui.text(draft, "Free", "Free", 346, 424, 50, 20, 14, true)
 	local reroll = Ui.button(draft, "Reroll", "Reroll", 490, 438, 72, 36, purple)
 	reroll.TextSize = 13
-	local sides, sideLabels, figures, portraits, kitIcons, kitNames, hearts = {}, {}, {}, {}, {}, {}, {}
+	reroll.TextYAlignment = Enum.TextYAlignment.Bottom
+	reroll.Size = UDim2.fromOffset(72, 44)
+	Artwork.image(reroll, "RerollIcon", "Reroll", 24, 1, 25, 25)
+	local sides, sideLabels, figures, portraits, kitIcons, kitNames, hearts, miniHearts =
+		{}, {}, {}, {}, {}, {}, {}, {}
 	for i = 1, 2 do
 		local f = Ui.frame(root, "PlayerSide" .. i, if i == 1 then 0 else 663, 0, 140, 480, Color3.new())
 		f.BackgroundTransparency = 1
 		local name = Ui.text(f, "PlayerName", "", if i == 1 then 66 else 0, 90, 72, 23, 13, true)
+		name.TextColor3 = if i == 1 then Color3.fromRGB(95, 222, 244) else Color3.fromRGB(255, 126, 118)
 		local portrait = Instance.new("ImageLabel")
 		portrait.Name = "Portrait"
 		portrait.Size = UDim2.fromOffset(42, 42)
@@ -258,9 +265,10 @@ function Hud.new()
 		portrait.Parent = f
 		local figure = avatar(f, -8, 260, 156, 205)
 		local group = {}
+		local mini = {}
 		for j = 1, 3 do
 			group[j] = Ui.heart(f, 8 + (j - 1) * 32, 253, 25)
-			Ui.heart(f, (if i == 1 then 71 else 1) + (j - 1) * 24, 115, 19)
+			mini[j] = Ui.heart(f, (if i == 1 then 71 else 1) + (j - 1) * 24, 115, 19)
 		end
 		local kitIcon = Art.viewport(f, "KitIcon", "Acid")
 		kitIcon.Size = UDim2.fromOffset(66, 66)
@@ -273,6 +281,7 @@ function Hud.new()
 		kitIcons[i] = kitIcon
 		kitNames[i] = kitName
 		hearts[i] = group
+		miniHearts[i] = mini
 	end
 	local currency = Ui.frame(root, "Currency", 17, 481, 180, 100, Color3.new())
 	currency.BackgroundTransparency = 1
@@ -288,6 +297,10 @@ function Hud.new()
 	local c = Instance.new("UICorner")
 	c.CornerRadius = UDim.new(1, 0)
 	c.Parent = center
+	coin.BackgroundTransparency = 1
+	stroke.Enabled = false
+	center:Destroy()
+	Artwork.image(coin, "CoinArt", "Coin", -3, -3, 49, 49)
 	local balance = Ui.text(currency, "Coins", "0", 55, -2, 125, 47, 30, true)
 	balance.TextXAlignment = Enum.TextXAlignment.Left
 	balance.TextColor3 = gold
@@ -305,51 +318,18 @@ function Hud.new()
 	inventory.TextSize = 11
 	local shopIcon = Ui.frame(store, "Icon", 15, 4, 36, 41, Color3.new())
 	shopIcon.BackgroundTransparency = 1
-	local dome = Ui.frame(shopIcon, "Dome", 5, 0, 26, 26, Color3.new(1, 1, 1))
-	local domeCorner = Instance.new("UICorner")
-	domeCorner.CornerRadius = UDim.new(1, 0)
-	domeCorner.Parent = dome
-	local inset = Ui.frame(dome, "Glass", 3, 3, 20, 20, Color3.fromRGB(37, 61, 87))
-	local ic = Instance.new("UICorner")
-	ic.CornerRadius = UDim.new(1, 0)
-	ic.Parent = inset
-	for j = 1, 5 do
-		local dot = Ui.frame(inset, "Ball", 3 + (j % 3) * 5, 5 + (j // 3) * 6, 4, 4, Color3.new(1, 1, 1))
-		local dc = Instance.new("UICorner")
-		dc.CornerRadius = UDim.new(1, 0)
-		dc.Parent = dot
-	end
-	Ui.polygon(
-		shopIcon,
-		"Base",
-		{ Vector2.new(7, 23), Vector2.new(29, 23), Vector2.new(34, 40), Vector2.new(2, 40) },
-		Color3.new(1, 1, 1)
-	)
-	Ui.frame(shopIcon, "Slot", 14, 29, 9, 5, Color3.fromRGB(37, 61, 87))
+	Artwork.image(shopIcon, "StoreArt", "Store", 0, 0, 36, 41)
 	local cube = Ui.frame(inventory, "Icon", 10, 3, 46, 45, Color3.new())
 	cube.BackgroundTransparency = 1
-	Ui.polygon(
-		cube,
-		"Top",
-		{ Vector2.new(0, 10), Vector2.new(22, 0), Vector2.new(44, 10), Vector2.new(22, 21) },
-		Color3.new(1, 1, 1)
-	)
-	Ui.polygon(
-		cube,
-		"Left",
-		{ Vector2.new(0, 14), Vector2.new(19, 24), Vector2.new(19, 44), Vector2.new(0, 34) },
-		Color3.fromRGB(232, 243, 255)
-	)
-	Ui.polygon(
-		cube,
-		"Right",
-		{ Vector2.new(24, 24), Vector2.new(44, 14), Vector2.new(44, 34), Vector2.new(24, 44) },
-		Color3.new(1, 1, 1)
-	)
+	Artwork.image(cube, "InventoryArt", "Inventory", 0, 0, 46, 45)
 	store.TextYAlignment = Enum.TextYAlignment.Bottom
 	inventory.TextYAlignment = Enum.TextYAlignment.Bottom
 	local emotes = Ui.button(lobby, "Emotes", "Emotes  R", 18, 373, 97, 29, Color3.fromRGB(37, 61, 87))
 	emotes.TextSize = 11
+	Artwork.image(emotes, "Pose", "Emote", 3, 4, 18, 21)
+	local emoteText = emotes:FindFirstChild("ButtonText") :: TextLabel
+	emoteText.Position = UDim2.fromOffset(20, 0)
+	emoteText.Size = UDim2.new(1, -20, 1, 0)
 	local quick = Ui.frame(lobby, "QuickJoin", 602, 176, 193, 68, Color3.fromRGB(18, 33, 61))
 	quick.BackgroundTransparency = 0.25
 	Ui.text(quick, "Title", "Quick Join", 0, -14, 193, 32, 18, true)
@@ -382,6 +362,49 @@ function Hud.new()
 	if settingsFill then
 		settingsRound:Clone().Parent = settingsFill
 	end
+	local rewards = Ui.button(root, "Rewards", "", 320, 12, 45, 45, Color3.fromRGB(18, 27, 35))
+	Artwork.image(rewards, "Gift", "Gift", 10, 9, 26, 29)
+	settingsRound:Clone().Parent = rewards
+	settingsRound:Clone().Parent = rewards:FindFirstChild("ButtonFill")
+	local profile = Ui.button(root, "Profile", "", 268, 12, 45, 45, Color3.fromRGB(18, 27, 35))
+	settingsRound:Clone().Parent = profile
+	settingsRound:Clone().Parent = profile:FindFirstChild("ButtonFill")
+	local head = Instance.new("ImageLabel")
+	head.Name = "Portrait"
+	head.Size = UDim2.fromOffset(39, 39)
+	head.Position = UDim2.fromOffset(3, 3)
+	head.BackgroundTransparency = 1
+	head.Parent = profile
+	settingsRound:Clone().Parent = head
+	task.spawn(function()
+		local ok, url = pcall(function()
+			return Players:GetUserThumbnailAsync(
+				Players.LocalPlayer.UserId,
+				Enum.ThumbnailType.HeadShot,
+				Enum.ThumbnailSize.Size150x150
+			)
+		end)
+		if ok and head.Parent then
+			head.Image = url
+		end
+	end)
+	local social = Ui.button(lobby, "Trade", "Trade", 699, 12, 96, 26, Color3.fromRGB(56, 83, 109))
+	social.TextSize = 12
+	Artwork.image(social, "Handshake", "Trade", 3, 3, 21, 20)
+	local questTitle = questTab:FindFirstChild("Title") :: TextLabel
+	questTab.Size = UDim2.fromOffset(96, 26)
+	questTitle.Size = UDim2.fromOffset(94, 22)
+	questTitle.Position = UDim2.fromOffset(1, 2)
+	questTitle.Text = "Quests"
+	questTitle.TextSize = 12
+	local invite = Ui.button(lobby, "Invite", "Invite", 731, 481, 61, 73, Color3.fromRGB(24, 37, 61))
+	invite.TextYAlignment = Enum.TextYAlignment.Bottom
+	invite.TextSize = 16
+	Artwork.image(invite, "Envelope", "Invite", 8, 6, 45, 43)
+	local helpButton = Ui.button(root, "HelpButton", "", 722, 521, 69, 69, Color3.fromRGB(32, 34, 39))
+	Artwork.image(helpButton, "Chat", "Chat", 14, 14, 41, 41)
+	local modeButton = Ui.button(lobby, "Mode", "1V1", 250, 545, 61, 36, Color3.fromRGB(29, 43, 65))
+	modeButton.TextSize = 17
 	local settingsPanel = Ui.frame(root, "SettingsPanel", 245, 170, 313, 212, Color3.fromRGB(18, 27, 45))
 	settingsPanel.Visible = false
 	settingsPanel.ZIndex = 8
@@ -456,6 +479,9 @@ function Hud.new()
 		{ Vector2.new(89, 39), Vector2.new(103, 61), Vector2.new(89, 82), Vector2.new(75, 61) },
 		Color3.fromRGB(40, 22, 190)
 	)
+	crown:ClearAllChildren()
+	local crownArt = Artwork.image(crown, "CrownArt", "Crown", 0, 0, 179, 110)
+	crownArt.ScaleType = Enum.ScaleType.Stretch
 	local winnerAvatar = avatar(result, 90, 145, 223, 185)
 	local resultTitle = Ui.text(result, "ResultTitle", "VICTORY!", 20, 115, 363, 45, 30, true)
 	local resultScore = Ui.text(result, "ResultScore", "", 10, 330, 383, 35, 17, true)
@@ -493,6 +519,7 @@ function Hud.new()
 		kitIcons = kitIcons,
 		kitNames = kitNames,
 		hearts = hearts,
+		miniHearts = miniHearts,
 		lobby = lobby,
 		questEntries = questEntries,
 		questsDone = { false, false, false },
@@ -516,13 +543,43 @@ function Hud.new()
 		showTerritory = true,
 		selectedAppearance = "Acid",
 		previousPhase = "",
+		layoutViewport = Vector2.zero,
+		layoutPhase = "",
+		layoutTouch = false,
+		layoutTerritory = true,
+		rewards = rewards,
+		profile = profile,
+		helpButton = helpButton,
+		modeButton = modeButton,
+		panels = Panels.new(root),
 	}
 	collection:GetPropertyChangedSignal("Visible"):Connect(function()
 		draft.Visible = state.previousPhase == "Draft" and not collection.Visible
 		draftShade.Visible = state.previousPhase == "Draft" or collection.Visible
 	end)
 	settings.Activated:Connect(function()
+		Panels.close(state.panels)
 		settingsPanel.Visible = not settingsPanel.Visible
+	end)
+	rewards.Activated:Connect(function()
+		settingsPanel.Visible = false
+		Panels.open(state.panels, "Rewards")
+	end)
+	profile.Activated:Connect(function()
+		settingsPanel.Visible = false
+		Panels.open(state.panels, "Inventory")
+	end)
+	social.Activated:Connect(function()
+		Panels.open(state.panels, "Trade")
+	end)
+	invite.Activated:Connect(function()
+		Panels.open(state.panels, "Invite friends")
+	end)
+	helpButton.Activated:Connect(function()
+		Panels.open(state.panels, "How to play")
+	end)
+	modeButton.Activated:Connect(function()
+		Panels.open(state.panels, "Play")
 	end)
 	for _, slot in collectionCards do
 		slot.Activated:Connect(function()
@@ -538,31 +595,47 @@ function Hud.new()
 		collection.Visible = true
 	end)
 	store.Activated:Connect(function()
-		collection.Visible = true
+		Panels.open(state.panels, "Store")
 	end)
 	inventory.Activated:Connect(function()
-		collection.Visible = true
+		Panels.open(state.panels, "Inventory")
 	end)
 	closeCollection.Activated:Connect(function()
 		collection.Visible = false
 	end)
 	emotes.Activated:Connect(function()
-		local character = Players.LocalPlayer.Character
-		local humanoid = if character then character:FindFirstChildOfClass("Humanoid") else nil
-		if humanoid then
-			pcall(function()
-				humanoid:PlayEmote("wave")
-			end)
-		end
+		Panels.open(state.panels, "Emotes")
 	end)
 	return state
 end
 export type State = typeof(Hud.new())
+function Hud.reroll(h: State, offset: number)
+	for i, button in h.cards do
+		local id = Appearances.ids[(offset + i - 1) % #Appearances.ids + 1]
+		local entry = Appearances.entries[id]
+		button.Name = id
+		local title = button:FindFirstChild("Title") :: TextLabel
+		title.Text = entry.name
+		title.TextSize = if #entry.name > 12 then 14 else 21
+		local description = button:FindFirstChild("Description") :: TextLabel
+		description.Text = entry.description
+		local square = button:FindFirstChild("PreviewBackground") :: Frame
+		local preview = square:FindFirstChild("KitPreview") :: ViewportFrame
+		Art.setSkin(preview, id)
+		local world = preview:FindFirstChildOfClass("WorldModel")
+		if world then
+			world:ClearAllChildren()
+			Art.build(world, id)
+		end
+		Art.animate(preview, 0, 0, true)
+	end
+end
 function Hud.layout(h: State, phase: string)
 	if h.previousPhase ~= phase then
 		h.previousPhase = phase
 		h.collection.Visible = false
 		h.settingsPanel.Visible = false
+		Panels.close(h.panels)
 	end
 	local camera = Workspace.CurrentCamera
 	if not camera then
@@ -570,6 +643,18 @@ function Hud.layout(h: State, phase: string)
 	end
 	-- Fullscreen UI includes device insets that Camera.ViewportSize excludes.
 	local viewport = h.gui.AbsoluteSize
+	if
+		h.layoutViewport == viewport
+		and h.layoutPhase == phase
+		and h.layoutTouch == UserInputService.TouchEnabled
+		and h.layoutTerritory == h.showTerritory
+	then
+		return
+	end
+	h.layoutViewport = viewport
+	h.layoutPhase = phase
+	h.layoutTouch = UserInputService.TouchEnabled
+	h.layoutTerritory = h.showTerritory
 	local scale = Layout.scale(viewport)
 	local touchMinimum = if UserInputService.TouchEnabled then math.ceil(44 / scale) else 0
 	h.scale.Scale = scale
@@ -579,15 +664,24 @@ function Hud.layout(h: State, phase: string)
 	h.courtGui.Enabled = not lobby
 	h.lobby.Visible = lobby
 	h.settings.Visible = lobby
+	h.rewards.Visible = lobby
+	h.profile.Visible = lobby
+	h.helpButton.Visible = not lobby and phase ~= "Draft"
+	Panels.layout(h.panels, viewport, scale)
 	h.draft.Visible = phase == "Draft" and not h.collection.Visible
 	h.draftShade.Visible = phase == "Draft" or h.collection.Visible
 	h.result.Visible = phase == "RoundResult" or phase == "MatchResult"
 	h.phase.Visible = phase == "Aim" or phase == "Countdown" or phase == "ReadyCheck"
 	h.timer.Visible = phase == "Battle" or phase == "Overtime"
-	h.left.Visible = lobby
-	h.right.Visible = lobby
+	h.left.Visible = phase == "Lobby"
+	h.right.Visible = phase == "Lobby"
 	h.primary.Visible = phase == "Aim" or phase == "MatchResult" or phase == "Queued"
-	h.hint.Visible = false
+	h.hint.Visible = phase == "Queued"
+	h.hint.Position = UDim2.fromOffset(205, 160)
+	h.hint.Size = UDim2.fromOffset(392, 40)
+	h.hint.Text = "1 / 2 PLAYERS"
+	h.hint.TextSize = 30
+	h.hint.FontFace = Ui.displayFont
 	h.help.Visible = phase == "Queued"
 	h.points.Visible = not lobby and phase ~= "Draft" and not h.result.Visible and h.showTerritory
 	h.scoreA.Visible = h.points.Visible
@@ -604,25 +698,66 @@ function Hud.layout(h: State, phase: string)
 	h.left.Size = UDim2.fromOffset(166, math.max(36, touchMinimum))
 	h.right.Size = UDim2.fromOffset(164, math.max(34, touchMinimum))
 	h.allBalls.Size = UDim2.fromOffset(132, math.max(36, touchMinimum))
-	h.reroll.Size = UDim2.fromOffset(72, math.max(36, touchMinimum))
+	h.reroll.Size = UDim2.fromOffset(72, math.max(44, touchMinimum))
 	h.left.Position = UDim2.fromOffset(if portrait then 232 else 319, 545)
 	h.right.Position = UDim2.fromOffset(if portrait then 425 else 610, if portrait then 545 else 207)
-	h.currency.Position = UDim2.fromOffset(if portrait then 130 else 17, 481)
-	h.store.Position = UDim2.fromOffset(if portrait then 131 else 18, 201)
-	h.inventory.Position = UDim2.fromOffset(if portrait then 131 else 18, 286)
-	h.emotes.Position = UDim2.fromOffset(if portrait then 131 else 18, 373)
+	local horizontalMargin = (viewport.X / scale - 803) / 2
+	local leftEdge = -horizontalMargin
+	local rightEdge = horizontalMargin
+	h.currency.Position = UDim2.fromOffset(leftEdge + 17, 481)
+	h.store.Position = UDim2.fromOffset(leftEdge + 18, 201)
+	h.inventory.Position = UDim2.fromOffset(leftEdge + 18, 286)
+	h.emotes.Position = UDim2.fromOffset(leftEdge + 18, 373)
+	if not portrait then
+		h.right.Position = UDim2.fromOffset(rightEdge + 610, 207)
+	end
+	h.profile.Position = UDim2.fromOffset(leftEdge + (if portrait then 161 else 268), 12)
+	h.rewards.Position = UDim2.fromOffset(leftEdge + (if portrait then 213 else 320), 12)
+	h.settings.Position = UDim2.fromOffset(leftEdge + (if portrait then 265 else 372), 12)
 	local quests = h.lobby:FindFirstChild("Quests") :: Frame
 	local quick = h.lobby:FindFirstChild("QuickJoin") :: Frame
+	local trade = h.lobby:FindFirstChild("Trade") :: TextButton
+	local invite = h.lobby:FindFirstChild("Invite") :: TextButton
+	quests.Position = UDim2.fromOffset(rightEdge + 603, 10)
+	quick.Position = UDim2.fromOffset(rightEdge + 602, 176)
+	trade.Position = UDim2.fromOffset(rightEdge + 699, 12)
+	invite.Position = UDim2.fromOffset(rightEdge + 731, 481)
+	trade.Visible = not portrait
+	invite.Visible = true
+	h.helpButton.Position = UDim2.fromOffset(rightEdge + 722, 521)
 	quests.Visible = not portrait
 	quick.Visible = not portrait
+	h.modeButton.Visible = not portrait
+	if portrait then
+		local verticalMargin = (viewport.Y / scale - 602) / 2
+		local buttonSize = math.max(45, touchMinimum)
+		for i, button in { h.profile, h.rewards, h.settings } do
+			button.Position =
+				UDim2.fromOffset(leftEdge + 20 + (i - 1) * (buttonSize + 12), -verticalMargin + 65)
+			button.Size = UDim2.fromOffset(buttonSize, buttonSize)
+		end
+		h.currency.Position = UDim2.fromOffset(leftEdge + 17, verticalMargin + 435)
+		invite.Position = UDim2.fromOffset(rightEdge + 725, verticalMargin + 440)
+		h.left.Position = UDim2.fromOffset(232, verticalMargin + 520)
+		h.right.Position = UDim2.fromOffset(425, verticalMargin + 520)
+		local reward = h.lobby:FindFirstChild("Reward") :: TextLabel
+		reward.Position = UDim2.fromOffset(322, verticalMargin + 480)
+	else
+		for _, button in { h.profile, h.rewards, h.settings } do
+			button.Size = UDim2.fromOffset(45, 45)
+		end
+		local reward = h.lobby:FindFirstChild("Reward") :: TextLabel
+		reward.Position = UDim2.fromOffset(322, 510)
+	end
 end
 function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Types.Board, reduced: boolean)
 	Hud.layout(h, phase)
+	h.panels.layer:SetAttribute("ReducedMotion", reduced)
 	h.motionToggle.Text = if reduced then "Reduced motion: ON" else "Reduced motion: OFF"
 	h.territoryToggle.Text = if h.showTerritory then "Territory overlay: ON" else "Territory overlay: OFF"
 	if not view then
 		h.left.Text = if phase == "Queued" then "Searching…" else "Play"
-		h.primary.Text = "Cancel"
+		h.primary.Text = "Leave"
 		h.help.Text = if phase == "Queued" then "Waiting for another player…" else ""
 		return
 	end
@@ -663,6 +798,7 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 		local skin = seat.appearance or ""
 		if h.kitIcons[i]:GetAttribute("Appearance") ~= skin then
 			h.kitIcons[i]:SetAttribute("Appearance", skin)
+			Art.setSkin(h.kitIcons[i], skin)
 			local world = h.kitIcons[i]:FindFirstChildOfClass("WorldModel")
 			if world then
 				world:ClearAllChildren()
@@ -674,6 +810,7 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 		h.kitNames[i].Text = if skin ~= "" then Appearances.entries[skin].name else "?"
 		for j, heart in h.hearts[i] do
 			heart.Visible = j <= math.max(1, 4 - view.roundNumber)
+			h.miniHearts[i][j].Visible = heart.Visible
 		end
 		if seat.userId == Players.LocalPlayer.UserId then
 			if skin ~= "" then
@@ -686,7 +823,10 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 	end
 	if h.result.Visible then
 		local winner = view.seats[view.winner]
-		h.resultTitle.Text = if not winner then "DRAW" else "VICTORY!"
+		h.resultTitle.Text = if not winner
+			then "DRAW"
+			elseif winner.userId == Players.LocalPlayer.UserId then "VICTORY!"
+			else "DEFEAT"
 		h.resultScore.Text =
 			string.format("%.1f%%  —  %.1f%%", board.counts[1] / 10.24, board.counts[2] / 10.24)
 		local userId = if winner then winner.userId else Players.LocalPlayer.UserId

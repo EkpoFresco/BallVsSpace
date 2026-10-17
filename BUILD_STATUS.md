@@ -1,7 +1,32 @@
 # Ball VS Space build status
 
-Updated 17 October 2026. Canonical implementation is under `game/`; original research/evidence is intact.
+Updated 17 October 2026. Canonical implementation is under `game/`; all 63 archived reference hashes remain intact. **Current: 0.3 presentation built; post-presentation code review and runtime validation completed; repository handoff in progress.** Older sections below are historical snapshots, including their old blockers and resume steps.
 
+## Current deliverable
+
+The presentation now includes 32 authored symbols, 12 shaded ball appearances with separate weapons, dedicated Inventory/Store/utility screens, responsive portrait/landscape layouts and a detailed interactive lobby. Eight reference/current pairs and four phone captures are in the [comparison gallery](game/test-evidence/presentation-comparison.html). [Presentation notes](game/docs/presentation.md) distinguish remaining visual differences and the original territory rules; pixel-perfect identity is not claimed.
+
+The requested separate [code review](game/docs/code-review.md) fixed final-angle locking, draft acknowledgement races, touch ownership, motion interpolation/identity, bounded original-ack replay, font restoration, notification timing, reduced-motion previews, equipped draft offers and repeated rendering/network work. The two-ball render benchmark improved from 0.5116 to 0.1395 ms/call (about 73% in this fixture), with 210 fallback parts reduced to 2. Whole Studio frame pacing remained similar; this is not a phone FPS claim.
+
+Verified evidence under `game/test-evidence/`:
+
+- `review-final-result.json`: actual menu clicks and complete Practice match, tick 1800, counts 450/386, `match_points`; private draft, loaded art and matching shell/solver diameter.
+- `review-layout-final-result.json`: portrait/landscape bounds and aiming, successful emulated close input, 44+ UI-pixel tested targets, real reroll and Blade selection. Physical touch remains untested.
+- `visual-v3-world-result.json`: Store/Inventory/duel/Practice world prompts exercised with normal E input after explicit test character placement.
+- `replica-review-core.json`: 11 logic groups pass. `replica-review-client.json`: interpolation, font/toast regressions and 100 menu/skin cycles pass, 586 descendants before/after. `replica-review-equipped-draft.json`: real Equip action makes the chosen ball available in draft.
+- `replica-v3-multiplayer-progress.json`: pre-review fresh two-client normal match, six grid/tick and six loaded-art comparisons, zero mismatches/failures/aborts. Final post-review run `be83b21c-cb18-4776-9b8b-5631fe17e68a` also passes: two real clients, one completed match, six grid/tick and six loaded-art comparisons, zero mismatches/failures/aborts (`replica-review-multiplayer-tracked-result.json`).
+- `replica-review-final-render.json`, `replica-review-final-scene.json`, `replica-review-final-micro.json`: benchmark, all six SceneAnalysis queries and snapshot profiler results. Observed unparented objects belong to Roblox core/avatar code; no project host reported.
+- Static formatting, lint, strict types and both place builds pass. `source-consistency.json` verifies all 41 canonical scripts in the explicitly targeted local Studio, PlaceId/GameId 0. `review-repository-audit.json` verifies the original 63 hashes and documentation links.
+
+GitHub destination is explicitly authorized: [EkpoFresco/BallVsSpace](https://github.com/EkpoFresco/BallVsSpace), with **brocoliman** to receive write access. Existing Git Credential Manager authentication verifies owner/admin/push rights; no sign-in is needed. Push, hosted Actions verification and invitation are the remaining handoff steps. The repository preserves earlier history at the pack root.
+
+Remaining concept/acceptance gates are tracked in [backlog](game/docs/backlog.md): human visual/territory comprehension, physical devices/gamepad, additional abilities, 2v2/parties/capacity, durable progression and release gates. One active arena, two territory kits and session-only profiles are intentional current scope. No Roblox experience publication is included.
+
+The final local place copy matches the build (`review-local-place-saved.json`), with a previous-file backup in `.local/`. All five generated art files rebuild byte-identically (`review-art-reproducibility.json`). The final asynchronous fixture passes all 200 mirrored pairs / 400 rounds (`replica-review-mirrored-final.json`); the earlier transport timeout remains recorded and was not counted as a pass. Studio is in Edit mode with device emulation reset and all 41 sources verified. Resume: verify the clean clone, push reviewed source, verify hosted CI and invite brocoliman. Do not restart the visual build.
+
+---
+
+Historical build log follows. Current state above supersedes historical pending actions and counts.
 ## October 17 repository and territory handoff
 
 The Git repository now starts at the pack root on `main`, with the existing game history preserved and an ignored recovery bundle in `.local/`. Root README, contributing guide, partner setup, backlog, PR/issue templates and a pinned Windows build workflow are included. Source, specification and all reference files travel in the same clone. No remote or invitation has been created. Studio was rediscovered and the intended local `BallVsSpace.rbxl` verified (PlaceId/GameId 0).

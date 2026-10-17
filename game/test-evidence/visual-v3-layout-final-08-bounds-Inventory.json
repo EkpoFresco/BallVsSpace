@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"panel\":\"365.824585, 526.224548\",\"viewport\":\"401, 873\",\"targets\":{\"Balls\":50.65263366699219,\"Close\":44.32105255126953,\"Flyers\":50.65263366699219,\"Fusion\":50.65263366699219,\"Explosions\":50.65263366699219,\"BallsPage.Details.Equip\":45.02456283569336},\"physicalDevice\":false}"
+      }
+    ],
+    "isError": false
+  }
+}

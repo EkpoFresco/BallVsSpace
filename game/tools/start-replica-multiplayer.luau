@@ -1,7 +1,12 @@
 assert(game.PlaceId==0,"Local development only")
+local runId=game:GetService("HttpService"):GenerateGUID(false)
+game:SetAttribute("BVSReplicaMultiplayerRun",runId)
+game:SetAttribute("BVSReplicaMultiplayerResult",nil)
+game:SetAttribute("BVSReplicaMultiplayerCompletedRun",nil)
 task.spawn(function()
 local result=game:GetService("StudioTestService"):ExecuteMultiplayerTestAsync(2,"BVS normal-clock 1 matches")
 game:SetAttribute("BVSReplicaMultiplayerResult",game:GetService("HttpService"):JSONEncode(result))
+game:SetAttribute("BVSReplicaMultiplayerCompletedRun",runId)
 print("BVS REPLICA MULTIPLAYER FINISHED",game:GetAttribute("BVSReplicaMultiplayerResult"))
 end)
-return "Started two real clients for reference-build regression"
+return {started=true,runId=runId,clients=2}

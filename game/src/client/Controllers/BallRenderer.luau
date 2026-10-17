@@ -6,6 +6,7 @@ local Appearances = require(Shared.AppearanceCatalog)
 local Protocol = require(Shared.Protocol)
 local ViewTypes = require(Shared.ViewTypes)
 local Art = require(script.Parent.BallArt)
+local Artwork = require(script.Parent.Artwork)
 local Layout = require(script.Parent.ReferenceLayout)
 local Ui = require(script.Parent.ReferenceUi)
 local Renderer = {}
@@ -53,12 +54,11 @@ function Renderer.new(): State
 			dash.Visible = false
 			if j == 5 then
 				dash.BackgroundTransparency = 1
-				Ui.polygon(
-					dash,
-					"Arrowhead",
-					{ Vector2.new(0, 0), Vector2.new(30, 27), Vector2.new(0, 54) },
-					Color3.fromRGB(250, 251, 255)
-				)
+				local head = Artwork.image(dash, "Arrowhead", "Arrow", 0, 0, 30, 54)
+				-- Crop the authored triangle from its icon; preserve the measured head proportions.
+				head.ImageRectOffset += Vector2.new(12, 10)
+				head.ImageRectSize = Vector2.new(104, 108)
+				head.ScaleType = Enum.ScaleType.Stretch
 			end
 			aim[j] = dash
 		end
@@ -156,6 +156,7 @@ function Renderer.render(
 			assert(parent, "Ball model lost its viewport")
 			v.model = Art.build(parent, skin)
 			v.skin = skin
+			Art.setSkin(v.viewport, skin)
 		end
 		local point = Layout.ball(b.x, b.z)
 		v.frame.Position = UDim2.fromOffset(point.X, point.Y)
@@ -165,15 +166,23 @@ function Renderer.render(
 			v.spin += movement.Magnitude * 0.008
 		end
 		v.lastPoint = point
-		v.model:PivotTo(
-			CFrame.Angles(0, if skin == "Axe" then 0.3 else 0, if skin == "Axe" then 0 else v.spin)
+		Art.animate(
+			v.viewport,
+			if skin == "Axe" or skin == "Blade" then 0 else math.deg(v.spin),
+			if reduced then -90 else math.deg(now * 3),
+			battle
 		)
-		local weapon = v.model:FindFirstChild("Weapon")
-		if weapon and weapon:IsA("Model") then
-			weapon:PivotTo(CFrame.Angles(0, 0, if reduced then -math.pi / 2 else now * 3))
-			for _, p in weapon:GetChildren() do
-				if p:IsA("BasePart") then
-					p.Transparency = if battle then 0 else 1
+		if v.viewport.ImageTransparency < 1 then
+			v.model:PivotTo(
+				CFrame.Angles(0, if skin == "Axe" then 0.3 else 0, if skin == "Axe" then 0 else v.spin)
+			)
+			local weapon = v.model:FindFirstChild("Weapon")
+			if weapon and weapon:IsA("Model") then
+				weapon:PivotTo(CFrame.Angles(0, 0, if reduced then -math.pi / 2 else now * 3))
+				for _, p in weapon:GetChildren() do
+					if p:IsA("BasePart") then
+						p.Transparency = if battle then 0 else 1
+					end
 				end
 			end
 		end

@@ -6,3 +6,4 @@
 Thumbs.db
 *.rbxl.lock
 *.rbxlx.lock
+node_modules/

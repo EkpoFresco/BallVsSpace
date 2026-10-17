@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"clients\":2,\"runId\":\"be83b21c-cb18-4776-9b8b-5631fe17e68a\",\"started\":true}"
+      }
+    ],
+    "isError": false
+  }
+}

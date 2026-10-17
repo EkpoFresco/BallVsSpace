@@ -1,4 +1,6 @@
 --!strict
+local TweenService = game:GetService("TweenService")
+local Artwork = require(script.Parent.Artwork)
 local Ui = {}
 function Ui.polygon(parent: Instance, name: string, points: { Vector2 }, color: Color3): Frame
 	local container = Instance.new("Frame")
@@ -76,7 +78,7 @@ function Ui.text(
 	local stroke = Instance.new("UIStroke")
 	stroke.Name = "TextOutline"
 	stroke.Color = Color3.fromRGB(5, 8, 13)
-	stroke.Thickness = if display then 1.5 else 1.2
+	stroke.Thickness = if display then 1.65 else 1.3
 	stroke.Parent = t
 	return t
 end
@@ -135,66 +137,48 @@ function Ui.button(
 	edge.Color = color:Lerp(Color3.new(0, 0, 0), 0.6)
 	edge.Thickness = 2
 	edge.Parent = b
+	local hover = false
+	local function tint(brightness: number)
+		TweenService:Create(
+			background,
+			TweenInfo.new(0.12),
+			{ BackgroundColor3 = Color3.new(brightness, brightness, brightness) }
+		):Play()
+	end
+	b.MouseEnter:Connect(function()
+		hover = true
+		tint(1)
+	end)
+	b.MouseLeave:Connect(function()
+		hover = false
+		tint(0.94)
+	end)
+	b.MouseButton1Down:Connect(function()
+		tint(0.78)
+	end)
+	b.MouseButton1Up:Connect(function()
+		tint(if hover then 1 else 0.94)
+	end)
+	background.BackgroundColor3 = Color3.new(0.94, 0.94, 0.94)
 	return b
 end
 function Ui.heart(parent: Instance, x: number, y: number, size: number): Frame
 	local f = Ui.frame(parent, "Heart", x, y, size, size, Color3.new())
 	f.BackgroundTransparency = 1
-	-- One continuous silhouette avoids the square shoulder of overlapping circles.
-	local points = {}
-	for i = 0, 63 do
-		local t = i * math.pi * 2 / 64
-		local px = 16 * math.sin(t) ^ 3
-		local py = 13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)
-		table.insert(points, Vector2.new((px + 16) / 32 * size, (12 - py) / 29 * size * 0.92))
-	end
-	Ui.polygon(f, "Silhouette", points, Color3.fromRGB(230, 39, 66))
+	Artwork.image(f, "Silhouette", "Heart", 0, 0, size, size)
 	return f
 end
-function Ui.gear(parent: Instance, x: number, y: number, size: number, background: Color3): Frame
+function Ui.gear(parent: Instance, x: number, y: number, size: number, _background: Color3): Frame
 	local f = Ui.frame(parent, "GearIcon", x, y, size, size, Color3.new())
 	f.BackgroundTransparency = 1
 	f.ZIndex = 3
-	local points = {}
-	for tooth = 0, 7 do
-		for _, corner in
-			{
-				Vector2.new(-0.5, 0.36),
-				Vector2.new(-0.27, 0.5),
-				Vector2.new(0.27, 0.5),
-				Vector2.new(0.5, 0.36),
-			}
-		do
-			local angle = (tooth + corner.X) * math.pi / 4
-			table.insert(
-				points,
-				Vector2.new(0.5 + math.cos(angle) * corner.Y, 0.5 + math.sin(angle) * corner.Y) * size
-			)
-		end
-	end
-	Ui.polygon(f, "Teeth", points, Color3.fromRGB(246, 247, 248))
-	local hole = Ui.frame(f, "Center", size * 0.32, size * 0.32, size * 0.36, size * 0.36, background)
-	hole.ZIndex = 2
-	local round = Instance.new("UICorner")
-	round.CornerRadius = UDim.new(1, 0)
-	round.Parent = hole
+	Artwork.image(f, "Teeth", "Gear", 0, 0, size, size)
 	return f
 end
 function Ui.gem(parent: Instance, x: number, y: number): Frame
 	local f = Ui.frame(parent, "Gem", x, y, 46, 40, Color3.new())
 	f.BackgroundTransparency = 1
-	local a, b, c, d, e, tip =
-		Vector2.new(0, 10),
-		Vector2.new(10, 0),
-		Vector2.new(35, 0),
-		Vector2.new(46, 10),
-		Vector2.new(23, 10),
-		Vector2.new(23, 40)
-	Ui.polygon(f, "TopLeft", { a, b, e }, Color3.fromRGB(117, 245, 255))
-	Ui.polygon(f, "Top", { b, c, e }, Color3.fromRGB(38, 209, 255))
-	Ui.polygon(f, "TopRight", { c, d, e }, Color3.fromRGB(84, 235, 255))
-	Ui.polygon(f, "Left", { a, e, tip }, Color3.fromRGB(0, 172, 246))
-	Ui.polygon(f, "Right", { e, d, tip }, Color3.fromRGB(0, 104, 210))
+	Artwork.image(f, "Facets", "Gem", 0, 0, 46, 40)
 	return f
 end
 return table.freeze(Ui)

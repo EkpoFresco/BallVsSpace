@@ -1,7 +1,7 @@
 --!strict
 local Config = {
 	RulesVersion = "bvs-rules-1",
-	BuildVersion = "0.2.0-reference",
+	BuildVersion = "0.3.0-presentation",
 	MotionVersion = "bvs-motion-2",
 	Hz = 60,
 	TerritoryEvery = 6,

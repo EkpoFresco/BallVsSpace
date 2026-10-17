@@ -183,7 +183,8 @@ function Protocol.decodeMotion(payload: buffer): ({ Motion }?, number)
 			effectEndTick = buffer.readu32(payload, o + 25),
 		}
 		if
-			not Protocol.finite(b.x)
+			b.id ~= i
+			or not Protocol.finite(b.x)
 			or not Protocol.finite(b.z)
 			or not Protocol.finite(b.vx)
 			or not Protocol.finite(b.vz)

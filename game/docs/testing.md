@@ -45,7 +45,7 @@ Use `docs/human-playtest.csv` for raw entries. Leave cells blank until observed.
 
 ## Later gates, not claimed here
 
-M2: four clients, 20 matches, 2v2/party/arena allocation, duplicate acknowledgment replay, disconnect/reconnect matrix, malformed-command and network fault tests. Measure actual RTT at 0/100/200/350 ms targets and label one-way vs RTT settings. Include loss 0/1/5%, jitter 0/30 ms, dropped territory delta recovery and reordered motion.
+M2: four clients, 20 matches, 2v2/party/arena allocation, disconnect/reconnect matrix, malformed-command and network fault tests. Bounded original-ack replay is implemented and regression tested in 0.3; broader network fault acceptance remains pending. Measure actual RTT at 0/100/200/350 ms targets and label one-way vs RTT settings. Include loss 0/1/5%, jitter 0/30 ms, dropped territory delta recovery and reordered motion.
 
 M3: at least one physical lower-tier Android and a small-screen iPhone. Record model/RAM/OS/graphics/thermal conditions, touch and gamepad behavior, orientations, safe areas and ten-minute frame-time/memory traces. A Studio device emulator cannot pass real-device performance.
 
@@ -58,3 +58,13 @@ M4–M6: durable profile/reward fault and recovery tests, real human beta observ
 - During normal Play run `node tools/replica-flow.mjs <verified-id> <evidence-prefix>`. It clicks Inventory, All Balls, Acid and Axe, changes aim on the court, locks, and captures each phase through a complete normal match. It asserts the acknowledged appearance and records actual cutoff counts.
 - Compare captures in `test-evidence/replica-comparison.html`. Reference pictures have only the Windows title bar cropped in the viewer; game captures are rendered live, not composited screenshots. Different players, headings and match times are identified limitations of the comparison.
 - Studio must be restored and its Client viewport selected. A 1×1 Camera.ViewportSize means the viewport is not rendering; do not accept those screenshots. Device simulation and a normal match are required after recovering it. Phone-emulated layout checks do not establish physical-phone performance or touch behavior.
+
+## Current 0.3 presentation and post-build review
+
+In normal Play, run `node tools/visual-v3-qa.mjs <verified-id> <prefix>` for actual menu clicks and a complete Practice match. Start from Lobby. Run `node tools/visual-v3-layout.mjs <verified-id> <prefix>` from Lobby for portrait/landscape menus, reroll, Blade selection, aim and battle. `visual-v3-world.mjs` exercises kiosk and portal prompts with normal E input after explicit test character placement. These scripts preserve their individual tool receipts and summary JSON.
+
+Run `review-client-regressions.luau` on Client for isolated interpolation, resizing, notification and 100 menu/skin-cycle checks. `review-render-benchmark.luau` measures 2,000 renderer calls, not device FPS. `review-scene.luau` and `review-microprofiler.luau` use the actual engine analysis tools; read [code-review.md](code-review.md) before interpreting results.
+
+The one-match multiplayer launcher clears previous results and records a fresh run ID. Require `BVSReplicaMultiplayerCompletedRun == BVSReplicaMultiplayerRun`, two clients, one completion and zero mismatches/visual failures/aborts. For the 400-round fixture through MCP, `node tools/start-review-mirrored.mjs <verified-id>` avoids a long blocking request; poll `review-mirrored-result.luau` on Edit until all 200 pairs and the complete result exist. A transport timeout or partial progress is not a pass.
+
+Run `node tools/audit-repository.mjs` for original evidence hashes and local documentation/gallery links. Rebuild art using the pinned generator documented in [assets/art/README.md](../assets/art/README.md). Open `test-evidence/presentation-comparison.html` locally for the current eight paired surfaces and four phone captures.

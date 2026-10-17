@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"batches\":20,\"method\":\"Same two-ball loaded-atlas renderer, 20 batches of 100 calls; not a device FPS claim\",\"iterations\":2000,\"medianMs\":0.5188880000059726,\"p95BatchMs\":0.57608999995864,\"viewportParts\":210,\"meanMs\":0.5115834499920311}"
+      }
+    ],
+    "isError": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"a\":396,\"tick\":1800,\"phase\":\"RoundResult\",\"b\":366,\"resultTitle\":\"VICTORY!\",\"reason\":\"final_area\"}"
+      }
+    ],
+    "isError": false
+  }
+}

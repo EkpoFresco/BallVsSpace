@@ -3,7 +3,7 @@
   "files": [
     {
       "path": "src\\shared\\AppearanceCatalog.luau",
-      "sha256": "c24c96d451fdd33c59815499e1a154001ab61ca886042af1ca59e5d6cfccbdef"
+      "sha256": "248d0f27d5063b71d8c4e8ea8949abe820fcf756bc08799b545662eb7292fd2d"
     },
     {
       "path": "src\\shared\\ArenaDefinition.luau",
@@ -15,7 +15,7 @@
     },
     {
       "path": "src\\shared\\Config.luau",
-      "sha256": "32bebe89ffb623f82a3bba7ab3da8b1000e250e54fe9af2559e8192e672d97d1"
+      "sha256": "03e56ea974336eecc0b125be9fa16703b9e5760ac602c3234a4b739c4f45f5fb"
     },
     {
       "path": "src\\shared\\Geometry2D.luau",
@@ -23,7 +23,7 @@
     },
     {
       "path": "src\\shared\\Protocol.luau",
-      "sha256": "67ec2b36e5f9e0b44376906531c64e7e94700fe15bc2ec35bd4a94bdb171d277"
+      "sha256": "ab5f9aede973dcab6f8a62c350938189cac1bf6b9f9f5c0ec76a0e8a21e7565b"
     },
     {
       "path": "src\\shared\\RoundRules.luau",
@@ -55,7 +55,7 @@
     },
     {
       "path": "src\\server\\Bootstrap.server.luau",
-      "sha256": "1c05187a82b5978e7fc0a11aeb376d289c3f77628ec0cf39b32338f9554612fe"
+      "sha256": "675546d1995a25d34c5a2a267f98aa90838314a7e760806bb11b176521a6713c"
     },
     {
       "path": "src\\server\\Services\\AbilityService.luau",
@@ -66,12 +66,20 @@
       "sha256": "1e39d60307d8577c48b1896c20b4362621226320c414f2e6f36433f396755005"
     },
     {
+      "path": "src\\server\\Services\\CommandHistory.luau",
+      "sha256": "d674abc84b0a78be82c1e96af212d5fd5f0e363ffb8202af5089739d9682d8fa"
+    },
+    {
       "path": "src\\server\\Services\\CourtService.luau",
-      "sha256": "4f097fe80f165af1b9a2e3cd3975110378c1c4aac9e05ecd2e1af5ac7a2b990b"
+      "sha256": "92199074382deda7f304c47798058e82a1624789e521b86c513e0248afa624ab"
+    },
+    {
+      "path": "src\\server\\Services\\LobbyDetailService.luau",
+      "sha256": "e10c27796b29e74e9778cda0f33f9f7c9af39cd8000ca13ff476883b1ca2bea0"
     },
     {
       "path": "src\\server\\Services\\MatchService.luau",
-      "sha256": "17a01d7271826afdef3671da73a519bc232968004841d4ee0ef053c20701cfc0"
+      "sha256": "0e810dcfb8515d8edbac64211b7e6a51ef1cd26e37fe1ac37647ea931d1a90b1"
     },
     {
       "path": "src\\server\\Services\\ProfileService.luau",
@@ -103,23 +111,27 @@
     },
     {
       "path": "src\\server\\Tests\\Suite.luau",
-      "sha256": "bf4aa008e3d6b614ac043f6649298a56454f253c53667685b06633d2e2c4f1be"
+      "sha256": "8cd74d2f5a4e88d47f275dd16bb9f804b17c927e5afe262dee75d63696c3e233"
     },
     {
       "path": "src\\client\\Bootstrap.client.luau",
-      "sha256": "3129ea6789c3791a07cb29f4f0a2c925bbcde5235f66bf043cb334759611aba0"
+      "sha256": "677cdc542ca7dbae5bcbc40a11e36f66814450a631630c696aa5b80bb4ba5b5d"
     },
     {
       "path": "src\\client\\Controllers\\AimController.luau",
       "sha256": "6e6cc7a829469138ab9e0ee36691fe82c53fe97e841a4236e428c6c4f0a2e0c7"
     },
     {
+      "path": "src\\client\\Controllers\\Artwork.luau",
+      "sha256": "c177c58991de3c4f9cd53482687d0bbc7d06ef550cbd0fdd4c03fa14f45b99a0"
+    },
+    {
       "path": "src\\client\\Controllers\\BallArt.luau",
-      "sha256": "0f033d3a3c0a53e554a041065a4b543ba08dd632004d1356cfa6aaf10501712f"
+      "sha256": "f424e0bc2b1e4ecf06c6aa239571ec5eebb40c86efb2b9573f79aec172c0e33a"
     },
     {
       "path": "src\\client\\Controllers\\BallRenderer.luau",
-      "sha256": "6c5609f2ed97c36ffac4dbdf5c3fff3c2e2b82d9cba53eeeaccb5e5ed1909481"
+      "sha256": "4af7b34262240b9a0dfe5e04a4597f1bccdcf54c1a9f48192b204114a9ff4ce8"
     },
     {
       "path": "src\\client\\Controllers\\CameraController.luau",
@@ -127,11 +139,15 @@
     },
     {
       "path": "src\\client\\Controllers\\HudController.luau",
-      "sha256": "185b0c6ac804328d840d25d939e1892f5ca7b8c6726bfbc9f2a4886b96143665"
+      "sha256": "f30f6ed4c6686ec25a731a5f800d690be183e33dcfed4965032b8b0a77d15602"
+    },
+    {
+      "path": "src\\client\\Controllers\\LobbyPanels.luau",
+      "sha256": "a06f5c6fc534850b15d1cd6031d571a08a5aabb0a04b7109c68279a4bd756718"
     },
     {
       "path": "src\\client\\Controllers\\MatchController.luau",
-      "sha256": "bd6e9c7604f147c0cb8d325afdd68e6ba39258986b63398b4ff3810823522a36"
+      "sha256": "9d64fc3e26bfb9458fbf0080fa08b9add79a43dadaa2b4cd5717361426525181"
     },
     {
       "path": "src\\client\\Controllers\\ReferenceLayout.luau",
@@ -139,7 +155,7 @@
     },
     {
       "path": "src\\client\\Controllers\\ReferenceUi.luau",
-      "sha256": "3698226ace229b9c598591666bd7b10decb2165038b495d91672717988a92189"
+      "sha256": "e84a1d54f9c5dfd6081e7779032dd1580179d3ddbee059cb1d285c6893c254a6"
     },
     {
       "path": "src\\client\\Controllers\\TerritoryRenderer.luau",
@@ -147,7 +163,7 @@
     },
     {
       "path": "src\\client\\TestDriver.client.luau",
-      "sha256": "69e0b816891ffd5b2c5d44ac1bda43021e758b198d976d9d743080bb4d812dc5"
+      "sha256": "8dc85720bbaef0ae98e0a0f5a23674f97e180d616a0c3d5fda189e2483912184"
     }
   ]
 }

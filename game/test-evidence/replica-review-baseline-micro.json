@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"note\":\"CPU frame intervals in this Studio session; includes engine/editor work, not device certification\",\"p95\":{\"ms\":17.561984703584814,\"id\":26,\"absoluteId\":880824},\"maximum\":{\"ms\":18.04662862487021,\"id\":62,\"absoluteId\":880860},\"median\":{\"ms\":16.654591598037884,\"id\":29,\"absoluteId\":880827},\"snapshotBytes\":4738008,\"frames\":62,\"scopes\":[]}"
+      }
+    ],
+    "isError": false
+  }
+}

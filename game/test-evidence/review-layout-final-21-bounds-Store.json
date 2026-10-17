@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"panel\":\"466.279083, 334.388702\",\"viewport\":\"873, 401\",\"targets\":{\"Offers.ViewLaser\":44.62957000732422,\"Close\":44.62957000732422},\"physicalDevice\":false}"
+      }
+    ],
+    "isError": false
+  }
+}

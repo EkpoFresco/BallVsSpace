@@ -21,6 +21,10 @@ function Controller.receive(state: State, payload: buffer)
 	end
 	if tick == state.latestTick then
 		state.lastReceived = os.clock()
+		local latest = state.samples[#state.samples]
+		if latest then
+			latest.balls = balls
+		end
 		return
 	end
 	state.latestTick = tick
@@ -39,6 +43,10 @@ function Controller.positions(state: State, now: number): { Protocol.Motion }
 	local target = latest.tick + math.min(now - latest.received, 0.25) * 60 - 6
 	local first = latest
 	local last = latest
+	if target <= samples[1].tick then
+		first = samples[1]
+		last = samples[1]
+	end
 	for i = 1, #samples - 1 do
 		if samples[i].tick <= target and samples[i + 1].tick >= target then
 			first = samples[i]

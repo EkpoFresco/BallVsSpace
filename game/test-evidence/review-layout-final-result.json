@@ -1,0 +1,43 @@
+{
+  "inventory": {
+    "panel": "365.824585, 526.224548",
+    "viewport": "401, 873",
+    "targets": {
+      "Balls": 50.65263366699219,
+      "Close": 44.32105255126953,
+      "Flyers": 50.65263366699219,
+      "Fusion": 50.65263366699219,
+      "Explosions": 50.65263366699219,
+      "BallsPage.Details.Equip": 45.02456283569336
+    },
+    "physicalDevice": false
+  },
+  "store": {
+    "panel": "365.824585, 654.263184",
+    "viewport": "401, 873",
+    "targets": {
+      "Close": 44.32105255126953,
+      "Offers.ViewBalloons": 45.02456283569336,
+      "Offers.ViewParasol": 45.02456283569336,
+      "Offers.ViewRay": 45.02456283569336,
+      "Offers.ViewLaser": 45.02456283569336
+    },
+    "physicalDevice": false
+  },
+  "phoneCloseInjectionWorked": true,
+  "reroll": {
+    "before": {
+      "1": "Axe",
+      "2": "Poison",
+      "3": "Verity"
+    },
+    "after": {
+      "1": "Burst",
+      "2": "Cell",
+      "3": "Vampire"
+    }
+  },
+  "court": true,
+  "aim": true,
+  "physicalTouch": false
+}

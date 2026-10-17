@@ -72,7 +72,15 @@ states.OnClientEvent:Connect(function(v: ViewTypes.State)
 					local viewport = if ball then ball:FindFirstChild("Model") else nil
 					local world = if viewport then viewport:FindFirstChildOfClass("WorldModel") else nil
 					local model = if world then world:FindFirstChildOfClass("Model") else nil
-					if not model or model.Name ~= seat.appearance then
+					local sprite = if viewport then viewport:FindFirstChild("Sprite") else nil
+					if
+						not model
+						or model.Name ~= seat.appearance
+						or not sprite
+						or not sprite:IsA("ImageLabel")
+						or not sprite.IsLoaded
+						or sprite:GetAttribute("ArtworkId") ~= seat.appearance
+					then
 						visualPass = false
 					end
 				end

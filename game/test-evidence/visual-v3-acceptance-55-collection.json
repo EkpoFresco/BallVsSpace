@@ -1,0 +1,14 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "image",
+        "mimeType": "image/jpeg",
+        "savedFile": "test-evidence/visual-v3-acceptance-55-collection-0.jpg"
+      }
+    ],
+    "isError": false
+  }
+}

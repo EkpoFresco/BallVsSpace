@@ -265,6 +265,10 @@ function Match.command(m: State, userId: number, c: Types.Command, now: number):
 			m.stateVersion += 1
 			return true
 		elseif c.kind == "AimLock" then
+			-- Lock the direction in the same validated command; the last throttled preview may still be in flight.
+			if c.angle ~= nil then
+				seat.angle = math.floor(c.angle + 0.5) % 360
+			end
 			seat.aimLocked = true
 			seat.interactedAim = true
 			m.stateVersion += 1

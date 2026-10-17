@@ -1,5 +1,6 @@
 --!strict
 local Players = game:GetService("Players")
+local ProximityPromptService = game:GetService("ProximityPromptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -12,10 +13,12 @@ local Protocol = require(Shared.Protocol)
 local Types = require(Shared.Types)
 local ViewTypes = require(Shared.ViewTypes)
 local Aim = require(script.Parent.Controllers.AimController)
+local Artwork = require(script.Parent.Controllers.Artwork)
 local Balls = require(script.Parent.Controllers.BallRenderer)
 local Camera = require(script.Parent.Controllers.CameraController)
 local Controller = require(script.Parent.Controllers.MatchController)
 local Hud = require(script.Parent.Controllers.HudController)
+local Panels = require(script.Parent.Controllers.LobbyPanels)
 local Territory = require(script.Parent.Controllers.TerritoryRenderer)
 local remotes = ReplicatedStorage:WaitForChild("Remotes", 15)
 assert(remotes, "Missing game remotes")
@@ -26,6 +29,7 @@ local motion = remotes:WaitForChild("MotionSnapshot", 10) :: UnreliableRemoteEve
 local snapshotRequest = remotes:WaitForChild("SnapshotRequest", 10) :: RemoteEvent
 local ack = remotes:WaitForChild("CommandAck", 10) :: RemoteEvent
 local hud = Hud.new()
+task.spawn(Artwork.preload)
 local floor = Territory.new()
 local balls = Balls.new()
 local controller = Controller.new()
@@ -34,6 +38,8 @@ local phase = "Lobby"
 local id = 0
 local angle = 0
 local dragging = false
+local activePointer: InputObject? = nil
+local pendingSelection: { id: number, matchId: string, roundId: number, generation: number }? = nil
 local lastAim = 0
 local lastSnapshot = 0
 local reduced = false
@@ -45,7 +51,7 @@ local history: { Frame } = {}
 type Pending = { board: Types.Board, tick: number, due: number }
 local pending: { Pending } = {}
 local decodeBoard = controller.board
-local function send(kind: string, kit: string?, direction: number?, appearance: string?)
+local function send(kind: string, kit: string?, direction: number?, appearance: string?): number
 	id += 1
 	local v = view
 	command:FireServer({
@@ -58,6 +64,7 @@ local function send(kind: string, kit: string?, direction: number?, appearance: 
 		appearance = appearance,
 		angle = direction,
 	})
+	return id
 end
 local function score(board: Types.Board)
 	hud.scoreA.Text = string.format("◇ %.1f%%", 100 * board.counts[1] / 1024)
@@ -83,22 +90,48 @@ local function renderUi()
 	hud.gui:SetAttribute("AimAngle", angle)
 end
 local function chooseAppearance(appearance: string)
+	if pendingSelection then
+		return
+	end
 	local entry = Appearances.entries[appearance]
 	if not entry then
 		return
 	end
 	hud.selectedAppearance = appearance
 	hud.collection.Visible = false
+	if phase == "Lobby" then
+		local index = table.find(Appearances.ids, appearance)
+		if index then
+			-- Put the equipped choice first; selection is still explicit each round.
+			Hud.reroll(hud, index - 1)
+		end
+	end
 	if phase == "Draft" and view then
-		local generation = view.generation
-		send("Select", entry.kit, nil, appearance)
-		task.delay(0.28, function()
-			if view and phase == "Draft" and view.generation == generation then
-				send("Commit")
-			end
-		end)
+		pendingSelection = {
+			id = send("Select", entry.kit, nil, appearance),
+			matchId = view.id,
+			roundId = view.roundId,
+			generation = view.generation,
+		}
 	end
 end
+hud.panels.equip.Event:Connect(chooseAppearance)
+hud.panels.play.Event:Connect(function(mode: string)
+	if phase == "Lobby" then
+		send(if mode == "Practice" then "Practice" else "Queue")
+	end
+end)
+ProximityPromptService.PromptTriggered:Connect(function(prompt: ProximityPrompt)
+	if phase ~= "Lobby" then
+		return
+	end
+	local action = prompt:GetAttribute("BVSAction")
+	if action == "Practice" then
+		send("Practice")
+	elseif action == "Store" or action == "Inventory" or action == "Play" then
+		Panels.open(hud.panels, action)
+	end
+end)
 for _, card in hud.cards do
 	card.Activated:Connect(function()
 		chooseAppearance(card.Name)
@@ -107,10 +140,13 @@ end
 hud.confirmCollection.Activated:Connect(function()
 	chooseAppearance(hud.pendingAppearance)
 end)
+local rerollOffset = 0
 hud.reroll.Activated:Connect(function()
-	for i, card in hud.cards do
-		card.Position = UDim2.fromOffset(160 + ((i + math.floor(os.clock())) % 3) * 175, 194)
+	if phase ~= "Draft" then
+		return
 	end
+	rerollOffset = (rerollOffset + 3) % #Appearances.ids
+	Hud.reroll(hud, rerollOffset)
 end)
 hud.territoryToggle.Activated:Connect(function()
 	hud.showTerritory = not hud.showTerritory
@@ -122,6 +158,7 @@ hud.motionToggle.Activated:Connect(function()
 end)
 hud.left.Activated:Connect(function()
 	if phase == "Lobby" then
+		Panels.close(hud.panels)
 		send("Queue")
 	elseif phase == "Draft" and view then
 		send("Select", view.offer[1])
@@ -135,6 +172,7 @@ hud.left.Activated:Connect(function()
 end)
 hud.right.Activated:Connect(function()
 	if phase == "Lobby" or phase == "Queued" then
+		Panels.close(hud.panels)
 		if phase == "Queued" then
 			send("Cancel")
 			task.delay(0.25, function()
@@ -163,7 +201,7 @@ hud.primary.Activated:Connect(function()
 	elseif phase == "Draft" then
 		send("Commit")
 	elseif phase == "Aim" then
-		send("AimLock")
+		send("AimLock", nil, angle)
 	elseif phase == "MatchResult" then
 		send("Rematch")
 		hud.primary.Text = "REMATCH REQUESTED"
@@ -174,10 +212,14 @@ stateRemote.OnClientEvent:Connect(function(raw: unknown)
 		return
 	end
 	local state = raw :: ViewTypes.State
+	local previousPhase = phase
 	lastStateAt = os.clock()
 	if state.phase == "Lobby" or state.phase == "Queued" then
 		view = nil
 		phase = state.phase
+		pendingSelection = nil
+		dragging = false
+		activePointer = nil
 		replayAt = nil
 		renderUi()
 		return
@@ -194,7 +236,15 @@ stateRemote.OnClientEvent:Connect(function(raw: unknown)
 	end
 	view = state
 	phase = state.phase
-	if not dragging then
+	if phase ~= "Draft" then
+		pendingSelection = nil
+	end
+	if phase ~= "Aim" then
+		dragging = false
+		activePointer = nil
+	end
+	local seat = ownSeat()
+	if phase ~= "Aim" or previousPhase ~= "Aim" or (seat and seat.aimLocked) then
 		angle = state.localAngle
 	end
 	renderUi()
@@ -225,9 +275,29 @@ motion.OnClientEvent:Connect(function(matchId: string, roundId: number, payload:
 	end
 	Controller.receive(controller, payload)
 end)
-ack.OnClientEvent:Connect(function(_id: number, accepted: boolean, reason: string)
+ack.OnClientEvent:Connect(function(commandId: number, accepted: boolean, reason: string)
+	local selection = pendingSelection
+	if selection and selection.id == commandId then
+		if accepted then
+			task.delay(0.22, function()
+				local v = view
+				if
+					pendingSelection == selection
+					and v
+					and phase == "Draft"
+					and v.id == selection.matchId
+					and v.roundId == selection.roundId
+					and v.generation == selection.generation
+				then
+					send("Commit")
+				end
+			end)
+		else
+			pendingSelection = nil
+		end
+	end
 	if not accepted and reason ~= "duplicate" and reason ~= "rate" then
-		hud.status.Text = "Action arrived too late. Showing the server's choice."
+		Panels.notify(hud.panels, "Action arrived too late. Showing the server's choice.")
 		snapshotRequest:FireServer()
 	end
 end)
@@ -250,20 +320,30 @@ UserInputService.InputBegan:Connect(function(input, processed)
 	if processed then
 		return
 	end
+	if input.KeyCode == Enum.KeyCode.R and phase == "Lobby" then
+		Panels.open(hud.panels, "Emotes")
+		return
+	end
 	if
-		input.UserInputType == Enum.UserInputType.MouseButton1
-		or input.UserInputType == Enum.UserInputType.Touch
+		phase == "Aim"
+		and not dragging
+		and hud.panels.active == ""
+		and (
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+		)
 	then
 		dragging = true
+		activePointer = input
 		updateAim(Vector2.new(input.Position.X, input.Position.Y))
 	end
 end)
-UserInputService.InputChanged:Connect(function(input, processed)
+UserInputService.InputChanged:Connect(function(input: InputObject, processed: boolean)
 	if
 		dragging
 		and (
 			input.UserInputType == Enum.UserInputType.MouseMovement
-			or input.UserInputType == Enum.UserInputType.Touch
+			or (input.UserInputType == Enum.UserInputType.Touch and input == activePointer)
 		)
 	then
 		updateAim(Vector2.new(input.Position.X, input.Position.Y))
@@ -284,11 +364,29 @@ UserInputService.InputChanged:Connect(function(input, processed)
 	end
 end)
 UserInputService.InputEnded:Connect(function(input)
-	if
-		input.UserInputType == Enum.UserInputType.MouseButton1
-		or input.UserInputType == Enum.UserInputType.Touch
-	then
+	if input == activePointer then
+		updateAim(Vector2.new(input.Position.X, input.Position.Y))
 		dragging = false
+		activePointer = nil
+		local v = view
+		task.delay(0.12, function()
+			local current = view
+			local seat = ownSeat()
+			if
+				v
+				and current
+				and current.id == v.id
+				and current.roundId == v.roundId
+				and current.generation == v.generation
+				and phase == "Aim"
+				and not dragging
+				and seat
+				and not seat.aimLocked
+			then
+				lastAim = os.clock()
+				send("Aim", nil, angle)
+			end
+		end)
 	end
 end)
 RunService:BindToRenderStep("BVSCamera", Enum.RenderPriority.Camera.Value + 1, function()
@@ -385,7 +483,9 @@ RunService.RenderStepped:Connect(function()
 			math.max(0, math.ceil(seconds)) // 60,
 			math.max(0, math.ceil(seconds)) % 60
 		)
-		if (phase == "Battle" or phase == "Overtime") and now - controller.lastReceived > 0.75 then
+		local delayed = (phase == "Battle" or phase == "Overtime") and now - controller.lastReceived > 0.75
+		hud.status.Visible = delayed or replayAt ~= nil
+		if delayed then
 			hud.status.Text = "Connection delayed · waiting for server"
 		end
 		hud.gui:SetAttribute("Phase", phase)

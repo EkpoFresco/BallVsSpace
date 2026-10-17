@@ -1,4 +1,6 @@
 --!strict
+local Artwork = require(script.Parent.Artwork)
+local Catalog = require(game:GetService("ReplicatedStorage").Shared.AppearanceCatalog)
 local Art = {}
 local function piece(
 	root: Instance,
@@ -38,6 +40,15 @@ function Art.build(parent: Instance, skin: string): Model
 		else Color3.fromRGB(85, 213, 0)
 	local body = piece(m, "Body", Vector3.new(2, 2, 2), CFrame.identity, color, true)
 	m.PrimaryPart = body
+	local viewport = parent.Parent
+	local sprite = if viewport then viewport:FindFirstChild("Sprite") else nil
+	if sprite and sprite:IsA("ImageLabel") and sprite.IsLoaded then
+		body.Color = if Catalog.entries[skin] then Catalog.entries[skin].color else color
+		m:SetAttribute("AtlasSimplified", true)
+		m.Parent = parent
+		m.WorldPivot = CFrame.identity
+		return m
+	end
 	if skin == "Verity" then
 		for _, x in { -0.32, 0.32 } do
 			piece(
@@ -187,6 +198,61 @@ function Art.build(parent: Instance, skin: string): Model
 	m.WorldPivot = CFrame.identity
 	return m
 end
+function Art.setSkin(viewport: ViewportFrame, skin: string)
+	local sprite = viewport:FindFirstChild("Sprite")
+	if sprite and sprite:IsA("ImageLabel") then
+		if skin ~= "" then
+			Artwork.set(sprite, skin, true)
+		end
+		sprite.Visible = skin ~= ""
+	end
+	local unknown = viewport:FindFirstChild("Unknown")
+	if unknown and unknown:IsA("TextLabel") then
+		unknown.Visible = skin == ""
+	end
+	if skin == "" then
+		viewport.ImageTransparency = 1
+	end
+	local orbit = viewport:FindFirstChild("WeaponOrbit")
+	local weapon = if orbit then orbit:FindFirstChild("WeaponSprite") else nil
+	if weapon and weapon:IsA("ImageLabel") then
+		weapon.Visible = skin == "Axe" or skin == "Blade"
+		if weapon.Visible then
+			Artwork.set(weapon, skin)
+		end
+	end
+	viewport:SetAttribute("SpriteSkin", skin)
+end
+function Art.animate(viewport: ViewportFrame, rotation: number, weaponAngle: number, weaponVisible: boolean)
+	if viewport:GetAttribute("SpriteSkin") == "" then
+		return
+	end
+	local sprite = viewport:FindFirstChild("Sprite")
+	if sprite and sprite:IsA("ImageLabel") then
+		sprite.Rotation = rotation
+		-- Keep the original primitive fallback until the atlas has actually loaded.
+		viewport.ImageTransparency = if sprite.IsLoaded then 1 else 0
+		sprite.Visible = true
+		if sprite.IsLoaded then
+			local world = viewport:FindFirstChildOfClass("WorldModel")
+			local model = if world then world:FindFirstChildOfClass("Model") else nil
+			if model and not model:GetAttribute("AtlasSimplified") then
+				-- Retain a single colored shell for an asset-delivery fallback, not the hidden detail mesh.
+				for _, item in model:GetChildren() do
+					if item.Name ~= "Body" then
+						item:Destroy()
+					end
+				end
+				model:SetAttribute("AtlasSimplified", true)
+			end
+		end
+	end
+	local orbit = viewport:FindFirstChild("WeaponOrbit")
+	if orbit and orbit:IsA("Frame") then
+		orbit.Rotation = weaponAngle
+		orbit.Visible = weaponVisible and viewport.ImageTransparency == 1
+	end
+end
 function Art.viewport(parent: Instance, name: string, skin: string): (ViewportFrame, Model)
 	local v = Instance.new("ViewportFrame")
 	v.Name = name
@@ -202,7 +268,63 @@ function Art.viewport(parent: Instance, name: string, skin: string): (ViewportFr
 	c.CFrame = CFrame.new(0, 0, 5.6)
 	c.Parent = v
 	v.CurrentCamera = c
+	local unknown = Instance.new("TextLabel")
+	unknown.Name = "Unknown"
+	unknown.AnchorPoint = Vector2.new(0.5, 0.5)
+	unknown.Position = UDim2.fromScale(0.5, 0.5)
+	unknown.Size = UDim2.fromScale(0.65, 0.65)
+	unknown.BackgroundColor3 = Color3.fromRGB(48, 57, 70)
+	unknown.BorderSizePixel = 0
+	unknown.Text = "?"
+	unknown.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json")
+	unknown.TextScaled = true
+	unknown.TextColor3 = Color3.fromRGB(156, 164, 178)
+	unknown.Visible = false
+	unknown.Parent = v
+	local round = Instance.new("UICorner")
+	round.CornerRadius = UDim.new(1, 0)
+	round.Parent = unknown
+	local sprite = Artwork.image(v, "Sprite", skin, 0, 0, 1, 1, true)
+	sprite.AnchorPoint = Vector2.new(0.5, 0.5)
+	sprite.Position = UDim2.fromScale(0.5, 0.5)
+	local orbit = Instance.new("Frame")
+	orbit.Name = "WeaponOrbit"
+	orbit.BackgroundTransparency = 1
+	orbit.AnchorPoint = Vector2.new(0.5, 0.5)
+	orbit.Position = UDim2.fromScale(0.5, 0.5)
+	orbit.Size = UDim2.fromScale(1, 1)
+	orbit.ZIndex = 2
+	orbit.Parent = v
+	local weaponSprite = Artwork.image(orbit, "WeaponSprite", "Axe", 0, 0, 1, 1)
+	weaponSprite.AnchorPoint = Vector2.new(0.5, 1)
+	weaponSprite.Position = UDim2.fromScale(0.5, 0.5)
+	local function sizeSprite()
+		local diameter = 1 / (c.CFrame.Position.Magnitude * math.tan(math.rad(c.FieldOfView / 2)))
+		sprite.Size = UDim2.fromScale(diameter * 128 / 88, diameter * 128 / 88)
+		weaponSprite.Size = UDim2.fromScale(diameter * 0.7, diameter * 1.45)
+	end
+	c:GetPropertyChangedSignal("CFrame"):Connect(sizeSprite)
+	c:GetPropertyChangedSignal("FieldOfView"):Connect(sizeSprite)
+	sprite:GetPropertyChangedSignal("IsLoaded"):Connect(function()
+		Art.animate(v, 0, 0, true)
+	end)
+	sizeSprite()
+	Art.setSkin(v, skin)
+	Art.animate(v, 0, 0, true)
 	v.Parent = parent
+	-- Cached image delivery can complete without an IsLoaded property signal.
+	-- Static collection previews still release their detailed fallback once ready.
+	if not sprite.IsLoaded then
+		task.spawn(function()
+			local deadline = os.clock() + 15
+			repeat
+				task.wait(0.2)
+			until not v.Parent or sprite.IsLoaded or os.clock() >= deadline
+			if v.Parent and sprite.IsLoaded then
+				Art.animate(v, sprite.Rotation, orbit.Rotation, orbit.Visible)
+			end
+		end)
+	end
 	return v, model
 end
 return table.freeze(Art)

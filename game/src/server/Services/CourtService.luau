@@ -1,6 +1,7 @@
 --!strict
 local Lighting = game:GetService("Lighting")
 local Workspace = game:GetService("Workspace")
+local Detail = require(script.Parent.LobbyDetailService)
 local World = {}
 function World.build()
 	local old = Workspace:FindFirstChild("BVSCourt")
@@ -189,5 +190,6 @@ function World.build()
 			item:Destroy()
 		end
 	end
+	Detail.build(root)
 end
 return table.freeze(World)

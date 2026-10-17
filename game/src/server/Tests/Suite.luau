@@ -12,6 +12,7 @@ local Match = require(script.Parent.Parent.Services.MatchService)
 local Profile = require(script.Parent.Parent.Services.ProfileService)
 local Sim = require(script.Parent.Parent.Services.SimService)
 local Territory = require(script.Parent.Parent.Services.TerritoryService)
+local History = require(script.Parent.Parent.Services.CommandHistory)
 local Suite = {}
 function Suite.run(): { string }
 	local passed = {}
@@ -224,6 +225,30 @@ function Suite.run(): { string }
 			"Unknown keys"
 		)
 	end)
+	check("motion seat identity and bounded acknowledgement replay", function()
+		local m = Match.new("protocol", { 1, 2 }, 1, 0, false)
+		Match.beginRound(m, 0)
+		local payload = Protocol.motion(m.sim.balls, 6)
+		assert(Protocol.decodeMotion(payload), "Valid motion")
+		buffer.writeu8(payload, 5 + 29, 1)
+		assert(Protocol.decodeMotion(payload) == nil, "Duplicate seat must not swap appearance")
+		local history = History.new()
+		History.record(history, 1, true, "ok")
+		History.record(history, 2, false, "rate")
+		local accepted, rejected = History.lookup(history, 1), History.lookup(history, 2)
+		assert(
+			accepted and accepted.accepted and rejected and rejected.reason == "rate",
+			"Original acknowledgement"
+		)
+		for id = 3, 100 do
+			History.record(history, id, true, "ok")
+		end
+		local last = History.lookup(history, 100)
+		assert(
+			#history.ids == 64 and History.lookup(history, 1) == nil and last and last.accepted,
+			"Bounded replay cache"
+		)
+	end)
 	check("state deadlines, early floors, late input, and post-result freeze", function()
 		local m = Match.new("state", { 1, 2 }, 1, 0, false)
 		Match.update(m, 0, 0, true)
@@ -242,7 +267,26 @@ function Suite.run(): { string }
 		Match.update(m, 3, 0, true)
 		assert(tostring(m.phase) == "Aim", "Draft transition")
 		assert(not cmd(1, "AimLock", m.deadline), "Late input")
-		cmd(1, "AimLock", 3.1)
+		assert(
+			Match.command(m, 1, {
+				id = 2,
+				kind = "AimLock",
+				matchId = m.id,
+				roundId = m.roundId,
+				generation = m.generation,
+				angle = 314.6,
+			}, 3.1),
+			"Atomic aim lock"
+		)
+		assert(m.seats[1].angle == 315 and m.seats[1].aimLocked, "Final direction must accompany lock")
+		assert(not Match.command(m, 1, {
+			id = 3,
+			kind = "Aim",
+			matchId = m.id,
+			roundId = m.roundId,
+			generation = m.generation,
+			angle = 20,
+		}, 3.2), "Locked direction immutable")
 		cmd(2, "AimLock", 3.1)
 		Match.update(m, 4.9, 0, true)
 		assert(tostring(m.phase) == "Aim", "Aim floor")

@@ -1,5 +1,7 @@
 # Reference visual reconstruction — 0.2.0-reference
 
+**Historical 0.2 record.** The current 0.3 work and validation are described in [presentation.md](presentation.md), with the [new comparison](../test-evidence/presentation-comparison.html). The unfinished items below describe the earlier baseline.
+
 The user's current priority is reconstruction before differentiation. This pass replaces the previous small-ball presentation. The [six-phase comparison](../test-evidence/replica-comparison.html) provides matched-viewport pairs and an opacity slider; original reference files are unchanged.
 
 October 17 update: the settings font glyph was replaced by an eight-tooth gear, the plain rotated-square gem by a five-facet cut gem, and the overlapping heart pieces by a continuous silhouette. These were inspected against L2-013 and L2-007. [Current lobby](../test-evidence/handoff-ui-03-lobby-0.jpg), [aim](../test-evidence/handoff-ui-15-aim-0.jpg) and [territory battle](../test-evidence/handoff-ui-20-territory-battle-0.jpg) show the update. These captures include Studio display scaling; the six-phase comparison remains the dated October 16 baseline. Typography, icon edge smoothing, store/inventory detail, missing authored top-bar controls and panel styling still need work. This is not 1:1 acceptance.
