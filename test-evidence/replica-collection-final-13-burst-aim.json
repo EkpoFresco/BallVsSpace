@@ -1,0 +1,14 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "image",
+        "mimeType": "image/jpeg",
+        "savedFile": "test-evidence/replica-collection-final-13-burst-aim-0.jpg"
+      }
+    ],
+    "isError": false
+  }
+}

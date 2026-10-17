@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"hash\":1876707859,\"tick\":1800,\"phase\":\"RoundResult\",\"a\":396,\"b\":366,\"reason\":\"final_area\"}"
+      }
+    ],
+    "isError": false
+  }
+}

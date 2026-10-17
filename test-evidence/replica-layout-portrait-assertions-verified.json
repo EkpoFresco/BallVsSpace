@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"fullscreen\":\"401, 873\",\"primaryHeight\":44.32105255126953,\"viewport\":\"401, 777\",\"phoneTouchAcceptance\":false,\"courtBounds\":true,\"aimDiagonal\":314.8500357465904}"
+      }
+    ],
+    "isError": false
+  }
+}

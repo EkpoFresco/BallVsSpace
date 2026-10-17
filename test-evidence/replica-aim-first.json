@@ -1,0 +1,14 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "image",
+        "mimeType": "image/jpeg",
+        "savedFile": "test-evidence/replica-aim-first-0.jpg"
+      }
+    ],
+    "isError": false
+  }
+}

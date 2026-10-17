@@ -36,12 +36,12 @@ local function separate(balls: { Types.Ball })
 				local a, b = balls[i], balls[j]
 				local dx, dz = b.x - a.x, b.z - a.z
 				local distance = math.sqrt(dx * dx + dz * dz)
-				if distance < 3 - 1e-8 then
+				if distance < Config.Radius * 2 - 1e-8 then
 					local nx, nz = 1, 0
 					if distance > 1e-8 then
 						nx, nz = dx / distance, dz / distance
 					end
-					local delta = (3 - distance) / 2 + 1e-7
+					local delta = (Config.Radius * 2 - distance) / 2 + 1e-7
 					a.x -= nx * delta
 					a.z -= nz * delta
 					b.x += nx * delta
@@ -50,8 +50,8 @@ local function separate(balls: { Types.Ball })
 			end
 		end
 		for _, b in balls do
-			b.x = math.clamp(b.x, -30.5, 30.5)
-			b.z = math.clamp(b.z, -30.5, 30.5)
+			b.x = math.clamp(b.x, -Config.CenterBound, Config.CenterBound)
+			b.z = math.clamp(b.z, -Config.CenterBound, Config.CenterBound)
 		end
 	end
 end
@@ -84,12 +84,25 @@ function Sim.step(state: State)
 			end
 		end
 		for i, a in state.balls do
-			candidate(Geometry.sweepCircleWall(a.x, a.vx, 30.5, remaining), { a = i, b = 0, axis = 1 })
-			candidate(Geometry.sweepCircleWall(a.z, a.vz, 30.5, remaining), { a = i, b = 0, axis = 2 })
+			candidate(
+				Geometry.sweepCircleWall(a.x, a.vx, Config.CenterBound, remaining),
+				{ a = i, b = 0, axis = 1 }
+			)
+			candidate(
+				Geometry.sweepCircleWall(a.z, a.vz, Config.CenterBound, remaining),
+				{ a = i, b = 0, axis = 2 }
+			)
 			for j = i + 1, #state.balls do
 				local b = state.balls[j]
 				candidate(
-					Geometry.sweepCircleCircle(b.x - a.x, b.z - a.z, b.vx - a.vx, b.vz - a.vz, 3, remaining),
+					Geometry.sweepCircleCircle(
+						b.x - a.x,
+						b.z - a.z,
+						b.vx - a.vx,
+						b.vz - a.vz,
+						Config.Radius * 2,
+						remaining
+					),
 					{ a = i, b = j, axis = 0 }
 				)
 			end
@@ -172,7 +185,10 @@ function Sim.step(state: State)
 	end
 	for _, b in state.balls do
 		assert(
-			b.x == b.x and b.z == b.z and math.abs(b.x) <= 30.50001 and math.abs(b.z) <= 30.50001,
+			b.x == b.x
+				and b.z == b.z
+				and math.abs(b.x) <= Config.CenterBound + 0.00001
+				and math.abs(b.z) <= Config.CenterBound + 0.00001,
 			"Invalid simulation position"
 		)
 	end

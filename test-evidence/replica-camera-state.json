@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"running\":true,\"now\":1792206283.707124,\"client\":true,\"cameras\":{\"1\":{\"cf\":\"0, 8.12103844, 5.1512928, 1, 0, -0, -0, 0.707106829, 0.707106829, 0, -0.707106829, 0.707106829\",\"current\":true,\"name\":\"Camera\",\"viewport\":\"1, 1\",\"type\":\"Enum.CameraType.Custom\"}},\"player\":\"Fresc0_fr\"}"
+      }
+    ],
+    "isError": false
+  }
+}

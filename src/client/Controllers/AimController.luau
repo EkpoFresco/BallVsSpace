@@ -1,37 +1,41 @@
 --!strict
-local Geometry = require(game:GetService("ReplicatedStorage").Shared.Geometry2D)
-local BallRenderer = require(script.Parent.BallRenderer)
+local Layout = require(script.Parent.ReferenceLayout)
 local Aim = {}
-function Aim.angle(camera: Camera, screen: Vector2, x: number, z: number): number?
-	local ray = camera:ScreenPointToRay(screen.X, screen.Y)
-	if math.abs(ray.Direction.Y) < 1e-8 then
+function Aim.angle(viewport: Vector2, screen: Vector2, x: number, z: number): number?
+	local p = Layout.screenToCanvas(screen, viewport) - Layout.ball(x, z)
+	if p.Magnitude < 4 then
 		return nil
 	end
-	local distance = -ray.Origin.Y / ray.Direction.Y
-	if distance <= 0 then
-		return nil
-	end
-	local p = ray.Origin + ray.Direction * distance
-	if (Vector2.new(p.X - x, p.Z - z)).Magnitude < 0.3 then
-		return nil
-	end
-	return math.deg(math.atan2(p.Z - z, p.X - x)) % 360
+	return math.deg(math.atan2(p.Y, p.X)) % 360
 end
-function Aim.draw(lines: { Part }, x: number, z: number, angle: number)
-	local dx, dz = math.cos(math.rad(angle)), math.sin(math.rad(angle))
-	local tx = Geometry.sweepCircleWall(x, dx, 30.5, 200) or 200
-	local tz = Geometry.sweepCircleWall(z, dz, 30.5, 200) or 200
-	local distance = math.min(tx, tz)
-	local bx, bz = x + dx * distance, z + dz * distance
-	BallRenderer.line(lines[1], Vector3.new(x, 0.3, z), Vector3.new(bx, 0.3, bz), 0.2)
-	if tx <= tz + 1e-8 then
-		dx = -dx
+function Aim.draw(lines: { Frame }, x: number, z: number, angle: number)
+	local center = Layout.ball(x, z)
+	local direction = Vector2.new(math.cos(math.rad(angle)), math.sin(math.rad(angle)))
+	local length = 160
+	for _, axis in { 1, 2 } do
+		local component = if axis == 1 then direction.X else direction.Y
+		local position = if axis == 1 then center.X else center.Y
+		local low = if axis == 1 then 185 else 85
+		local high = if axis == 1 then 617 else 517
+		if math.abs(component) > 0.001 then
+			length = math.min(length, ((if component > 0 then high else low) - position) / component - 8)
+		end
 	end
-	if tz <= tx + 1e-8 then
-		dz = -dz
+	for j = 1, 4 do
+		local distance = 42 + (j - 1) * 37
+		local p = center + direction * distance
+		lines[j].Position = UDim2.fromOffset(p.X, p.Y)
+		lines[j].Size = UDim2.fromOffset(29, 18)
+		lines[j].Rotation = angle
+		lines[j].Visible = distance < length - 15
 	end
-	BallRenderer.line(lines[2], Vector3.new(bx, 0.3, bz), Vector3.new(bx + dx * 10, 0.3, bz + dz * 10), 0.12)
-	lines[1].Transparency = 0.1
-	lines[2].Transparency = 0.45
+	local tip = center + direction * length
+	local head = tip - direction * 15
+	lines[5].Size = UDim2.fromOffset(30, 54)
+	lines[5].Position = UDim2.fromOffset(head.X, head.Y)
+	lines[5].Rotation = angle
+	lines[5].Visible = length > 52
+	lines[6].Visible = false
+	lines[7].Visible = false
 end
 return table.freeze(Aim)

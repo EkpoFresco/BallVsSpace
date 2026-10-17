@@ -1,0 +1,44 @@
+Diff in src\client\Controllers\ReferenceBalls.luau:
+81  81   | 		local label = Ui.text(frame, "Coverage", "", 63, 102, 120, 42, 25)
+82  82   | 		local outline = label:FindFirstChild("TextOutline") :: UIStroke
+83  83   | 		outline.Thickness = 2.5
+84       |-		table.insert(
+85       |-			balls,
+86       |-			{
+87       |-				frame = frame,
+88       |-				viewport = viewport,
+89       |-				model = model,
+90       |-				label = label,
+91       |-				skin = "Acid",
+92       |-				aim = aim,
+93       |-				trail = trail,
+94       |-				shadow = shadow,
+95       |-				pulse = pulse,
+96       |-				lastAbility = 0,
+97       |-				pulseAt = -100,
+98       |-				positions = {},
+99       |-				lastTrail = 0,
+100      |-				lastPoint = Vector2.zero,
+101      |-				spin = 0,
+102      |-			}
+103      |-		)
+    84   |+		table.insert(balls, {
+    85   |+			frame = frame,
+    86   |+			viewport = viewport,
+    87   |+			model = model,
+    88   |+			label = label,
+    89   |+			skin = "Acid",
+    90   |+			aim = aim,
+    91   |+			trail = trail,
+    92   |+			shadow = shadow,
+    93   |+			pulse = pulse,
+    94   |+			lastAbility = 0,
+    95   |+			pulseAt = -100,
+    96   |+			positions = {},
+    97   |+			lastTrail = 0,
+    98   |+			lastPoint = Vector2.zero,
+    99   |+			spin = 0,
+    100  |+		})
+104 101  | 	end
+105 102  | 	return { gui = gui, root = root, scale = scale, balls = balls }
+106 103  | end

@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Removed six superseded project modules after canonical replacements"
+      }
+    ],
+    "isError": false
+  }
+}

@@ -36,6 +36,7 @@ export type Command = {
 	roundId: number,
 	generation: number,
 	kitId: string?,
+	appearance: string?,
 	angle: number?,
 	wildcard: boolean?,
 }

@@ -2,6 +2,7 @@
 local Players = game:GetService("Players")
 local Shared = game:GetService("ReplicatedStorage").Shared
 local Config = require(Shared.Config)
+local Appearances = require(Shared.AppearanceCatalog)
 local Protocol = require(Shared.Protocol)
 local ViewTypes = require(Shared.ViewTypes)
 local Match = require(script.Parent.MatchService)
@@ -24,6 +25,11 @@ function Replication.stateFor(m: Match.State, userId: number): ViewTypes.State
 			team = s.team,
 			name = if player then player.DisplayName else "Practice",
 			kitId = if own or revealed then s.kitId else nil,
+			appearance = if own or revealed
+				then (if Appearances.valid(s.appearance, s.kitId)
+					then s.appearance
+					else Appearances.default(s.kitId))
+				else nil,
 			angle = if own or aimRevealed then s.angle else nil,
 			pickLocked = s.pickLocked,
 			aimLocked = s.aimLocked,

@@ -12,7 +12,7 @@ local Court = require(script.Parent.Services.CourtService)
 local Profiles = require(script.Parent.Services.ProfileService)
 local Queue = require(script.Parent.Services.QueueService)
 local Replication = require(script.Parent.Services.ReplicationService)
-Players.CharacterAutoLoads = false
+Players.CharacterAutoLoads = true
 Court.build()
 local remotes = Instance.new("Folder")
 remotes.Name = "Remotes"

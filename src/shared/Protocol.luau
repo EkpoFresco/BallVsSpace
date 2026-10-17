@@ -17,13 +17,14 @@ function Protocol.command(raw: unknown): Types.Command?
 		roundId = true,
 		generation = true,
 		kitId = true,
+		appearance = true,
 		angle = true,
 		wildcard = true,
 	}
 	local count = 0
 	for key in t do
 		count += 1
-		if type(key) ~= "string" or not allowed[key] or count > 8 then
+		if type(key) ~= "string" or not allowed[key] or count > 9 then
 			return nil
 		end
 	end
@@ -46,6 +47,9 @@ function Protocol.command(raw: unknown): Types.Command?
 		end
 	end
 	if t.kitId ~= nil and (type(t.kitId) ~= "string" or #t.kitId > 24) then
+		return nil
+	end
+	if t.appearance ~= nil and (type(t.appearance) ~= "string" or #t.appearance > 16) then
 		return nil
 	end
 	if

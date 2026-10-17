@@ -28,6 +28,9 @@ local function send(kind: string, v: ViewTypes.State?, kit: string?, angle: numb
 		roundId = if v then v.roundId else 0,
 		generation = if v then v.generation else 0,
 		kitId = kit,
+		appearance = if kind == "Select"
+			then (if kit == "Anchor" then "Axe" elseif v and v.roundNumber == 2 then "Cell" else "Acid")
+			else nil,
 		angle = angle,
 	})
 end
@@ -61,7 +64,20 @@ states.OnClientEvent:Connect(function(v: ViewTypes.State)
 		task.delay(0.5, function()
 			local gui = Players.LocalPlayer.PlayerGui:FindFirstChild("BallVsSpace")
 			if gui then
+				local display = Players.LocalPlayer.PlayerGui:FindFirstChild("BVSBallLabels")
+				local canvas = if display then display:FindFirstChild("ReferenceCanvas") else nil
+				local visualPass = true
+				for i, seat in v.seats do
+					local ball = if canvas then canvas:FindFirstChild("Ball" .. i) else nil
+					local viewport = if ball then ball:FindFirstChild("Model") else nil
+					local world = if viewport then viewport:FindFirstChildOfClass("WorldModel") else nil
+					local model = if world then world:FindFirstChildOfClass("Model") else nil
+					if not model or model.Name ~= seat.appearance then
+						visualPass = false
+					end
+				end
 				telemetry:FireServer({
+					visualPass = visualPass,
 					matchId = v.id,
 					roundId = v.roundId,
 					phase = v.phase,

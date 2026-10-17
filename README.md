@@ -1,12 +1,16 @@
-# Ball VS Space — M1 playable build
+# Ball VS Space — reference presentation build
 
-An original territory auto-battler. Choose Drift or Anchor, aim the opening, then compete for a signed 32×32 court. This is the two-kit, one-arena vertical slice. Progress is deliberately session-only. No paid features or external art are included.
+The current build reconstructs the reference game's presentation first, following the user's revised priority. Large shaded Acid, Axe, Cell, Poison, Verity, Burst and Vampire balls, a beveled navy court, real avatar displays, three-card draft, white dashed aiming arrows and a blue walkable lobby replace the earlier small-ball prototype. All ball models and UI geometry are authored in this project. Avatar appearance comes from the participating Roblox accounts.
+
+The existing authoritative territory game still runs underneath: Drift powers Acid/Cell/Poison appearances and Anchor powers Axe. This pass does not implement the reference's hidden HP, damage or weapon formulas. Ball numbers show actual territory percentages; the large hearts indicate rounds remaining. Progress is session-only and currency displays remain zero. No purchases are enabled.
 
 ## Play
 
-Open `builds/BallVsSpace.rbxl` in Roblox Studio. Press **Play**, then **Practice** for a solo match against a predictable bot. For human 1v1, use Studio **Test → Server & Clients**, select **2 clients**, start, and click **Play 1v1** in each client. Ordinary Play never starts the automated test driver.
+Open `builds/BallVsSpace.rbxl` in Roblox Studio. Press **Play**, then the purple **Practice** button for a solo match. For human 1v1, use Studio **Test → Server & Clients**, select **2 clients**, start, and click the green **Play** button in each client. Ordinary Play never starts the automated test driver.
 
-During draft, click a kit and **Lock**. During aim, drag on the court or use the 15° buttons and lock. The line previews the first wall bounce. Battles run automatically for 30 seconds. The score bar includes neutral area; the larger final owned-cell count wins. Exact ties enter overtime. A 2-cell lead held for 10 consecutive updates wins overtime; an unheld lead at the cap is a draw. Win = 1 match point, draw = ½ each; first to 2 points or the higher total after three rounds wins. Result controls offer a two-second replay and rematch.
+Click a ball card to select and lock it, or open **All Balls**, select an icon and press **YES** in the seven-appearance picker. Drag or click on the court to aim, then press **Lock Aim**. Draft allows 20 seconds and aim allows 30; both can finish early when everyone locks. Battles run automatically for 30 seconds. Exact ties enter overtime. A 2-cell lead held for 10 consecutive updates wins overtime; an unheld lead at the cap is a draw. Win = 1 match point, draw = ½ each; first to 2 points or the higher total after three rounds wins. The result screen offers **Rematch**.
+
+The clean reference-style floor is the default. Before a match, open the lobby gear and enable **Territory overlay** to see the original capture grid and area totals. The same settings panel offers reduced motion. Store and Inventory open the free appearance picker; there is no commercial store. The lobby practice checklist tracks the current session; it grants no currency or durable rewards.
 
 ## Build from source
 
@@ -33,6 +37,6 @@ require(game.ServerScriptService.Server.Tests.Suite).run()
 
 For the ten-match automation, run the contents of `tools/start-multiplayer.luau` in the Edit command bar. It starts two actual clients through StudioTestService and ends after ten completed matches. The clients use ordinary remotes and standard clocks. Allow roughly 20–25 minutes. Do not count these as human testers.
 
-Read [docs/playtest-report.md](docs/playtest-report.md) for actual evidence and limitations, [docs/decisions.md](docs/decisions.md) for implementation choices, and the pack-root `BUILD_STATUS.md` for the resume task. M2–M4 expansion is gated by the M1 human checks in the research specification.
+Read [docs/replica-pass.md](docs/replica-pass.md) for this pass, [docs/decisions.md](docs/decisions.md) for implementation choices, and the pack-root `BUILD_STATUS.md` for current verification and the resume task. Human and real-device gates remain unvalidated; they no longer defer the user's requested visual reconstruction.
 
-The user also requires the completed UI/play view to closely match the supplied reference. The M1 match screen has received a first presentation pass, but the full visual gate remains open; see [docs/visual-fidelity.md](docs/visual-fidelity.md). Video evidence records the earlier temporary HUD, while the `visual-qa-*` screenshots show the newer match screen.
+Keep Studio restored while capturing: a minimized Studio produced screenshots containing UI but no 3D world or ViewportFrame models. The `replica-*` evidence belongs to this build; `visual-qa-*` and the older two-client video show the superseded prototype.

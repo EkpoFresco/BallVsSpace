@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"viewport\":\"949.333313, 472\",\"cameraType\":\"Enum.CameraType.Custom\",\"frames\":2564,\"phase\":\"Lobby\"}"
+      }
+    ],
+    "isError": false
+  }
+}

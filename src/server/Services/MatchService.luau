@@ -1,6 +1,7 @@
 --!strict
 local Shared = game:GetService("ReplicatedStorage").Shared
 local Arena = require(Shared.ArenaDefinition)
+local Appearances = require(Shared.AppearanceCatalog)
 local Catalog = require(Shared.BallCatalog)
 local Config = require(Shared.Config)
 local Draft = require(Shared.SeededDraft)
@@ -15,6 +16,7 @@ export type Seat = {
 	team: number,
 	offer: { string },
 	kitId: string,
+	appearance: string?,
 	angle: number,
 	pickLocked: boolean,
 	aimLocked: boolean,
@@ -81,6 +83,7 @@ function Match.beginRound(m: State, now: number)
 	for i, seat in m.seats do
 		seat.offer = Draft.offers(m.seed, m.roundNumber, 1, Catalog.ids)
 		seat.kitId = seat.offer[1]
+		seat.appearance = Appearances.default(seat.kitId)
 		seat.pickLocked = false
 		seat.aimLocked = false
 		seat.tentativeWildcard = false
@@ -234,7 +237,11 @@ function Match.command(m: State, userId: number, c: Types.Command, now: number):
 			if not offered and (not c.wildcard or seat.wildcardUsed) then
 				return false
 			end
+			if c.appearance and not Appearances.valid(c.appearance, c.kitId) then
+				return false
+			end
 			seat.kitId = c.kitId
+			seat.appearance = c.appearance or Appearances.default(c.kitId)
 			seat.tentativeWildcard = not offered
 			seat.interactedDraft = true
 			m.stateVersion += 1
@@ -292,7 +299,7 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 		)
 		return
 	end
-	if now - m.started >= 240 then
+	if now - m.started >= Config.WatchdogSeconds then
 		Match.finish(m, 0, "service_timeout", now)
 		return
 	end
@@ -323,7 +330,7 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 				b.brush = k.brushRadius
 				b.nextAbilityTick = k.firstReadyTick
 			end
-			transition(m, "Aim", now, 8)
+			transition(m, "Aim", now, Config.AimSeconds)
 		end
 	elseif m.phase == "Aim" then
 		local locked = true

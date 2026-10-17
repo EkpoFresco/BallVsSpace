@@ -1,19 +1,33 @@
 --!strict
-local CameraController = {}
-function CameraController.fit(camera: Camera)
-	local size = camera.ViewportSize
-	if size.X < 1 or size.Y < 1 then
-		return
+local Players = game:GetService("Players")
+local Camera = {}
+local wasLobby = false
+function Camera.fit(camera: Camera, phase: string)
+	local lobby = phase == "Lobby" or phase == "Queued"
+	local character = Players.LocalPlayer.Character
+	local humanoid = if character then character:FindFirstChildOfClass("Humanoid") else nil
+	if lobby then
+		if not wasLobby and humanoid and character then
+			camera.CameraType = Enum.CameraType.Custom
+			camera.CameraSubject = humanoid
+			camera.FieldOfView = 70
+			local p = character:GetPivot().Position
+			camera.CFrame = CFrame.lookAt(p + Vector3.new(0, 7, 16), p + Vector3.new(0, 2, 0))
+			humanoid.WalkSpeed = 16
+			humanoid.JumpPower = 50
+			wasLobby = true
+		end
+	else
+		wasLobby = false
+		if humanoid then
+			humanoid.WalkSpeed = 0
+			humanoid.JumpPower = 0
+		end
+		camera.CameraType = Enum.CameraType.Scriptable
+		camera.FieldOfView = 55
+		local target = Vector3.new(0, 26, -100)
+		camera.Focus = CFrame.new(target)
+		camera.CFrame = CFrame.lookAt(Vector3.new(0, 20, 0), target)
 	end
-	local availableY = math.max(180, size.Y - 92)
-	local availableX = math.max(180, size.X - (if size.X >= 700 then 260 else 28))
-	local tangent = math.tan(math.rad(35 / 2))
-	local courtPixels = math.min(availableX, availableY)
-	local distance = 70 * size.Y / courtPixels / (2 * tangent)
-	camera.CameraType = Enum.CameraType.Scriptable
-	camera.FieldOfView = 35
-	local target = Vector3.new(0, 0, -22 * 70 / courtPixels)
-	camera.Focus = CFrame.new(target)
-	camera.CFrame = CFrame.lookAt(target + Vector3.new(0, distance, 0), target, Vector3.new(0, 0, -1))
 end
-return table.freeze(CameraController)
+return table.freeze(Camera)

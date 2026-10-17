@@ -1,6 +1,7 @@
 --!strict
 local Shared = game:GetService("ReplicatedStorage").Shared
 local Protocol = require(Shared.Protocol)
+local Config = require(Shared.Config)
 local Types = require(Shared.Types)
 export type Sample = { tick: number, received: number, balls: { Protocol.Motion } }
 export type State = { board: Types.Board, samples: { Sample }, latestTick: number, lastReceived: number }
@@ -55,8 +56,8 @@ function Controller.positions(state: State, now: number): { Protocol.Motion }
 			copy.z = a.z + (b.z - a.z) * alpha
 		elseif target > last.tick then
 			local dt = math.min(0.15, (target - last.tick) / 60)
-			copy.x = math.clamp(b.x + b.vx * dt, -30.5, 30.5)
-			copy.z = math.clamp(b.z + b.vz * dt, -30.5, 30.5)
+			copy.x = math.clamp(b.x + b.vx * dt, -Config.CenterBound, Config.CenterBound)
+			copy.z = math.clamp(b.z + b.vz * dt, -Config.CenterBound, Config.CenterBound)
 		end
 		table.insert(result, copy)
 	end

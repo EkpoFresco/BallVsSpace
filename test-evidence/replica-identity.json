@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"name\":\"BallVsSpace.rbxl\",\"gameId\":0,\"placeId\":0,\"source\":\"--!strict\\nlocal Config = {\\n\\tRulesVersion = \\\"bvs-rules-1\\\",\\n\\tBuildVersion = \\\"0.1.0-m1\\\",\\n\\tHz = 60,\\n\\tTerritoryEvery = 6,\\n\\tBattleTicks = 1800,\\n\\tMaxTicks = 2700,\\n\\tGridSize = 32,\\n\\tCellCount = 1024,\\n\\tCellSize = 2,\\n\\tHalfSize = 32,\\n\\tRadius = 1.5,\\n\\tCenterBound = 30.5,\\n\\tInfluenceCap = 3,\\n\\tDraftSeconds = 12,\\n\\tAimSeconds = 8,\\n\\tCountdownSeconds = 2,\\n\\tResultSeconds = 3,\\n\\tMatchResultSeconds = 8,\\n\\tReadySeconds = 5,\\n\\tMaxSteps = 8,\\n\\tWatchdogSeconds = 240,\\n\\tDisconnectGrace = 15,\\n\\tMaxCollisionIterations = 8,\\n\\tSnapshotEvery = 120,\\n\\tPersistence = \\\"Session only — prototype\\\",\\n\\tMaxArenas = 1,\\n}\\nreturn table.freeze(Config)\\n\",\"playing\":false}"
+      }
+    ],
+    "isError": false
+  }
+}

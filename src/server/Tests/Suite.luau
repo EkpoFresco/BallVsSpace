@@ -1,6 +1,7 @@
 --!strict
 local Shared = game:GetService("ReplicatedStorage").Shared
 local Arena = require(Shared.ArenaDefinition)
+local Config = require(Shared.Config)
 local Draft = require(Shared.SeededDraft)
 local Geometry = require(Shared.Geometry2D)
 local Math = require(Shared.TerritoryMath)
@@ -32,7 +33,11 @@ function Suite.run(): { string }
 		Match.beginRound(m, 0)
 		assert(m.board.counts[1] == m.board.counts[2] and m.board.counts[1] > 0, "Symmetric stamps")
 		local x, z = Arena.spawn(1, 1, 2, 1)
-		assert(x == 24 and z == 0, "Side alternation")
+		assert(x == Config.SpawnX and z == 0, "Side alternation")
+		assert(
+			math.abs(Config.Radius + Config.CenterBound - Config.HalfSize) < 1e-8,
+			"Visible body must touch the wall at collision"
+		)
 	end)
 	check("126 influence cases and four-step reinforced capture", function()
 		for q = -3, 3 do
@@ -111,10 +116,11 @@ function Suite.run(): { string }
 				lastDz = vz / speed,
 			}
 		end
-		local head = Sim.new({ ball(1, -1.6, 0, 18, 0), ball(2, 1.6, 0, -18, 0) })
+		local r = Config.Radius
+		local head = Sim.new({ ball(1, -r - 0.1, 0, 18, 0), ball(2, r + 0.1, 0, -18, 0) })
 		Sim.step(head)
 		assert(head.balls[1].vx < 0 and head.balls[2].vx > 0, "Elastic exchange")
-		local corner = Sim.new({ ball(1, 30.4, 30.4, 18, 18) })
+		local corner = Sim.new({ ball(1, Config.CenterBound - 0.1, Config.CenterBound - 0.1, 18, 18) })
 		Sim.step(corner)
 		assert(
 			corner.balls[1].vx < 0 and corner.balls[1].vz < 0 and #corner.paths >= 2,
@@ -123,8 +129,8 @@ function Suite.run(): { string }
 		for _, balls in
 			{
 				{ ball(1, 0, 0, 18, 0), ball(2, 0, 0, -18, 0) },
-				{ ball(1, -3, 0, 18, 0), ball(2, 0, 0, 0, 18), ball(3, 3, 0, -18, 0) },
-				{ ball(1, -3, 0, 23, 0), ball(2, 1, 2, -18, 0) },
+				{ ball(1, -2 * r, 0, 18, 0), ball(2, 0, 0, 0, 18), ball(3, 2 * r, 0, -18, 0) },
+				{ ball(1, -r - 0.2, 0, 23, 0), ball(2, r + 0.2, r / 2, -18, 0) },
 			}
 		do
 			local s = Sim.new(balls)
@@ -136,7 +142,7 @@ function Suite.run(): { string }
 			for i = 1, #balls do
 				for j = i + 1, #balls do
 					assert(
-						(balls[i].x - balls[j].x) ^ 2 + (balls[i].z - balls[j].z) ^ 2 >= 8.99,
+						(balls[i].x - balls[j].x) ^ 2 + (balls[i].z - balls[j].z) ^ 2 >= (2 * r - 0.002) ^ 2,
 						"Persistent penetration"
 					)
 				end
@@ -235,7 +241,7 @@ function Suite.run(): { string }
 		assert(m.phase == "Draft", "Draft floor")
 		Match.update(m, 3, 0, true)
 		assert(tostring(m.phase) == "Aim", "Draft transition")
-		assert(not cmd(1, "AimLock", 11), "Late input")
+		assert(not cmd(1, "AimLock", m.deadline), "Late input")
 		cmd(1, "AimLock", 3.1)
 		cmd(2, "AimLock", 3.1)
 		Match.update(m, 4.9, 0, true)

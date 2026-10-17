@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"camera\":\"402, 778\",\"guiSize\":\"402, 874\",\"rootSize\":\"566.326294, 424.56842\",\"mouse\":\"275, 497\",\"guiPosition\":\"0, -120\",\"rootPosition\":\"-82.163147, 104.71579\"}"
+      }
+    ],
+    "isError": false
+  }
+}

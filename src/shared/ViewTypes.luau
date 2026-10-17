@@ -5,6 +5,7 @@ export type Seat = {
 	team: number,
 	name: string,
 	kitId: string?,
+	appearance: string?,
 	angle: number?,
 	pickLocked: boolean,
 	aimLocked: boolean,

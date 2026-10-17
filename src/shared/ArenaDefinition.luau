@@ -1,4 +1,5 @@
 --!strict
+local Config = require(script.Parent.Config)
 local Arena = {}
 function Arena.center(index: number): (number, number)
 	assert(index >= 0 and index < 1024 and index % 1 == 0, "Invalid cell index")
@@ -11,7 +12,7 @@ function Arena.index(x: number, z: number): number?
 	return math.floor((z + 32) / 2) * 32 + math.floor((x + 32) / 2)
 end
 function Arena.spawn(team: number, slot: number, round: number, teamSize: number): (number, number)
-	local x = if team == 1 then -24 else 24
+	local x = if team == 1 then -Config.SpawnX else Config.SpawnX
 	if round % 2 == 0 then
 		x = -x
 	end

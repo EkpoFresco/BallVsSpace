@@ -2,78 +2,118 @@
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local Shared = game:GetService("ReplicatedStorage").Shared
+local Appearances = require(Shared.AppearanceCatalog)
 local Protocol = require(Shared.Protocol)
 local ViewTypes = require(Shared.ViewTypes)
+local Art = require(script.Parent.BallArt)
+local Layout = require(script.Parent.ReferenceLayout)
+local Ui = require(script.Parent.ReferenceUi)
 local Renderer = {}
-local colors = { Color3.fromRGB(84, 234, 247), Color3.fromRGB(255, 143, 129) }
-export type Visual =
-	{ body: Part, label: TextLabel, ring: { Part }, accent: Part, aim: { Part }, team: number }
-export type State = { folder: Folder, balls: { Visual } }
-local function part(root: Instance, name: string): Part
-	local p = Instance.new("Part")
-	p.Name = name
-	p.Anchored = true
-	p.CanCollide = false
-	p.CanTouch = false
-	p.CanQuery = false
-	p.CastShadow = false
-	p.Material = Enum.Material.SmoothPlastic
-	p.Parent = root
-	return p
+export type Visual = {
+	frame: Frame,
+	viewport: ViewportFrame,
+	model: Model,
+	label: TextLabel,
+	skin: string,
+	aim: { Frame },
+	trail: { Frame },
+	shadow: Frame,
+	pulse: Frame,
+	lastAbility: number,
+	pulseAt: number,
+	positions: { Vector2 },
+	lastTrail: number,
+	lastPoint: Vector2,
+	spin: number,
+}
+export type State = { gui: ScreenGui, root: Frame, scale: UIScale, balls: { Visual } }
+local function circle(parent: Instance, name: string, diameter: number, color: Color3): Frame
+	local f = Ui.frame(parent, name, 0, 0, diameter, diameter, color)
+	f.AnchorPoint = Vector2.new(0.5, 0.5)
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(1, 0)
+	c.Parent = f
+	return f
 end
 function Renderer.new(): State
-	local folder = Instance.new("Folder")
-	folder.Name = "BVSBalls"
-	folder.Parent = Workspace
 	local gui = Instance.new("ScreenGui")
 	gui.Name = "BVSBallLabels"
-	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
+	gui.ScreenInsets = Enum.ScreenInsets.None
+	gui.ResetOnSpawn = false
+	gui.DisplayOrder = 10
 	gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui", 10)
-	local visuals = {}
+	local root, scale = Layout.root(gui)
+	local balls: { Visual } = {}
 	for i = 1, 2 do
-		local body = part(folder, "Ball" .. i)
-		body.Shape = Enum.PartType.Ball
-		body.Size = Vector3.new(3, 3, 3)
-		body.Color = colors[i]
-		local accent = part(folder, "KitAccent" .. i)
-		accent.Size = Vector3.new(2.2, 0.25, 2.2)
-		accent.Color = Color3.fromRGB(239, 247, 255)
-		local label = Instance.new("TextLabel")
-		label.Name = "Ball" .. i
-		label.Size = UDim2.fromOffset(150, 44)
-		label.AnchorPoint = Vector2.new(0.5, 1)
-		label.BackgroundTransparency = 1
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.Font = Enum.Font.GothamBold
-		label.TextSize = 14
-		label.TextStrokeTransparency = 0.3
-		label.Parent = gui
-		local ring = {}
-		for j = 1, 32 do
-			local p = part(folder, "Brush")
-			p.Color = colors[i]
-			p.Transparency = 0.45
-			ring[j] = p
-		end
 		local aim = {}
-		for j = 1, 2 do
-			local p = part(folder, "Aim")
-			p.Color = colors[i]
-			p.Material = Enum.Material.Neon
-			aim[j] = p
+		for j = 1, 7 do
+			local dash = Ui.frame(root, "Aim" .. i .. "_" .. j, 0, 0, 30, 18, Color3.fromRGB(250, 251, 255))
+			dash.AnchorPoint = Vector2.new(0.5, 0.5)
+			dash.Visible = false
+			if j == 5 then
+				dash.BackgroundTransparency = 1
+				Ui.polygon(
+					dash,
+					"Arrowhead",
+					{ Vector2.new(0, 0), Vector2.new(30, 27), Vector2.new(0, 54) },
+					Color3.fromRGB(250, 251, 255)
+				)
+			end
+			aim[j] = dash
 		end
-		table.insert(
-			visuals,
-			{ body = body, label = label, ring = ring, accent = accent, aim = aim, team = i }
-		)
+		local trail = {}
+		for j = 1, 9 do
+			local p = circle(root, "Trail", 23, Color3.fromRGB(100, 231, 9))
+			p.Visible = false
+			trail[j] = p
+		end
+		local frame = Ui.frame(root, "Ball" .. i, 0, 0, 246, 246, Color3.new())
+		frame.BackgroundTransparency = 1
+		frame.AnchorPoint = Vector2.new(0.5, 0.5)
+		local shadow = circle(frame, "Shadow", 90, Color3.new())
+		shadow.Position = UDim2.fromOffset(120, 121)
+		shadow.BackgroundTransparency = 0.93
+		for blur = 1, 6 do
+			local layer = circle(shadow, "Penumbra", 90 + blur * 3, Color3.new())
+			layer.Position = UDim2.fromScale(0.5, 0.5)
+			layer.BackgroundTransparency = 0.96
+		end
+		local pulse = circle(frame, "AbilityPulse", 90, Color3.fromRGB(159, 255, 40))
+		pulse.BackgroundTransparency = 0.8
+		pulse.Position = UDim2.fromOffset(123, 123)
+		local stroke = Instance.new("UIStroke")
+		stroke.Color = Color3.fromRGB(190, 255, 92)
+		stroke.Thickness = 3
+		stroke.Transparency = 0.3
+		stroke.Parent = pulse
+		local viewport, model = Art.viewport(frame, "Model", "Acid")
+		viewport.Size = UDim2.fromScale(1, 1)
+		if viewport.CurrentCamera then
+			viewport.CurrentCamera.CFrame = CFrame.new(0, 0, 11.2)
+		end
+		local label = Ui.text(frame, "Coverage", "", 63, 102, 120, 42, 25)
+		local outline = label:FindFirstChild("TextOutline") :: UIStroke
+		outline.Thickness = 2.5
+		table.insert(balls, {
+			frame = frame,
+			viewport = viewport,
+			model = model,
+			label = label,
+			skin = "Acid",
+			aim = aim,
+			trail = trail,
+			shadow = shadow,
+			pulse = pulse,
+			lastAbility = 0,
+			pulseAt = -100,
+			positions = {},
+			lastTrail = 0,
+			lastPoint = Vector2.zero,
+			spin = 0,
+		})
 	end
-	return { folder = folder, balls = visuals }
-end
-function Renderer.line(p: Part, a: Vector3, b: Vector3, width: number)
-	local length = (b - a).Magnitude
-	p.Size = Vector3.new(width, 0.09, math.max(0.01, length))
-	p.CFrame = CFrame.lookAt((a + b) / 2, b)
+	return { gui = gui, root = root, scale = scale, balls = balls }
 end
 function Renderer.render(
 	state: State,
@@ -81,60 +121,92 @@ function Renderer.render(
 	view: ViewTypes.State?,
 	reduced: boolean
 )
+	local camera = Workspace.CurrentCamera
+	if camera then
+		state.scale.Scale = Layout.scale(state.gui.AbsoluteSize)
+	end
+	local now = os.clock()
 	for i, v in state.balls do
 		local b = positions[i]
 		local seat = if view then view.seats[i] else nil
-		local visible = b ~= nil and view ~= nil and view.phase ~= "ReadyCheck" and view.phase ~= "Draft"
-		v.body.Transparency = if visible then 0 else 1
-		v.accent.Transparency = if visible then 0 else 1
-		v.label.Visible = visible
-		for _, p in v.ring do
-			p.Transparency = if visible then 0.5 else 1
+		local visible = view ~= nil
+			and b ~= nil
+			and seat ~= nil
+			and (
+				view.phase == "Aim"
+				or view.phase == "Countdown"
+				or view.phase == "Battle"
+				or view.phase == "Overtime"
+			)
+		v.frame.Visible = visible
+		for _, dash in v.aim do
+			dash.Visible = false
 		end
-		for _, p in v.aim do
-			p.Transparency = 1
+		for _, p in v.trail do
+			p.Visible = false
 		end
-		if not visible or not b or not view or not seat then
+		if not visible or not view or not b or not seat then
+			table.clear(v.positions)
 			continue
 		end
-		v.body.Position = Vector3.new(b.x, 1.65, b.z)
-		local camera = Workspace.CurrentCamera
-		if camera then
-			local screen, onScreen = camera:WorldToViewportPoint(Vector3.new(b.x, 4.5, b.z))
-			v.label.Position = UDim2.fromOffset(screen.X, screen.Y)
-			v.label.Visible = onScreen
+		local skin = seat.appearance or Appearances.default(seat.kitId or "Drift")
+		if skin ~= v.skin then
+			local parent = v.model.Parent
+			v.model:Destroy()
+			assert(parent, "Ball model lost its viewport")
+			v.model = Art.build(parent, skin)
+			v.skin = skin
 		end
-		local anchor = seat.kitId == "Anchor"
-		v.accent.Size = if anchor then Vector3.new(2.4, 0.25, 2.4) else Vector3.new(0.4, 0.25, 2.6)
-		v.accent.CFrame = CFrame.new(b.x, 3.2, b.z)
-			* CFrame.Angles(0, if anchor then math.pi / 4 else math.atan2(b.vx, b.vz), 0)
-		local remaining = math.max(0, (b.nextAbilityTick - view.tick) / 60)
-		local symbol = if seat.team == 1 then "◇" else "○"
-		v.label.Text = symbol
-			.. " "
-			.. (seat.kitId or "Hidden")
-			.. "\n"
-			.. (
-				if view.phase == "Battle" or view.phase == "Overtime"
-					then string.format("%.1fs", remaining)
-					else seat.name
-			)
-		local radius = b.brush
-		local preview = remaining > 0
-			and remaining <= (if anchor then 0.5 else 0.4)
-			and (view.phase == "Battle" or view.phase == "Overtime")
-		if preview and not reduced then
-			radius = if anchor then 4.5 + (0.5 - remaining) * 5 else 6 + remaining * 3
+		local point = Layout.ball(b.x, b.z)
+		v.frame.Position = UDim2.fromOffset(point.X, point.Y)
+		local battle = view.phase == "Battle" or view.phase == "Overtime"
+		local movement = point - v.lastPoint
+		if battle and movement.Magnitude < 30 and not reduced then
+			v.spin += movement.Magnitude * 0.008
 		end
-		for j, p in v.ring do
-			local angle = (j - 1) * math.pi / 16
-			local nextAngle = j * math.pi / 16
-			Renderer.line(
-				p,
-				Vector3.new(b.x + math.cos(angle) * radius, 0.25, b.z + math.sin(angle) * radius),
-				Vector3.new(b.x + math.cos(nextAngle) * radius, 0.25, b.z + math.sin(nextAngle) * radius),
-				if preview then 0.16 else 0.09
-			)
+		v.lastPoint = point
+		v.model:PivotTo(
+			CFrame.Angles(0, if skin == "Axe" then 0.3 else 0, if skin == "Axe" then 0 else v.spin)
+		)
+		local weapon = v.model:FindFirstChild("Weapon")
+		if weapon and weapon:IsA("Model") then
+			weapon:PivotTo(CFrame.Angles(0, 0, if reduced then -math.pi / 2 else now * 3))
+			for _, p in weapon:GetChildren() do
+				if p:IsA("BasePart") then
+					p.Transparency = if battle then 0 else 1
+				end
+			end
+		end
+		v.label.Visible = battle
+		if b.nextAbilityTick ~= v.lastAbility then
+			if v.lastAbility > 0 and b.nextAbilityTick > v.lastAbility then
+				v.pulseAt = now
+			end
+			v.lastAbility = b.nextAbilityTick
+		end
+		local age = now - v.pulseAt
+		v.pulse.Visible = battle and age < 0.65 and not reduced
+		v.pulse.Size = UDim2.fromOffset(88 + age * 70, 88 + age * 70)
+		v.pulse.BackgroundTransparency = math.clamp(0.72 + age * 0.42, 0, 1)
+		if battle and not reduced and now - v.lastTrail > 0.055 then
+			table.insert(v.positions, 1, point)
+			if #v.positions > 9 then
+				table.remove(v.positions)
+			end
+			v.lastTrail = now
+		end
+		for j, p in v.trail do
+			local old: Vector2? = v.positions[j]
+			p.Visible = battle and not reduced and old ~= nil
+			if old then
+				p.Position = UDim2.fromOffset(old.X + math.sin(j * 2.7) * 12, old.Y + math.cos(j * 3) * 12)
+				local size = if skin == "Axe" then 4 + (9 - j) * 0.65 else 8 + (9 - j) * 2.7
+				p.Size = UDim2.fromOffset(size, size)
+				p.BackgroundTransparency = 0.25 + j * 0.075
+				p.BackgroundColor3 = if skin == "Axe"
+					then Color3.fromRGB(255, 247, 209)
+					else Color3.fromRGB(86, 223, 3)
+			end
 		end
 	end
 end

@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"type\":\"Enum.CameraType.Scriptable\",\"auto\":true,\"root\":61,\"character\":\"Workspace.Fresc0_fr\",\"sky\":\"rbxassetid://6444884337\",\"focus\":\"0, 26, -100, 1, 0, 0, 0, 1, 0, 0, 0, 1\",\"viewport\":\"799, 600\",\"lighting\":2,\"phase\":\"Countdown\",\"camera\":\"0, 20, 0, 1, 0, -0, -0, 0.998204827, -0.0598922893, 0, 0.0598922893, 0.998204827\"}"
+      }
+    ],
+    "isError": false
+  }
+}

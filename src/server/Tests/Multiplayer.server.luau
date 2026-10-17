@@ -23,6 +23,7 @@ local mismatches = 0
 local comparisons = 0
 local results = 0
 local aborted = 0
+local visualFailures = 0
 telemetry.OnServerEvent:Connect(function(p, raw: unknown)
 	if type(raw) ~= "table" then
 		return
@@ -39,6 +40,9 @@ telemetry.OnServerEvent:Connect(function(p, raw: unknown)
 	end
 	entry[p.UserId] = true
 	comparisons += 1
+	if t.visualPass ~= true then
+		visualFailures += 1
+	end
 	local serverHash = Workspace:GetAttribute("BVSBoardHash")
 	local serverTick = Workspace:GetAttribute("BVSTick")
 	assert(type(serverTick) == "number", "Missing server simulation tick")
@@ -66,6 +70,7 @@ telemetry.OnServerEvent:Connect(function(p, raw: unknown)
 	Workspace:SetAttribute("BVSTestComparisons", comparisons)
 	Workspace:SetAttribute("BVSTestMismatches", mismatches)
 	Workspace:SetAttribute("BVSTestAborted", aborted)
+	Workspace:SetAttribute("BVSTestVisualFailures", visualFailures)
 	if results >= target then
 		task.delay(1, function()
 			StudioTestService:EndTest({
@@ -73,6 +78,8 @@ telemetry.OnServerEvent:Connect(function(p, raw: unknown)
 				comparisons = comparisons,
 				mismatches = mismatches,
 				aborted = aborted,
+				visualComparisons = comparisons,
+				visualFailures = visualFailures,
 				players = #Players:GetPlayers(),
 			})
 		end)

@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"fullscreen\":\"401, 873\",\"touch\":true,\"phase\":\"Countdown\",\"courtOrigin\":\"20.0500031, 256.401733\",\"primaryHeight\":43.61754608154297,\"viewport\":\"401, 777\",\"aimDiagonal\":314.8500357465904,\"scale\":0.7035087943077087,\"courtSize\":\"360.196503, 358.78949\"}"
+      }
+    ],
+    "isError": false
+  }
+}

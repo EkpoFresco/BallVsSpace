@@ -6,7 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local Shared = ReplicatedStorage:WaitForChild("Shared", 15)
 assert(Shared, "Missing shared modules")
-local Catalog = require(Shared.BallCatalog)
+local Appearances = require(Shared.AppearanceCatalog)
 local Math = require(Shared.TerritoryMath)
 local Protocol = require(Shared.Protocol)
 local Types = require(Shared.Types)
@@ -45,7 +45,7 @@ local history: { Frame } = {}
 type Pending = { board: Types.Board, tick: number, due: number }
 local pending: { Pending } = {}
 local decodeBoard = controller.board
-local function send(kind: string, kit: string?, direction: number?)
+local function send(kind: string, kit: string?, direction: number?, appearance: string?)
 	id += 1
 	local v = view
 	command:FireServer({
@@ -55,14 +55,15 @@ local function send(kind: string, kit: string?, direction: number?)
 		roundId = if v then v.roundId else 0,
 		generation = if v then v.generation else 0,
 		kitId = kit,
+		appearance = appearance,
 		angle = direction,
 	})
 end
 local function score(board: Types.Board)
 	hud.scoreA.Text = string.format("◇ %.1f%%", 100 * board.counts[1] / 1024)
 	hud.scoreB.Text = string.format("%.1f%% ○", 100 * board.counts[2] / 1024)
-	hud.barA.Size = UDim2.fromScale(board.counts[1] / 1024, 1)
-	hud.barB.Size = UDim2.fromScale(board.counts[2] / 1024, 1)
+	hud.barA.Size = UDim2.fromOffset(board.counts[1] / 1024 * 446, 3)
+	hud.barB.Size = UDim2.fromOffset(board.counts[2] / 1024 * 446, 3)
 end
 local function ownSeat(): ViewTypes.Seat?
 	if view then
@@ -75,111 +76,50 @@ local function ownSeat(): ViewTypes.Seat?
 	return nil
 end
 local function renderUi()
-	local v = view
-	local own = ownSeat()
-	hud.left.Visible = true
-	hud.right.Visible = true
-	hud.primary.Visible = true
-	hud.help.Visible = phase == "Lobby" or phase == "Queued" or phase == "Draft" or phase == "Aim"
-	hud.primary.Active = true
-	hud.primary.AutoButtonColor = true
-	if not v then
-		hud.phase.Text = "BALL VS SPACE"
-		hud.timer.Text = "ORBITAL COURT"
-		hud.points.Text = "Most space at the buzzer wins"
-		hud.left.Text = "PLAY 1V1"
-		hud.right.Text = "PRACTICE"
-		hud.primary.Text = if phase == "Queued"
-			then "CANCEL QUEUE"
-			else (if reduced then "REDUCED MOTION: ON" else "REDUCED MOTION: OFF")
-		hud.hint.Text = if phase == "Queued"
-			then "Waiting for another player…"
-			else "Pick your ball. Aim your opening.\nTake the most space."
-		hud.status.Text = "M1 prototype · two kits · session only"
-		Hud.layout(hud, phase)
+	Hud.render(hud, view, phase, controller.board, reduced)
+	floor.gui.Enabled = hud.showTerritory and view ~= nil
+	hud.gui:SetAttribute("Phase", phase)
+	hud.gui:SetAttribute("SelectedAppearance", hud.selectedAppearance)
+	hud.gui:SetAttribute("AimAngle", angle)
+end
+local function chooseAppearance(appearance: string)
+	local entry = Appearances.entries[appearance]
+	if not entry then
 		return
 	end
-	local title = if phase == "Draft"
-		then "CHOOSE YOUR BALL"
-		elseif phase == "Aim" then "ADJUST YOUR AIM"
-		else string.upper(phase)
-	hud.phase.Text = title .. " · ROUND " .. v.roundNumber .. " / 3"
-	for i, seat in v.seats do
-		hud.sideLabels[i].Text = seat.name .. "\n" .. (seat.kitId or "?")
-	end
-	hud.points.Text = string.format(
-		"POINTS  %g — %g   ·   %d neutral cells",
-		v.points2[1] / 2,
-		v.points2[2] / 2,
-		controller.board.counts[0]
-	)
-	hud.status.Text = (
-		if v.practice then "PRACTICE · no competitive rewards" else "1V1 · session-only prototype"
-	) .. (if own then " · You: " .. (if own.team == 1 then "◇ CYAN" else "○ CORAL") else "")
-	if phase == "Draft" then
-		for i, button in { hud.left, hud.right } do
-			local kit = Catalog.kits[v.offer[i]]
-			if kit then
-				button.Text = kit.id .. "\n" .. kit.role
-				button.BackgroundColor3 = if kit.id == v.localKit
-					then Color3.fromRGB(69, 77, 115)
-					else Color3.fromRGB(19, 24, 40)
-				local body = hud.icons[i]:FindFirstChild("Body")
-				if body and body:IsA("BasePart") then
-					body.Color = if kit.id == "Drift"
-						then Color3.fromRGB(75, 220, 234)
-						else Color3.fromRGB(173, 133, 246)
-				end
+	hud.selectedAppearance = appearance
+	hud.collection.Visible = false
+	if phase == "Draft" and view then
+		local generation = view.generation
+		send("Select", entry.kit, nil, appearance)
+		task.delay(0.28, function()
+			if view and phase == "Draft" and view.generation == generation then
+				send("Commit")
 			end
-		end
-		hud.hint.Text = if v.localKit ~= "" then Catalog.kits[v.localKit].description else "Choose a ball"
-		hud.primary.Text = if own and own.pickLocked
-			then "CHOICE LOCKED"
-			else "LOCK " .. string.upper(v.localKit)
-	elseif phase == "Aim" then
-		hud.hint.Text = "Drag on the court to aim.\nThe line previews your first wall bounce."
-		hud.left.Text = "↶  TURN 15°"
-		hud.right.Text = "TURN 15°  ↷"
-		hud.primary.Text = if own and own.aimLocked
-			then "AIM LOCKED"
-			else string.format("LOCK AIM · %03d°", angle)
-	elseif phase == "RoundResult" or phase == "MatchResult" then
-		local winner = if v.winner == 0
-			then "DRAW"
-			elseif v.winner == 1 then "◇ CYAN WINS"
-			else "○ CORAL WINS"
-		hud.hint.Text = winner
-			.. "\n"
-			.. controller.board.counts[1]
-			.. " — "
-			.. controller.board.counts[2]
-			.. " cells · final area decides"
-		if v.reason ~= "final_area" and v.reason ~= "match_points" and v.reason ~= "overtime_draw" then
-			hud.hint.Text = winner .. "\n" .. string.gsub(v.reason, "_", " ")
-		end
-		hud.left.Text = "WATCH LAST 2s"
-		hud.right.Text = if reduced then "MOTION: REDUCED" else "MOTION: FULL"
-		hud.primary.Text = if phase == "MatchResult" then "REMATCH" else "NEXT ROUND SOON"
-	elseif phase == "Overtime" then
-		hud.hint.Text = "OVERTIME\nLead by 2+ cells for 10 updates (1 second)."
-		hud.left.Visible = false
-		hud.right.Visible = false
-		hud.primary.Text = "AUTOMATIC BATTLE"
-	elseif phase == "Battle" or phase == "Countdown" then
-		hud.hint.Text = if phase == "Countdown"
-			then "Most space at the buzzer wins."
-			else "Keep covering to strengthen.\nEnemy coverage steals."
-		hud.left.Visible = false
-		hud.right.Visible = false
-		hud.primary.Text = if phase == "Countdown" then "GET READY" else "AUTOMATIC BATTLE"
-	else
-		hud.hint.Text = "Connecting players…"
-		hud.left.Visible = false
-		hud.right.Visible = false
-		hud.primary.Text = "READY CHECK"
+		end)
 	end
-	Hud.layout(hud, phase)
 end
+for _, card in hud.cards do
+	card.Activated:Connect(function()
+		chooseAppearance(card.Name)
+	end)
+end
+hud.confirmCollection.Activated:Connect(function()
+	chooseAppearance(hud.pendingAppearance)
+end)
+hud.reroll.Activated:Connect(function()
+	for i, card in hud.cards do
+		card.Position = UDim2.fromOffset(160 + ((i + math.floor(os.clock())) % 3) * 175, 194)
+	end
+end)
+hud.territoryToggle.Activated:Connect(function()
+	hud.showTerritory = not hud.showTerritory
+	renderUi()
+end)
+hud.motionToggle.Activated:Connect(function()
+	reduced = not reduced
+	renderUi()
+end)
 hud.left.Activated:Connect(function()
 	if phase == "Lobby" then
 		send("Queue")
@@ -297,7 +237,7 @@ local function updateAim(position: Vector2)
 	if phase ~= "Aim" or not s or s.aimLocked or not camera then
 		return
 	end
-	local nextAngle = Aim.angle(camera, position, s.x, s.z)
+	local nextAngle = Aim.angle(hud.gui.AbsoluteSize, position, s.x, s.z)
 	if nextAngle then
 		angle = math.floor(nextAngle + 0.5) % 360
 		if os.clock() - lastAim >= 0.11 then
@@ -354,7 +294,8 @@ end)
 RunService:BindToRenderStep("BVSCamera", Enum.RenderPriority.Camera.Value + 1, function()
 	local camera = Workspace.CurrentCamera
 	if camera then
-		Camera.fit(camera)
+		Camera.fit(camera, phase)
+		floor.scale.Scale = hud.scale.Scale
 	end
 end)
 RunService.RenderStepped:Connect(function()
@@ -409,6 +350,9 @@ RunService.RenderStepped:Connect(function()
 		end
 	end
 	Balls.render(balls, positions, view, reduced)
+	for i, ball in balls.balls do
+		ball.label.Text = string.format("%d%%", math.floor(controller.board.counts[i] / 10.24 + 0.5))
+	end
 	local v = view
 	if v then
 		if phase == "Aim" or phase == "Countdown" then
@@ -427,6 +371,15 @@ RunService.RenderStepped:Connect(function()
 			then (1800 - v.tick) / 60
 			elseif phase == "Overtime" then (2700 - v.tick) / 60
 			else v.deadline - Workspace:GetServerTimeNow()
+		local secondsLeft = math.max(0, math.ceil(seconds))
+		hud.draftTitle.Text = "CHOOSE YOUR BALL - " .. secondsLeft
+		hud.collectionTitle.Text = if phase == "Draft"
+			then "Select Any Ball - " .. secondsLeft
+			else "Select Any Ball"
+		hud.phase.Text = if phase == "Aim"
+			then "ADJUST YOUR AIM - " .. secondsLeft
+			elseif phase == "Countdown" then "GET READY - " .. secondsLeft
+			else "CONNECTING…"
 		hud.timer.Text = string.format(
 			"%02d:%02d",
 			math.max(0, math.ceil(seconds)) // 60,
@@ -443,11 +396,11 @@ RunService.RenderStepped:Connect(function()
 		snapshotRequest:FireServer()
 	end
 end)
-local currentCamera = Workspace.CurrentCamera
-if currentCamera then
-	currentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
-		Hud.layout(hud, phase)
-	end)
-end
+hud.gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+	Hud.layout(hud, phase)
+end)
+UserInputService:GetPropertyChangedSignal("TouchEnabled"):Connect(function()
+	Hud.layout(hud, phase)
+end)
 renderUi()
 print("BVS CLIENT READY")
