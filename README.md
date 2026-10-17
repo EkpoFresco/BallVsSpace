@@ -34,3 +34,5 @@ require(game.ServerScriptService.Server.Tests.Suite).run()
 For the ten-match automation, run the contents of `tools/start-multiplayer.luau` in the Edit command bar. It starts two actual clients through StudioTestService and ends after ten completed matches. The clients use ordinary remotes and standard clocks. Allow roughly 20–25 minutes. Do not count these as human testers.
 
 Read [docs/playtest-report.md](docs/playtest-report.md) for actual evidence and limitations, [docs/decisions.md](docs/decisions.md) for implementation choices, and the pack-root `BUILD_STATUS.md` for the resume task. M2–M4 expansion is gated by the M1 human checks in the research specification.
+
+The user also requires the completed UI/play view to closely match the supplied reference. The M1 match screen has received a first presentation pass, but the full visual gate remains open; see [docs/visual-fidelity.md](docs/visual-fidelity.md). Video evidence records the earlier temporary HUD, while the `visual-qa-*` screenshots show the newer match screen.

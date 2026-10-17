@@ -96,9 +96,17 @@ local function renderUi()
 			then "Waiting for another player…"
 			else "Pick your ball. Aim your opening.\nTake the most space."
 		hud.status.Text = "M1 prototype · two kits · session only"
+		Hud.layout(hud, phase)
 		return
 	end
-	hud.phase.Text = string.upper(phase) .. " · ROUND " .. v.roundNumber .. " / 3"
+	local title = if phase == "Draft"
+		then "CHOOSE YOUR BALL"
+		elseif phase == "Aim" then "ADJUST YOUR AIM"
+		else string.upper(phase)
+	hud.phase.Text = title .. " · ROUND " .. v.roundNumber .. " / 3"
+	for i, seat in v.seats do
+		hud.sideLabels[i].Text = seat.name .. "\n" .. (seat.kitId or "?")
+	end
 	hud.points.Text = string.format(
 		"POINTS  %g — %g   ·   %d neutral cells",
 		v.points2[1] / 2,
@@ -114,8 +122,14 @@ local function renderUi()
 			if kit then
 				button.Text = kit.id .. "\n" .. kit.role
 				button.BackgroundColor3 = if kit.id == v.localKit
-					then Color3.fromRGB(43, 100, 111)
-					else Color3.fromRGB(40, 56, 74)
+					then Color3.fromRGB(69, 77, 115)
+					else Color3.fromRGB(19, 24, 40)
+				local body = hud.icons[i]:FindFirstChild("Body")
+				if body and body:IsA("BasePart") then
+					body.Color = if kit.id == "Drift"
+						then Color3.fromRGB(75, 220, 234)
+						else Color3.fromRGB(173, 133, 246)
+				end
 			end
 		end
 		hud.hint.Text = if v.localKit ~= "" then Catalog.kits[v.localKit].description else "Choose a ball"
@@ -164,6 +178,7 @@ local function renderUi()
 		hud.right.Visible = false
 		hud.primary.Text = "READY CHECK"
 	end
+	Hud.layout(hud, phase)
 end
 hud.left.Activated:Connect(function()
 	if phase == "Lobby" then
@@ -428,5 +443,11 @@ RunService.RenderStepped:Connect(function()
 		snapshotRequest:FireServer()
 	end
 end)
+local currentCamera = Workspace.CurrentCamera
+if currentCamera then
+	currentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
+		Hud.layout(hud, phase)
+	end)
+end
 renderUi()
 print("BVS CLIENT READY")

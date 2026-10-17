@@ -7,7 +7,7 @@ local Workspace = game:GetService("Workspace")
 if not RunService:IsStudio() then
 	return
 end
-local args = StudioTestService:GetTestArgs()
+local args = StudioTestService:GetTestArgs() or ""
 local countText = string.match(args, "^BVS normal%-clock (%d+) matches$")
 if args ~= "BVS normal-clock ten matches" and not countText and game:GetAttribute("BVSAutoTest") ~= true then
 	return

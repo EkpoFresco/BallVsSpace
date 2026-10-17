@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"viewport\":\"402, 778\",\"scaling\":\"Enum.DeviceSimulatorScalingMode.ActualResolution\",\"device\":\"iphone_17_pro\",\"orientation\":\"Enum.ScreenOrientation.Portrait\"}"
+      }
+    ],
+    "isError": false
+  }
+}

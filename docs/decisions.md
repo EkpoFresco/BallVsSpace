@@ -2,6 +2,10 @@
 
 The research specification and original evidence remain unchanged. These are implementation decisions, not observations of the reference game. Scoring remains `bvs-rules-1`.
 
+## Updated user visual requirement
+
+The user explicitly requires the finished play view/UI to look almost identical to the original reference. This supersedes treating the prototype's initial minimal HUD as final art direction. After the logic checkpoint, a first match-screen pass recreated the front-facing navy court, blue surroundings, side figures, centered cards, outlined type and gold lock button with original primitives. Compare camera/court framing, menu placement, draft cards, aim controls, score/result panels and transitions against the supplied evidence at matched viewport sizes. The walkable lobby and full catalog views remain unfinished. A final build needs a side-by-side visual acceptance pass; the current prototype is not a visual-fidelity acceptance.
+
 ## M1 scope
 
 - The catalog contains Drift and Anchor only. Draft offers both, in a stable seeded order. The three-distinct-card algorithm is tested against an eight-ID fixture, but the six future kits are not executable. There is no useful wildcard choice when every implemented kit is already offered; wildcard UI and its full lifecycle tests await the expanded roster.
@@ -33,4 +37,4 @@ The first failing artifacts are retained. The corrected solver passed 200 mirror
 - Match commands are processed synchronously without yielding; phase advancement has one owner. A queued inbox with explicit receipt timestamps should replace this when async persistence/party services are introduced.
 - A full transport loss/jitter matrix, exploit burst profiling, disconnect/reconnect in every phase, 100-reset leak checks and a four-client run are pending. Existing unit checks do not stand in for those tests.
 - The final two-second replay uses client-received authoritative frames. A durable, versioned event replay/export pipeline is not implemented.
-- Audio, richer patterns/accessibility, fully adaptive compact-landscape presentation, a guided onboarding experiment, and real-phone profiling remain M3/human work. The iPhone 17 Pro landscape emulator showed controls obscuring the court; this is a failed layout check. Portrait at an observed 401×778 viewport showed the full court. Small docked Studio viewports can also make the court too small; use a full-size test viewport for M1 desktop play.
+- Audio, richer patterns/accessibility, complete compact-landscape usability, a guided onboarding experiment, and real-phone profiling remain M3/human work. The first iPhone 17 Pro landscape layout obscured the court; that failed capture is retained. The later reference-style pass removes the large battle footer and adapts the card panel, with new emulator captures. These are layout checks, not a physical-phone pass. Use a full-size Studio viewport or device simulation for M1 desktop play.

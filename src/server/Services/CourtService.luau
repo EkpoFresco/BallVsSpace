@@ -32,27 +32,50 @@ function Court.build()
 		return p
 	end
 	part(
+		"BlueBackdrop",
+		Vector3.new(500, 1, 500),
+		Vector3.new(0, -4, 0),
+		Color3.fromRGB(69, 151, 207),
+		Enum.Material.SmoothPlastic
+	)
+	-- Original procedural cloud shapes frame the court without external image assets.
+	for i = 1, 16 do
+		local side = if i % 2 == 0 then 1 else -1
+		local x = side * (43 + (i % 4) * 7)
+		local z = -75 + i * 9
+		for j = 0, 2 do
+			local cloud = part(
+				"Cloud",
+				Vector3.new(19 + j * 2, 0.4, 8 + j * 2),
+				Vector3.new(x + j * 7, -2.5, z + j * 3),
+				Color3.fromRGB(211, 235, 246),
+				Enum.Material.SmoothPlastic
+			)
+			cloud.Shape = Enum.PartType.Ball
+		end
+	end
+	part(
 		"Floor",
 		Vector3.new(64, 1, 64),
 		Vector3.new(0, -0.6, 0),
-		Color3.fromRGB(22, 28, 40),
+		Color3.fromRGB(26, 47, 80),
 		Enum.Material.SmoothPlastic
 	)
 	for _, x in { -33, 33 } do
 		part(
 			"Rim",
-			Vector3.new(1, 0.6, 67),
+			Vector3.new(2.5, 2, 68.5),
 			Vector3.new(x, 0, 0),
-			Color3.fromRGB(60, 78, 96),
+			Color3.fromRGB(12, 25, 45),
 			Enum.Material.Metal
 		)
 	end
 	for _, z in { -33, 33 } do
 		part(
 			"Rim",
-			Vector3.new(67, 0.6, 1),
+			Vector3.new(68.5, 2, 2.5),
 			Vector3.new(0, 0, z),
-			Color3.fromRGB(60, 78, 96),
+			Color3.fromRGB(12, 25, 45),
 			Enum.Material.Metal
 		)
 	end
@@ -81,7 +104,7 @@ function Court.build()
 		PhysicsService:CollisionGroupSetCollidable("Effects", name, false)
 	end
 	PhysicsService:CollisionGroupSetCollidable("LobbyCharacters", "LobbyCharacters", false)
-	Lighting.ClockTime = 0
+	Lighting.ClockTime = 14
 	Lighting.Brightness = 2
 	Lighting.Ambient = Color3.fromRGB(130, 145, 165)
 	Lighting.OutdoorAmbient = Color3.fromRGB(130, 145, 165)

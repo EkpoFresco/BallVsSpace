@@ -5,7 +5,7 @@ local Arena = require(Shared.ArenaDefinition)
 local Types = require(Shared.Types)
 local Renderer = {}
 local colors = { Color3.fromRGB(57, 214, 230), Color3.fromRGB(250, 124, 111) }
-local neutral = Color3.fromRGB(45, 53, 68)
+local neutral = Color3.fromRGB(26, 47, 80)
 export type State = { tiles: { Part }, q: buffer, folder: Folder }
 function Renderer.new(): State
 	local root = Instance.new("Folder")

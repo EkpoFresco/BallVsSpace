@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"players\":{\"1\":{\"id\":4783437770,\"name\":\"Fresc0_fr\"}},\"workspace\":{\"BVSTick\":1800,\"BVSCompletedMatches\":1,\"BVSMatchId\":\"1f9b0aa1-dd34-47f9-b9c0-1a0e8e10e7e9\",\"BVSCountA\":167,\"BVSCountB\":639,\"BVSResultReason\":\"match_points\",\"BVSPhase\":\"MatchResult\",\"BVSBoardHash\":1546122631},\"isServer\":true}"
+      }
+    ],
+    "isError": false
+  }
+}

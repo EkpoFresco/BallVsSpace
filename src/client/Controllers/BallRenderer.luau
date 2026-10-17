@@ -84,7 +84,7 @@ function Renderer.render(
 	for i, v in state.balls do
 		local b = positions[i]
 		local seat = if view then view.seats[i] else nil
-		local visible = b ~= nil and view ~= nil and view.phase ~= "ReadyCheck"
+		local visible = b ~= nil and view ~= nil and view.phase ~= "ReadyCheck" and view.phase ~= "Draft"
 		v.body.Transparency = if visible then 0 else 1
 		v.accent.Transparency = if visible then 0 else 1
 		v.label.Visible = visible
