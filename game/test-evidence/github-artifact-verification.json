@@ -1,0 +1,16 @@
+{
+  "source": "457f85b2bc1000426003fb75e6246968d0779999",
+  "runId": 39024494391,
+  "artifacts": [
+    {
+      "matchesLocal": true,
+      "file": "BallVsSpace.rbxlx",
+      "sha256": "436E60CB37ACDA39144CC1483DF2B76993834BF584DA6308D8B286CE989D4ED0"
+    },
+    {
+      "matchesLocal": true,
+      "file": "BallVsSpace.rbxl",
+      "sha256": "F8B38759293D74AFBB2FFF42A6B9F7E4B9B54A9E51A25AF0F5D95EB5768F7CAB"
+    }
+  ]
+}
