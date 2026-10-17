@@ -1,0 +1,6 @@
+build	Install pinned tools	﻿2026-10-17T10:16:44.3691959Z ##[group]Run rokit install --no-trust-check
+build	Install pinned tools	2026-10-17T10:16:44.3692455Z ^[[36;1mrokit install --no-trust-check^[[0m
+build	Install pinned tools	2026-10-17T10:16:44.3769640Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+build	Install pinned tools	2026-10-17T10:16:44.3770042Z ##[endgroup]
+build	Install pinned tools	2026-10-17T10:16:44.8516821Z ^[[31mERROR^[[0m GitHub error: reqwest error: HTTP status client error (403 Forbidden) for url (https://api.github.com/repos/Kampfkarren/selene/releases/tags/v0.32.0)
+build	Install pinned tools	2026-10-17T10:16:45.0016309Z ##[error]Process completed with exit code 1.
