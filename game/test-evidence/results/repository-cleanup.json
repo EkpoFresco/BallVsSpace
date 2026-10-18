@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-18",
+  "scope": "Repository organization, documentation and development tooling; no runtime source edits",
+  "baselineCommit": "7d3776f3326d8075c38ce0a0489bcd739b9adb6f",
+  "trackedFiles": {
+    "before": 1560,
+    "after": 243,
+    "removedFromWorkingTreePercent": 84.4
+  },
+  "preservation": {
+    "originalReferenceFiles": 63,
+    "referenceHashMismatches": [],
+    "runtimeScriptsByteUnchanged": 41,
+    "archivedTrackedArtifacts": 1096,
+    "archiveIndex": "game/test-evidence/archive/index.json",
+    "archive": "game/test-evidence/archive/2026-10-18-earlier-runs.zip",
+    "archiveSha256": "901af39188ef2eb324ad230dcb3a30b1b884c904ebe9c6ff2719de24a39dc626",
+    "archiveMembersCheckedAgainstOriginalHashes": true,
+    "untrackedExploratoryArtifactsArchivedLocally": 179
+  },
+  "changes": {
+    "supersededToolScriptsRemoved": 32,
+    "documentation": "Development, architecture, testing and UI guides; consolidated history",
+    "tooling": "Shared Studio RPC, source inventory, Luau quoting and document/link utilities; grouped Studio, QA, CI and types",
+    "generatedOutput": "Ignored game/builds, game/exports and game/test-evidence/runs",
+    "uiContext": "155-file generated folder/ZIP replaces the 189-file tracked duplicate",
+    "dependencies": "Removed unused Lune pin; runtime dependencies unchanged"
+  },
+  "validation": {
+    "stylua": "passed",
+    "selene": "0 errors, 0 warnings, 0 parse errors",
+    "strictLuauAnalysis": "passed",
+    "toolingTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "repositoryLinks": {
+      "checked": 117,
+      "missing": []
+    },
+    "builds": [
+      {
+        "file": "BallVsSpace.rbxl",
+        "sha256": "F8B38759293D74AFBB2FFF42A6B9F7E4B9B54A9E51A25AF0F5D95EB5768F7CAB",
+        "unchangedFromEarlierVerifiedBuild": true
+      },
+      {
+        "file": "BallVsSpace.rbxlx",
+        "sha256": "436E60CB37ACDA39144CC1483DF2B76993834BF584DA6308D8B286CE989D4ED0",
+        "unchangedFromEarlierVerifiedBuild": true
+      }
+    ],
+    "studio": {
+      "name": "BallVsSpace.rbxl",
+      "placeId": 0,
+      "gameId": 0,
+      "state": "Edit",
+      "verifiedSourceFiles": 41,
+      "readOnly": true
+    },
+    "standaloneUiPacket": {
+      "zipIntegrity": true,
+      "extractedFiles": 155,
+      "manifestHashes": true,
+      "standaloneExtractedFolder": true,
+      "galleryImages": 90,
+      "scope": "Documentation only; no new Roblox runtime acceptance",
+      "screens": 15,
+      "regions": 50,
+      "staticLocalLinks": 412,
+      "missingLinks": [],
+      "loadedScreens": [
+        "lobby",
+        "battle",
+        "aim",
+        "draft",
+        "collection",
+        "inventory",
+        "store",
+        "results",
+        "settings",
+        "rewards",
+        "emotes",
+        "trade",
+        "invite",
+        "play",
+        "portrait"
+      ],
+      "allRegionSelections": true,
+      "markerToggle": true,
+      "mobile390pxHorizontalOverflow": false,
+      "screenshots": [
+        ".local/ui-map-desktop.png",
+        ".local/ui-map-mobile.png"
+      ]
+    },
+    "finalExportAfterDocumentationRefresh": {
+      "localLinksChecked": 409,
+      "missingLinks": [],
+      "galleryImages": 90
+    },
+    "runtimeAcceptance": "No fresh gameplay, multiplayer, physical-phone, gamepad or human acceptance claim; existing results remain dated"
+  }
+}

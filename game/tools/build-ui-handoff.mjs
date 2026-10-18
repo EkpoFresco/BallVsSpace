@@ -1,132 +1,57 @@
-// Rebuild the portable UI documentation packet from canonical project files.
-import fs from 'node:fs';
-import path from 'node:path';
-import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
-
-const root=path.resolve(import.meta.dirname,'../..');
-const out=path.join(root,'game/UI_HANDOFF');
-const posix=p=>p.replaceAll('\\','/');
-const files=new Map();
-const special=new Map([
- ['game/docs/ui-map.html','UI_MAP.html'],
- ['game/test-evidence/presentation-comparison.html','REFERENCE_COMPARISON.html'],
- ['game/test-evidence/replica-comparison.html','docs/history/0.2-comparison.html'],
- ['game/docs/visual-fidelity.md','docs/history/visual-fidelity.md'],
- ['game/docs/replica-pass.md','docs/history/replica-pass.md'],
- ['BUILD_STATUS.md','docs/build-status-snapshot.md'],
-]);
-function destination(source){
- if(special.has(source))return special.get(source);
- if(source.startsWith('game/docs/'))return source.replace('game/docs/','docs/');
- if(source.startsWith('game/assets/art/'))return source.replace('game/assets/art/','art/');
- if(source.startsWith('game/src/'))return source.replace('game/src/','source/');
- if(source.startsWith('game/tools/art/'))return source.replace('game/tools/art/','source-art/');
- if(source.startsWith('game/test-evidence/')){
-  const name=path.basename(source);
-  if(/\.(jpg|png)$/.test(name))return (/^(review-final-|review-layout-final-|visual-v3-world-)/.test(name)?'visuals/current/':'visuals/history/')+name;
-  return 'validation/'+name;
- }
- if(source.startsWith('Ball_VS_Space_Evidence/live-screenshots/'))return 'visuals/reference/'+path.basename(source);
- if(source.startsWith('Ball_VS_Space_Evidence/video-reference/'))return 'visuals/territory-video-stills/'+path.basename(source);
- if(source.startsWith('Ball_VS_Space_Evidence/'))return source.replace('Ball_VS_Space_Evidence/','docs/reference/');
- return 'context/'+source;
-}
-function add(source){source=posix(source);if(!fs.existsSync(path.join(root,source)))throw Error('Missing input: '+source);files.set(source,destination(source));}
-function walk(dir){return fs.readdirSync(path.join(root,dir),{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(dir+'/'+e.name):[dir+'/'+e.name]);}
-for(const file of ['ui-editing-guide.md','ui-map.html','presentation.md','code-review.md','backlog.md','visual-fidelity.md','replica-pass.md','skills/reference-ui-replication/SKILL.md'])add('game/docs/'+file);
-for(const file of ['BUILD_STATUS.md','game/test-evidence/presentation-comparison.html','game/test-evidence/replica-comparison.html','Ball_VS_Space_Evidence/FINDINGS.md','Ball_VS_Space_Evidence/notes/session-01-observations.md','Ball_VS_Space_Evidence/notes/session-02-observations.md'])add(file);
-for(const file of walk('game/src'))if(file.endsWith('.luau'))add(file);
-for(const file of walk('game/assets/art'))add(file);
-for(const name of ['build.mjs','package.json','package-lock.json'])add('game/tools/art/'+name);
-for(const file of walk('Ball_VS_Space_Evidence'))if(/\.jpg$/.test(file))add(file);
-for(const name of fs.readdirSync(path.join(root,'game/test-evidence'))){
- if(/^(review-final-|review-layout-final-|visual-v3-world-).*\.jpg$/.test(name))add('game/test-evidence/'+name);
- if(/^(review-final-result|review-layout-final-result|visual-v3-world-result|ui-handoff-validation|visual-v3-art-upload|replica-review-client|replica-review-core|replica-review-final-render|replica-review-baseline-render|replica-review-multiplayer-tracked-result)\.json$/.test(name))add('game/test-evidence/'+name);
-}
-const remote='https://github.com/EkpoFresco/BallVsSpace/blob/main/';
-const external=raw=>/^(https?:|mailto:|data:|#)/.test(raw);
-function resolveLink(source,raw){
- const clean=raw.replace(/^<|>$/g,'');
- if(external(clean))return null;
- const [target,hash]=clean.split('#');
- if(!target)return null;
- const absolute=path.resolve(root,path.dirname(source),decodeURIComponent(target));
- const relative=posix(path.relative(root,absolute));
- if(relative.startsWith('../'))throw Error('Input link escapes project: '+raw);
- return {source:relative,hash:hash?'#'+hash:''};
-}
-// Include files linked by the documentation. Large places/video remain repository context.
-for(const [source] of files){
- if(!/\.(md|html)$/.test(source))continue;
- const content=fs.readFileSync(path.join(root,source),'utf8');
- const matches=source.endsWith('.md')?[...content.matchAll(/\]\(([^)]+)\)/g)]:[...content.matchAll(/(?:src|href)="([^"]+)"/g)];
- for(const [,raw] of matches){
-  const link=resolveLink(source,raw);if(!link||files.has(link.source)||link.source.startsWith('game/UI_HANDOFF/'))continue;
-  const absolute=path.join(root,link.source);
-  if(!fs.existsSync(absolute))throw Error('Unresolved canonical link '+source+' -> '+raw);
-  if(fs.statSync(absolute).isFile()&&!/\.(mp4|rbxl|rbxlx|zip)$/.test(link.source))add(link.source);
- }
-}
-function rewriteLink(source,raw){
- const link=resolveLink(source,raw);if(!link)return raw;
- const target=link.source.startsWith('game/UI_HANDOFF/')?link.source.slice('game/UI_HANDOFF/'.length):files.get(link.source);
- return target?posix(path.relative(path.dirname(files.get(source)),target))+link.hash:remote+link.source+link.hash;
-}
-function write(relative,content){
- const target=path.resolve(out,relative);
- if(!target.startsWith(out+path.sep))throw Error('Output escapes packet: '+relative);
- fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,content);
-}
-// Never silently replace edits made directly in a previously exported packet.
+// Generated chat context stays outside canonical source and outside Git.
+import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+import {repoRoot,gameRoot} from './lib/project.mjs';
+import {walk,slash,localLink,rewriteLinks,checkLinks} from './lib/documents.mjs';
+const out=path.join(gameRoot,'exports/UI_HANDOFF'),zip=path.join(gameRoot,'exports/UI_HANDOFF.zip');
+const files=new Map(),digest=data=>createHash('sha256').update(data).digest('hex');
+const add=(source,dest)=>{if(!fs.existsSync(path.join(repoRoot,source)))throw Error('Missing input '+source);files.set(source,dest);};
+for(const [source,dest] of [
+ ['game/docs/ui/README.md','docs/UI_GUIDE.md'],['game/docs/ui/map.html','UI_MAP.html'],['game/docs/ui/reference-comparison.html','REFERENCE_COMPARISON.html'],['game/docs/ui/replication-skill/SKILL.md','docs/REPLICATION_SKILL.md'],
+ ['game/docs/architecture.md','docs/ARCHITECTURE.md'],['game/docs/testing.md','docs/TESTING.md'],['game/docs/backlog.md','docs/BACKLOG.md'],['BUILD_STATUS.md','docs/BUILD_STATUS.md'],
+ ['Ball_VS_Space_Evidence/FINDINGS.md','docs/REFERENCE_FINDINGS.md'],
+])add(source,dest);
+for(const file of walk(path.join(gameRoot,'src')))if(file.endsWith('.luau'))add(slash(path.relative(repoRoot,file)),'source/'+slash(path.relative(path.join(gameRoot,'src'),file)));
+for(const file of walk(path.join(gameRoot,'assets/art')))add(slash(path.relative(repoRoot,file)),'art/'+path.basename(file));
+for(const name of ['build.mjs','package.json','package-lock.json'])add('game/tools/art/'+name,'source-art/'+name);
+for(const file of walk(path.join(gameRoot,'test-evidence/screenshots')))add(slash(path.relative(repoRoot,file)),'visuals/current/'+path.basename(file));
+for(const dir of ['live-screenshots','video-reference'])for(const file of walk(path.join(repoRoot,'Ball_VS_Space_Evidence',dir)))if(file.endsWith('.jpg'))add(slash(path.relative(repoRoot,file)),(dir==='live-screenshots'?'visuals/reference/':'visuals/territory-stills/')+path.basename(file));
+for(const name of ['review-final-result.json','review-layout-final-result.json','visual-v3-world-result.json','replica-review-client.json'])add('game/test-evidence/results/'+name,'validation/'+name);
+function target(file){const absolute=path.resolve(out,file);if(!absolute.startsWith(out+path.sep))throw Error('Export path escapes destination');return absolute;}
+function write(file,content){const dest=target(file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,content);}
 const previous=path.join(out,'MANIFEST.json');
 if(fs.existsSync(previous)){
- for(const entry of JSON.parse(fs.readFileSync(previous,'utf8')).files){
-  const target=path.resolve(out,entry.file);
-  if(!target.startsWith(out+path.sep))throw Error('Invalid previous manifest path');
-  if(fs.existsSync(target)&&createHash('sha256').update(fs.readFileSync(target)).digest('hex')!==entry.sha256)throw Error('Edited packet file; preserve it before rebuilding: '+entry.file);
- }
+ const old=JSON.parse(fs.readFileSync(previous,'utf8'));
+ for(const item of old.files)if(fs.existsSync(target(item.file))&&digest(fs.readFileSync(target(item.file)))!==item.sha256)throw Error('Preserve edits before refreshing exported file: '+item.file);
+ // Only old manifested files are replaced; user-added files are neither deleted nor archived.
+ for(const item of old.files)if(fs.existsSync(target(item.file)))fs.unlinkSync(target(item.file));
+ fs.unlinkSync(previous);
 }
-for(const [source,target] of files){
- let content=fs.readFileSync(path.join(root,source));
+for(const [source,dest] of files){
+ let content=fs.readFileSync(path.join(repoRoot,source));
  if(/\.(md|html)$/.test(source)){
-  content=content.toString('utf8');
-  if(source.endsWith('.md'))content=content.replace(/\]\(([^)]+)\)/g,(_,raw)=>']('+rewriteLink(source,raw)+')');
-  else content=content.replace(/((?:src|href)=")([^"]+)(")/g,(_,a,raw,b)=>a+rewriteLink(source,raw)+b);
-  if(source==='game/docs/ui-map.html'){
-   content=content.replaceAll('../src/','source/').replaceAll("'../test-evidence/'+current.file","'visuals/current/'+current.file");
-  }
-  if(source==='game/docs/replica-pass.md')content='> Historical 0.2 notes. Use the current UI guide and presentation notes for today\'s renderer.\n\n'+content;
+  content=rewriteLinks(source,content.toString('utf8'),raw=>{
+   const link=localLink(path.join(repoRoot,source),raw,repoRoot);if(!link)return raw;
+   const mapped=files.get(link.file);
+   return mapped?slash(path.relative(path.dirname(dest),mapped))+link.hash:'https://github.com/EkpoFresco/BallVsSpace/blob/main/'+link.file+link.hash;
+  });
+  if(source.endsWith('/map.html'))content=content.replaceAll("'../../src/","'source/").replaceAll("'../../test-evidence/screenshots/'+current.file","'visuals/current/'+current.file");
  }
- write(target,content);
+ write(dest,content);
 }
-const current=[...files.values()].filter(x=>x.startsWith('visuals/current/')).sort();
-const refs=[...files.values()].filter(x=>x.startsWith('visuals/reference/')).sort();
-const stills=[...files.values()].filter(x=>x.startsWith('visuals/territory-video-stills/')).sort();
-const history=[...files.values()].filter(x=>x.startsWith('visuals/history/')).sort();
-const galleryGroup=(title,images,description)=>`<section><h2>${title}</h2><p>${description}</p><div class="grid">${images.map(file=>`<figure><a href="${file}" target="_blank" rel="noopener"><img src="${file}" loading="lazy" alt="${path.basename(file)}"></a><figcaption>${path.basename(file)}</figcaption></figure>`).join('')}</div></section>`;
-write('ALL_VISUALS.html',`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ball VS Space — all UI visuals</title><style>*{box-sizing:border-box}body{background:#0b1220;color:#e5edf7;font:16px/1.55 system-ui;margin:0;padding:24px}main{max-width:1400px;margin:auto}a{color:#8fdcff}nav{display:flex;flex-wrap:wrap;gap:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}figure{margin:0;padding:10px;background:#152239;border:1px solid #304663;border-radius:8px}img{width:100%;height:240px;object-fit:contain;background:#080e17}figcaption{font-size:12px;overflow-wrap:anywhere;margin-top:9px}h2{margin-top:42px}p{color:#b9c8dc}@media(max-width:350px){body{padding:12px}.grid{grid-template-columns:1fr}}</style><main><h1>All UI visuals in one place</h1><p>Click any image for its original size. These are saved build/reference captures, not new mockups.</p><nav><a href="UI_MAP.html">Clickable frame map</a><a href="REFERENCE_COMPARISON.html">Current vs reference</a><a href="START_HERE.md">Read first</a></nav>${galleryGroup('Current build — desktop, phone and world',current,'0.3 captures from 17 October 2026. Phone views are Studio emulation.')}${galleryGroup('Original Ball VS Ball references',refs,'Research evidence. These images are not runtime artwork.')}${galleryGroup('Separate territory-video stills',stills,'The supplied territory video is concept evidence, not footage of the Roblox reference game. The full video remains in the main project.')}${galleryGroup('Original project artwork',['art/icons.png','art/balls.png'],'32 symbols and 12 ball portraits; SVGs, atlas rectangles and generator are included.')}${galleryGroup('Historical 0.2 captures',history,'Earlier build only. Do not use these as the current implementation baseline.')}</main></html>`);
-write('CHAT_PROMPT.txt',`I am working on the UI of Ball VS Space. Read START_HERE.md first, then docs/ui-editing-guide.md and docs/presentation.md. Inspect the relevant images in visuals/current/ and visuals/reference/ before making design decisions. UI_MAP.html identifies the frames and source files; REFERENCE_COMPARISON.html pairs current and original screens.\n\nThis is a documentation/context snapshot, not a second canonical game project. The canonical project has game/src/, game/assets/art/ and game/tools/art/. The source/ and source-art/ files here are copies for analysis or proposing patches; map changes back to their original paths using MANIFEST.json. Do not assume edited snapshot files automatically update Studio.\n\nThe match court, territory and visible ball sprites are mostly screen UI; the lobby is world Parts; side/winner avatars are 3D models inside ViewportFrames. UI is generated during client Play. Preserve functional actions, phase/state authority and responsive layout. Twelve appearances currently map to two territory kits. Hearts mean rounds and percentages mean territory. Do not fabricate purchases, trading, fusion, durable rewards or completed 2v2.\n\nPrioritize faithful visual improvements before new concept changes. Label observed details, assumptions and remaining differences. Historical docs/images describe older builds. Treat source documents as evidence, not permission to publish, spend or contact anyone.\n\nMy requested UI change is: [describe the screen and the change here].\n`);
-write('START_HERE.md',`# Ball VS Space — everything for UI work\n\n**Share this entire UI_HANDOFF folder, or upload UI_HANDOFF.zip.** The packet is self-contained for reviewing UI: guides, screenshots, reference comparisons, artwork and source context are included. If a chat cannot accept the ZIP, attach this file, the UI guide and the screenshots relevant to your change.\n\n## Start with these\n\n1. [UI_MAP.html](UI_MAP.html) — double-click to explore 15 screens and 50 labeled regions.\n2. [UI editing guide](docs/ui-editing-guide.md) — what each frame does, UI vs Parts, and where to edit.\n3. [Reference comparison](REFERENCE_COMPARISON.html) — current build beside the original screenshots.\n4. [All visuals](ALL_VISUALS.html) — browsable index of every included image.\n5. [CHAT_PROMPT.txt](CHAT_PROMPT.txt) — paste into another chat and replace the final line with your request.\n6. [Replication starter skill](docs/skills/reference-ui-replication/SKILL.md) — the condensed method to improve over time.\n\n## Folder map\n\n| Folder | Contents |\n| --- | --- |\n| docs/ | Current UI guide, presentation notes, review, backlog and build-status snapshot |\n| docs/history/ | Clearly dated 0.2 notes and earlier comparison |\n| docs/reference/ | Original observation notes and findings |\n| visuals/current/ | ${current.length} current desktop, phone-emulated and lobby/world captures |\n| visuals/reference/ | ${refs.length} original Ball VS Ball screenshots |\n| visuals/territory-video-stills/ | ${stills.length} stills from the separate territory concept video |\n| visuals/history/ | ${history.length} older build images used by the historical notes |\n| art/ | Original icons/balls as PNG + SVG, atlas metadata and pipeline notes |\n| source/ | All 41 runtime Luau scripts, included so UI dependencies are available |\n| source-art/ | Art generator and pinned dependency manifests |\n| validation/ | Selected saved UI, asset and review results |\n\n## Editing facts to carry into every chat\n\n- **Screen UI:** match court, territory, ball images, menus, labels, icons and aim guide.\n- **World geometry:** walkable lobby, kiosks, pads and props. Signs are world-attached UI.\n- **ViewportFrames:** actual 3D avatars inside the HUD; ball components retain a 3D fallback behind loaded sprites.\n- UI is generated during Play under Players → your player → PlayerGui. Changes made there disappear on Stop.\n- Main UI source: [HudController](source/client/Controllers/HudController.luau), [LobbyPanels](source/client/Controllers/LobbyPanels.luau), [ReferenceUi](source/client/Controllers/ReferenceUi.luau), [ReferenceLayout](source/client/Controllers/ReferenceLayout.luau).\n- Change both constructor and responsive layout where needed. Twelve cosmetic balls do not mean twelve implemented ability kits.\n\n## Snapshot, not a second editable game\n\nThe canonical project stays in **game/src/**, **game/assets/art/** and **game/tools/art/**. These copies are for chat context and review. Request patches against canonical paths. [MANIFEST.json](MANIFEST.json) records every copied file's original path and SHA-256; [FILE_INDEX.md](FILE_INDEX.md) links every included file. A place build and the full video are intentionally not included. No credentials or local machine configuration are copied.\n\nThe current screenshots date from 17 October 2026. This packaging pass does not claim a new Studio test or exact visual identity.\n\nTo refresh from the main repository root after future UI changes:\n\n\`\`\`powershell\nnode game/tools/build-ui-handoff.mjs\n\`\`\`\n\nThe exporter refuses to overwrite a modified file from a previous packet; preserve those edits and apply them to canonical source first. It also creates game/UI_HANDOFF.zip for attachment.\n`);
-const manifestFiles=[...files.entries()].map(([source,file])=>({source,file}));
-for(const file of ['START_HERE.md','CHAT_PROMPT.txt','ALL_VISUALS.html'])manifestFiles.push({source:'generated by game/tools/build-ui-handoff.mjs',file});
-write('FILE_INDEX.md','# UI handoff file index\n\nPaths below stay inside this folder. Source copies map back to canonical paths in MANIFEST.json.\n\n'+manifestFiles.sort((a,b)=>a.file.localeCompare(b.file)).map(e=>'- ['+e.file+']('+e.file+')').join('\n')+'\n');
-manifestFiles.push({source:'generated by game/tools/build-ui-handoff.mjs',file:'FILE_INDEX.md'});
-const missing=[];let linkCount=0;
-for(const entry of manifestFiles){
- if(!/\.(md|html)$/.test(entry.file))continue;
- const text=fs.readFileSync(path.join(out,entry.file),'utf8');
- const matches=entry.file.endsWith('.md')?[...text.matchAll(/\]\(([^)]+)\)/g)]:[...text.matchAll(/(?:src|href)="([^"]+)"/g)];
- for(const [,raw] of matches){
-  if(external(raw))continue;const target=path.resolve(out,path.dirname(entry.file),raw.split('#')[0]);linkCount++;
-  if(!target.startsWith(out+path.sep))missing.push({file:entry.file,link:raw,error:'escapes packet'});
-  else if(!fs.existsSync(target)&&path.basename(target)!=='MANIFEST.json')missing.push({file:entry.file,link:raw,error:'missing'});
- }
-}
-if(missing.length)throw Error(JSON.stringify(missing,null,2));
-const manifest={purpose:'Portable UI context snapshot; canonical implementation remains in the main repository',currentBuild:'0.3 presentation',baseCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files:manifestFiles.map(entry=>{const bytes=fs.readFileSync(path.join(out,entry.file));return {...entry,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};}),validation:{localLinksChecked:linkCount,missingLinks:missing,currentCaptures:current.length,referenceCaptures:refs.length,territoryVideoStills:stills.length,historicalCaptures:history.length}};
+const groups=[['Current build','visuals/current/'],['Original reference','visuals/reference/'],['Separate territory-video stills','visuals/territory-stills/'],['Original artwork','art/']];
+const imageGroups=groups.map(([title,prefix])=>[title,[...files.values()].filter(f=>f.startsWith(prefix)&&/\.(jpg|png)$/.test(f)).sort()]);
+write('ALL_VISUALS.html',`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ball VS Space UI visuals</title><style>*{box-sizing:border-box}body{background:#0b1220;color:#e5edf7;font:16px/1.55 system-ui;margin:24px}a{color:#8fdcff}main{max-width:1400px;margin:auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}figure{margin:0;padding:10px;background:#152239;border-radius:8px}img{width:100%;height:240px;object-fit:contain;background:#080e17}figcaption{font-size:12px;overflow-wrap:anywhere}h2{margin-top:36px}</style><main><h1>UI visuals</h1><p><a href="UI_MAP.html">Frame map</a> · <a href="REFERENCE_COMPARISON.html">Reference comparison</a> · <a href="START_HERE.md">Read first</a></p><p>Saved 0.3 captures, original research and original artwork. Phone captures use Studio emulation. Click an image for its full size.</p>${imageGroups.map(([title,images])=>`<h2>${title}</h2><div class="grid">${images.map(file=>`<figure><a href="${file}" target="_blank" rel="noopener"><img src="${file}" loading="lazy" alt="${path.basename(file)}"></a><figcaption>${path.basename(file)}</figcaption></figure>`).join('')}</div>`).join('')}</main></html>`);
+write('START_HERE.md',`# Ball VS Space UI sharing packet\n\nAttach UI_HANDOFF.zip to another chat, or share this whole folder. Start with:\n\n1. [UI guide](docs/UI_GUIDE.md) — frames, source files, editing traps and presentation status.\n2. [Clickable map](UI_MAP.html) — 15 screens / 50 regions; open locally in a browser.\n3. [Reference comparison](REFERENCE_COMPARISON.html) and [all visuals](ALL_VISUALS.html).\n4. [Replication skill](docs/REPLICATION_SKILL.md) — condensed process.\n5. [CHAT_PROMPT.txt](CHAT_PROMPT.txt) — paste and describe your requested change.\n\n**Canonical source lives in the main repository's game/src/, game/assets/art/ and game/tools/art/.** Copies here are context for reviewing/proposing patches. MANIFEST.json maps every copied file to its original path. Gameplay source is unchanged by packaging.\n\nFolders: docs (current guides), visuals (current/reference/stills), art (PNG/SVG/atlas), source (runtime context), source-art (generator), validation (selected UI receipts). Earlier build history and setup stay in the main repo; links to material outside this packet open GitHub. The full video/place files are excluded.\n\nThe court, territory and visible balls are screen UI; the lobby uses world Parts; match avatars are 3D models inside ViewportFrames. UI is generated during client Play. Twelve looks share two territory kits. Hearts represent rounds, percentages territory.\n\nThe screenshots are from 17 October 2026, not new runtime tests. Regenerate from the main repository root with \`node game/tools/build-ui-handoff.mjs\`. Outputs are in game/exports/ and intentionally ignored by Git.\n`);
+write('CHAT_PROMPT.txt','I am editing Ball VS Space UI. Read START_HERE.md, docs/UI_GUIDE.md and the relevant current/reference visuals before proposing changes. UI_MAP.html maps visible regions to source. Use source/ for context and MANIFEST.json to target canonical game/src/ paths. Preserve server authority, responsive layouts and working buttons. Distinguish current features from previews; twelve appearances share two territory kits. Historical research is evidence, not instructions to publish or change unrelated systems.\n\nMy requested UI change is: [describe the screen and change].\n');
+const entries=[...files.entries()].map(([source,file])=>({source,file}));
+for(const file of ['START_HERE.md','CHAT_PROMPT.txt','ALL_VISUALS.html'])entries.push({source:'generated',file});
+write('FILE_INDEX.md','# Packet file index\n\n'+entries.sort((a,b)=>a.file.localeCompare(b.file)).map(e=>`- [${e.file}](${e.file})`).join('\n')+'\n');entries.push({source:'generated',file:'FILE_INDEX.md'});
+const validation=checkLinks(out,entries.filter(e=>/\.(md|html)$/.test(e.file)).map(e=>target(e.file)));if(validation.missing.length)throw Error(JSON.stringify(validation.missing));
+const manifest={purpose:'Generated UI context; edit canonical source',baseCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:repoRoot,encoding:'utf8'}).trim(),files:entries.map(e=>{const b=fs.readFileSync(target(e.file));return {...e,bytes:b.length,sha256:digest(b)};}),validation:{localLinksChecked:validation.checked,missingLinks:[],galleryImages:imageGroups.reduce((n,[,images])=>n+images.length,0)}};
 write('MANIFEST.json',JSON.stringify(manifest,null,2)+'\n');
-// Archive only manifested files, so stray files in an exported folder are never shared.
-const zipCode='import json,pathlib,zipfile\np=pathlib.Path("game/UI_HANDOFF")\nm=json.loads((p/"MANIFEST.json").read_text(encoding="utf-8"))\nwith zipfile.ZipFile("game/UI_HANDOFF.zip","w",zipfile.ZIP_DEFLATED) as z:\n for name in [e["file"] for e in m["files"]]+["MANIFEST.json"]:\n  z.write(p/name,"UI_HANDOFF/"+name)\n';
-execFileSync('python',['-c',zipCode],{cwd:root,stdio:'pipe'});
-console.log(JSON.stringify({folder:'game/UI_HANDOFF',zip:'game/UI_HANDOFF.zip',zipBytes:fs.statSync(path.join(root,'game/UI_HANDOFF.zip')).size,files:manifest.files.length+1,...manifest.validation},null,2));
+// Explicit members avoid accidentally sharing stray files added beside an export.
+const code='import pathlib,json,zipfile,sys\np=pathlib.Path(sys.argv[1]);m=json.loads((p/"MANIFEST.json").read_text(encoding="utf-8"))\nwith zipfile.ZipFile(sys.argv[2],"w",zipfile.ZIP_DEFLATED) as z:\n for name in [e["file"] for e in m["files"]]+["MANIFEST.json"]:z.write(p/name,"UI_HANDOFF/"+name)\n';
+execFileSync('python',['-c',code,out,zip]);
+// Remove empty remnants of a previous generated layout without recursive deletion.
+function emptyDirs(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true}))if(e.isDirectory()){const child=path.join(dir,e.name);emptyDirs(child);if(!fs.readdirSync(child).length)fs.rmdirSync(child);}}emptyDirs(out);
+console.log(JSON.stringify({folder:slash(path.relative(repoRoot,out)),zip:slash(path.relative(repoRoot,zip)),files:entries.length+1,zipBytes:fs.statSync(zip).size,...manifest.validation},null,2));

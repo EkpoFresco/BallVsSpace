@@ -1,7 +1,0 @@
-{
-  "cloneHash": "D3625E8E5A06312CB453A61470B885078A1DE69151526B24DD02079ED4A953ED",
-  "identical": true,
-  "buildHash": "D3625E8E5A06312CB453A61470B885078A1DE69151526B24DD02079ED4A953ED",
-  "verification": "format, lint, strict types, binary and XML builds",
-  "sourceCommit": "975b4a8c88b4c2d73e35d5fd1ae6464146e279c4"
-}

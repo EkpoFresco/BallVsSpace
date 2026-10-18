@@ -1,7 +1,0 @@
-{
-  "status": "transport timeout at 120 seconds; no pass recorded",
-  "priorEvidence": "replica-mirrored-fixtures.json remains historical",
-  "check": "400-round mirrored fixture",
-  "attempt": "synchronous MCP request",
-  "resolution": "rerun asynchronously with pair progress and persisted result"
-}

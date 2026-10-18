@@ -1,1 +1,0 @@
-return {result=game:GetAttribute("BVSReplicaMultiplayerResult"),name=game.Name,phase=workspace:GetAttribute("BVSPhase"),runId=game:GetAttribute("BVSReplicaMultiplayerRun"),completedRunId=game:GetAttribute("BVSReplicaMultiplayerCompletedRun")}

@@ -18,14 +18,11 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v4
-      - name: Clear historical logs from checkout
-        run: |
-          foreach ($name in 'format.log', 'lint.log', 'typecheck.log', 'build-hashes.json') {
-            $logPath = Join-Path 'game/test-evidence' $name
-            if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath }
-          }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - name: Install pinned Rokit
-        run: ./game/tools/install-rokit-ci.ps1
+        run: ./game/tools/ci/install-rokit-ci.ps1
       - name: Install pinned tools
         env:
           ROKIT_CI_TOKEN: ${{ github.token }}
@@ -35,6 +32,10 @@ jobs:
           rokit install --no-trust-check
       - name: Check source and build places
         run: ./game/tools/verify.ps1
+      - name: Validate tooling and repository links
+        run: |
+          node --test game/tools/tests/*.test.mjs
+          node game/tools/audit-repository.mjs
       - name: Upload place builds
         uses: actions/upload-artifact@v4
         with:
@@ -50,9 +51,9 @@ jobs:
         with:
           name: validation-${{ github.sha }}
           path: |
-            game/test-evidence/format.log
-            game/test-evidence/lint.log
-            game/test-evidence/typecheck.log
-            game/test-evidence/build-hashes.json
+            game/test-evidence/runs/format.log
+            game/test-evidence/runs/lint.log
+            game/test-evidence/runs/typecheck.log
+            game/test-evidence/runs/build-hashes.json
           if-no-files-found: warn
           retention-days: 14

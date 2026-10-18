@@ -11,5 +11,3 @@ START_HERE.md -text -whitespace
 SETUP.md -text -whitespace
 TRANSFER_MANIFEST.json -text -whitespace
 checks/** -text -whitespace
-# Preserve exported source/evidence bytes, including original mixed line endings.
-game/UI_HANDOFF/** -text -whitespace

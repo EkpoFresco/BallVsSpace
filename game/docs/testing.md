@@ -1,70 +1,84 @@
-# Test and playtest instructions
+# Testing and code review
 
-All paths below are relative to `game/`. Use a local test place. Do not publish to a public experience or enable API access/purchases for this prototype.
+Run commands from the repository root. Build success, automated Studio play, human acceptance and physical-device performance are separate claims. Current retained receipts are indexed in [test-evidence](../test-evidence/README.md); earlier successes and failures remain in its archive.
 
-## Automated checks
-
-1. Run `./tools/verify.ps1`. This creates `builds/BallVsSpace.rbxl` and `.rbxlx`, and writes static-check logs.
-2. Open the binary in Studio. In the **Edit** command bar run `require(game.ServerScriptService.Server.Tests.Suite).run()`. All groups must print `BVS PASS`. Alternatively set the explicit `BVSRunTests` game attribute before Play to run the Studio test runner.
-3. Run `tools/mirrored-fixtures.luau` in the Edit command bar. It performs 200 opening-condition pairs, with a reflected court and headings. It asserts every reflected cell, final counts and result. Save the returned table; do not treat measured Edit-mode step time as phone frame time.
-4. Run `tools/grid-fixture.luau` in the Edit command bar for before/after cell data. With MCP output saved at `test-evidence/grid-fixture.json`, run `node tools/render-grid-fixture.mjs` to regenerate the SVG.
-5. Run `tools/start-multiplayer.luau` in the Edit command bar. Wait for the two clients to load. The test driver selects alternating kits, submits headings through normal remotes, honors normal clocks, rematches, and compares each client's grid hash/tick at round and match results. Ten complete matches are required. On the original Edit DataModel, inspect `game:GetAttribute("BVSMultiplayerResult")` after the child windows close. Any mismatch, missing second client, early exit or project error is a failure, not a partial pass.
-
-MCP transport, if needed:
+## Local and CI checks
 
 ```powershell
-node tools/studio-mcp.mjs list unused test-evidence/mcp-tools.json
-node tools/studio-mcp.mjs call tools/request-list.json test-evidence/studio-instances.json
-# Inspect identity before replacing source. Never reuse a previous session's IDs.
-node tools/sync-studio.mjs <verified-local-edit-studio-id>
-./tools/call-studio.ps1 -Tool execute_luau -StudioId <id> -DataModel Edit -CodeFile tools/run-studio-tests.luau -Out test-evidence/logic-run.json
+pwsh -File game/tools/verify.ps1
+node --test game/tools/tests/*.test.mjs
+node game/tools/audit-repository.mjs
 ```
 
-MCP payloads have a JSON-RPC wrapper. The nested `result.content[].text` is often itself JSON; inspect `result.isError` as well as process exit code. An open place or successful build is not a gameplay pass.
+The build command runs StyLua, Selene, strict Luau analysis and both Rojo place builds. Logs go to ignored `game/test-evidence/runs/`. The Node tests cover shared tooling error handling, safe evidence names and source mapping. The repository audit checks original reference hashes, local links and folder invariants. CI runs these checks and uploads places/logs; it does not launch Studio.
 
-## Manual desktop acceptance
+## Studio logic and multiplayer
 
-Start two clients using Studio's Server & Clients mode **without** the automation test argument. Click Play in both. Check:
+Verify the local place identity and client/Edit context first. In the Edit command bar:
 
-- Before draft closes, each player sees their own choice; the opponent's choice is hidden. Opponent aim is hidden until countdown. Unlocked choices default at deadlines.
-- Both players can select each appearance through a card or All Balls and aim by clicking/dragging on the court. No input after the deadline changes the server's choice.
-- Whole court, large ball models, outlined labels and avatar displays are readable. Territory overlay is on by default for territory-comprehension checks; the lobby gear can hide it for reference comparisons. Motion version 2 uses a 5.9-unit body radius; the base influence brush is independently defined and can be smaller than the body.
-- Battle runs 30 seconds; scoring freezes before results. Space, rather than HP or remaining lives, determines the winner. Rematch and return to queue work. The reconstructed results screen does not currently expose the old replay control.
-- Repeat through ten complete human matches as useful; keep test IDs, screenshots and Output logs. Stop tests before changing canonical source.
+```lua
+require(game:GetService("ServerScriptService").Server.Tests.Suite).run()
+```
 
-## Required M1 human gate — pending
+`tools/qa/fixtures/logic.luau` calls the same suite. Fixtures are **manual test scripts**, not Rojo-managed runtime modules.
 
-Recruit ten unfamiliar observers; use anonymous IDs 01–10. Do not count the developer, bots or scripted clients. Record build/hash and device for each.
+| Fixture under `game/tools/qa/fixtures/` | Context | Purpose |
+| --- | --- | --- |
+| `presentation-contracts.luau` | Edit | Appearance validation/privacy and visual shell/solver agreement |
+| `multiplayer-smoke.luau` | Edit | Fresh two-client, one-match state/art regression |
+| `multiplayer.luau` | Edit | Longer ten-match normal-clock test |
+| `multiplayer-result.luau` | Edit | Read multiplayer results |
+| `client-regressions.luau` | Client | Interpolation, fonts/toast and 100 menu/skin cycles |
+| `equipped-draft.luau` | Client | Equip makes the chosen appearance available in draft |
+| `render-benchmark.luau` | Client | 2,000 two-ball render calls, not whole-game FPS |
+| `scene.luau` / `microprofiler.luau` | Client | Engine analysis / snapshot profiler |
+| `mirrored.luau` / `mirrored-result.luau` | Edit | Mirrored fixtures / read asynchronous outcome |
 
-1. Show a live mid-round board for **2 seconds**, then hide it. Ask “Who is leading?” Record correct/incorrect and confidence. Threshold: **8/10** correct.
-2. Let them read the prototype's coverage explanation and play. Ask “How do you steal a fully reinforced enemy cell?” Accept an explanation of repeated pressure weakening it through neutral before ownership changes; do not supply the answer first. Threshold: **8/10** understand. At base enemy pressure 1 against no opposing pressure, q=+3 takes four updates to become −1.
-3. After a complete match, allow an unprompted choice to stop or play again. Record voluntary rematch requests. Threshold: **6/10**. An automated Rematch command is not evidence.
-4. Record failed/defaulted selections, ability to explain aim, waiting frustration, visual confusion and suggested changes. Build 0.2.0-reference uses 20-second draft and 30-second aim limits for the reference presentation; early lock floors remain 3 and 2 seconds. Record this version separately from the old 12s/8s prototype.
+For the asynchronous 400-round fixture:
 
-Use `docs/human-playtest.csv` for raw entries. Leave cells blank until observed. Human gates remain pending. The user explicitly advanced visual reconstruction ahead of that gate; it must not be deferred to M3 again.
+```powershell
+node game/tools/qa/mirrored.mjs <verified-studio-id>
+```
 
-## Later gates, not claimed here
+Poll `mirrored-result.luau` until all 200 pairs finish. A timeout or partial result is not a pass. Multiplayer smoke requires matching run/completed-run IDs, two real clients, one completed match, zero state mismatches, art failures or aborts. The ten-match runner uses ordinary commands and normal clocks and may take 20–25 minutes.
 
-M2: four clients, 20 matches, 2v2/party/arena allocation, disconnect/reconnect matrix, malformed-command and network fault tests. Bounded original-ack replay is implemented and regression tested in 0.3; broader network fault acceptance remains pending. Measure actual RTT at 0/100/200/350 ms targets and label one-way vs RTT settings. Include loss 0/1/5%, jitter 0/30 ms, dropped territory delta recovery and reordered motion.
+## UI and lobby regression
 
-M3: at least one physical lower-tier Android and a small-screen iPhone. Record model/RAM/OS/graphics/thermal conditions, touch and gamepad behavior, orientations, safe areas and ten-minute frame-time/memory traces. A Studio device emulator cannot pass real-device performance.
+Start ordinary Play in Lobby, then choose the affected driver:
 
-M4–M6: durable profile/reward fault and recovery tests, real human beta observations, rollout/rollback and separate release authorization. Keep purchases disabled.
+```powershell
+node game/tools/qa/ui-flow.mjs <verified-studio-id> ui-check
+node game/tools/qa/ui-layout.mjs <verified-studio-id> layout-check
+node game/tools/qa/lobby.mjs <verified-studio-id> lobby-check
+```
 
-## Reference reconstruction checks
+The flow driver uses actual menu clicks, selection and aim through a complete Practice match. Layout checks desktop/portrait/landscape bounds, reroll, aim and touch-target geometry. Lobby checks real E prompts after explicit test character placement. Requests use temporary files; receipts/screenshots land in `runs/`. Reset device emulation with `tools/qa/devices/reset.luau` afterward.
 
-- Run `tools/replica-contract-tests.luau` in Edit for appearance validation, private draft/reveal and the visible body/wall projection assertions. Run the regular Suite after changing timer configuration; deadline tests use the actual deadline.
-- Run `tools/start-replica-multiplayer.luau` for a one-match, two-client regression. Read `BVSReplicaMultiplayerResult` on the original Edit DataModel. Require zero grid/tick mismatches and zero appearance failures; this smoke test is additional to the older ten-match evidence.
-- During normal Play run `node tools/replica-flow.mjs <verified-id> <evidence-prefix>`. It clicks Inventory, All Balls, Acid and Axe, changes aim on the court, locks, and captures each phase through a complete normal match. It asserts the acknowledged appearance and records actual cutoff counts.
-- Compare captures in `test-evidence/replica-comparison.html`. Reference pictures have only the Windows title bar cropped in the viewer; game captures are rendered live, not composited screenshots. Different players, headings and match times are identified limitations of the comparison.
-- Studio must be restored and its Client viewport selected. A 1×1 Camera.ViewportSize means the viewport is not rendering; do not accept those screenshots. Device simulation and a normal match are required after recovering it. Phone-emulated layout checks do not establish physical-phone performance or touch behavior.
+Compare [current/reference screens](ui/reference-comparison.html). Keep Studio restored with the Client viewport selected: a minimized/unselected viewport previously produced blank or 1×1 captures. Check loaded atlas images, modal stacking, private opponent choice, Lock Aim, final area and rematch. For court sizing changes, also check input alignment and visible/solver diameter.
 
-## Current 0.3 presentation and post-build review
+## Review and performance
 
-In normal Play, run `node tools/visual-v3-qa.mjs <verified-id> <prefix>` for actual menu clicks and a complete Practice match. Start from Lobby. Run `node tools/visual-v3-layout.mjs <verified-id> <prefix>` from Lobby for portrait/landscape menus, reroll, Blade selection, aim and battle. `visual-v3-world.mjs` exercises kiosk and portal prompts with normal E input after explicit test character placement. These scripts preserve their individual tool receipts and summary JSON.
+The separate review after the 0.3 visual build fixed:
 
-Run `review-client-regressions.luau` on Client for isolated interpolation, resizing, notification and 100 menu/skin-cycle checks. `review-render-benchmark.luau` measures 2,000 renderer calls, not device FPS. `review-scene.luau` and `review-microprofiler.luau` use the actual engine analysis tools; read [code-review.md](code-review.md) before interpreting results.
+| Finding | Resulting behavior |
+| --- | --- |
+| Throttled aim used an earlier direction at lock | Lock carries and freezes the final validated angle |
+| Draft clicks raced selection acknowledgement | Commit waits for acceptance and is scoped to match/round/generation |
+| Extra touches or stale snapshots disturbed aim | Input ownership, trailing aim update and local-angle preservation |
+| Interpolation jumped before the buffered interval | Hold earliest sample; refresh same-tick velocity; reject stale/duplicate identity |
+| Duplicate commands returned a different response | Bounded original-ack replay behind rate limiting |
+| Loaded atlas balls still transformed detailed hidden models | One fallback sphere per ball and skipped hidden work |
+| Score updates repeated full layout | Layout cached by viewport, phase, touch mode and overlay visibility |
+| Phone fonts/toasts/reduced-motion preview regressed | Caption size restoration, cancelled old fade, preview respects reduced motion |
+| Equip did not affect draft | Equipped appearance offered first |
+| Identical buffers were rebuilt per player | One payload per broadcast |
 
-The one-match multiplayer launcher clears previous results and records a fresh run ID. Require `BVSReplicaMultiplayerCompletedRun == BVSReplicaMultiplayerRun`, two clients, one completion and zero mismatches/visual failures/aborts. For the 400-round fixture through MCP, `node tools/start-review-mirrored.mjs <verified-id>` avoids a long blocking request; poll `review-mirrored-result.luau` on Edit until all 200 pairs and the complete result exist. A transport timeout or partial progress is not a pass.
+The same two-ball benchmark improved from **0.5116 to 0.1395 ms/call** (about 73%); fallback Parts fell **210 → 2**. Baseline/final lobby frame samples stayed similar: median 16.65/16.70 ms and p95 17.56/17.88 ms. These measurements include Studio/editor work and establish neither whole-game FPS improvement nor phone performance.
 
-Run `node tools/audit-repository.mjs` for original evidence hashes and local documentation/gallery links. Rebuild art using the pinned generator documented in [assets/art/README.md](../assets/art/README.md). Open `test-evidence/presentation-comparison.html` locally for the current eight paired surfaces and four phone captures.
+Final 0.3 evidence: 11 logic groups; 200 mirrored pairs/400 rounds; full two-round Practice at tick 1800; two real clients with six state and six loaded-art comparisons and zero failures; 100 menu/skin cycles with 586 descendants before/after. A clean clone and hosted artifacts matched local builds. Historical details are in [history](history.md).
+
+## Pending acceptance gates
+
+Use [human-playtest.csv](human-playtest.csv) for ten unfamiliar observers; leave entries blank until observed. Require 8/10 correct leader recognition after a two-second view, 8/10 understanding of reinforced-cell capture and 6/10 voluntary rematches. Bots/scripted clients are not human evidence.
+
+Still pending: physical low-tier Android/small-screen iPhone touch and performance; gamepad; color-independent ownership; latency/loss/jitter/disconnect/exploit scenarios; four-client 2v2/parties/capacity; 100 real character resets; durable progression/recovery; beta/release gates. The 100-menu-cycle fixture does not pass the character-reset gate. See [backlog](backlog.md).

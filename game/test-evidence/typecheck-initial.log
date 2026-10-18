@@ -1,7 +1,0 @@
-[INFO] Loading definitions file: @roblox - tools/roblox-types.d.luau
-[WARN] client does not allow didChangeWatchedFiles registration - automatic updating on sourcemap changes disabled
-[INFO] Loading Luau configuration from c:\Users\nsidi\Desktop\Ball_VS_Space_Build_Pack\game\.luaurc
-c:\Users\nsidi\Desktop\Ball_VS_Space_Build_Pack\game\src\server\Tests\Suite.luau [game/ServerScriptService/Server/Tests/Suite](240,10): TypeError: Type "Draft" cannot be compared with "Aim"
-c:\Users\nsidi\Desktop\Ball_VS_Space_Build_Pack\game\src\server\Tests\Suite.luau [game/ServerScriptService/Server/Tests/Suite](274,10): TypeError: Type "cancelled_before_start" cannot be compared with "both_teams_disconnected"
-c:\Users\nsidi\Desktop\Ball_VS_Space_Build_Pack\game\src\server\Tests\Suite.luau [game/ServerScriptService/Server/Tests/Suite](240,10): TypeError: Type "Draft" cannot be compared with "Aim"
-c:\Users\nsidi\Desktop\Ball_VS_Space_Build_Pack\game\src\server\Tests\Suite.luau [game/ServerScriptService/Server/Tests/Suite](274,10): TypeError: Type "cancelled_before_start" cannot be compared with "both_teams_disconnected"

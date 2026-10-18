@@ -1,6 +1,6 @@
 # Remaining game work
 
-The 0.3 presentation pass implements the authored screens, 32 symbols, 12 ball appearances, responsive menus and detailed interactive lobby. The subsequent code review fixes input races, interpolation, font restoration and hidden rendering cost. See [presentation](presentation.md), [code review](code-review.md) and the [actual comparisons](../test-evidence/presentation-comparison.html). Pixel-perfect identity and subjective acceptance are not claimed.
+The 0.3 presentation pass implements the authored screens, 32 symbols, 12 ball appearances, responsive menus and detailed interactive lobby. The subsequent code review fixes input races, interpolation, font restoration and hidden rendering cost. See [presentation](ui/README.md#presentation-status), [code review](testing.md#review-and-performance) and the [actual comparisons](ui/reference-comparison.html). Pixel-perfect identity and subjective acceptance are not claimed.
 
 These remaining concept/product tasks retain section 12's dependencies.
 

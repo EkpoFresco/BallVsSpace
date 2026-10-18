@@ -1,57 +1,47 @@
 # Ball VS Space
 
-A Roblox territory battler in development. Choose a ball, aim, then let the server simulate the round while each team claims space. The presentation is being reconstructed from the supplied Ball vs Ball reference before further differentiation.
+A Roblox territory battler: choose a ball, aim, then compete for space as the server simulates the round. **Current build: 0.3 presentation, 1v1 and solo Practice.** Twelve appearances share two ability kits. Human visual acceptance, physical-device testing, 2v2 and durable progression remain open.
 
-**Current build: 0.3 presentation, local 1v1 and solo Practice.** Twelve ball appearances, authored icon/ball atlases, dedicated collection and store screens, responsive phone layouts and an interactive lobby sit over two authoritative territory kits. Territory, scoring, overtime and round flow work; 2v2, parties, additional abilities and durable progression remain future game work. See [BUILD_STATUS.md](BUILD_STATUS.md) for verification and [the backlog](game/docs/backlog.md) for remaining milestones.
+![Current territory battle](game/test-evidence/screenshots/review-final-64-battle-1-0.jpg)
 
-![Live territory battle with cyan and coral ownership](game/test-evidence/review-final-64-battle-1-0.jpg)
+## Find what you need
 
-## Get running
+| I want to… | Start here |
+| --- | --- |
+| Build, run or work with a partner | [Development guide](CONTRIBUTING.md) |
+| Edit UI or identify a frame | [UI guide](game/docs/ui/README.md) · [clickable map](game/docs/ui/map.html) |
+| Compare the game with the reference | [Reference comparison](game/docs/ui/reference-comparison.html) |
+| Share UI context in another chat | `node game/tools/build-ui-handoff.mjs` → `game/exports/UI_HANDOFF.zip` |
+| Understand the code and rules | [Architecture](game/docs/architecture.md) |
+| Run tests or assess validation | [Testing and review](game/docs/testing.md) · [evidence index](game/test-evidence/README.md) |
+| Choose the next task | [Build status](BUILD_STATUS.md) · [backlog](game/docs/backlog.md) |
 
-Install Git, [Roblox Studio](https://create.roblox.com/), PowerShell 7, and [Rokit 1.2.0](https://github.com/rojo-rbx/rokit/releases/tag/v1.2.0). Clone this repository, open a terminal at its root, then run:
+## Run locally
+
+Install Git, PowerShell 7, Roblox Studio and Rokit. From the repository root:
 
 ```powershell
 rokit install
 pwsh -File game/tools/verify.ps1
 ```
 
-Open `game/builds/BallVsSpace.rbxl` in Studio. Press **Play**, then **Practice**. Choose a ball, aim on the court and press **Lock Aim**. Territory is visible by default; the lobby gear can hide the overlay for reference comparisons. For a human match, start **Test → Server & Clients → 2 clients**, then click **Play** in each client.
+Open `game/builds/BallVsSpace.rbxl`, press **Play**, then **Practice**. For 1v1, start two Studio clients and click Play in both. Source changes belong in `game/src/`; use `rojo serve game/default.project.json` for live sync.
 
-The build script runs formatting, lint and strict type analysis, then generates `.rbxl` and `.rbxlx` files. Generated places are ignored by Git; source is canonical. GitHub Actions runs the same checks and attaches place builds to successful runs. Studio runtime and multiplayer checks are separate; CI does not claim to run Roblox.
+## Repository layout
 
-## Work together
-
-For UI work, the portable [UI_HANDOFF folder](game/UI_HANDOFF/START_HERE.md) collects the guides, current/reference screenshots, artwork and source context in one place. Run `node game/tools/build-ui-handoff.mjs` to refresh it and create `game/UI_HANDOFF.zip` for chat attachment. The canonical [frame/source guide](game/docs/ui-editing-guide.md), [clickable screenshot map](game/docs/ui-map.html) and [starter replication skill](game/docs/skills/reference-ui-replication/SKILL.md) remain under `game/docs/`.
-
-Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [partner onboarding](game/docs/partner-onboarding.md). The destination is [EkpoFresco/BallVsSpace](https://github.com/EkpoFresco/BallVsSpace); this checkout preserves the earlier game history on `main`. Actual push and collaborator status is recorded in BUILD_STATUS.
-
-For live source sync:
-
-```powershell
-rojo serve game/default.project.json
+```text
+game/
+  src/             Canonical client, server and shared Luau
+  assets/          Original artwork and runtime assets
+  docs/            Architecture, testing, backlog, history and UI guide
+  tools/           Build/export commands; studio/, qa/, art/, ci/, lib/, types/
+  test-evidence/   Selected screenshots/results; earlier runs in one indexed archive
+  builds/          Generated places (ignored)
+  exports/         Generated UI folder/ZIP (ignored)
+Ball_VS_Space_Evidence/   Untouched original research and references
+.local/                  Ignored temporary work and recovery files
 ```
 
-Connect the Rojo Studio plugin to that server in your local BallVsSpace place. Keep scripts in `game/src/`; Studio-only edits are overwritten by source sync. Optional Studio MCP tools require Node.js 24 and the installed Studio MCP transport; see [toolchain notes](game/docs/toolchain-notes.md).
+The root `START_HERE.md`, `RUN_PROMPT.txt`, `SETUP.md`, specification and transfer manifest are the **original research handoff**. Their empty-project statements are historical. Use the guides above for current development; [history](game/docs/history.md) preserves earlier implementation records. The [full specification](BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md) remains the design contract.
 
-## Repository map
-
-| Path | Purpose |
-| --- | --- |
-| `game/src/shared/` | Rules, grid, physics, protocol and shared types |
-| `game/src/server/` | Authoritative matches, queues, replication and runtime tests |
-| `game/src/client/` | Input, camera, territory, ball rendering and UI |
-| `game/assets/runtime/` | Original runtime assets managed by Rojo |
-| `game/assets/art/` | Editable original SVGs, published atlases and asset provenance |
-| `game/default.project.json` | Canonical filesystem-to-Studio mapping |
-| `game/tools/` | Builds, source sync, Studio QA and comparison tools |
-| `game/docs/` | Architecture decisions, testing, visual gaps and onboarding |
-| `game/test-evidence/` | Saved test results and curated screenshots |
-| `Ball_VS_Space_Evidence/` | Untouched reference screenshots, notes and video |
-| `BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md` | Full research and design contracts |
-| `BUILD_STATUS.md` | Current state, evidence, failures and resume task |
-
-Open [the presentation comparison](game/test-evidence/presentation-comparison.html) locally in a browser for eight reference/current pairs and four phone captures. GitHub displays its source; the references are included so it works after cloning. The [previous 0.2 comparison](game/test-evidence/replica-comparison.html) is retained. Images document the actual result; exact pixel identity and human acceptance are not claimed.
-
-`START_HERE.md`, `RUN_PROMPT.txt`, `SETUP.md` and the transfer manifest describe the original research handoff. Their statements about an empty pack are historical; use this README and BUILD_STATUS for the implemented project. The `checks/` Python scripts validate research math, not the game runtime.
-
-Game art is reconstructed with original vectors, code and primitives; reference evidence is kept separately. [Art regeneration and image delivery](game/assets/art/README.md) are documented. No project license has been selected. Public game release is a separate milestone from publishing this source repository.
+The source repository is [EkpoFresco/BallVsSpace](https://github.com/EkpoFresco/BallVsSpace). Runtime art is original; private reference source/physics were not recovered and pixel-perfect identity is not claimed. No project license has been selected. Roblox publication remains separate from source sharing.

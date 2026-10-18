@@ -7,4 +7,12 @@ Thumbs.db
 *.rbxl.lock
 *.rbxlx.lock
 node_modules/
-game/UI_HANDOFF.zip
+game/builds/
+game/exports/
+game/sourcemap.json
+# Keep only selected evidence; exploratory runs remain local.
+game/test-evidence/*
+!game/test-evidence/README.md
+!game/test-evidence/screenshots/
+!game/test-evidence/results/
+!game/test-evidence/archive/
