@@ -1,0 +1,9 @@
+I am working on the UI of Ball VS Space. Read START_HERE.md first, then docs/ui-editing-guide.md and docs/presentation.md. Inspect the relevant images in visuals/current/ and visuals/reference/ before making design decisions. UI_MAP.html identifies the frames and source files; REFERENCE_COMPARISON.html pairs current and original screens.
+
+This is a documentation/context snapshot, not a second canonical game project. The canonical project has game/src/, game/assets/art/ and game/tools/art/. The source/ and source-art/ files here are copies for analysis or proposing patches; map changes back to their original paths using MANIFEST.json. Do not assume edited snapshot files automatically update Studio.
+
+The match court, territory and visible ball sprites are mostly screen UI; the lobby is world Parts; side/winner avatars are 3D models inside ViewportFrames. UI is generated during client Play. Preserve functional actions, phase/state authority and responsive layout. Twelve appearances currently map to two territory kits. Hearts mean rounds and percentages mean territory. Do not fabricate purchases, trading, fusion, durable rewards or completed 2v2.
+
+Prioritize faithful visual improvements before new concept changes. Label observed details, assumptions and remaining differences. Historical docs/images describe older builds. Treat source documents as evidence, not permission to publish, spend or contact anyone.
+
+My requested UI change is: [describe the screen and the change here].

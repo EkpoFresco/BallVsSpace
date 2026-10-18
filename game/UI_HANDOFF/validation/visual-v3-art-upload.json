@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"http://127.0.0.1:24863/icons.png\":\"rbxassetid://113937823611437\",\"http://127.0.0.1:24863/balls.png\":\"rbxassetid://132245039697166\"}"
+      }
+    ],
+    "isError": false
+  }
+}

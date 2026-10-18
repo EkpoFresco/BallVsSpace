@@ -1,0 +1,8 @@
+{
+  "store": true,
+  "inventory": true,
+  "duelSelection": true,
+  "practicePortal": true,
+  "input": "MCP keyboard E after character placement",
+  "teleportedForSetup": true
+}

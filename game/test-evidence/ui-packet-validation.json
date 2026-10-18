@@ -1,0 +1,36 @@
+{
+  "zipIntegrity": true,
+  "extractedFiles": 189,
+  "manifestHashes": true,
+  "standaloneExtractedFolder": true,
+  "galleryImages": 99,
+  "scope": "Documentation only; no new Roblox runtime acceptance",
+  "screens": 15,
+  "regions": 50,
+  "staticLocalLinks": 629,
+  "missingLinks": [],
+  "loadedScreens": [
+    "lobby",
+    "battle",
+    "aim",
+    "draft",
+    "collection",
+    "inventory",
+    "store",
+    "results",
+    "settings",
+    "rewards",
+    "emotes",
+    "trade",
+    "invite",
+    "play",
+    "portrait"
+  ],
+  "allRegionSelections": true,
+  "markerToggle": true,
+  "mobile390pxHorizontalOverflow": false,
+  "screenshots": [
+    ".local/ui-map-desktop.png",
+    ".local/ui-map-mobile.png"
+  ]
+}

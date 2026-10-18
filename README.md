@@ -21,7 +21,7 @@ The build script runs formatting, lint and strict type analysis, then generates 
 
 ## Work together
 
-For UI work, start with the [frame/source guide](game/docs/ui-editing-guide.md) and [clickable screenshot map](game/docs/ui-map.html). The [starter replication skill](game/docs/skills/reference-ui-replication/SKILL.md) condenses the visual reconstruction process for future iterations.
+For UI work, the portable [UI_HANDOFF folder](game/UI_HANDOFF/START_HERE.md) collects the guides, current/reference screenshots, artwork and source context in one place. Run `node game/tools/build-ui-handoff.mjs` to refresh it and create `game/UI_HANDOFF.zip` for chat attachment. The canonical [frame/source guide](game/docs/ui-editing-guide.md), [clickable screenshot map](game/docs/ui-map.html) and [starter replication skill](game/docs/skills/reference-ui-replication/SKILL.md) remain under `game/docs/`.
 
 Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [partner onboarding](game/docs/partner-onboarding.md). The destination is [EkpoFresco/BallVsSpace](https://github.com/EkpoFresco/BallVsSpace); this checkout preserves the earlier game history on `main`. Actual push and collaborator status is recorded in BUILD_STATUS.
 

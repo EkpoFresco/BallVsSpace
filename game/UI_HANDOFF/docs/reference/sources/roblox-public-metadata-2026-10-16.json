@@ -1,0 +1,43 @@
+{
+  "data": [
+    {
+      "id": 10685282333,
+      "rootPlaceId": 96510596525082,
+      "name": "Ball VS Ball",
+      "description": "Pick a ball. Watch it fight!\n\n⚔️ Auto-battle PvP in 1v1 and 2v2\n🎲 Choose 1 of 3 random balls each round\n🎯 Or pick any ball from your collection, free once per match\n🎁 Collect 40+ balls, each with its own skill\n🔄 Trade balls with other players\n\n👥 Join the group for a free reward!",
+      "sourceName": null,
+      "sourceDescription": null,
+      "creator": {
+        "id": 1034205759,
+        "name": "ATYS 3",
+        "type": "Group",
+        "isRNVAccount": false,
+        "hasVerifiedBadge": true
+      },
+      "price": null,
+      "allowedGearGenres": [
+        "All"
+      ],
+      "allowedGearCategories": [],
+      "isGenreEnforced": false,
+      "copyingAllowed": false,
+      "playing": 22902,
+      "visits": 123650658,
+      "maxPlayers": 25,
+      "created": "2026-08-12T02:57:56.96Z",
+      "updated": "2026-10-15T13:35:06.467Z",
+      "studioAccessToApisAllowed": false,
+      "createVipServersAllowed": false,
+      "universeAvatarType": "MorphToR15",
+      "genre": "All",
+      "genre_l1": "Party & Casual",
+      "genre_l2": "",
+      "untranslated_genre_l1": "party_and_casual",
+      "isAllGenre": true,
+      "isFavoritedByUser": false,
+      "favoritedCount": 179365,
+      "canonicalUrlPath": "/games/96510596525082/Ball-VS-Ball",
+      "isContentRestricted": false
+    }
+  ]
+}

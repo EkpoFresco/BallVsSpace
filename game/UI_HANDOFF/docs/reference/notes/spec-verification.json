@@ -1,0 +1,12 @@
+{
+  "file": "BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md",
+  "words": 20428,
+  "bytes": 142183,
+  "sections": 15,
+  "sources": 22,
+  "checks": "PASS",
+  "influence_cases": 126,
+  "randomized_board_updates": 1000,
+  "randomized_contributors": 300000,
+  "note": "Design-contract checks in Python; not a Roblox or Luau build/playtest."
+}
