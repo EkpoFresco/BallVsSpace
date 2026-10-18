@@ -1,0 +1,32 @@
+{
+  "scope": "Documentation only; no new Roblox runtime acceptance",
+  "screens": 15,
+  "regions": 50,
+  "staticLocalLinks": 47,
+  "missingLinks": [],
+  "loadedScreens": [
+    "lobby",
+    "battle",
+    "aim",
+    "draft",
+    "collection",
+    "inventory",
+    "store",
+    "results",
+    "settings",
+    "rewards",
+    "emotes",
+    "trade",
+    "invite",
+    "play",
+    "portrait"
+  ],
+  "allRegionSelections": true,
+  "markerToggle": true,
+  "mobile390pxHorizontalOverflow": false,
+  "skillValidation": "quick_validate.py passed",
+  "screenshots": [
+    ".local/ui-map-desktop.png",
+    ".local/ui-map-mobile.png"
+  ]
+}

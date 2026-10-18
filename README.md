@@ -21,6 +21,8 @@ The build script runs formatting, lint and strict type analysis, then generates 
 
 ## Work together
 
+For UI work, start with the [frame/source guide](game/docs/ui-editing-guide.md) and [clickable screenshot map](game/docs/ui-map.html). The [starter replication skill](game/docs/skills/reference-ui-replication/SKILL.md) condenses the visual reconstruction process for future iterations.
+
 Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [partner onboarding](game/docs/partner-onboarding.md). The destination is [EkpoFresco/BallVsSpace](https://github.com/EkpoFresco/BallVsSpace); this checkout preserves the earlier game history on `main`. Actual push and collaborator status is recorded in BUILD_STATUS.
 
 For live source sync:
