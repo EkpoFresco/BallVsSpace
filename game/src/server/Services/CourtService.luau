@@ -60,7 +60,11 @@ function World.build()
 		t.Size = UDim2.fromScale(1, 1)
 		t.BackgroundTransparency = 1
 		t.Text = text
-		t.Font = Enum.Font.GothamBlack
+		t.FontFace = Font.new(
+			"rbxasset://fonts/families/Montserrat.json",
+			Enum.FontWeight.Heavy,
+			Enum.FontStyle.Italic
+		)
 		t.TextScaled = true
 		t.TextWrapped = true
 		t.TextColor3 = color
@@ -96,21 +100,31 @@ function World.build()
 		banner.CanCollide = false
 		local billboard = Instance.new("BillboardGui")
 		billboard.Name = "FloatingSign"
-		billboard.Size = UDim2.fromOffset(310, 58)
+		billboard.Size = UDim2.fromOffset(200, 48)
 		billboard.AlwaysOnTop = false
 		billboard.MaxDistance = 100
 		billboard.Parent = banner
 		local caption = Instance.new("TextLabel")
 		caption.Size = UDim2.fromScale(1, 1)
-		caption.BackgroundTransparency = 1
-		caption.Font = Enum.Font.GothamBlack
+		caption.BackgroundTransparency = 0.12
+		caption.BackgroundColor3 = Color3.fromRGB(16, 13, 20)
+		caption.FontFace = Font.new(
+			"rbxasset://fonts/families/Montserrat.json",
+			Enum.FontWeight.Heavy,
+			Enum.FontStyle.Italic
+		)
 		caption.TextSize = 22
 		caption.Text = if i == 1
 			then "All Balls Free\nChoose Your Favorite"
 			else "BALL VS SPACE\nPick · Aim · Play"
-		caption.TextColor3 = Color3.fromRGB(255, 197, 38)
+		caption.TextColor3 = Color3.fromRGB(255, 249, 244)
 		caption.TextStrokeTransparency = 0
 		caption.Parent = billboard
+		local accent = Instance.new("Frame")
+		accent.BorderSizePixel = 0
+		accent.Size = UDim2.new(1, 0, 0, 4)
+		accent.BackgroundColor3 = Color3.fromRGB(184, 11, 81)
+		accent.Parent = caption
 		local slot = part(
 			"ConsoleSlot",
 			Vector3.new(2.1, 0.55, 0.15),

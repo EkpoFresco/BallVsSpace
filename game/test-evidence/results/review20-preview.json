@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "panel": "Inventory",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "799, 600",
+      "centered": true,
+      "size": "775, 552"
+    },
+    {
+      "panel": "Store",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "799, 600",
+      "centered": true,
+      "size": "775, 552"
+    },
+    {
+      "panel": "Rewards",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "799, 600",
+      "centered": true,
+      "size": "420, 340"
+    },
+    {
+      "panel": "Inventory",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "749, 381",
+      "centered": true,
+      "size": "724.999939, 364.999969"
+    },
+    {
+      "panel": "Store",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "749, 381",
+      "centered": true,
+      "size": "724.999939, 364.999969"
+    },
+    {
+      "panel": "Rewards",
+      "safeArea": true,
+      "closeTarget": true,
+      "viewport": "749, 381",
+      "centered": true,
+      "size": "419.999969, 339.999969"
+    }
+  ],
+  "physicalDevice": false,
+  "studioLeft": "Play, desktop Inventory open"
+}

@@ -18,5 +18,8 @@ rojo build default.project.json -o builds/BallVsSpace.rbxl
 CheckExit 'Binary build'
 rojo build default.project.json -o builds/BallVsSpace.rbxlx
 CheckExit 'XML build'
+# Keep one compact, ready-to-open place in Git; verbose/generated outputs stay ignored.
+New-Item -ItemType Directory -Force places | Out-Null
+Copy-Item -LiteralPath builds/BallVsSpace.rbxl -Destination places/BallVsSpace.rbxl
 Get-FileHash builds/BallVsSpace.rbxl, builds/BallVsSpace.rbxlx | Select-Object Algorithm,Hash,Path | ConvertTo-Json | Set-Content test-evidence/runs/build-hashes.json
 Write-Output 'Static checks and both place builds passed. Run the Studio tests separately.'

@@ -32,6 +32,10 @@ jobs:
           rokit install --no-trust-check
       - name: Check source and build places
         run: ./game/tools/verify.ps1
+      - name: Verify saved primary place matches source
+        run: |
+          git diff --exit-code -- game/places/BallVsSpace.rbxl
+          if ($LASTEXITCODE -ne 0) { throw 'Saved primary place is stale. Run game/tools/verify.ps1 and commit the updated place.' }
       - name: Validate tooling and repository links
         run: |
           node --test game/tools/tests/*.test.mjs

@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"verifiedSourceFiles\":42,\"placeId\":0,\"streaming\":false,\"gameId\":0}"
+      }
+    ],
+    "isError": false
+  }
+}

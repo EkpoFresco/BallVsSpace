@@ -276,7 +276,8 @@ function Art.viewport(parent: Instance, name: string, skin: string): (ViewportFr
 	unknown.BackgroundColor3 = Color3.fromRGB(48, 57, 70)
 	unknown.BorderSizePixel = 0
 	unknown.Text = "?"
-	unknown.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json")
+	unknown.FontFace =
+		Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.Heavy, Enum.FontStyle.Italic)
 	unknown.TextScaled = true
 	unknown.TextColor3 = Color3.fromRGB(156, 164, 178)
 	unknown.Visible = false
@@ -316,10 +317,9 @@ function Art.viewport(parent: Instance, name: string, skin: string): (ViewportFr
 	-- Static collection previews still release their detailed fallback once ready.
 	if not sprite.IsLoaded then
 		task.spawn(function()
-			local deadline = os.clock() + 15
 			repeat
-				task.wait(0.2)
-			until not v.Parent or sprite.IsLoaded or os.clock() >= deadline
+				task.wait(0.5)
+			until not v.Parent or sprite.IsLoaded
 			if v.Parent and sprite.IsLoaded then
 				Art.animate(v, sprite.Rotation, orbit.Rotation, orbit.Visible)
 			end

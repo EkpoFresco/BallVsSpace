@@ -1,0 +1,103 @@
+{
+  "version": 3,
+  "date": "2026-10-18",
+  "status": "Proposed for discussion; not approved or implemented",
+  "direction": "Purple, red and teal Roblox stud UI with prominent square relief and chunky outlined display typography",
+  "palette": {
+    "purple": "#65368C",
+    "red": "#B93749",
+    "teal": "#147D74",
+    "backplate": "#3A1D50",
+    "recess": "#2D153E",
+    "text": "#FFF7EF",
+    "secondaryText": "#E7D6EE",
+    "outline": "#190E22",
+    "selection": "#79E3D0"
+  },
+  "roles": {
+    "purple": "Main window backgrounds and all item cards; deeper and lighter purple values establish depth",
+    "red": "Window title bars and close controls",
+    "teal": "Primary actions, selection and equipped states; lighter teal is an accent within the same hue family",
+    "text": "Warm ivory for main text; pale lavender for secondary text; dark ink for outlines"
+  },
+  "typography": {
+    "display": {
+      "family": "Fredoka One",
+      "robloxEnum": "FredokaOne",
+      "file": "fonts/FredokaOne-Regular.ttf",
+      "weight": 400,
+      "style": "Normal; genuine heavy display face, no synthetic bold, no wide tracking or italics",
+      "sizes": {
+        "windowTitle": 34,
+        "selectedBall": 25,
+        "button": 23,
+        "cardLabel": 16
+      },
+      "outline": "2px dark outside stroke on large text; 1.5px on card labels; crisp 2px downward shadow"
+    },
+    "interface": {
+      "family": "Source Sans Pro",
+      "robloxEnum": "SourceSansSemibold",
+      "file": "fonts/SourceSansPro-Semibold.ttf",
+      "weight": 600,
+      "sizes": {
+        "body": 15,
+        "status": 14,
+        "annotation": 12
+      },
+      "outline": "No outline on small copy; place it on a solid recessed surface"
+    }
+  },
+  "fontVerification": {
+    "source": "https://create.roblox.com/docs/reference/engine/enums/Font",
+    "date": "2026-10-18",
+    "method": "Read installed Roblox content/fonts/families JSON, inspected font name tables and embedded those exact local TrueType files; no external font dependency in preview",
+    "localFamilySources": [
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/FredokaOne.json",
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/SourceSansPro.json"
+    ],
+    "files": [
+      {
+        "file": "fonts/FredokaOne-Regular.ttf",
+        "bytes": 42452,
+        "sha256": "08a0193637baffaa1d9926085fe2a2716c1ce06136b74a9627e61663649c0f37"
+      },
+      {
+        "file": "fonts/SourceSansPro-Semibold.ttf",
+        "bytes": 268280,
+        "sha256": "3ba5c382a7ee6a8831bdf90192addceabe6db4278a679e67fe7e9c0226b729cf"
+      }
+    ],
+    "license": "fonts/LICENSE.txt"
+  },
+  "treatments": [
+    "Square 12px raised studs on a 25px pitch across backplates, title bars, detail panel and swatches",
+    "9px studs on 21px pitch within compact item cards",
+    "Stud top and left edges are lit; right and bottom edges are dark with a crisp offset shadow",
+    "Default stud strength 0.72, increased from 0.17; no blurred glow",
+    "2–3px dark panel borders, 1–2px corner radius maximum, narrow light top edge and 3–5px lower bevel",
+    "Teal selected card outline plus a checkmark; semantic state is not conveyed by color alone",
+    "Solid recessed patches beneath body copy keep texture clear of small text"
+  ],
+  "scope": "Visual direction proposal only; no runtime source edits, new gameplay or benchmark implementation",
+  "gameplay": "Keep existing cyan/coral team identities and territory meaning; do not recolor gameplay by cosmetic palette.",
+  "pending": [
+    "User agreement on theme",
+    "Updated complete Inventory and Store mockups in the agreed scheme",
+    "Phone layouts",
+    "Frozen benchmark target and acceptance scope"
+  ],
+  "preview": "Six canonical appearances in a responsive three-column grid, local select/equip and close/reopen behavior; repeated dimensional studs in all product background areas. A contained style sample, not a completed Inventory/Store benchmark.",
+  "browserQA": "Static markup, source, selector and JavaScript syntax checks only; exact fonts embedded. No rendered browser QA claimed.",
+  "contrastMethod": "Calculated solid sRGB foreground/background pairs only. Gradients, raised highlights and outlines also affect rendered appearance; native Studio and phone visual approval remains pending.",
+  "contrastRatios": {
+    "paperOnPurple": 8.05,
+    "paperOnRed": 5.34,
+    "paperOnTeal": 4.7,
+    "smallCopyOnWell": 12.55,
+    "selectedOnRecess": 10.64,
+    "inkOnSelection": 12.16,
+    "paperAgainstOutline": 17.57
+  },
+  "previousVersion": "tokens-v2.json"
+}

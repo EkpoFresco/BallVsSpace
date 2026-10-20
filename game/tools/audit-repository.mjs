@@ -12,4 +12,4 @@ const source=walk(path.join(gameRoot,'src')).filter(f=>f.endsWith('.luau'));
 const topTools=fs.readdirSync(path.join(gameRoot,'tools')).filter(f=>fs.statSync(path.join(gameRoot,'tools',f)).isFile());
 const result={referenceFiles:originals.length,referenceHashMismatches:badHashes,localLinksChecked:local.checked,missingLinks:local.missing,canonicalScripts:source.length,trackedGeneratedFiles:accidental,topLevelTools:topTools};
 fs.writeFileSync(outputFile('repository-audit.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
-if(badHashes.length||local.missing.length||accidental.length||source.length!==41)process.exitCode=1;
+if(badHashes.length||local.missing.length||accidental.length||source.length!==42)process.exitCode=1;

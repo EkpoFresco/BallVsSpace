@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "preparedAtUtc": "2026-10-19T01:45:51.729Z",
+  "baselineCommit": "eb21fc7ca7993aaf2ee6e80b3f8d8fee196a629f",
+  "scope": "Inventory, Store and their existing category views/interactions only",
+  "destination": "game/pilots/action-v1",
+  "source": "Git archive of pinned runtime/tooling/assets plus unchanged approved inputs. Independent copies, no hardlinks or shared mutable source.",
+  "archivedPaths": [
+    "rokit.toml",
+    ".gitattributes",
+    "game/.luaurc",
+    "game/selene.toml",
+    "game/stylua.toml",
+    "game/default.project.json",
+    "game/src",
+    "game/assets/art",
+    "game/assets/runtime",
+    "game/tools"
+  ],
+  "approvedInputs": [
+    {
+      "path": "build-preview.mjs",
+      "bytes": 1873,
+      "sha256": "fc78e747c45838051dba73e1db59ce56fea1bd4d9327cba45369f1380a54e919"
+    },
+    {
+      "path": "design.json",
+      "bytes": 6018,
+      "sha256": "4942b6f97bdc843458b1d29b3fe2a8b30a3bc4e1d9ff742261d7ddda75b5b389"
+    },
+    {
+      "path": "fonts/Montserrat-BlackItalic.ttf",
+      "bytes": 183924,
+      "sha256": "740f89065bf962f16db6948647671000282c70d9300c4ca6df02f02f1c0dc51d"
+    },
+    {
+      "path": "fonts/Montserrat-OFL.txt",
+      "bytes": 4489,
+      "sha256": "eee254b497f6f108c27a692892ee62b8b8c2da29e6c7acc7a39a122e2176b468"
+    },
+    {
+      "path": "fonts/Montserrat-Regular.ttf",
+      "bytes": 197976,
+      "sha256": "dcfe8df29e553fbd655212f94300cb1e704c6cd147fa7a98cb4bcd9eb92c6707"
+    },
+    {
+      "path": "pilot.json",
+      "bytes": 3544,
+      "sha256": "6c0017f4866808e888d3da45985b6656bab02b999256a3ebcb89e67bb462e386"
+    },
+    {
+      "path": "preview-data.json",
+      "bytes": 4087,
+      "sha256": "717df06dd2397854ad2b588482d24909e3c5869e4996790fc51980ed802d5e22"
+    },
+    {
+      "path": "preview.template.html",
+      "bytes": 34991,
+      "sha256": "fa72d8fac887416d35a771395901005892fc003847a70530d35cbb54e6459c22"
+    }
+  ],
+  "approvedPreviewSha256": "bde435a80d1cc6f70a9367fdb597709593da754d35bbfc7397f73261479da54c",
+  "commonManifestSha256": "d62d3a4d51042271ecc30c39e42c324e0ff7439ad14d5a7ce289d3f5eb07230a",
+  "commonFileCount": 107,
+  "runtimeSourceCount": 41,
+  "tools": {
+    "git.exe": "git version 2.54.0.windows.1",
+    "rojo.exe": "Rojo 7.7.1",
+    "rokit.exe": "rokit 1.2.0",
+    "stylua.exe": "stylua 2.5.2",
+    "selene.exe": "selene 0.32.0",
+    "luau-lsp.exe": "1.69.0",
+    "node": "v24.16.0"
+  },
+  "routes": {
+    "A": {
+      "path": "game/pilots/action-v1/routes/A",
+      "status": "ready; implementation not started",
+      "initialManifestSha256": "d62d3a4d51042271ecc30c39e42c324e0ff7439ad14d5a7ce289d3f5eb07230a",
+      "builds": [
+        {
+          "file": "game/builds/BallVsSpace.rbxl",
+          "bytes": 86904,
+          "sha256": "f8b38759293d74afbb2fff42a6b9f7e4b9b54a9e51a25af0f5d95eb5768f7cab"
+        },
+        {
+          "file": "game/builds/BallVsSpace.rbxlx",
+          "bytes": 204550,
+          "sha256": "436e60cb37acda39144cc1483df2b76993834bf584da6308d8b286ce989d4ed0"
+        }
+      ]
+    },
+    "B": {
+      "path": "game/pilots/action-v1/routes/B",
+      "status": "ready; implementation not started",
+      "initialManifestSha256": "d62d3a4d51042271ecc30c39e42c324e0ff7439ad14d5a7ce289d3f5eb07230a",
+      "builds": [
+        {
+          "file": "game/builds/BallVsSpace.rbxl",
+          "bytes": 86904,
+          "sha256": "f8b38759293d74afbb2fff42a6b9f7e4b9b54a9e51a25af0f5d95eb5768f7cab"
+        },
+        {
+          "file": "game/builds/BallVsSpace.rbxlx",
+          "bytes": 204550,
+          "sha256": "436e60cb37acda39144cc1483df2b76993834bf584da6308d8b286ce989d4ed0"
+        }
+      ]
+    },
+    "C": {
+      "path": "game/pilots/action-v1/routes/C",
+      "status": "ready; implementation not started",
+      "initialManifestSha256": "d62d3a4d51042271ecc30c39e42c324e0ff7439ad14d5a7ce289d3f5eb07230a",
+      "builds": [
+        {
+          "file": "game/builds/BallVsSpace.rbxl",
+          "bytes": 86904,
+          "sha256": "f8b38759293d74afbb2fff42a6b9f7e4b9b54a9e51a25af0f5d95eb5768f7cab"
+        },
+        {
+          "file": "game/builds/BallVsSpace.rbxlx",
+          "bytes": 204550,
+          "sha256": "436e60cb37acda39144cc1483df2b76993834bf584da6308d8b286ce989d4ed0"
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Setup/build checks only; no route implementation or new gameplay acceptance."
+  ],
+  "recordedAtUtc": "2026-10-19T01:49:02.811Z",
+  "recordedLocalDate": "2026-10-18",
+  "timezone": "America/New_York",
+  "status": "Setup complete; all three implementations not started",
+  "figma": {
+    "plugin": "Figma",
+    "exposedToolCount": 48,
+    "exposedTools": [
+      "mcp__codex_apps__figma_add_code_connect_map",
+      "mcp__codex_apps__figma_check_prompt_status",
+      "mcp__codex_apps__figma_create_generative_plugin",
+      "mcp__codex_apps__figma_create_new_file",
+      "mcp__codex_apps__figma_create_shader",
+      "mcp__codex_apps__figma_download_assets",
+      "mcp__codex_apps__figma_export_video",
+      "mcp__codex_apps__figma_generate_deck",
+      "mcp__codex_apps__figma_generate_diagram",
+      "mcp__codex_apps__figma_generate_figma_design",
+      "mcp__codex_apps__figma_generate_image",
+      "mcp__codex_apps__figma_get_chat_threads",
+      "mcp__codex_apps__figma_get_code_connect_map",
+      "mcp__codex_apps__figma_get_code_connect_suggestions",
+      "mcp__codex_apps__figma_get_context_for_code_connect",
+      "mcp__codex_apps__figma_get_design_context",
+      "mcp__codex_apps__figma_get_figjam",
+      "mcp__codex_apps__figma_get_generative_plugin",
+      "mcp__codex_apps__figma_get_libraries",
+      "mcp__codex_apps__figma_get_metadata",
+      "mcp__codex_apps__figma_get_motion_context",
+      "mcp__codex_apps__figma_get_screenshot",
+      "mcp__codex_apps__figma_get_shader",
+      "mcp__codex_apps__figma_get_variable_defs",
+      "mcp__codex_apps__figma_list_file_components_for_code_connect",
+      "mcp__codex_apps__figma_list_file_shaders",
+      "mcp__codex_apps__figma_list_generative_plugins",
+      "mcp__codex_apps__figma_list_shaders",
+      "mcp__codex_apps__figma_open_figma_mcp_app_in_thread",
+      "mcp__codex_apps__figma_publish_to_gallery",
+      "mcp__codex_apps__figma_search_design_system",
+      "mcp__codex_apps__figma_send_code_connect_mappings",
+      "mcp__codex_apps__figma_send_code_to_figma",
+      "mcp__codex_apps__figma_send_prompt",
+      "mcp__codex_apps__figma_update_generative_plugin",
+      "mcp__codex_apps__figma_update_shader",
+      "mcp__codex_apps__figma_upload_assets",
+      "mcp__codex_apps__figma_use_figma",
+      "mcp__codex_apps__figma_weave_cancel_tool_run",
+      "mcp__codex_apps__figma_weave_find_model",
+      "mcp__codex_apps__figma_weave_get_model_run_output",
+      "mcp__codex_apps__figma_weave_get_tool_inputs",
+      "mcp__codex_apps__figma_weave_get_tool_run_output",
+      "mcp__codex_apps__figma_weave_list_tools",
+      "mcp__codex_apps__figma_weave_run_model",
+      "mcp__codex_apps__figma_weave_run_tool",
+      "mcp__codex_apps__figma_weave_upload_asset",
+      "mcp__codex_apps__figma_whoami"
+    ],
+    "authentication": "passed",
+    "accountHandle": "Nsidibe Ekpo",
+    "plan": {
+      "name": "Nsidibe Ekpo's team",
+      "key": "team::1691560939957077897",
+      "tier": "starter",
+      "seat": "View",
+      "role": "admin",
+      "codeLayersEnabled": false
+    },
+    "file": {
+      "name": "Ball VS Space — action-v1 pilot C",
+      "key": "oOA0AIBygAKBqgHUtdhwkz",
+      "url": "https://www.figma.com/design/oOA0AIBygAKBqgHUtdhwkz",
+      "editorType": "design",
+      "pageId": "0:1",
+      "pageName": "00 — Pilot setup · action-v1",
+      "children": 0
+    },
+    "checks": {
+      "fileCreated": true,
+      "pageRenamed": true,
+      "renamePersistedInSeparateRead": true,
+      "approvedFontsListedAndLoaded": [
+        {
+          "family": "Montserrat",
+          "style": "Black Italic"
+        },
+        {
+          "family": "Montserrat",
+          "style": "Regular"
+        }
+      ]
+    },
+    "setupCalls": {
+      "whoami": 1,
+      "create_new_file": 1,
+      "use_figma": 3
+    },
+    "limits": [
+      "File-level tested operations succeeded despite reported View seat; do not infer arbitrary team/library permissions.",
+      "Code Layers unavailable; editable Design route does not require them.",
+      "No screens/components, export fidelity, native translation, paid image generation or AI generation tested."
+    ]
+  },
+  "studio": {
+    "id": "d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0",
+    "listedName": "Place1",
+    "dataModelName": "BallVsSpace.rbxl",
+    "mode": "Edit",
+    "placeId": 0,
+    "gameId": 0,
+    "verifiedSourceFiles": 41,
+    "sourceVerificationReceipt": "action-v1-studio-source-consistency.json",
+    "editsMade": false
+  },
+  "setupIssues": [
+    {
+      "attempt": "Local Studio CLI in sandbox",
+      "result": "StudioMCP.exe not found",
+      "cause": "LOCALAPPDATA was redirected to sandbox package directory"
+    },
+    {
+      "attempt": "Local CLI with discovered StudioMCP executable in sandbox",
+      "result": "child process ETIMEDOUT"
+    },
+    {
+      "attempt": "Read-only local Studio CLI outside sandbox",
+      "result": "passed: 41 sources match"
+    },
+    {
+      "attempt": "Create project-local pilot tooling directory in sandbox",
+      "result": "failed to create parent directories; authorized retry outside sandbox succeeded"
+    }
+  ],
+  "commands": [
+    {
+      "command": "node --check game/tools/pilot/prepare.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node game/tools/pilot/prepare.mjs",
+      "result": "passed; 107 identical inputs, three independent routes, six builds and approved preview hash verified"
+    },
+    {
+      "command": "node game/tools/studio/verify-studio.mjs d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0",
+      "result": "passed outside sandbox"
+    },
+    {
+      "command": "git diff --exit-code eb21fc7ca7993aaf2ee6e80b3f8d8fee196a629f -- game/src game/default.project.json game/assets/art game/assets/runtime",
+      "result": "passed; unchanged"
+    }
+  ],
+  "finalFileHashCheck": {
+    "passed": true,
+    "routeInputChecks": 321,
+    "routeBuildChecks": 6,
+    "approvedInputChecks": 8
+  },
+  "accounting": {
+    "sharedPreparation": "Baseline isolation, approved preview reproduction and toolchain/Studio checks",
+    "routeCPreparation": "Five Figma access/setup calls; charge to C when evaluating total effort",
+    "elapsedSeconds": null,
+    "modelAndToolCost": null,
+    "humanInterventionCount": null,
+    "unknownReason": "Reliable whole-step timing, billing and human approval clicks were not recorded; do not substitute zero."
+  },
+  "pending": [
+    "Route A native implementation",
+    "Route B complete web interaction prototype and native translation; earlier local-browser preview restriction applies",
+    "Route C editable Figma screens/components and native translation",
+    "Matched desktop/portrait/landscape native checks and interaction/regression testing",
+    "Measured comparison and user acceptance; physical-device and human gates"
+  ]
+}

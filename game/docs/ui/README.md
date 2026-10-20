@@ -1,8 +1,12 @@
 # Ball VS Space — UI editing handoff
 
-Current presentation: **0.3** (captures dated 17 October 2026). The screenshots below come from the completed Studio validation pass; they are not new mockups. This guide documents the current implementation, including its shortcuts and remaining differences.
+Current presentation: **action-v1 across the existing game UI**, 19 October 2026. See the [current build and test guide](action-v1.md). The screenshot map retains historical 0.3 captures.
 
-Open the **[clickable screenshot map](map.html)** locally in a browser. Select a screen, then a numbered region to see its type, Explorer path and source file. On GitHub, download/clone the repository first; GitHub shows HTML as source. The [comparison gallery](reference-comparison.html) separately shows the original reference alongside this build.
+The [approved design](../../assets/ui-concepts/action-v1/design.json) and [pilot contract](../../assets/ui-concepts/action-v1/pilot.json) remain unchanged. The user's later requirement supersedes their old portrait examples: **phones keep the desktop's horizontal composition**. Inventory keeps two to four columns beside the selected item. Store keeps its feature beside the offers. The compact collection scrolls; actions remain visible.
+
+The [editable Figma file](https://www.figma.com/design/oOA0AIBygAKBqgHUtdhwkz?node-id=11-3) is populated with canonical artwork, Inventory, Store, category views and twelve full-game screens plus two landscape Draft variants. Portrait explorations are archived as superseded. [Pilot status](pilot-setup.md) separates this working native candidate from the unfinished independent A/B/C comparison.
+
+The [clickable screenshot map](map.html) and [reference comparison](reference-comparison.html) retain the prior presentation. Open downloaded HTML locally; GitHub displays its source.
 
 ## The distinction that matters most
 
@@ -10,7 +14,7 @@ Open the **[clickable screenshot map](map.html)** locally in a browser. Select a
 | --- | --- | --- |
 | Walkable lobby, kiosks, arena pads, purple prop | 3D Parts in `Workspace.BVSCourt` | [CourtService](../../src/server/Services/CourtService.luau), [LobbyDetailService](../../src/server/Services/LobbyDetailService.luau) |
 | Floating lobby signs and kiosk screens | BillboardGui / SurfaceGui attached to world Parts | LobbyDetailService; base boards in CourtService |
-| Large navy match court, including its apparent depth | 2D Frames, gradients and bevel strips | [HudController](../../src/client/Controllers/HudController.luau) |
+| Large charcoal match court, including its apparent depth | 2D Frames, gradients and bevel strips | [HudController](../../src/client/Controllers/HudController.luau) |
 | Cyan/coral territory | 1,024 screen-space Frames | [TerritoryRenderer](../../src/client/Controllers/TerritoryRenderer.luau) |
 | Shaded moving balls and rotating weapons | Primarily ImageLabels; a ViewportFrame holds a 3D fallback | [BallArt](../../src/client/Controllers/BallArt.luau), [BallRenderer](../../src/client/Controllers/BallRenderer.luau), [Artwork](../../src/client/Controllers/Artwork.luau) |
 | Standing avatars beside the court / winner in results | Actual 3D avatar models inside **ViewportFrames**, composited into UI | HudController's `avatar` / `loadAvatarAsync` helpers |
@@ -69,7 +73,7 @@ Paths in this table start at `BallVsSpace.ReferenceCanvas`. A “screen” can b
 | `Draft` — Frame | Title/countdown, three appearance-named card TextButtons, AllBalls, Free, Reroll | HudController |
 | Draft card children | Title, CardDivider strips, PreviewBackground → KitPreview, Description | HudController + BallArt |
 | `Collection` — Frame | Compact **draft picker**, distinct from Inventory. Header → Title, 12 appearance buttons → Preview and BallName, Close = No, Confirm = Yes | HudController |
-| `PlayerSide1` / `PlayerSide2` — Frames | PlayerName, Portrait, PlayerFigure, six Heart containers, KitIcon and KitName; side figures hidden in portrait | HudController |
+| `PlayerSide1` / `PlayerSide2` — Frames | PlayerName, Portrait, PlayerFigure, three Heart containers, KitIcon and KitName; large side figures hidden in short landscape views | HudController |
 | `Results` — Frame | Purple background, repeated Stripe Frames, Crown → CrownArt, PlayerFigure, ResultTitle, ResultScore | HudController |
 | `Phase`, `Clock`, `Hint`, `Status`, `Help`, `Points`, `ScoreA`, `ScoreB` — TextLabels | Phase feedback, timer, instructions, round points and area totals | HudController |
 | `BarA` / `BarB` — Frames | Territory area bars | HudController |
@@ -84,8 +88,8 @@ Every window has `Heading`, `Close` (with a Cross image), a UIStroke and UIScale
 
 | Window Frame | Important children | What works now |
 | --- | --- | --- |
-| `Inventory` | Balls/Explosions/Flyers/Fusion tab buttons; `BallsPage.Grid` ScrollingFrame containing 12 appearance cards; `BallsPage.Details` with Name, Ball, Weapon, Description, Equipped and Equip; `PageExplosions`, `PageFlyers`, `PageFusion` | Ball selection/equipment; other categories show previews or availability text |
-| `Store` | Balance; Events/Balls/Explosions/Flyers tabs; Offers with Laser/Ray/Balloons/Parasol cards, View… buttons, Spotlight; Footer | Free collection navigation and previews; no purchase system |
+| `Inventory` | Balls/Explosions/Flyers/Fusion tab buttons; `Content.BallsPage.Grid` ScrollingFrame containing 12 appearance cards; `Content.BallsPage.Details` with Name, Ball, Weapon, Description, Equipped and Equip; `Content.PageExplosions`, `Content.PageFlyers`, `Content.PageFusion` | Ball selection/equipment; other categories show previews or availability text |
+| `Store` | Balance; Events/Balls/Explosions/Flyers tabs; Content.Offers with Laser/Ray/Balloons/Parasol cards, View… buttons, Spotlight; Footer | Free collection navigation and previews; no purchase system |
 | `Rewards` | Gift, Headline, Body, Explore | Opens the free collection; no durable reward claim |
 | `Play` | 1v1, Practice, Description | Queue or start Practice |
 | `How to play` | Step1/Step2/Step3, each with Number/Title/Body; Foot | Instructions for selection, aiming and territory |
@@ -101,13 +105,13 @@ Names containing spaces are literal. Use `FindFirstChild("Invite friends")`. A c
 | --- | --- |
 | Shared fonts, text outlines, button gradient/edge/hover | [ReferenceUi](../../src/client/Controllers/ReferenceUi.luau): `displayFont` (Michroma), `cardFont` (FredokaOne), `text`, `button` |
 | Main HUD, lobby overlay, draft, results | HudController: `Hud.new` creates; `Hud.layout` positions/reflows; `Hud.render` updates state and visibility |
-| Inventory, Store, utility panels | LobbyPanels: `Panels.new` creates; `Panels.layout` controls desktop and phone reflow |
+| Inventory, Store, utility panels | LobbyPanels wires actions; [ActionMenus](../../src/client/Controllers/ActionMenus.luau) styles and lays out Inventory/Store; `Panels.layout` handles utilities |
 | Symbols, balls, weapon silhouettes | [Art generator](../../tools/art/build.mjs), then [Artwork](../../src/client/Controllers/Artwork.luau) for atlas coordinates/asset IDs |
 | Names/descriptions and cosmetic-to-kit mapping | [AppearanceCatalog](../../src/shared/AppearanceCatalog.luau) |
 | Court projection and overall canvas | [ReferenceLayout](../../src/client/Controllers/ReferenceLayout.luau), coordinated with HudController, TerritoryRenderer, BallRenderer and AimController |
 | Button actions and phase connections | [Bootstrap.client](../../src/client/Bootstrap.client.luau); retain action wiring when restyling |
 
-The coordinate system is **803×602 design units**, scaled and centered to fit the viewport. The inner field is `(178, 78)` with size `446×446`. Screenshot pixels may differ because of window size or display scaling. Start with one panel, then check both desktop and portrait paths in its `layout` function. Constructor positions can be overwritten there.
+The coordinate system is **803×602 design units**, scaled and centered to fit the viewport. The inner field is `(178, 78)` with size `446×446`. Screenshot pixels may differ because of window size or display scaling. Start with one panel, then check desktop and compact landscape paths in its `layout` function. Constructor positions can be overwritten there.
 
 Most authored TextButtons show a child **ButtonText**, while the button's native text is transparent. The helper mirrors Text/TextSize into that child. **ButtonFill** supplies the visible gradient; setting only the parent BackgroundColor3 may not change what you see. Edit the helper or its visible children intentionally.
 
@@ -131,7 +135,7 @@ A changed local PNG **does not automatically change the Roblox image**. Upload t
 ## Before you keep a UI edit
 
 1. Save it in source, sync/rebuild, and reopen the affected screen through its real button.
-2. Check desktop, portrait and landscape: text fit, scrolling, close controls, selection and 44+ UI-pixel touch targets.
+2. Check desktop and both phone landscape orientations: text fit, scrolling, close controls, selection and 44+ UI-pixel touch targets.
 3. For court/ball changes, check aim alignment and collision-size agreement; for menus, verify switching/closing and repeated opens leave no duplicate UI.
 4. Compare the same phase, ball and viewport against the reference. Record remaining differences rather than labeling them exact.
 
@@ -146,13 +150,13 @@ For the condensed method, read [the replication skill](replication-skill/SKILL.m
 | Court | Measured 512×510 navy frame, 446×446 playfield, mitred bevels, inner shadows and sky backdrop |
 | Balls | Twelve shaded atlas portraits, Acid spots, luminous Axe/Blade seams, separate rotating weapons, Cell membrane and other collection surfaces; 82.23125-unit main diameter matches the solver |
 | Symbols | 32 antialiased authored symbols: continuous hearts, faceted gems, gear, store, inventory, gifts, invite, crown, emote and category art |
-| Draft and aim | Three cards, actual reroll, private opponent choice, twelve-ball compact selector, dashed arrow and gold Lock Aim |
+| Draft and aim | Three cards, actual reroll, private opponent choice, twelve-ball compact selector, dashed arrow and cyan Lock Aim |
 | Inventory | Illustrated tabs, scrolling collection, selected outline, large detail preview and functional Equip feedback |
 | Store | Daily offers, collection spotlight, balance treatment and working navigation to ball/cosmetic previews |
 | Utilities | Rewards, mode selection, instructions, emotes, invitations and explicit trade availability; real emote/invite APIs where supported |
 | Results | Purple striped panel, proportioned crown, actual winner avatar, local victory/defeat, area totals and rematch |
 | Lobby | Blue plaza, detailed collection kiosks, framed arena pads, instructional boards, illuminated portals and normal proximity prompts |
-| Phone | Inventory details stack below the collection; Store reflows to two columns; bounded panels, larger actions, court/aim mapping and visible invite access |
+| Phone | Horizontal desktop composition in the device-safe area; adaptive two-to-four-column Inventory with adjacent details, Store feature beside offers, readable picker/settings and larger actions |
 
 Native Roblox controls and participating avatars belong to the platform/account and are not impersonated with copied UI.
 
@@ -162,6 +166,6 @@ Native Roblox controls and participating avatars belong to the platform/account 
 - Twelve appearances map to **two** territory kits. Names and silhouettes do not imply twelve recovered reference abilities.
 - Descriptions, free-collection buttons and session quests describe actual behavior. Trading, fusion, purchases, durable rewards and 2v2 are not presented as implemented systems.
 - Hearts show remaining rounds. Victory follows the specification's territory/round rule.
-- Phone layouts reflow for readability instead of shrinking the whole desktop store.
+- Phones retain the horizontal desktop composition; compact geometry and scrolling keep controls usable.
 
 Reference lighting, cloud placement, individual mesh/weapon curves, original animation timing and full catalog are not exact recoveries. No measured source-physics equivalence or pixel-perfect acceptance is claimed. Original research and the distinction between observed and proposed values remain intact.

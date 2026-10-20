@@ -6,6 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local Catalog = require(game:GetService("ReplicatedStorage").Shared.AppearanceCatalog)
 local Ui = require(script.Parent.ReferenceUi)
 local Art = require(script.Parent.Artwork)
+local ActionMenus = require(script.Parent.ActionMenus)
 local Panels = {}
 export type State = {
 	layer: Frame,
@@ -19,16 +20,15 @@ export type State = {
 	toast: TextLabel,
 	toastVersion: number,
 	toastTween: Tween?,
+	openTween: Tween?,
 	detailName: TextLabel,
 	detailText: TextLabel,
 	detailImage: ImageLabel,
 	detailWeapon: ImageLabel,
 	equipped: TextLabel,
-	items: { TextButton },
 	tabs: { TextButton },
 	inventoryPages: { Frame },
 	storePages: { Frame },
-	storeTabs: { TextButton },
 	preferred: string,
 	layoutSize: Vector2,
 	base: { [GuiObject]: { size: UDim2, position: UDim2, textSize: number? } },
@@ -73,6 +73,10 @@ function Panels.notify(s: State, message: string)
 	end)
 end
 function Panels.close(s: State)
+	if s.openTween then
+		s.openTween:Cancel()
+		s.openTween = nil
+	end
 	s.active = ""
 	s.layer.Visible = false
 	for _, w in s.windows do
@@ -92,13 +96,17 @@ function Panels.open(s: State, name: string)
 	s.active = name
 	s.layer.Visible = true
 	window.Visible = true
+	local center = UDim2.fromOffset(s.layer.Size.X.Offset / 2, 303)
+	window.Position = center
 	if s.layer:GetAttribute("ReducedMotion") ~= true then
-		window.Position = UDim2.fromOffset(401.5, 311)
-		TweenService:Create(
+		window.Position = center + UDim2.fromOffset(0, 8)
+		local tween = TweenService:Create(
 			window,
 			TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-			{ Position = UDim2.fromOffset(401.5, 303) }
-		):Play()
+			{ Position = center }
+		)
+		s.openTween = tween
+		tween:Play()
 	end
 end
 local function tab(
@@ -122,7 +130,7 @@ end
 local function window(s: State, name: string, width: number, height: number): Frame
 	local w = Ui.frame(s.layer, name, 401.5, 303, width, height, Color3.fromRGB(8, 18, 30))
 	w.AnchorPoint = Vector2.new(0.5, 0.5)
-	w.BackgroundTransparency = 0.09
+	w.BackgroundTransparency = 0
 	w.Active = true
 	w.Visible = false
 	w.ZIndex = 2
@@ -148,18 +156,14 @@ function Panels.select(s: State, id: string)
 	end
 	s.selected = id
 	s.detailName.Text = entry.name
-	s.detailText.Text = entry.description
+	s.detailText.Text = string.gsub(entry.description, "\n", " ")
 	Art.set(s.detailImage, id, true)
 	s.detailWeapon.Visible = id == "Axe" or id == "Blade"
 	if s.detailWeapon.Visible then
 		Art.set(s.detailWeapon, id)
 	end
-	for _, item in s.items do
-		local border = item:FindFirstChild("Edge") :: UIStroke
-		border.Color = if item.Name == id
-			then gold
-			else if Catalog.entries[item.Name].kit == "Anchor" then blue else purple
-		border.Thickness = if item.Name == id then 2 else 1
+	if s.windows.Inventory:FindFirstChild("Content") then
+		ActionMenus.select(s.windows, s.selected, s.preferred)
 	end
 end
 function Panels.new(parent: Instance): State
@@ -199,11 +203,9 @@ function Panels.new(parent: Instance): State
 		detailImage = Instance.new("ImageLabel"),
 		detailWeapon = Instance.new("ImageLabel"),
 		equipped = Instance.new("TextLabel"),
-		items = {},
 		tabs = {},
 		inventoryPages = {},
 		storePages = {},
-		storeTabs = {},
 		preferred = "Verity",
 		layoutSize = Vector2.zero,
 		base = {},
@@ -267,7 +269,6 @@ function Panels.new(parent: Instance): State
 			Ui.text(foot, "Name", Catalog.entries[id].name, 3, 0, 113, 22, if id == "Poison" then 10 else 13)
 		title.TextXAlignment = Enum.TextXAlignment.Left
 		Ui.text(foot, "Quantity", "x1", 111, 0, 21, 22, 12)
-		table.insert(s.items, b)
 		b.Activated:Connect(function()
 			Panels.select(s, id)
 		end)
@@ -285,6 +286,7 @@ function Panels.new(parent: Instance): State
 		s.preferred = s.selected
 		s.equipped.Text = "Equipped: " .. s.selected
 		s.equip:Fire(s.selected)
+		ActionMenus.select(s.windows, s.selected, s.preferred)
 		Panels.notify(s, Catalog.entries[s.selected].name .. " selected")
 	end)
 	for _, category in { "Explosions", "Flyers", "Fusion" } do
@@ -360,7 +362,6 @@ function Panels.new(parent: Instance): State
 		}
 	do
 		local b = tab(store, d.name, d.icon, 18 + (i - 1) * 168, 160, d.color, i == 2)
-		table.insert(s.storeTabs, b)
 		b.Activated:Connect(function()
 			if i == 1 or i == 2 then
 				for j, p in s.storePages do
@@ -554,10 +555,25 @@ function Panels.new(parent: Instance): State
 			Panels.notify(s, "Invites are available from the published game.")
 		end
 	end)
-	UserInputService.InputBegan:Connect(function(input, processed)
+	local escapeConnection = UserInputService.InputBegan:Connect(function(input, processed)
 		if not processed and input.KeyCode == Enum.KeyCode.Escape and s.active ~= "" then
 			Panels.close(s)
 		end
+	end)
+	layer.Destroying:Once(function()
+		escapeConnection:Disconnect()
+	end)
+	for name, panel in s.windows do
+		if name ~= "Inventory" and name ~= "Store" then
+			Ui.actionTheme(panel)
+			Ui.actionHeader(panel, 58)
+			local heading = panel:FindFirstChild("Heading") :: TextLabel
+			heading.ZIndex = 2
+			heading.TextSize = if #name > 11 then 28 else 34
+		end
+	end
+	ActionMenus.install(s.windows, function(name)
+		Panels.open(s, name)
 	end)
 	Panels.select(s, "Verity")
 	return s
@@ -565,6 +581,10 @@ end
 function Panels.layout(s: State, viewport: Vector2, rootScale: number)
 	if s.layoutSize == viewport then
 		return
+	end
+	if s.openTween then
+		s.openTween:Cancel()
+		s.openTween = nil
 	end
 	s.layoutSize = viewport
 	if next(s.base) == nil then
@@ -600,132 +620,29 @@ function Panels.layout(s: State, viewport: Vector2, rootScale: number)
 		assert(item and item:IsA("GuiObject"), "Missing panel component: " .. name)
 		return item
 	end
-	local portrait = viewport.X < viewport.Y
-	local inventory = s.windows.Inventory
-	local body = child(inventory, "BallsPage")
-	local grid = child(body, "Grid") :: ScrollingFrame
-	grid.CanvasSize = UDim2.fromOffset(0, 4 * (if portrait then 167 else 139))
-	if portrait then
-		inventory.Size = UDim2.fromOffset(520, 740)
-		for i, b in s.tabs do
-			box(b, 10 + (i - 1) * 126, 70, 120, 72)
-			box(child(b, "TabArt"), 34, 0, 52, 52)
-		end
-		for _, p in s.inventoryPages do
-			box(p, 10, 154, 500, 570)
-		end
-		box(grid, 0, 0, 500, 350)
-		for i, b in s.items do
-			box(b, (i - 1) % 3 * 167, math.floor((i - 1) / 3) * 167, 160, 160)
-			local art = child(b, "PortraitArt")
-			box(art, 4, 0, 152, 152)
-			box(child(art, "Ball"), 0, 0, 152, 152)
-			local weapon = art:FindFirstChild("Weapon")
-			if weapon and weapon:IsA("ImageLabel") then
-				box(weapon, 47, -24, 61, 102)
-			end
-			local footer = child(b, "Footer")
-			box(footer, 0, 132, 160, 28)
-			local name = child(footer, "Name") :: TextLabel
-			box(name, 3, 0, 135, 28)
-			name.TextSize = if b.Name == "Poison" then 14 else 16
-			box(child(footer, "Quantity"), 137, 0, 21, 28)
-		end
-		local details = child(body, "Details")
-		box(details, 0, 365, 500, 190)
-		box(s.detailName, 145, 4, 345, 32)
-		s.detailName.TextSize = 23
-		box(s.detailImage, 10, 15, 135, 135)
-		box(s.detailWeapon, 52, 0, 55, 92)
-		box(s.detailText, 158, 42, 330, 70)
-		s.detailText.TextSize = 18
-		box(s.equipped, 147, 114, 343, 28)
-		s.equipped.TextSize = 16
-		box(child(details, "Divider"), 153, 139, 337, 1)
-		box(child(details, "Equip"), 308, 144, 182, 64)
-		-- Keep the full equip target inside the panel.
-		details.Size = UDim2.fromOffset(500, 212)
-		inventory.Size = UDim2.fromOffset(520, 748)
-		for _, p in s.inventoryPages do
-			if p.Name ~= "BallsPage" then
-				for _, b in p:GetChildren() do
-					if b:IsA("TextButton") then
-						local index = math.floor((b.Position.X.Offset - 15) / 188 + 0.5)
-						box(b, 7 + index * 166, 34, 154, 230)
-						box(child(b, "Art"), 17, 22, 120, 120)
-						b.TextSize = 22
-					end
-				end
-				local caption = p:FindFirstChild("Caption")
-				if caption and caption:IsA("TextLabel") then
-					box(caption, 20, 290, 460, 36)
-				end
-			end
-		end
-		local fusion = child(inventory, "PageFusion")
-		box(child(fusion, "FusionArt"), 192, 85, 116, 116)
-		box(child(fusion, "Title"), 10, 230, 480, 42)
-		box(child(fusion, "Body"), 20, 293, 460, 100)
-		local store = s.windows.Store
-		store.Size = UDim2.fromOffset(520, 930)
-		local balance = child(store, "Balance")
-		box(balance, 220, 12, 250, 40)
-		box(child(balance, "Coin"), 0, 0, 38, 38)
-		box(child(balance, "Coins"), 40, 0, 65, 38)
-		box(child(balance, "Gem"), 120, 0, 38, 38)
-		box(child(balance, "Gems"), 160, 0, 65, 38)
-		for i, b in s.storeTabs do
-			box(b, 10 + (i - 1) * 126, 70, 120, 72)
-			box(child(b, "TabArt"), 34, 0, 52, 52)
-		end
-		local offers = child(store, "Offers")
-		box(offers, 10, 154, 500, 715)
-		box(child(offers, "Title"), 12, 3, 300, 35)
-		box(child(offers, "Availability"), 310, 8, 178, 24)
-		for i, id in { "Laser", "Ray", "Balloons", "Parasol" } do
-			local x, y = 12 + (i - 1) % 2 * 240, 43 + math.floor((i - 1) / 2) * 248
-			local card = child(offers, id)
-			box(card, x, y, 230, 175)
-			box(child(card, "Art"), 44, 0, 142, 142)
-			local foot = child(card, "Foot")
-			box(foot, 0, 143, 230, 32)
-			local name = child(foot, "Name") :: TextLabel
-			box(name, 3, 0, 224, 32)
-			name.TextSize = 20
-			local action = child(offers, "View" .. id) :: TextButton
-			box(action, x, y + 179, 230, 64)
-			action.TextSize = 22
-		end
-		local spotlight = child(offers, "Spotlight")
-		box(spotlight, 10, 537, 480, 165)
-		box(child(spotlight, "Tag"), 12, 12, 310, 28)
-		box(spotlight:FindFirstChild("Name") :: TextLabel, 12, 46, 300, 72)
-		box(child(spotlight, "Caption"), 12, 124, 456, 30)
-		box(child(spotlight, "GlowBall"), 330, 2, 145, 145)
-		local footer = child(store, "Footer") :: TextLabel
-		box(footer, 12, 879, 496, 40)
-		footer.TextSize = 16
-	end
 	for _, scale in s.scales do
 		local parent = scale.Parent :: Frame
+		if parent.Name == "Inventory" or parent.Name == "Store" then
+			continue
+		end
 		scale.Scale = math.min(
 			1,
-			(viewport.X / rootScale - 44) / parent.Size.X.Offset,
-			(viewport.Y / rootScale - 70) / parent.Size.Y.Offset
-		)
+			(viewport.X - 32) / parent.Size.X.Offset,
+			(viewport.Y - 32) / parent.Size.Y.Offset
+		) / rootScale
 		local minimum = math.ceil(44 / (rootScale * scale.Scale))
 		local close = child(parent, "Close") :: TextButton
 		box(
 			close,
-			parent.Size.X.Offset - math.max(46, minimum) + 14,
-			-14,
+			parent.Size.X.Offset - math.max(46, minimum) - 8,
+			6,
 			math.max(46, minimum),
 			math.max(46, minimum)
 		)
 		local cross = child(close, "Cross")
 		cross.Position = UDim2.fromScale(0.12, 0.12)
 		cross.Size = UDim2.fromScale(0.76, 0.76)
-		if UserInputService.TouchEnabled then
+		do
 			for _, b in parent:GetDescendants() do
 				if b:IsA("TextButton") and b.Name ~= "Close" and b.Size.Y.Offset < minimum then
 					local owner = b.Parent
@@ -738,30 +655,25 @@ function Panels.layout(s: State, viewport: Vector2, rootScale: number)
 					end
 				end
 			end
-			if not portrait and (parent.Name == "Store" or parent.Name == "Inventory") then
-				local tabs: { TextButton } = if parent.Name == "Store" then s.storeTabs else s.tabs
-				for _, b in tabs do
-					b.Position = UDim2.fromOffset(b.Position.X.Offset, 60)
-				end
-				if parent.Name == "Store" then
-					local offers = child(parent, "Offers")
-					for _, id in { "Laser", "Ray", "Balloons", "Parasol" } do
-						local card = child(offers, id)
-						card.Size = UDim2.fromOffset(156, 112)
-						box(child(card, "Art"), 35, 0, 86, 86)
-						box(child(card, "Foot"), 0, 85, 156, 27)
-						local action = child(offers, "View" .. id)
-						action.Position = UDim2.fromOffset(action.Position.X.Offset, 159)
-					end
-				else
-					s.equipped.Position = UDim2.fromOffset(5, 208)
-					s.equipped.Size = UDim2.fromOffset(133, 17)
-				end
+		end
+		-- Shrink the panel geometry only; body copy retains a readable physical floor.
+		for _, label in parent:GetDescendants() do
+			if label:IsA("TextLabel") and label.Name ~= "ButtonText" then
+				label.TextSize = math.max(label.TextSize, math.ceil(13 / (rootScale * scale.Scale)))
 			end
 		end
 	end
+	ActionMenus.layout(s.windows, viewport, rootScale)
+	-- Keep feedback above desktop modals and in the free centre of landscape headers.
+	local toastWidth = math.min(420, viewport.X - 32)
+	s.toast.Position = UDim2.fromOffset(
+		(803 - toastWidth / rootScale) / 2,
+		(602 - viewport.Y / rootScale) / 2 + 12 / rootScale
+	)
+	s.toast.Size = UDim2.fromOffset(toastWidth / rootScale, 48 / rootScale)
+	s.toast.TextSize = 13 / rootScale
 	-- ButtonText mirrors its button. Restoring a cached child font can race the
-	-- button's deferred property signal when rotating back from portrait.
+	-- button's deferred property signal when resizing back from a compact viewport.
 	for _, item in s.layer:GetDescendants() do
 		if item:IsA("TextButton") then
 			local caption = item:FindFirstChild("ButtonText")

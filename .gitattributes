@@ -3,6 +3,8 @@
 *.png binary
 *.jpg binary
 *.mp4 binary
+# Keep upstream font licenses intact.
+game/assets/ui-concepts/**/fonts/*.txt -whitespace
 # Preserve the research handoff byte-for-byte, including its original line endings.
 Ball_VS_Space_Evidence/** -text -whitespace
 BALL_VS_SPACE_RESEARCH_AND_BUILD_SPEC.md -text -whitespace

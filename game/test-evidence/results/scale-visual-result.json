@@ -1,0 +1,222 @@
+{
+  "scope": "Isolated native UI states, not a live match",
+  "checks": [
+    {
+      "buttons": 11,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Lobby",
+      "texts": 18
+    },
+    {
+      "buttons": 10,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Queued",
+      "texts": 19
+    },
+    {
+      "buttons": 19,
+      "minimumFont": 10.999999632300032,
+      "issues": [],
+      "frame": "Inventory:Balls",
+      "texts": 28
+    },
+    {
+      "buttons": 9,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Inventory:Explosions",
+      "texts": 10
+    },
+    {
+      "buttons": 9,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Inventory:Flyers",
+      "texts": 10
+    },
+    {
+      "buttons": 6,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Inventory:Fusion",
+      "texts": 8
+    },
+    {
+      "buttons": 15,
+      "minimumFont": 10.999999632300032,
+      "issues": [],
+      "frame": "Store",
+      "texts": 20
+    },
+    {
+      "buttons": 2,
+      "minimumFont": 16.999999431736413,
+      "issues": [],
+      "frame": "Rewards",
+      "texts": 4
+    },
+    {
+      "buttons": 3,
+      "minimumFont": 13.999999532018222,
+      "issues": [],
+      "frame": "Play",
+      "texts": 4
+    },
+    {
+      "buttons": 1,
+      "minimumFont": 13.205405052481353,
+      "issues": [],
+      "frame": "How to play",
+      "texts": 11
+    },
+    {
+      "buttons": 1,
+      "minimumFont": 16.999999431736413,
+      "issues": [],
+      "frame": "Trade",
+      "texts": 3
+    },
+    {
+      "buttons": 5,
+      "minimumFont": 16.999999431736413,
+      "issues": [],
+      "frame": "Emotes",
+      "texts": 5
+    },
+    {
+      "buttons": 2,
+      "minimumFont": 18.999999364881873,
+      "issues": [],
+      "frame": "Invite friends",
+      "texts": 3
+    },
+    {
+      "buttons": 3,
+      "minimumFont": 12.999999565445492,
+      "issues": [],
+      "frame": "Settings",
+      "texts": 3
+    },
+    {
+      "buttons": 5,
+      "minimumFont": 12.999999565445492,
+      "issues": [],
+      "frame": "Draft",
+      "texts": 9
+    },
+    {
+      "buttons": 14,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Collection",
+      "texts": 15
+    },
+    {
+      "buttons": 2,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Aim",
+      "texts": 9
+    },
+    {
+      "buttons": 1,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Countdown",
+      "texts": 8
+    },
+    {
+      "buttons": 1,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Battle",
+      "texts": 8
+    },
+    {
+      "buttons": 1,
+      "minimumFont": 11.999999598872762,
+      "issues": [],
+      "frame": "Overtime",
+      "texts": 8
+    },
+    {
+      "buttons": 0,
+      "minimumFont": 17.08803927898407,
+      "issues": [],
+      "frame": "Results",
+      "texts": 2
+    },
+    {
+      "buttons": 0,
+      "minimumFont": 12.657806873321533,
+      "issues": [],
+      "frame": "Toast",
+      "texts": 1
+    },
+    {
+      "buttons": 11,
+      "minimumFont": 11.999999530702524,
+      "issues": [],
+      "frame": "Lobby",
+      "texts": 18
+    },
+    {
+      "buttons": 19,
+      "minimumFont": 10.999999569810647,
+      "issues": [],
+      "frame": "Inventory:Balls",
+      "texts": 26
+    },
+    {
+      "buttons": 15,
+      "minimumFont": 10.999999569810647,
+      "issues": [],
+      "frame": "Store",
+      "texts": 18
+    },
+    {
+      "buttons": 5,
+      "minimumFont": 12.999999491594401,
+      "issues": [],
+      "frame": "Draft",
+      "texts": 9
+    },
+    {
+      "buttons": 14,
+      "minimumFont": 11.999999530702524,
+      "issues": [],
+      "frame": "Collection",
+      "texts": 15
+    },
+    {
+      "buttons": 0,
+      "minimumFont": 17.009965896606445,
+      "issues": [],
+      "frame": "Results",
+      "texts": 2
+    },
+    {
+      "buttons": 11,
+      "minimumFont": 11.999999313079911,
+      "issues": [],
+      "frame": "Lobby",
+      "texts": 18
+    },
+    {
+      "buttons": 19,
+      "minimumFont": 10.999999370323252,
+      "issues": [],
+      "frame": "Inventory:Balls",
+      "texts": 28
+    },
+    {
+      "buttons": 5,
+      "minimumFont": 12.99999925583657,
+      "issues": [],
+      "frame": "Draft",
+      "texts": 9
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "status": "Target approved; pilot setup next; no route started",
+  "date": "2026-10-18",
+  "target": "design.json",
+  "approvedPreviewSha256": "bde435a80d1cc6f70a9367fdb597709593da754d35bbfc7397f73261479da54c",
+  "baselineCommit": "eb21fc7ca7993aaf2ee6e80b3f8d8fee196a629f",
+  "scope": "Inventory, Store and their existing category views/interactions only",
+  "routes": {
+    "A": "Implement native Roblox GUI directly using the approved design.",
+    "B": "Build the complete scoped web interaction prototype, then implement it as native Roblox GUI.",
+    "C": "Create editable Figma components/screens, then implement native Roblox GUI."
+  },
+  "fairness": [
+    "Each route starts from a separate copy of the same runtime baseline and receives the same approved design, exact fonts, canonical assets and behavior contract.",
+    "The shared design exploration is common preparation, not a completed route B run.",
+    "Count route-specific setup, design translation, implementation, debugging, manual interventions and available model/tool costs; mark unavailable costs unknown.",
+    "Compare final Roblox screens and behavior at matching viewports and states. Web/Figma polish alone cannot win.",
+    "If review requires a target change, version it and apply it to all routes."
+  ],
+  "acceptance": [
+    "All 12 existing ball appearances and Drift/Anchor mappings retained; canonical art and copy unchanged.",
+    "Selecting a ball updates details; Equip uses existing game state/action wiring; selected and equipped remain distinct.",
+    "Inventory Balls/Explosions/Flyers/Fusion tabs retain their existing behavior and honest availability limits.",
+    "Store retains four offer cards, collection feature, passive balances and existing ball/cosmetic navigation; no purchasing or invented progression.",
+    "Open, category navigation, close and repeated opens preserve modal state and do not duplicate UI or event connections.",
+    "Desktop, portrait and landscape keep readable text, visible actions, clear selection and touch targets at least 44 UI pixels.",
+    "Fonts, header graphics, neutral collection, pale showcase and cyan action/selection follow the approved design.",
+    "Play/Practice, aim coordinate mapping, territory rules and server authority have no regressions."
+  ],
+  "evaluation": [
+    "Visual fidelity and polish",
+    "Functional correctness",
+    "Desktop/mobile adaptation",
+    "Total development and debugging time",
+    "Available model/tool cost and manual intervention count",
+    "Editability and maintainability"
+  ],
+  "connectionAudit": {
+    "figma": "Plugin directory reports available but not installed on 2026-10-18; no Figma tools exposed in this session.",
+    "figmaPluginId": "plugin_connector_68df038e0ba48191908c8434991bbac2",
+    "figmaSuggestion": "Already suggested 2026-10-17; not suggested again within seven days.",
+    "studio": "Tools available; intended place read-only verification must be refreshed before pilot runtime work."
+  },
+  "next": [
+    "Connect Figma and verify editable design access for route C.",
+    "Prepare isolated baseline copies and refresh Studio target verification.",
+    "Run the three scoped implementations with per-route logs and compare in Roblox."
+  ],
+  "limits": "Current approval is design-direction acceptance. Browser-rendered phone checks, native implementation and runtime acceptance are pending. Earlier local-browser preview policy restriction remains in force. No publishing, spending or unrelated experience edits are included."
+}

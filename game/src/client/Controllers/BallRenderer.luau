@@ -40,7 +40,7 @@ function Renderer.new(): State
 	local gui = Instance.new("ScreenGui")
 	gui.Name = "BVSBallLabels"
 	gui.IgnoreGuiInset = true
-	gui.ScreenInsets = Enum.ScreenInsets.None
+	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 	gui.ResetOnSpawn = false
 	gui.DisplayOrder = 10
 	gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui", 10)

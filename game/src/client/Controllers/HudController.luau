@@ -1,5 +1,6 @@
 --!strict
 local Players = game:GetService("Players")
+local GuiService = game:GetService("GuiService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local Shared = game:GetService("ReplicatedStorage").Shared
@@ -12,6 +13,18 @@ local Layout = require(script.Parent.ReferenceLayout)
 local Panels = require(script.Parent.LobbyPanels)
 local Ui = require(script.Parent.ReferenceUi)
 local Hud = {}
+local resultReasons = {
+	disconnect_forfeit = "Disconnect forfeit",
+	voluntary_forfeit = "Player left the match",
+	inactivity_forfeit = "Inactive player forfeited",
+	ready_timeout = "A player could not connect",
+	cancelled_before_start = "Cancelled before play",
+	both_teams_disconnected = "Both players disconnected",
+	simulation_failure = "Simulation stopped safely",
+	simulation_error = "Simulation stopped safely",
+	simulation_debt = "Server could not keep up",
+	service_timeout = "Match time limit reached",
+}
 local purple = Color3.fromRGB(132, 123, 184)
 local gold = Color3.fromRGB(255, 184, 0)
 local function gui(name: string, order: number): ScreenGui
@@ -19,7 +32,7 @@ local function gui(name: string, order: number): ScreenGui
 	g.Name = name
 	g.ResetOnSpawn = false
 	g.IgnoreGuiInset = true
-	g.ScreenInsets = Enum.ScreenInsets.None
+	g.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 	g.DisplayOrder = order
 	g.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	g.Parent = Players.LocalPlayer:WaitForChild("PlayerGui", 10)
@@ -234,6 +247,9 @@ function Hud.new()
 	local draft = Ui.frame(root, "Draft", 0, 0, 803, 602, Color3.new())
 	draft.BackgroundTransparency = 1
 	draft.ZIndex = 4
+	draft.AnchorPoint = Vector2.new(0.5, 0.5)
+	local draftScale = Instance.new("UIScale")
+	draftScale.Parent = draft
 	local draftTitle = Ui.text(draft, "Title", "CHOOSE YOUR BALL", 180, 127, 444, 42, 23, true)
 	local cards = {}
 	for i, id in { "Cell", "Axe", "Poison" } do
@@ -247,8 +263,7 @@ function Hud.new()
 	reroll.TextYAlignment = Enum.TextYAlignment.Bottom
 	reroll.Size = UDim2.fromOffset(72, 44)
 	Artwork.image(reroll, "RerollIcon", "Reroll", 24, 1, 25, 25)
-	local sides, sideLabels, figures, portraits, kitIcons, kitNames, hearts, miniHearts =
-		{}, {}, {}, {}, {}, {}, {}, {}
+	local sides, sideLabels, figures, portraits, kitIcons, kitNames, matchPoints = {}, {}, {}, {}, {}, {}, {}
 	for i = 1, 2 do
 		local f = Ui.frame(root, "PlayerSide" .. i, if i == 1 then 0 else 663, 0, 140, 480, Color3.new())
 		f.BackgroundTransparency = 1
@@ -264,12 +279,10 @@ function Hud.new()
 		corner.Parent = portrait
 		portrait.Parent = f
 		local figure = avatar(f, -8, 260, 156, 205)
-		local group = {}
-		local mini = {}
-		for j = 1, 3 do
-			group[j] = Ui.heart(f, 8 + (j - 1) * 32, 253, 25)
-			mini[j] = Ui.heart(f, (if i == 1 then 71 else 1) + (j - 1) * 24, 115, 19)
-		end
+		local tally = Ui.text(f, "MatchPoints", "0 / 2 PTS", 0, 74, 140, 24, 12, true)
+		tally.BackgroundColor3 = Ui.actionColors.ink
+		tally.BackgroundTransparency = 0.15
+		tally.TextColor3 = name.TextColor3
 		local kitIcon = Art.viewport(f, "KitIcon", "Acid")
 		kitIcon.Size = UDim2.fromOffset(66, 66)
 		kitIcon.Position = UDim2.fromOffset(if i == 1 then 12 else 64, 151)
@@ -280,26 +293,12 @@ function Hud.new()
 		portraits[i] = portrait
 		kitIcons[i] = kitIcon
 		kitNames[i] = kitName
-		hearts[i] = group
-		miniHearts[i] = mini
+		matchPoints[i] = tally
 	end
 	local currency = Ui.frame(root, "Currency", 17, 481, 180, 100, Color3.new())
 	currency.BackgroundTransparency = 1
 	local coin = Ui.frame(currency, "Coin", 2, 0, 43, 43, Color3.fromRGB(255, 202, 0))
-	local round = Instance.new("UICorner")
-	round.CornerRadius = UDim.new(1, 0)
-	round.Parent = coin
-	local stroke = Instance.new("UIStroke")
-	stroke.Thickness = 3
-	stroke.Color = Color3.fromRGB(255, 149, 0)
-	stroke.Parent = coin
-	local center = Ui.frame(coin, "CoinCenter", 7, 7, 29, 29, Color3.fromRGB(255, 218, 39))
-	local c = Instance.new("UICorner")
-	c.CornerRadius = UDim.new(1, 0)
-	c.Parent = center
 	coin.BackgroundTransparency = 1
-	stroke.Enabled = false
-	center:Destroy()
 	Artwork.image(coin, "CoinArt", "Coin", -3, -3, 49, 49)
 	local balance = Ui.text(currency, "Coins", "0", 55, -2, 125, 47, 30, true)
 	balance.TextXAlignment = Enum.TextXAlignment.Left
@@ -317,22 +316,26 @@ function Hud.new()
 	local inventory = Ui.button(lobby, "Inventory", "Inventory", 18, 286, 66, 70, Color3.fromRGB(37, 61, 87))
 	inventory.TextSize = 11
 	local shopIcon = Ui.frame(store, "Icon", 15, 4, 36, 41, Color3.new())
+	shopIcon.AnchorPoint = Vector2.new(0.5, 0)
+	shopIcon.Position = UDim2.new(0.5, 0, 0, 4)
 	shopIcon.BackgroundTransparency = 1
 	Artwork.image(shopIcon, "StoreArt", "Store", 0, 0, 36, 41)
 	local cube = Ui.frame(inventory, "Icon", 10, 3, 46, 45, Color3.new())
+	cube.AnchorPoint = Vector2.new(0.5, 0)
+	cube.Position = UDim2.new(0.5, 0, 0, 3)
 	cube.BackgroundTransparency = 1
 	Artwork.image(cube, "InventoryArt", "Inventory", 0, 0, 46, 45)
 	store.TextYAlignment = Enum.TextYAlignment.Bottom
 	inventory.TextYAlignment = Enum.TextYAlignment.Bottom
-	local emotes = Ui.button(lobby, "Emotes", "Emotes  R", 18, 373, 97, 29, Color3.fromRGB(37, 61, 87))
+	local emotes = Ui.button(lobby, "Emotes", "Emotes", 18, 373, 97, 29, Color3.fromRGB(37, 61, 87))
 	emotes.TextSize = 11
 	Artwork.image(emotes, "Pose", "Emote", 3, 4, 18, 21)
 	local emoteText = emotes:FindFirstChild("ButtonText") :: TextLabel
 	emoteText.Position = UDim2.fromOffset(20, 0)
 	emoteText.Size = UDim2.new(1, -20, 1, 0)
-	local quick = Ui.frame(lobby, "QuickJoin", 602, 176, 193, 68, Color3.fromRGB(18, 33, 61))
-	quick.BackgroundTransparency = 0.25
-	Ui.text(quick, "Title", "Quick Join", 0, -14, 193, 32, 18, true)
+	practice.Name = "Practice"
+	practice.Parent = lobby
+	practice.ZIndex = 2
 	local quests = Ui.frame(lobby, "Quests", 603, 10, 192, 155, Color3.fromRGB(19, 34, 54))
 	quests.BackgroundTransparency = 0.22
 	local questTab = Ui.frame(quests, "Tab", 0, 0, 192, 26, Color3.fromRGB(122, 174, 224))
@@ -354,7 +357,11 @@ function Hud.new()
 	reward.BackgroundColor3 = Color3.fromRGB(18, 37, 62)
 	reward.BackgroundTransparency = 0.3
 	local settings = Ui.button(root, "Settings", "", 372, 12, 45, 45, Color3.fromRGB(18, 27, 35))
-	Ui.gear(settings, 9, 9, 27, Color3.fromRGB(18, 27, 35))
+	local gear = Ui.gear(settings, 9, 9, 27, Color3.fromRGB(18, 27, 35))
+	gear.Position = UDim2.fromScale(0.2, 0.2)
+	gear.Size = UDim2.fromScale(0.6, 0.6)
+	local gearArt = gear:FindFirstChild("Teeth") :: ImageLabel
+	gearArt.Size = UDim2.fromScale(1, 1)
 	local settingsRound = Instance.new("UICorner")
 	settingsRound.CornerRadius = UDim.new(1, 0)
 	settingsRound.Parent = settings
@@ -363,7 +370,9 @@ function Hud.new()
 		settingsRound:Clone().Parent = settingsFill
 	end
 	local rewards = Ui.button(root, "Rewards", "", 320, 12, 45, 45, Color3.fromRGB(18, 27, 35))
-	Artwork.image(rewards, "Gift", "Gift", 10, 9, 26, 29)
+	local gift = Artwork.image(rewards, "Gift", "Gift", 10, 9, 26, 29)
+	gift.Position = UDim2.fromScale(0.21, 0.2)
+	gift.Size = UDim2.fromScale(0.58, 0.64)
 	settingsRound:Clone().Parent = rewards
 	settingsRound:Clone().Parent = rewards:FindFirstChild("ButtonFill")
 	local profile = Ui.button(root, "Profile", "", 268, 12, 45, 45, Color3.fromRGB(18, 27, 35))
@@ -371,8 +380,8 @@ function Hud.new()
 	settingsRound:Clone().Parent = profile:FindFirstChild("ButtonFill")
 	local head = Instance.new("ImageLabel")
 	head.Name = "Portrait"
-	head.Size = UDim2.fromOffset(39, 39)
-	head.Position = UDim2.fromOffset(3, 3)
+	head.Size = UDim2.fromScale(0.86, 0.86)
+	head.Position = UDim2.fromScale(0.07, 0.07)
 	head.BackgroundTransparency = 1
 	head.Parent = profile
 	settingsRound:Clone().Parent = head
@@ -390,7 +399,9 @@ function Hud.new()
 	end)
 	local social = Ui.button(lobby, "Trade", "Trade", 699, 12, 96, 26, Color3.fromRGB(56, 83, 109))
 	social.TextSize = 12
-	Artwork.image(social, "Handshake", "Trade", 3, 3, 21, 20)
+	local handshake = Artwork.image(social, "Handshake", "Trade", 3, 3, 21, 20)
+	handshake.AnchorPoint = Vector2.new(0, 0.5)
+	handshake.Position = UDim2.new(0, 3, 0.5, 0)
 	local questTitle = questTab:FindFirstChild("Title") :: TextLabel
 	questTab.Size = UDim2.fromOffset(96, 26)
 	questTitle.Size = UDim2.fromOffset(94, 22)
@@ -409,7 +420,17 @@ function Hud.new()
 	settingsPanel.Visible = false
 	settingsPanel.ZIndex = 8
 	settingsPanel.Active = true
-	Ui.text(settingsPanel, "Title", "VIEW SETTINGS", 10, 10, 293, 35, 18, true)
+	local settingsScale = Instance.new("UIScale")
+	settingsScale.Parent = settingsPanel
+	settingsPanel.AnchorPoint = Vector2.new(0.5, 0.5)
+	local settingsTitle = Ui.text(settingsPanel, "Title", "VIEW SETTINGS", 12, 12, 270, 35, 18, true)
+	settingsTitle.TextXAlignment = Enum.TextXAlignment.Left
+	local settingsClose = Ui.button(settingsPanel, "Close", "", 304, 6, 44, 44, Color3.fromRGB(239, 39, 63))
+	Artwork.image(settingsClose, "Cross", "Close", 6, 6, 32, 32)
+	settingsClose.ZIndex = 5
+	settingsClose.Activated:Connect(function()
+		settingsPanel.Visible = false
+	end)
 	local territoryToggle =
 		Ui.button(settingsPanel, "Territory", "Territory overlay: ON", 15, 65, 283, 44, purple)
 	territoryToggle.TextSize = 13
@@ -419,15 +440,19 @@ function Hud.new()
 	collection.Visible = false
 	collection.ZIndex = 8
 	collection.Active = true
+	local collectionScale = Instance.new("UIScale")
+	collectionScale.Parent = collection
+	collection.AnchorPoint = Vector2.new(0.5, 0.5)
 	local collectionEdge = Instance.new("UIStroke")
 	collectionEdge.Color = Color3.fromRGB(99, 143, 203)
 	collectionEdge.Thickness = 1
 	collectionEdge.Parent = collection
 	local collectionHeader = Ui.frame(collection, "Header", 1, 1, 444, 30, Color3.fromRGB(44, 47, 71))
 	local collectionTitle = Ui.text(collectionHeader, "Title", "Select Any Ball", 0, 0, 444, 30, 21, true)
-	local closeCollection = Ui.button(collection, "Close", "NO", 70, 281, 129, 31, Color3.fromRGB(235, 8, 0))
+	local closeCollection =
+		Ui.button(collection, "Close", "Back", 70, 281, 129, 31, Color3.fromRGB(235, 8, 0))
 	local confirmCollection =
-		Ui.button(collection, "Confirm", "YES", 248, 281, 129, 31, Color3.fromRGB(155, 158, 159))
+		Ui.button(collection, "Confirm", "Choose Ball", 248, 281, 129, 31, Color3.fromRGB(155, 158, 159))
 	local collectionCards = {}
 	for i, id in Appearances.ids do
 		local entry = Appearances.entries[id]
@@ -457,32 +482,17 @@ function Hud.new()
 	border.Thickness = 10
 	border.Color = Color3.fromRGB(16, 36, 57)
 	border.Parent = result
-	for i = 0, 11 do
-		local stripe = Ui.frame(result, "Stripe", 0, i * 33, 403, 9, Color3.fromRGB(79, 63, 232))
-		stripe.BackgroundTransparency = 0.55
-	end
 	local crown = Ui.frame(result, "Crown", 112, 23, 179, 110, Color3.new())
 	crown.BackgroundTransparency = 1
-	Ui.polygon(crown, "Gold", {
-		Vector2.new(5, 25),
-		Vector2.new(48, 52),
-		Vector2.new(89, 0),
-		Vector2.new(130, 52),
-		Vector2.new(174, 25),
-		Vector2.new(148, 90),
-		Vector2.new(30, 90),
-	}, gold)
-	Ui.frame(crown, "Band", 31, 97, 116, 10, gold)
-	Ui.polygon(
-		crown,
-		"Jewel",
-		{ Vector2.new(89, 39), Vector2.new(103, 61), Vector2.new(89, 82), Vector2.new(75, 61) },
-		Color3.fromRGB(40, 22, 190)
-	)
-	crown:ClearAllChildren()
 	local crownArt = Artwork.image(crown, "CrownArt", "Crown", 0, 0, 179, 110)
 	crownArt.ScaleType = Enum.ScaleType.Stretch
 	local winnerAvatar = avatar(result, 90, 145, 223, 185)
+	result.AnchorPoint = Vector2.new(0.5, 0.5)
+	local resultScale = Instance.new("UIScale")
+	resultScale.Parent = result
+	local resultContext = Ui.text(result, "ResultContext", "MATCH COMPLETE", 12, 12, 379, 20, 13)
+	local resultMetric = Ui.text(result, "ResultMetric", "MATCH POINTS", 12, 300, 379, 20, 13)
+	local resultNote = Ui.text(result, "ResultNote", "", 12, 372, 379, 18, 12)
 	local resultTitle = Ui.text(result, "ResultTitle", "VICTORY!", 20, 115, 363, 45, 30, true)
 	local resultScore = Ui.text(result, "ResultScore", "", 10, 330, 383, 35, 17, true)
 	local state = {
@@ -518,8 +528,7 @@ function Hud.new()
 		portraits = portraits,
 		kitIcons = kitIcons,
 		kitNames = kitNames,
-		hearts = hearts,
-		miniHearts = miniHearts,
+		matchPoints = matchPoints,
 		lobby = lobby,
 		questEntries = questEntries,
 		questsDone = { false, false, false },
@@ -539,11 +548,15 @@ function Hud.new()
 		result = result,
 		resultTitle = resultTitle,
 		resultScore = resultScore,
+		resultContext = resultContext,
+		resultMetric = resultMetric,
+		resultNote = resultNote,
 		winnerAvatar = winnerAvatar,
 		showTerritory = true,
 		selectedAppearance = "Acid",
 		previousPhase = "",
 		layoutViewport = Vector2.zero,
+		layoutMargin = 0,
 		layoutPhase = "",
 		layoutTouch = false,
 		layoutTerritory = true,
@@ -586,7 +599,7 @@ function Hud.new()
 			state.pendingAppearance = slot.Name
 			for _, other in collectionCards do
 				local edge = other:FindFirstChild("Edge") :: UIStroke
-				edge.Color = if other == slot then gold else Color3.fromRGB(106, 142, 201)
+				edge.Color = if other == slot then Ui.actionColors.cyan else Ui.actionColors.line
 				edge.Thickness = if other == slot then 2 else 0.8
 			end
 		end)
@@ -606,6 +619,32 @@ function Hud.new()
 	emotes.Activated:Connect(function()
 		Panels.open(state.panels, "Emotes")
 	end)
+	Ui.actionTheme(root, { Panels = true, Currency = true, PlayerSide1 = true, PlayerSide2 = true })
+	Ui.actionHeader(settingsPanel, 56)
+	Ui.actionHeader(collectionHeader, 40)
+	local resultBand = Ui.actionHeader(result, 395)
+	resultBand.BackgroundTransparency = 0.55
+	for _, stripe in resultBand:GetChildren() do
+		if stripe:IsA("Frame") then
+			stripe.BackgroundTransparency = 0.95
+		end
+	end
+	local draftBand = Ui.actionHeader(draft, 52)
+	draftBand.Position = UDim2.fromOffset(145, 120)
+	draftBand.Size = UDim2.fromOffset(512, 52)
+	draftTitle.ZIndex = 2
+	local theme = Ui.actionColors
+	outer.BackgroundColor3 = theme.ink
+	local courtGradient = outer:FindFirstChildOfClass("UIGradient") :: UIGradient
+	courtGradient.Color = ColorSequence.new(theme.card, theme.ink)
+	for _, bevel in outer:GetChildren() do
+		if bevel:IsA("Frame") then
+			local weight = math.clamp(bevel.Position.X.Offset / 32, 0, 1)
+			bevel.BackgroundColor3 = theme.surface:Lerp(theme.line, weight * 0.25)
+		end
+	end
+	local surfaceGradient = surface:FindFirstChildOfClass("UIGradient") :: UIGradient
+	surfaceGradient.Color = ColorSequence.new(theme.card, theme.surface)
 	return state
 end
 export type State = typeof(Hud.new())
@@ -616,9 +655,9 @@ function Hud.reroll(h: State, offset: number)
 		button.Name = id
 		local title = button:FindFirstChild("Title") :: TextLabel
 		title.Text = entry.name
-		title.TextSize = if #entry.name > 12 then 14 else 21
+		title.TextSize = if #entry.name > 12 then 16 else 21
 		local description = button:FindFirstChild("Description") :: TextLabel
-		description.Text = entry.description
+		description.Text = string.gsub(entry.description, "\n", " ")
 		local square = button:FindFirstChild("PreviewBackground") :: Frame
 		local preview = square:FindFirstChild("KitPreview") :: ViewportFrame
 		Art.setSkin(preview, id)
@@ -641,7 +680,7 @@ function Hud.layout(h: State, phase: string)
 	if not camera then
 		return
 	end
-	-- Fullscreen UI includes device insets that Camera.ViewportSize excludes.
+	-- All authored layers share the device-safe rectangle, including landscape notches.
 	local viewport = h.gui.AbsoluteSize
 	if
 		h.layoutViewport == viewport
@@ -651,16 +690,33 @@ function Hud.layout(h: State, phase: string)
 	then
 		return
 	end
+	-- Input hit testing must stay inside every ancestor, even when drawing is unclipped.
+	-- Normalize the previous horizontal padding before laying out the next viewport.
+	local fullWidthContainers = { Controls = true, Lobby = true, Panels = true }
+	for _, child in h.root:GetChildren() do
+		if child:IsA("GuiObject") then
+			if fullWidthContainers[child.Name] then
+				child.Size = UDim2.fromOffset(803, 602)
+				for _, item in child:GetChildren() do
+					if item:IsA("GuiObject") then
+						item.Position -= UDim2.fromOffset(h.layoutMargin, 0)
+					end
+				end
+			else
+				child.Position -= UDim2.fromOffset(h.layoutMargin, 0)
+			end
+		end
+	end
 	h.layoutViewport = viewport
 	h.layoutPhase = phase
 	h.layoutTouch = UserInputService.TouchEnabled
 	h.layoutTerritory = h.showTerritory
 	local scale = Layout.scale(viewport)
-	local touchMinimum = if UserInputService.TouchEnabled then math.ceil(44 / scale) else 0
+	local touchMinimum = math.ceil(44 / scale)
 	h.scale.Scale = scale
 	h.courtScale.Scale = scale
 	local lobby = phase == "Lobby" or phase == "Queued"
-	local portrait = viewport.X < viewport.Y
+	GuiService.TouchControlsEnabled = lobby
 	h.courtGui.Enabled = not lobby
 	h.lobby.Visible = lobby
 	h.settings.Visible = lobby
@@ -668,12 +724,52 @@ function Hud.layout(h: State, phase: string)
 	h.profile.Visible = lobby
 	h.helpButton.Visible = not lobby and phase ~= "Draft"
 	Panels.layout(h.panels, viewport, scale)
+	-- Keep the draft picker and settings readable without changing the horizontal court.
+	local function box(item: GuiObject, x: number, y: number, w: number, height: number)
+		item.Position = UDim2.fromOffset(x, y)
+		item.Size = UDim2.fromOffset(w, height)
+	end
+	local collectionWidth = math.min(700, viewport.X - 48)
+	local collectionHeight = math.min(500, viewport.Y - 48)
+	box(h.collection, 401.5, 301, collectionWidth, collectionHeight)
+	local pickerScale = h.collection:FindFirstChildOfClass("UIScale") :: UIScale
+	pickerScale.Scale = 1 / scale
+	local header = h.collection:FindFirstChild("Header") :: Frame
+	box(header, 0, 0, collectionWidth, 40)
+	box(h.collectionTitle, 10, 0, collectionWidth - 20, 40)
+	h.collectionTitle.TextSize = 20
+	local slotWidth = (collectionWidth - 54) / 4
+	local slotHeight = (collectionHeight - 112) / 3
+	for i, slot in h.collectionCards do
+		box(
+			slot,
+			12 + (i - 1) % 4 * (slotWidth + 10),
+			46 + math.floor((i - 1) / 4) * (slotHeight + 6),
+			slotWidth,
+			slotHeight
+		)
+		local art = slot:FindFirstChild("Preview") :: ViewportFrame
+		local size = math.min(88, slotHeight - 26)
+		box(art, (slotWidth - size) / 2, 0, size, size)
+		local name = slot:FindFirstChild("BallName") :: TextLabel
+		box(name, 0, slotHeight - 28, slotWidth, 28)
+		name.TextSize = 12
+	end
+	local cancel = h.collection:FindFirstChild("Close") :: TextButton
+	box(cancel, 12, collectionHeight - 50, collectionWidth / 2 - 18, 44)
+	box(h.confirmCollection, collectionWidth / 2 + 6, collectionHeight - 50, collectionWidth / 2 - 18, 44)
+	box(h.settingsPanel, 401.5, 301, 360, 216)
+	local settingsScale = h.settingsPanel:FindFirstChildOfClass("UIScale") :: UIScale
+	settingsScale.Scale = 1 / scale
+	box(h.settingsPanel:FindFirstChild("Title") :: TextLabel, 12, 12, 270, 35)
+	box(h.territoryToggle, 18, 66, 324, 48)
+	box(h.motionToggle, 18, 130, 324, 48)
 	h.draft.Visible = phase == "Draft" and not h.collection.Visible
 	h.draftShade.Visible = phase == "Draft" or h.collection.Visible
 	h.result.Visible = phase == "RoundResult" or phase == "MatchResult"
 	h.phase.Visible = phase == "Aim" or phase == "Countdown" or phase == "ReadyCheck"
 	h.timer.Visible = phase == "Battle" or phase == "Overtime"
-	h.left.Visible = phase == "Lobby"
+	h.left.Visible = phase == "Lobby" or h.result.Visible
 	h.right.Visible = phase == "Lobby"
 	h.primary.Visible = phase == "Aim" or phase == "MatchResult" or phase == "Queued"
 	h.hint.Visible = phase == "Queued"
@@ -692,66 +788,279 @@ function Hud.layout(h: State, phase: string)
 		f.Visible = not lobby and viewport.X >= viewport.Y
 	end
 	h.currency.Visible = lobby or phase == "Draft" or h.result.Visible
+
 	h.primary.Position =
 		UDim2.fromOffset(334, if phase == "MatchResult" then 517 elseif phase == "Queued" then 491 else 447)
-	h.primary.Size = UDim2.fromOffset(136, math.max(44, touchMinimum))
-	h.left.Size = UDim2.fromOffset(166, math.max(36, touchMinimum))
-	h.right.Size = UDim2.fromOffset(164, math.max(34, touchMinimum))
-	h.allBalls.Size = UDim2.fromOffset(132, math.max(36, touchMinimum))
-	h.reroll.Size = UDim2.fromOffset(72, math.max(44, touchMinimum))
-	h.left.Position = UDim2.fromOffset(if portrait then 232 else 319, 545)
-	h.right.Position = UDim2.fromOffset(if portrait then 425 else 610, if portrait then 545 else 207)
 	local horizontalMargin = (viewport.X / scale - 803) / 2
-	local leftEdge = -horizontalMargin
-	local rightEdge = horizontalMargin
-	h.currency.Position = UDim2.fromOffset(leftEdge + 17, 481)
-	h.store.Position = UDim2.fromOffset(leftEdge + 18, 201)
-	h.inventory.Position = UDim2.fromOffset(leftEdge + 18, 286)
-	h.emotes.Position = UDim2.fromOffset(leftEdge + 18, 373)
-	if not portrait then
-		h.right.Position = UDim2.fromOffset(rightEdge + 610, 207)
-	end
-	h.profile.Position = UDim2.fromOffset(leftEdge + (if portrait then 161 else 268), 12)
-	h.rewards.Position = UDim2.fromOffset(leftEdge + (if portrait then 213 else 320), 12)
-	h.settings.Position = UDim2.fromOffset(leftEdge + (if portrait then 265 else 372), 12)
+	local leftEdge, rightEdge = -horizontalMargin, horizontalMargin
 	local quests = h.lobby:FindFirstChild("Quests") :: Frame
-	local quick = h.lobby:FindFirstChild("QuickJoin") :: Frame
 	local trade = h.lobby:FindFirstChild("Trade") :: TextButton
 	local invite = h.lobby:FindFirstChild("Invite") :: TextButton
-	quests.Position = UDim2.fromOffset(rightEdge + 603, 10)
-	quick.Position = UDim2.fromOffset(rightEdge + 602, 176)
-	trade.Position = UDim2.fromOffset(rightEdge + 699, 12)
-	invite.Position = UDim2.fromOffset(rightEdge + 731, 481)
-	trade.Visible = not portrait
-	invite.Visible = true
-	h.helpButton.Position = UDim2.fromOffset(rightEdge + 722, 521)
-	quests.Visible = not portrait
-	quick.Visible = not portrait
-	h.modeButton.Visible = not portrait
-	if portrait then
-		local verticalMargin = (viewport.Y / scale - 602) / 2
-		local buttonSize = math.max(45, touchMinimum)
-		for i, button in { h.profile, h.rewards, h.settings } do
-			button.Position =
-				UDim2.fromOffset(leftEdge + 20 + (i - 1) * (buttonSize + 12), -verticalMargin + 65)
-			button.Size = UDim2.fromOffset(buttonSize, buttonSize)
-		end
-		h.currency.Position = UDim2.fromOffset(leftEdge + 17, verticalMargin + 435)
-		invite.Position = UDim2.fromOffset(rightEdge + 725, verticalMargin + 440)
-		h.left.Position = UDim2.fromOffset(232, verticalMargin + 520)
-		h.right.Position = UDim2.fromOffset(425, verticalMargin + 520)
-		local reward = h.lobby:FindFirstChild("Reward") :: TextLabel
-		reward.Position = UDim2.fromOffset(322, verticalMargin + 480)
-	else
-		for _, button in { h.profile, h.rewards, h.settings } do
-			button.Size = UDim2.fromOffset(45, 45)
-		end
-		local reward = h.lobby:FindFirstChild("Reward") :: TextLabel
-		reward.Position = UDim2.fromOffset(322, 510)
+	quests.Visible, trade.Visible, invite.Visible, h.modeButton.Visible = true, true, true, true
+	-- Physical-size controls keep short landscape viewports usable.
+	local function font(label: TextLabel | TextButton, pixels: number)
+		(label :: TextLabel).TextSize = math.ceil(pixels / scale)
 	end
+	for _, b in { h.left, h.right, h.primary, h.modeButton } do
+		font(b, 16)
+	end
+	h.primary.Size = UDim2.fromOffset(math.max(136, 116 / scale), math.max(44, touchMinimum))
+	h.primary.Position = UDim2.fromOffset(401.5 - h.primary.Size.X.Offset / 2, h.primary.Position.Y.Offset)
+	font(h.help, 13)
+	h.help.Size = UDim2.fromOffset(390, math.max(25, 32 / scale))
+	font(h.resultTitle, math.clamp(30 * scale, 22, 40))
+	h.resultTitle.Size = UDim2.fromOffset(363, math.max(45, 28 / scale))
+	font(h.resultScore, 17)
+	h.resultScore.Size = UDim2.fromOffset(383, math.max(35, 24 / scale))
+	for _, label in { h.scoreA, h.scoreB } do
+		font(label, 14)
+		label.Position = UDim2.fromOffset(label.Position.X.Offset, 602 - 40 / scale)
+		label.Size = UDim2.fromOffset(140, 18 / scale)
+	end
+	font(h.points, 12)
+	h.points.Position = UDim2.fromOffset(280, 602 - 18 / scale)
+	h.points.Size = UDim2.fromOffset(240, 16 / scale)
+	h.barA.Position = UDim2.fromOffset(178, 602 - 20 / scale)
+	h.barB.Position = UDim2.fromOffset(624, 602 - 20 / scale)
+	local sideWidth = math.clamp((viewport.X - 512 * scale) / 2 - 16, 104, 180)
+	for i, frame in h.sideFrames do
+		local ownScale = frame:FindFirstChildOfClass("UIScale") or Instance.new("UIScale")
+		ownScale.Parent = frame
+		ownScale.Scale = 1 / scale
+		box(
+			frame,
+			if i == 1 then leftEdge + 8 / scale else rightEdge + 803 - (sideWidth + 8) / scale,
+			60 / scale,
+			sideWidth,
+			viewport.Y - 100
+		)
+		box(h.portraits[i], sideWidth / 2 - 21, 0, 42, 42)
+		box(h.sideLabels[i], 0, 46, sideWidth, 24)
+		h.sideLabels[i].TextSize = 12
+		h.sideLabels[i].TextWrapped = false
+		h.sideLabels[i].TextTruncate = Enum.TextTruncate.AtEnd
+		box(h.kitNames[i], 0, 100, sideWidth, 32)
+		h.kitNames[i].TextSize = 12
+		box(h.kitIcons[i], sideWidth / 2 - 32, 134, 64, 64)
+		box(h.figures[i], sideWidth / 2 - 60, 206, 120, 130)
+		h.figures[i].Visible = viewport.Y >= 450
+		local tallyWidth = math.min(116, sideWidth - 8)
+		box(h.matchPoints[i], (sideWidth - tallyWidth) / 2, 74, tallyWidth, 24)
+		h.matchPoints[i].TextSize = 12
+	end
+	local resultWidth = math.min(400, viewport.X - 2 * sideWidth - 48)
+	local resultHeight = math.min(if viewport.Y < 450 then 236 else 420, viewport.Y - 108)
+	local compactResult = resultHeight < 320
+	box(h.result, 401.5, 301 - 10 / scale, resultWidth, resultHeight)
+	local resultScale = h.result:FindFirstChildOfClass("UIScale") :: UIScale
+	resultScale.Scale = 1 / scale
+	box(h.result:FindFirstChild("ThemeHeader") :: Frame, 0, 0, resultWidth, resultHeight)
+	box(h.resultContext, 12, 12, resultWidth - 24, 20)
+	h.resultContext.TextSize = 13
+	local crown = h.result:FindFirstChild("Crown") :: Frame
+	box(crown, (resultWidth - 80) / 2, 36, 80, 50)
+	box(crown:FindFirstChild("CrownArt") :: ImageLabel, 0, 0, 80, 50)
+	box(h.resultTitle, 12, if compactResult then 88 else 94, resultWidth - 24, 34)
+	h.resultTitle.TextSize = if compactResult then 24 else 30
+	box(h.winnerAvatar, resultWidth / 2 - 78, 132, 156, math.max(60, resultHeight - 220))
+	h.winnerAvatar.Visible = not compactResult
+	box(h.resultMetric, 12, resultHeight - 82, resultWidth - 24, 20)
+	h.resultMetric.TextSize = 13
+	box(h.resultScore, 12, resultHeight - 60, resultWidth - 24, 32)
+	h.resultScore.TextSize = if compactResult then 22 else 28
+	box(h.resultNote, 12, resultHeight - 26, resultWidth - 24, 20)
+	h.resultNote.TextSize = 12
+	if phase == "MatchResult" then
+		h.primary.Position = UDim2.fromOffset(401.5, 301 + (resultHeight / 2 + 2) / scale)
+	end
+	local statusWidth = math.min(360, viewport.X - 200)
+	h.status.AnchorPoint = Vector2.new(0.5, 0)
+	box(h.status, 401.5, 48 / scale, statusWidth / scale, 36 / scale)
+	font(h.status, 13)
+	h.status.BackgroundColor3 = Ui.actionColors.ink
+	h.status.BackgroundTransparency = 0.12
+	h.status.ZIndex = 10
+	-- The compact quest card omits repeated reward copy, retaining progress.
+	local questScale = quests:FindFirstChildOfClass("UIScale") or Instance.new("UIScale")
+	questScale.Parent = quests
+	questScale.Scale = 1 / scale
+	quests.BackgroundTransparency = 0
+	box(quests, rightEdge + 803 - 164 / scale, 62 / scale, 154, 126)
+	box(quests:FindFirstChild("Tab") :: Frame, 0, 0, 154, 24)
+	local questTitle = (quests:FindFirstChild("Tab") :: Frame):FindFirstChild("Title") :: TextLabel
+	box(questTitle, 8, 0, 138, 24)
+	questTitle.TextSize = 13
+	for i = 1, 3 do
+		local row = quests:FindFirstChild("Quest" .. i) :: Frame
+		row.BackgroundTransparency = 0
+		box(row, 4, 26 + (i - 1) * 32, 146, 30)
+		local title = row:FindFirstChild("Title") :: TextLabel
+		box(title, 6, 0, 103, 30)
+		title.TextSize = 12
+		local progress = row:FindFirstChild("Progress") :: TextLabel
+		box(progress, 112, 0, 30, 30)
+		progress.TextSize = 12
+		(row:FindFirstChild("Reward") :: TextLabel).Visible = false
+	end
+	do
+		local target = 45 / scale
+		for i, button in { h.profile, h.rewards, h.settings } do
+			box(button, leftEdge + (98 + (i - 1) * 52) / scale, 8 / scale, target, target)
+		end
+		h.currency.Position = UDim2.fromOffset(leftEdge + 12 / scale, 8 / scale)
+		local currencyScale = h.currency:FindFirstChildOfClass("UIScale") or Instance.new("UIScale")
+		currencyScale.Parent = h.currency
+		currencyScale.Scale = 1 / scale
+		box(h.currency, leftEdge + 12 / scale, 8 / scale, 78, 48)
+		box(h.currency:FindFirstChild("Coin") :: Frame, 0, 0, 22, 22)
+		local coinArt = (h.currency:FindFirstChild("Coin") :: Frame):FindFirstChild("CoinArt") :: ImageLabel
+		coinArt.Position = UDim2.fromOffset(0, 0)
+		coinArt.Size = UDim2.fromScale(1, 1)
+		box(h.currency:FindFirstChild("Gem") :: Frame, 0, 25, 22, 22)
+		local gemArt = (h.currency:FindFirstChild("Gem") :: Frame):FindFirstChild("Facets") :: ImageLabel
+		gemArt.Size = UDim2.fromScale(1, 1)
+		local plus = h.currency:FindFirstChild("Plus") :: TextLabel
+		plus.Visible = false
+		for i, key in { "Coins", "Gems" } do
+			local label = h.currency:FindFirstChild(key) :: TextLabel
+			box(label, 28, (i - 1) * 25, 44, 22)
+			label.TextSize = 14
+		end
+
+		for i, button in { h.store, h.inventory } do
+			box(button, leftEdge + 10 / scale, (80 + (i - 1) * 72) / scale, 84 / scale, 64 / scale)
+			local icon = button:FindFirstChild("Icon") :: Frame
+			icon.Size = UDim2.fromOffset(36 / scale, 38 / scale)
+			icon.Position = UDim2.new(0.5, 0, 0, 4 / scale)
+			local art = icon:FindFirstChildOfClass("ImageLabel") :: ImageLabel
+			art.Size = UDim2.fromScale(1, 1)
+		end
+		box(h.emotes, leftEdge + 254 / scale, 8 / scale, 84 / scale, target)
+		box(h.left, 401.5 - 56 / scale, 602 - 52 / scale, 112 / scale, target)
+		box(h.right, 401.5 + 64 / scale, 602 - 52 / scale, 112 / scale, target)
+		box(h.modeButton, 401.5 - 108 / scale, 602 - 52 / scale, target, target)
+		box(trade, rightEdge + 803 - 94 / scale, 8 / scale, 84 / scale, target)
+		box(invite, rightEdge + 803 - 166 / scale, 8 / scale, 64 / scale, target)
+		box(h.helpButton, rightEdge + 803 - 54 / scale, 602 - 54 / scale, target, target)
+		local chat = h.helpButton:FindFirstChild("Chat") :: ImageLabel
+		chat.Position = UDim2.fromScale(0.16, 0.16)
+		chat.Size = UDim2.fromScale(0.68, 0.68)
+		local envelope = invite:FindFirstChild("Envelope") :: ImageLabel
+		envelope.Position = UDim2.new(0.5, -12 / scale, 0, 3 / scale)
+		envelope.Size = UDim2.fromOffset(24 / scale, 24 / scale)
+		for _, definition in { { button = h.emotes, icon = "Pose" }, { button = trade, icon = "Handshake" } } do
+			local button = definition.button
+			local icon = button:FindFirstChild(definition.icon) :: ImageLabel
+			icon.AnchorPoint = Vector2.new(0, 0.5)
+			icon.Position = UDim2.new(0, 6 / scale, 0.5, 0)
+			icon.Size = UDim2.fromOffset(20 / scale, 20 / scale)
+			local caption = button:FindFirstChild("ButtonText") :: TextLabel
+			caption.Position = UDim2.fromOffset(28 / scale, 0)
+			caption.Size = UDim2.new(1, -32 / scale, 1, 0)
+		end
+		for _, button in { h.store, h.inventory, h.emotes, trade, invite } do
+			font(button, 12)
+		end
+	end
+	if h.result.Visible then
+		box(h.left, leftEdge + 8 / scale, 602 - 54 / scale, 90 / scale, 44 / scale)
+	end
+	local reward = h.lobby:FindFirstChild("Reward") :: TextLabel
+	font(reward, 12)
+	box(reward, 401.5 - 70 / scale, 602 - 78 / scale, 140 / scale, 22 / scale)
+	-- Enforce physical target sizes on desktop windows too, not only touch emulation.
+	for _, button in
+		{ h.profile, h.rewards, h.settings, h.store, h.inventory, h.emotes, trade, invite, h.modeButton }
+	do
+		button.Size = UDim2.fromOffset(
+			math.max(button.Size.X.Offset, touchMinimum),
+			math.max(button.Size.Y.Offset, touchMinimum)
+		)
+	end
+	local draftWidth, draftHeight = math.min(803, viewport.X - 24), math.min(602, viewport.Y - 24)
+	box(h.draft, 401.5, 301, draftWidth, draftHeight)
+	local draftScale = h.draft:FindFirstChildOfClass("UIScale") :: UIScale
+	draftScale.Scale = 1 / scale
+	local cardWidth = math.min(192, (draftWidth - 64) / 3)
+	local cardHeight = math.min(244, draftHeight - 128)
+	local previewSize = math.min(100, cardHeight - 104)
+	local groupWidth = cardWidth * 3 + 32
+	local startX = (draftWidth - groupWidth) / 2
+	local startY = math.max(4, (draftHeight - cardHeight - 124) / 2)
+	local band = h.draft:FindFirstChild("ThemeHeader") :: Frame
+	box(band, startX, startY, groupWidth, 48)
+	box(h.draftTitle, startX + 10, startY + 4, groupWidth - 20, 40)
+	h.draftTitle.TextSize = if viewport.Y < 600 then 23 else 28
+	for i, choice in h.cards do
+		box(choice, startX + (i - 1) * (cardWidth + 16), startY + 60, cardWidth, cardHeight)
+		box(choice:FindFirstChild("Title") :: TextLabel, 6, 10, cardWidth - 12, 32)
+		box(
+			choice:FindFirstChild("Description") :: TextLabel,
+			10,
+			50 + previewSize,
+			cardWidth - 20,
+			cardHeight - previewSize - 56
+		)
+		local description = choice:FindFirstChild("Description") :: TextLabel
+		description.TextSize = 13
+		description.Text = string.gsub(description.Text, "\n", " ")
+		local art = choice:FindFirstChild("PreviewBackground") :: Frame
+		box(art, (cardWidth - previewSize) / 2, 46, previewSize, previewSize)
+		box(
+			art:FindFirstChild("KitPreview") :: ViewportFrame,
+			-previewSize * 0.12,
+			-previewSize * 0.12,
+			previewSize * 1.24,
+			previewSize * 1.24
+		)
+		for _, line in choice:GetChildren() do
+			if line:IsA("Frame") and line.Name == "CardDivider" then
+				line.Visible = false
+			end
+		end
+	end
+	local actionsY = startY + cardHeight + 72
+	box(h.allBalls, draftWidth / 2 - 144, actionsY, 160, 44)
+	box(h.reroll, draftWidth / 2 + 36, actionsY, 108, 44)
+	box(h.reroll:FindFirstChild("RerollIcon") :: ImageLabel, 42, 1, 25, 25)
+	local free = h.draft:FindFirstChild("Free") :: TextLabel
+	free.Visible = false
+	-- Stretch interactive ancestors across the safe rectangle, retaining 803-unit content coordinates.
+	h.root.Size = UDim2.fromOffset(viewport.X / scale, 602)
+	h.layoutMargin = horizontalMargin
+	for _, child in h.root:GetChildren() do
+		if child:IsA("GuiObject") then
+			if fullWidthContainers[child.Name] then
+				child.Size = UDim2.fromOffset(viewport.X / scale, 602)
+				for _, item in child:GetChildren() do
+					if item:IsA("GuiObject") then
+						item.Position += UDim2.fromOffset(horizontalMargin, 0)
+					end
+				end
+			else
+				child.Position += UDim2.fromOffset(horizontalMargin, 0)
+			end
+		end
+	end
+	h.primary.AnchorPoint = Vector2.new(0.5, 0)
+	h.primary.Position = UDim2.new(0.5, 0, 0, h.primary.Position.Y.Offset)
 end
 function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Types.Board, reduced: boolean)
 	Hud.layout(h, phase)
+	if phase == "Draft" then
+		-- Hidden previews may only finish cached image delivery when first shown.
+		-- Reconcile the fallback while visible, even if IsLoaded emits no signal.
+		if h.collection.Visible then
+			for _, slot in h.collectionCards do
+				Art.animate(slot:FindFirstChild("Preview") :: ViewportFrame, 0, 0, true)
+			end
+		else
+			for _, slot in h.cards do
+				local background = slot:FindFirstChild("PreviewBackground") :: Frame
+				Art.animate(background:FindFirstChild("KitPreview") :: ViewportFrame, 0, 0, true)
+			end
+		end
+	end
 	h.panels.layer:SetAttribute("ReducedMotion", reduced)
 	h.motionToggle.Text = if reduced then "Reduced motion: ON" else "Reduced motion: OFF"
 	h.territoryToggle.Text = if h.showTerritory then "Territory overlay: ON" else "Territory overlay: OFF"
@@ -774,8 +1083,11 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 	for i, progress in h.questEntries do
 		progress.Text = if h.questsDone[i] then "1/1" else "0/1"
 	end
+	h.left.Text = "Replay"
 	h.points.Text = string.format("%g — %g", view.points2[1] / 2, view.points2[2] / 2)
-	h.primary.Text = if phase == "MatchResult" then "Rematch" else "Lock Aim"
+	h.primary.Text = if phase == "MatchResult"
+		then (if view.rematchRequested then "Queued ✓" else "Rematch")
+		else "Lock Aim"
 	for i, seat in view.seats do
 		h.sideLabels[i].Text = seat.name
 		if h.figures[i]:GetAttribute("UserId") ~= seat.userId then
@@ -790,9 +1102,13 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 						)
 					end)
 					if ok and h.figures[i]:GetAttribute("UserId") == seat.userId then
+						h.portraits[i].ImageRectOffset = Vector2.zero
+						h.portraits[i].ImageRectSize = Vector2.zero
 						h.portraits[i].Image = url
 					end
 				end)
+			else
+				Artwork.set(h.portraits[i], "Emote")
 			end
 		end
 		local skin = seat.appearance or ""
@@ -808,10 +1124,8 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 			end
 		end
 		h.kitNames[i].Text = if skin ~= "" then Appearances.entries[skin].name else "?"
-		for j, heart in h.hearts[i] do
-			heart.Visible = j <= math.max(1, 4 - view.roundNumber)
-			h.miniHearts[i][j].Visible = heart.Visible
-		end
+		Art.animate(h.kitIcons[i], 0, 0, true)
+		h.matchPoints[i].Text = string.format("%g / 2 PTS", view.points2[seat.team] / 2)
 		if seat.userId == Players.LocalPlayer.UserId then
 			if skin ~= "" then
 				h.selectedAppearance = skin
@@ -823,12 +1137,36 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 	end
 	if h.result.Visible then
 		local winner = view.seats[view.winner]
-		h.resultTitle.Text = if not winner
-			then "DRAW"
+		local complete = phase == "MatchResult"
+		local stopped = complete and view.winner == 0 and view.reason ~= "match_points"
+		h.resultContext.Text = if stopped
+			then "MATCH STOPPED"
+			elseif complete then "MATCH COMPLETE"
+			else "ROUND " .. view.roundNumber .. " / 3"
+		h.resultTitle.Text = if stopped
+			then "NO RESULT"
+			elseif not winner then "DRAW"
 			elseif winner.userId == Players.LocalPlayer.UserId then "VICTORY!"
 			else "DEFEAT"
-		h.resultScore.Text =
-			string.format("%.1f%%  —  %.1f%%", board.counts[1] / 10.24, board.counts[2] / 10.24)
+		local crown = h.result:FindFirstChild("Crown") :: Frame
+		crown.Visible = not stopped
+		h.resultMetric.Text = if stopped
+			then "NO RESULT RECORDED"
+			elseif complete then "MATCH POINTS"
+			else "FINAL TERRITORY"
+		h.resultScore.Text = if stopped
+			then "—"
+			elseif complete then string.format("%g — %g", view.points2[1] / 2, view.points2[2] / 2)
+			else string.format("%.1f%% — %.1f%%", board.counts[1] / 10.24, board.counts[2] / 10.24)
+
+		h.resultNote.Text = if resultReasons[view.reason]
+			then resultReasons[view.reason]
+			elseif complete then string.format(
+				"Last round: %.1f%% — %.1f%%",
+				board.counts[1] / 10.24,
+				board.counts[2] / 10.24
+			)
+			else string.format("Match points: %g — %g", view.points2[1] / 2, view.points2[2] / 2)
 		local userId = if winner then winner.userId else Players.LocalPlayer.UserId
 		if h.winnerAvatar:GetAttribute("UserId") ~= userId then
 			loadAvatarAsync(h.winnerAvatar, userId)

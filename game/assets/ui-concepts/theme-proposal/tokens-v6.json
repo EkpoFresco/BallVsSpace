@@ -1,0 +1,247 @@
+{
+  "version": 6,
+  "date": "2026-10-18",
+  "status": "Expanded arcade design proposal after the user rejected the minimal composition. Awaiting visual review; not a frozen benchmark target.",
+  "direction": "Fuller Roblox arcade menus: dimensional studded plates, heavy crisp borders, illustrated category tabs, prominent selected-item showcase, larger exact Roblox display typography, and coordinated Inventory/Store screens",
+  "palette": {
+    "purple": "#6225D1",
+    "header": "#FDEA8D",
+    "card": "#A3A2A5",
+    "cardLight": "#E5E4DF",
+    "cardDark": "#635F62",
+    "close": "#C4281C",
+    "primaryAction": "#008F9C",
+    "text": "#F2F3F3",
+    "outline": "#1B2A35",
+    "selection": "#FDEA8D"
+  },
+  "roles": {
+    "purple": "Studded frame and structural backplates",
+    "header": "Soft yellow (Cool yellow BrickColor) is the user-selected default for title bars and active category",
+    "card": "Grey stud surfaces across ball cards, item label bands, selected-ball details, inactive category buttons and other grey panels",
+    "close": "Bright red reserved for close/error controls, not broad branding surfaces",
+    "primaryAction": "Bright bluish green Equip button",
+    "text": "White outlined display text; Black body text on Light stone grey copy panels",
+    "selection": "Match the soft-yellow header for selected card and detail outlines, active-tab border, checkmark backing and selected badge"
+  },
+  "typography": {
+    "display": {
+      "family": "Fredoka One",
+      "robloxEnum": "FredokaOne",
+      "file": "fonts/FredokaOne-Regular.ttf",
+      "weight": 400,
+      "style": "Normal; genuine heavy display face, no synthetic bold, no wide tracking or italics",
+      "sizes": {
+        "windowTitle": 39,
+        "selectedBall": 30,
+        "button": 25,
+        "cardLabel": 19
+      },
+      "outline": "2.5px default dark stroke, 1.8px card labels, crisp 3px downward shadow; smaller responsive sizes and adjustable outline"
+    },
+    "interface": {
+      "family": "Source Sans Pro",
+      "robloxEnum": "SourceSansSemibold",
+      "file": "fonts/SourceSansPro-Semibold.ttf",
+      "weight": 600,
+      "sizes": {
+        "body": 16,
+        "status": 14,
+        "annotation": 12
+      },
+      "outline": "Small copy uses Black on Light stone grey; subtle 27%-strength stud relief underneath"
+    }
+  },
+  "fontVerification": {
+    "source": "https://create.roblox.com/docs/reference/engine/enums/Font",
+    "date": "2026-10-18",
+    "method": "Read installed Roblox content/fonts/families JSON, inspected font name tables and embedded those exact local TrueType files; no external font dependency in preview",
+    "localFamilySources": [
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/FredokaOne.json",
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/SourceSansPro.json"
+    ],
+    "files": [
+      {
+        "file": "fonts/FredokaOne-Regular.ttf",
+        "bytes": 42452,
+        "sha256": "08a0193637baffaa1d9926085fe2a2716c1ce06136b74a9627e61663649c0f37"
+      },
+      {
+        "file": "fonts/SourceSansPro-Semibold.ttf",
+        "bytes": 268280,
+        "sha256": "3ba5c382a7ee6a8831bdf90192addceabe6db4278a679e67fe7e9c0226b729cf"
+      }
+    ],
+    "license": "fonts/LICENSE.txt"
+  },
+  "treatments": [
+    "Replace palette swatches and font specimens with a complete menu composition and Inventory/Store navigation",
+    "Raised purple outer framing, soft-yellow stud header, oversize canonical menu icon and red beveled Close",
+    "Illustrated dimensional category buttons with soft-yellow selected fill and outline",
+    "All twelve canonical ball appearances; four columns on large layouts, three on narrower layouts",
+    "Gray stud card faces and label bands, yellow selected outline/check, separate blue equipped badge",
+    "Large gray stud showcase with canonical ball art, separate Axe/Blade weapon art, native kit label, description and teal Equip",
+    "Store collection spotlight plus the four existing Laser, Ray, Balloons and Parasol view/preview cards",
+    "Retain exact palette and two embedded Roblox font files; no new raster artwork",
+    "Gray surfaces remain studded; texture belongs behind artwork, not on ball spheres"
+  ],
+  "scope": "Shared design exploration only; no Roblox runtime source edits and no route A/B/C implementation or new gameplay",
+  "gameplay": "Keep existing cyan/coral team identities and territory meaning; do not recolor gameplay by cosmetic palette.",
+  "pending": [
+    "User review of the expanded composition and full-menu styling",
+    "Rendered layout and interaction checks at desktop, portrait and landscape sizes",
+    "Native Roblox texture, typography and touch-size verification",
+    "Frozen common benchmark target; Figma connectivity and benchmark setup"
+  ],
+  "preview": {
+    "path": "C:/Users/nsidi/.codex/visualizations/2026/10/18/01a150bc-2fe5-7203-b0c9-e75daef4b949/bvs-arcade-collection.html",
+    "format": "Self-contained interactive HTML fragment",
+    "views": [
+      "Inventory",
+      "Store"
+    ],
+    "inventoryAppearances": 12,
+    "storeOffers": 4,
+    "defaultSelection": "Laser",
+    "defaultEquipped": "Verity",
+    "defaultScreen": "Inventory",
+    "controls": [
+      "Stud definition",
+      "Letter outline",
+      "Selected ball size"
+    ],
+    "stateVersion": 6
+  },
+  "browserQA": "JavaScript parse, markup/selector checks, exact embedded-asset identity and source-catalog checks completed. Browser preview remains unavailable under the prior URL-policy restriction; no browser, Studio or phone rendering/interaction test claimed.",
+  "contrastMethod": "Calculated solid sRGB foreground/background pairs only. Gradients, raised highlights and outlines also affect rendered appearance; native Studio and phone visual approval remains pending.",
+  "contrastRatios": {
+    "bodyOnLightGrey": 11.54,
+    "labelOnDarkGrey": 5.65,
+    "paperAgainstOutline": 13.22,
+    "inkOnSelection": 12.13
+  },
+  "previousVersion": "tokens-v5.json",
+  "brickColorReference": {
+    "source": "https://create.roblox.com/docs/reference/engine/datatypes/BrickColor",
+    "date": "2026-10-18",
+    "colors": {
+      "purple": {
+        "name": "Royal purple",
+        "number": 1031,
+        "rgb": [
+          98,
+          37,
+          209
+        ]
+      },
+      "header": {
+        "name": "Cool yellow",
+        "number": 226,
+        "rgb": [
+          253,
+          234,
+          141
+        ]
+      },
+      "card": {
+        "name": "Medium stone grey",
+        "number": 194,
+        "rgb": [
+          163,
+          162,
+          165
+        ]
+      },
+      "cardLight": {
+        "name": "Light stone grey",
+        "number": 208,
+        "rgb": [
+          229,
+          228,
+          223
+        ]
+      },
+      "cardDark": {
+        "name": "Dark stone grey",
+        "number": 199,
+        "rgb": [
+          99,
+          95,
+          98
+        ]
+      },
+      "close": {
+        "name": "Bright red",
+        "number": 21,
+        "rgb": [
+          196,
+          40,
+          28
+        ]
+      },
+      "primaryAction": {
+        "name": "Bright bluish green",
+        "number": 107,
+        "rgb": [
+          0,
+          143,
+          156
+        ]
+      },
+      "text": {
+        "name": "White",
+        "number": 1,
+        "rgb": [
+          242,
+          243,
+          243
+        ]
+      },
+      "outline": {
+        "name": "Black",
+        "number": 26,
+        "rgb": [
+          27,
+          42,
+          53
+        ]
+      },
+      "selection": {
+        "name": "Cool yellow",
+        "number": 226,
+        "rgb": [
+          253,
+          234,
+          141
+        ]
+      }
+    },
+    "note": "Base colors are exact BrickColor RGB values; bevel lighting and shadow tints are derived."
+  },
+  "navigation": {
+    "userConfirmed": "Category tab inside Inventory; follow the in-game structure",
+    "source": "game/src/client/Controllers/LobbyPanels.luau",
+    "categories": [
+      "Balls",
+      "Explosions",
+      "Flyers",
+      "Fusion"
+    ],
+    "balls": "Selecting any of twelve appearances updates details and Equip; detail sits to the right on larger layouts and under the collection on narrow layouts",
+    "otherCategories": "Use existing canonical icons and source copy for cosmetic previews and Fusion availability; no purchase, unlock or gameplay behavior added",
+    "store": "Events and Balls retain the source offer view; Explosions and Flyers navigate to their Inventory category. Ball offers select that ball in Inventory. Flyer offers navigate to Flyer previews. Spotlight opens Balls."
+  },
+  "layout": {
+    "large": "Inventory four-column collection with adjacent detail; Store four offers below an illustrated spotlight",
+    "medium": "Inventory three-column collection with adjacent detail",
+    "narrow": "Three-column collection with detail below; detail art and description form two columns; Store two-column offers",
+    "small": "Category navigation wraps to two columns; single-column cosmetic preview cards; stacked Store spotlight",
+    "containerBreakpoints": [
+      850,
+      620,
+      380
+    ],
+    "widthTarget": "1024px full menu shell with reflow to 320px",
+    "outerSizing": "Content height; no internal scroll or fixed outer height in inline discussion aid"
+  }
+}

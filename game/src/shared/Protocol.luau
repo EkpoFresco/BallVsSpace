@@ -2,6 +2,17 @@
 local Math = require(script.Parent.TerritoryMath)
 local Types = require(script.Parent.Types)
 local Protocol = {}
+local commandFields = table.freeze({
+	id = true,
+	kind = true,
+	matchId = true,
+	roundId = true,
+	generation = true,
+	kitId = true,
+	appearance = true,
+	angle = true,
+	wildcard = true,
+})
 function Protocol.finite(value: unknown): boolean
 	return type(value) == "number" and value == value and math.abs(value) < math.huge
 end
@@ -10,21 +21,10 @@ function Protocol.command(raw: unknown): Types.Command?
 		return nil
 	end
 	local t = raw :: { [string]: unknown }
-	local allowed = {
-		id = true,
-		kind = true,
-		matchId = true,
-		roundId = true,
-		generation = true,
-		kitId = true,
-		appearance = true,
-		angle = true,
-		wildcard = true,
-	}
 	local count = 0
 	for key in t do
 		count += 1
-		if type(key) ~= "string" or not allowed[key] or count > 9 then
+		if type(key) ~= "string" or not commandFields[key] or count > 9 then
 			return nil
 		end
 	end
@@ -108,10 +108,21 @@ function Protocol.decodeTerritory(payload: buffer, board: Types.Board): (Types.B
 		return nil, 0, "version"
 	end
 	local q = buffer.create(1024)
+	local counts: { [number]: number }
 	if full == 1 then
 		buffer.copy(q, 0, payload, 17, 1024)
+		counts = { [0] = 0, [1] = 0, [2] = 0 }
+		for i = 0, 1023 do
+			local value = buffer.readi8(q, i)
+			if math.abs(value) > 3 then
+				return nil, 0, "influence"
+			end
+			counts[Math.owner(value)] += 1
+		end
 	else
 		buffer.copy(q, 0, board.q)
+		-- The previous board was validated atomically. Only changed cells need recounting.
+		counts = table.clone(board.counts)
 		local seen: { [number]: boolean } = {}
 		for offset = 17, length - 1, 3 do
 			local index, value = buffer.readu16(payload, offset), buffer.readi8(payload, offset + 2)
@@ -119,15 +130,11 @@ function Protocol.decodeTerritory(payload: buffer, board: Types.Board): (Types.B
 				return nil, 0, "cell"
 			end
 			seen[index] = true
+			counts[Math.owner(buffer.readi8(q, index))] -= 1
+			counts[Math.owner(value)] += 1
 			buffer.writei8(q, index, value)
 		end
 	end
-	for i = 0, 1023 do
-		if math.abs(buffer.readi8(q, i)) > 3 then
-			return nil, 0, "influence"
-		end
-	end
-	local counts = Math.count(q)
 	if counts[1] ~= buffer.readu16(payload, 13) or counts[2] ~= buffer.readu16(payload, 15) then
 		return nil, 0, "counts"
 	end

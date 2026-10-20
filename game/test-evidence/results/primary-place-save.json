@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-20",
+  "primaryLocalFile": "Desktop/VibeCode/Reaction Game/BallVsSpace.rbxl",
+  "githubPlace": "game/places/BallVsSpace.rbxl",
+  "bytes": 104368,
+  "sha256": "c4ccdcbd2c772b9c603e555410eb421f5e5a6c9979a2fd63ba53aeb67523a9c5",
+  "allThreeCopiesMatch": true,
+  "previousPrimaryBackedUp": true,
+  "studioId": "d5ad0dce-42df-4cbf-b5d6-d9859f35c7e0",
+  "sourceConsistency": {
+    "verifiedSourceFiles": 42,
+    "placeId": 0,
+    "streaming": false,
+    "gameId": 0
+  },
+  "preview": {
+    "checks": [
+      {
+        "panel": "Inventory",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "1279, 900",
+        "centered": true,
+        "size": "1039.99988, 759.999939"
+      },
+      {
+        "panel": "Store",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "1279, 900",
+        "centered": true,
+        "size": "1039.99988, 759.999939"
+      },
+      {
+        "panel": "Rewards",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "1279, 900",
+        "centered": true,
+        "size": "419.999969, 339.999969"
+      },
+      {
+        "panel": "Inventory",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "749, 381",
+        "centered": true,
+        "size": "724.999939, 364.999969"
+      },
+      {
+        "panel": "Store",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "749, 381",
+        "centered": true,
+        "size": "724.999939, 364.999969"
+      },
+      {
+        "panel": "Rewards",
+        "safeArea": true,
+        "closeTarget": true,
+        "viewport": "749, 381",
+        "centered": true,
+        "size": "419.999969, 339.999969"
+      }
+    ],
+    "physicalDevice": false,
+    "studioLeft": "Play, desktop Inventory open"
+  },
+  "scope": "Local primary file and GitHub-ready saved place; no Roblox cloud publication"
+}

@@ -1,0 +1,25 @@
+{
+  "inventory": {
+    "viewport": "567, 320",
+    "equipInView": true,
+    "laserEquipped": true
+  },
+  "scrolledStoreNavigation": true,
+  "reroll": {
+    "before": {
+      "1": "Laser",
+      "2": "Verity",
+      "3": "Axe"
+    },
+    "after": {
+      "1": "Burst",
+      "2": "Cell",
+      "3": "Vampire"
+    }
+  },
+  "portrait": {
+    "genericBotPortrait": true,
+    "primaryCentered": true
+  },
+  "physicalDevice": false
+}

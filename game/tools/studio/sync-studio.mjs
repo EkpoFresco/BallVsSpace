@@ -5,7 +5,7 @@ import {callStudio} from './client.mjs';
 const studio=process.argv[2];if(!studio)throw Error('Explicit verified local Studio ID required');
 const files=sourceInventory();
 for(let i=0;i<files.length;i+=6){
- const code=['assert(game.PlaceId==0,"Refusing nonlocal place")','local function folder(p,n) local f=p:FindFirstChild(n);if not f then f=Instance.new("Folder");f.Name=n;f.Parent=p end;return f end','folder(game:GetService("ReplicatedStorage"),"Art");folder(game:GetService("Workspace"),"AuthoredWorld");workspace.StreamingEnabled=false;workspace.Gravity=196.2'];
+ const code=['assert(game.PlaceId==0,"Refusing nonlocal place")','local function folder(p,n) local f=p:FindFirstChild(n);if not f then f=Instance.new("Folder");f.Name=n;f.Parent=p end;return f end','folder(game:GetService("ReplicatedStorage"),"Art");folder(game:GetService("Workspace"),"AuthoredWorld");workspace.StreamingEnabled=false;workspace.Gravity=196.2;game:GetService("StarterGui").ScreenOrientation=Enum.ScreenOrientation.LandscapeSensor'];
  for(const f of files.slice(i,i+6)){
   code.push(`do local p=game:GetService(${quote(f.parts[0])})`);
   for(const part of f.parts.slice(1,-1))code.push(`p=folder(p,${quote(part)})`);

@@ -1,0 +1,64 @@
+{
+  "help": {
+    "textFits": true,
+    "centered": true,
+    "nativeMovementHidden": true
+  },
+  "client": {
+    "fontRoundTrip": true,
+    "descendantsBefore": 722,
+    "scope": "Isolated module fixture; not 100 character resets or physical-device input",
+    "startupInterpolation": true,
+    "sameTickVelocity": true,
+    "staleMotion": true,
+    "toastRace": true,
+    "uiCycles": 100,
+    "descendantsAfter": 722
+  },
+  "renderer": {
+    "batches": 20,
+    "p95BatchMs": 0.2048919998924248,
+    "method": "Same two-ball loaded-atlas renderer, 20 batches of 100 calls; not a device FPS claim",
+    "iterations": 2000,
+    "medianMs": 0.15102899982593954,
+    "viewportParts": 2,
+    "partsAfterRender": 2,
+    "meanMs": 0.1570802500064019
+  },
+  "logic": {
+    "seconds": 0.768176300014602,
+    "passed": 11,
+    "tests": {
+      "1": "all cell centers, bounds, mirrored spawn stamp",
+      "2": "126 influence cases and four-step reinforced capture",
+      "3": "maximum pressure, shape order and random full recounts",
+      "4": "capsule endpoints, tangent, sweep and empty range",
+      "5": "head-on, glancing, corner, triple, overlapping and bounced paths",
+      "6": "stable, matched, unique three-card drafts",
+      "7": "regulation cutoff, overtime reset, final-boundary hold, cap draw",
+      "8": "protocol atomicity, invalid buffers, stale delta, finite boundary",
+      "9": "motion seat identity and bounded acknowledgement replay",
+      "10": "state deadlines, early floors, late input, and post-result freeze",
+      "11": "disconnect cancellation, grace, simultaneous abort, fake reward dedup"
+    }
+  },
+  "presentation": {
+    "innerCourtPixels": 446,
+    "draftPrivacy": true,
+    "appearanceValidation": true,
+    "motionVersion": "bvs-motion-2",
+    "bodyDiameterPixels": 82.23125,
+    "passed": 8,
+    "spawnX": 268.59375
+  },
+  "multiplayer": {
+    "players": 2,
+    "comparisons": 6,
+    "mismatches": 0,
+    "visualFailures": 0,
+    "matches": 1,
+    "visualComparisons": 6,
+    "aborted": 0
+  },
+  "runId": "6aa59a97-865f-48aa-9f6a-d368cd9b4b3e"
+}

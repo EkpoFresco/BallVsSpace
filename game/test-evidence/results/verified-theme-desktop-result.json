@@ -1,0 +1,23 @@
+{
+  "loaded": {
+    "authoredImages": 9,
+    "loaded": true
+  },
+  "outcome": {
+    "a": 478,
+    "tick": 1800,
+    "phase": "MatchResult",
+    "b": 247,
+    "resultTitle": "VICTORY!",
+    "reason": "match_points"
+  },
+  "panels": true,
+  "equip": true,
+  "storeNavigation": true,
+  "queueCancellation": true,
+  "privateDraft": true,
+  "ballDiameter": true,
+  "completePractice": true,
+  "landscapePhoneEmulation": false,
+  "physicalDevice": false
+}

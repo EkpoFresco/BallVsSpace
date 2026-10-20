@@ -1,0 +1,218 @@
+{
+  "entries": {
+    "Verity": {
+      "name": "Verity Ball",
+      "kit": "Drift",
+      "description": "A cheerful shell for claiming space.",
+      "x": 0,
+      "y": 0
+    },
+    "Axe": {
+      "name": "Axe Ball",
+      "kit": "Anchor",
+      "description": "Spins an axe, widening its territory.",
+      "x": 33.33333333333333,
+      "y": 0
+    },
+    "Poison": {
+      "name": "Poison Spike Ball",
+      "kit": "Drift",
+      "description": "A bright poison shell with a powerful pulse.",
+      "x": 66.66666666666666,
+      "y": 0
+    },
+    "Burst": {
+      "name": "Burst Ball",
+      "kit": "Drift",
+      "description": "An orange burst shell for the Drift pulse.",
+      "x": 100,
+      "y": 0
+    },
+    "Cell": {
+      "name": "Cell Ball",
+      "kit": "Drift",
+      "description": "Pulses outward, claiming the space around it.",
+      "x": 0,
+      "y": 50
+    },
+    "Vampire": {
+      "name": "Vampire Ball",
+      "kit": "Drift",
+      "description": "A red fanged shell for claiming space.",
+      "x": 33.33333333333333,
+      "y": 50
+    },
+    "Acid": {
+      "name": "Acid Ball",
+      "kit": "Drift",
+      "description": "Leaves a vivid trail as it claims space.",
+      "x": 66.66666666666666,
+      "y": 50
+    },
+    "Blade": {
+      "name": "Blade Ball",
+      "kit": "Anchor",
+      "description": "A sharp silhouette. Holds its path and claims wider space.",
+      "x": 100,
+      "y": 50
+    },
+    "WDC": {
+      "name": "WDC",
+      "kit": "Drift",
+      "description": "A blue grid shell for an expanding territory pulse.",
+      "x": 0,
+      "y": 100
+    },
+    "Orbit": {
+      "name": "Orbit Ball",
+      "kit": "Drift",
+      "description": "A ringed shell that sweeps across the arena.",
+      "x": 33.33333333333333,
+      "y": 100
+    },
+    "Ray": {
+      "name": "Ray Ball",
+      "kit": "Drift",
+      "description": "A radiant shell for claiming open ground.",
+      "x": 66.66666666666666,
+      "y": 100
+    },
+    "Laser": {
+      "name": "Laser Ball",
+      "kit": "Drift",
+      "description": "A violet glow with an expanding territory pulse.",
+      "x": 100,
+      "y": 100
+    }
+  },
+  "icons": {
+    "Heart": [
+      0,
+      0
+    ],
+    "Gear": [
+      14.285714285714285,
+      0
+    ],
+    "Coin": [
+      28.57142857142857,
+      0
+    ],
+    "Gem": [
+      42.857142857142854,
+      0
+    ],
+    "Store": [
+      57.14285714285714,
+      0
+    ],
+    "Inventory": [
+      71.42857142857143,
+      0
+    ],
+    "Emote": [
+      85.71428571428571,
+      0
+    ],
+    "Gift": [
+      100,
+      0
+    ],
+    "Invite": [
+      0,
+      33.33333333333333
+    ],
+    "Trade": [
+      14.285714285714285,
+      33.33333333333333
+    ],
+    "Quest": [
+      28.57142857142857,
+      33.33333333333333
+    ],
+    "Reroll": [
+      42.857142857142854,
+      33.33333333333333
+    ],
+    "Crown": [
+      57.14285714285714,
+      33.33333333333333
+    ],
+    "Close": [
+      71.42857142857143,
+      33.33333333333333
+    ],
+    "Help": [
+      85.71428571428571,
+      33.33333333333333
+    ],
+    "Chat": [
+      100,
+      33.33333333333333
+    ],
+    "Events": [
+      0,
+      66.66666666666666
+    ],
+    "Fusion": [
+      14.285714285714285,
+      66.66666666666666
+    ],
+    "Axe": [
+      28.57142857142857,
+      66.66666666666666
+    ],
+    "Blade": [
+      42.857142857142854,
+      66.66666666666666
+    ],
+    "Ufo": [
+      57.14285714285714,
+      66.66666666666666
+    ],
+    "Explosion": [
+      71.42857142857143,
+      66.66666666666666
+    ],
+    "Parasol": [
+      85.71428571428571,
+      66.66666666666666
+    ],
+    "Balloons": [
+      100,
+      66.66666666666666
+    ],
+    "Check": [
+      0,
+      100
+    ],
+    "Back": [
+      14.285714285714285,
+      100
+    ],
+    "Arrow": [
+      28.57142857142857,
+      100
+    ],
+    "Sound": [
+      42.857142857142854,
+      100
+    ],
+    "Diamond": [
+      57.14285714285714,
+      100
+    ],
+    "Ring": [
+      71.42857142857143,
+      100
+    ],
+    "Spark": [
+      85.71428571428571,
+      100
+    ],
+    "Shadow": [
+      100,
+      100
+    ]
+  }
+}

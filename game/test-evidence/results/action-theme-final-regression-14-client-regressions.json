@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"fontRoundTrip\":true,\"descendantsBefore\":722,\"scope\":\"Isolated module fixture; not 100 character resets or physical-device input\",\"startupInterpolation\":true,\"sameTickVelocity\":true,\"staleMotion\":true,\"toastRace\":true,\"uiCycles\":100,\"descendantsAfter\":722}"
+      }
+    ],
+    "isError": false
+  }
+}

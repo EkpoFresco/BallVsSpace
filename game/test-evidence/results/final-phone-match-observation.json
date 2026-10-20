@@ -1,0 +1,15 @@
+{
+  "scope": "Persistent runtime witness after native movement controls were hidden during matches; normal clocks. The command driver missed a later Aim window, so this is not labeled a passing complete driver run.",
+  "phase": "MatchResult",
+  "resultVisible": true,
+  "resultTitle": "VICTORY!",
+  "reason": "match_points",
+  "panelsClosed": true,
+  "tick": 1800,
+  "a": 396,
+  "b": 366,
+  "observedAt": 8209.758153300005,
+  "returnedToLobby": true,
+  "nativeMovementRestoredInLobby": true,
+  "physicalDevice": false
+}

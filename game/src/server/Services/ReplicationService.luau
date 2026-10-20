@@ -63,6 +63,7 @@ function Replication.stateFor(m: Match.State, userId: number): ViewTypes.State
 		hold = m.hold.updates,
 		holdLeader = m.hold.leader,
 		persistence = Config.Persistence,
+		rematchRequested = m.rematch[userId] == true,
 	}
 end
 function Replication.full(m: Match.State): buffer

@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
+Players.LocalPlayer:WaitForChild("PlayerGui").ScreenOrientation = Enum.ScreenOrientation.LandscapeSensor
 local Shared = ReplicatedStorage:WaitForChild("Shared", 15)
 assert(Shared, "Missing shared modules")
 local Appearances = require(Shared.AppearanceCatalog)
@@ -39,6 +40,9 @@ local id = 0
 local angle = 0
 local dragging = false
 local activePointer: InputObject? = nil
+local pendingRematch: number? = nil
+local lastClockPhase = ""
+local lastClockSecond = -1
 local pendingSelection: { id: number, matchId: string, roundId: number, generation: number }? = nil
 local lastAim = 0
 local lastSnapshot = 0
@@ -88,6 +92,13 @@ local function renderUi()
 	hud.gui:SetAttribute("Phase", phase)
 	hud.gui:SetAttribute("SelectedAppearance", hud.selectedAppearance)
 	hud.gui:SetAttribute("AimAngle", angle)
+	hud.gui:SetAttribute("MatchId", if view then view.id else nil)
+	hud.gui:SetAttribute("RoundId", if view then view.roundId else nil)
+	if phase == "RoundResult" or phase == "MatchResult" then
+		hud.left.Visible = #history > 1 and replayAt == nil
+		hud.result.Visible = replayAt == nil
+		hud.primary.Visible = phase == "MatchResult" and replayAt == nil
+	end
 end
 local function chooseAppearance(appearance: string)
 	if pendingSelection then
@@ -160,51 +171,25 @@ hud.left.Activated:Connect(function()
 	if phase == "Lobby" then
 		Panels.close(hud.panels)
 		send("Queue")
-	elseif phase == "Draft" and view then
-		send("Select", view.offer[1])
-	elseif phase == "Aim" then
-		angle = (angle - 15) % 360
-		send("Aim", nil, angle)
-		renderUi()
 	elseif (phase == "RoundResult" or phase == "MatchResult") and #history > 1 then
 		replayAt = os.clock()
+		renderUi()
 	end
 end)
 hud.right.Activated:Connect(function()
-	if phase == "Lobby" or phase == "Queued" then
+	if phase == "Lobby" then
 		Panels.close(hud.panels)
-		if phase == "Queued" then
-			send("Cancel")
-			task.delay(0.25, function()
-				send("Practice")
-			end)
-		else
-			send("Practice")
-		end
-	elseif phase == "Draft" and view then
-		send("Select", view.offer[2])
-	elseif phase == "Aim" then
-		angle = (angle + 15) % 360
-		send("Aim", nil, angle)
-		renderUi()
-	elseif phase == "RoundResult" or phase == "MatchResult" then
-		reduced = not reduced
-		renderUi()
+		send("Practice")
 	end
 end)
 hud.primary.Activated:Connect(function()
-	if phase == "Lobby" then
-		reduced = not reduced
-		renderUi()
-	elseif phase == "Queued" then
+	if phase == "Queued" then
 		send("Cancel")
-	elseif phase == "Draft" then
-		send("Commit")
 	elseif phase == "Aim" then
 		send("AimLock", nil, angle)
-	elseif phase == "MatchResult" then
-		send("Rematch")
-		hud.primary.Text = "REMATCH REQUESTED"
+	elseif phase == "MatchResult" and view and not view.rematchRequested and not pendingRematch then
+		pendingRematch = send("Rematch")
+		hud.primary.Text = "Requesting…"
 	end
 end)
 stateRemote.OnClientEvent:Connect(function(raw: unknown)
@@ -218,14 +203,17 @@ stateRemote.OnClientEvent:Connect(function(raw: unknown)
 		view = nil
 		phase = state.phase
 		pendingSelection = nil
+		pendingRematch = nil
 		dragging = false
 		activePointer = nil
 		replayAt = nil
+		hud.status.Visible = false
 		renderUi()
 		return
 	end
 	if not view or view.id ~= state.id or view.roundId ~= state.roundId then
 		controller = Controller.new()
+		pendingRematch = nil
 		decodeBoard = controller.board
 		table.clear(pending)
 		table.clear(history)
@@ -276,6 +264,15 @@ motion.OnClientEvent:Connect(function(matchId: string, roundId: number, payload:
 	Controller.receive(controller, payload)
 end)
 ack.OnClientEvent:Connect(function(commandId: number, accepted: boolean, reason: string)
+	if pendingRematch == commandId then
+		pendingRematch = nil
+		if accepted and view and phase == "MatchResult" then
+			view.rematchRequested = true
+		elseif not accepted then
+			Panels.notify(hud.panels, "Rematch was not queued. Please try again.")
+		end
+		renderUi()
+	end
 	local selection = pendingSelection
 	if selection and selection.id == commandId then
 		if accepted then
@@ -307,7 +304,7 @@ local function updateAim(position: Vector2)
 	if phase ~= "Aim" or not s or s.aimLocked or not camera then
 		return
 	end
-	local nextAngle = Aim.angle(hud.gui.AbsoluteSize, position, s.x, s.z)
+	local nextAngle = Aim.angle(hud.gui.AbsoluteSize, position - hud.gui.AbsolutePosition, s.x, s.z)
 	if nextAngle then
 		angle = math.floor(nextAngle + 0.5) % 360
 		if os.clock() - lastAim >= 0.11 then
@@ -402,6 +399,8 @@ RunService.RenderStepped:Connect(function()
 		readySent = true
 		send("Ready")
 	end
+	local positions = Controller.positions(controller, now)
+	local boardUpdated = false
 	while #pending > 0 and pending[1].due <= now do
 		local update = table.remove(pending, 1)
 		assert(update, "Pending territory queue unexpectedly empty")
@@ -414,7 +413,7 @@ RunService.RenderStepped:Connect(function()
 		if phase == "Battle" or phase == "Overtime" then
 			table.insert(history, {
 				board = update.board,
-				positions = Controller.positions(controller, now),
+				positions = positions,
 				tick = update.tick,
 			})
 			if #history > 20 then
@@ -426,12 +425,16 @@ RunService.RenderStepped:Connect(function()
 			hud.gui:SetAttribute("BoardVersion", update.board.version)
 			hud.gui:SetAttribute("Tick", update.tick)
 		end
+		boardUpdated = true
+	end
+	-- Paint and scores update at 10 Hz; unchanged controls do not need rebuilding.
+	if boardUpdated and phase ~= "Battle" and phase ~= "Overtime" then
 		renderUi()
 	end
-	local positions = Controller.positions(controller, now)
 	if view and view.phase ~= "Battle" and view.phase ~= "Overtime" and #controller.samples > 0 then
 		positions = controller.samples[#controller.samples].balls
 	end
+	local displayedBoard = controller.board
 	if replayAt then
 		local index = math.floor((now - replayAt) * 10) + 1
 		if index > #history then
@@ -441,15 +444,16 @@ RunService.RenderStepped:Connect(function()
 			renderUi()
 		else
 			local frame = history[index]
+			displayedBoard = frame.board
 			positions = frame.positions
 			Territory.apply(floor, frame.board)
 			score(frame.board)
-			hud.status.Text = "REPLAY · final two seconds · result is already locked"
+			hud.status.Text = "REPLAY · last 2 seconds · result locked"
 		end
 	end
 	Balls.render(balls, positions, view, reduced)
 	for i, ball in balls.balls do
-		ball.label.Text = string.format("%d%%", math.floor(controller.board.counts[i] / 10.24 + 0.5))
+		ball.label.Text = string.format("%d%%", math.floor(displayedBoard.counts[i] / 10.24 + 0.5))
 	end
 	local v = view
 	if v then
@@ -470,27 +474,23 @@ RunService.RenderStepped:Connect(function()
 			elseif phase == "Overtime" then (2700 - v.tick) / 60
 			else v.deadline - Workspace:GetServerTimeNow()
 		local secondsLeft = math.max(0, math.ceil(seconds))
-		hud.draftTitle.Text = "CHOOSE YOUR BALL - " .. secondsLeft
-		hud.collectionTitle.Text = if phase == "Draft"
-			then "Select Any Ball - " .. secondsLeft
-			else "Select Any Ball"
-		hud.phase.Text = if phase == "Aim"
-			then "ADJUST YOUR AIM - " .. secondsLeft
-			elseif phase == "Countdown" then "GET READY - " .. secondsLeft
-			else "CONNECTING…"
-		hud.timer.Text = string.format(
-			"%02d:%02d",
-			math.max(0, math.ceil(seconds)) // 60,
-			math.max(0, math.ceil(seconds)) % 60
-		)
+		if lastClockPhase ~= phase or lastClockSecond ~= secondsLeft then
+			lastClockPhase, lastClockSecond = phase, secondsLeft
+			hud.draftTitle.Text = "CHOOSE YOUR BALL - " .. secondsLeft
+			hud.collectionTitle.Text = if phase == "Draft"
+				then "Select Any Ball - " .. secondsLeft
+				else "Select Any Ball"
+			hud.phase.Text = if phase == "Aim"
+				then "ADJUST YOUR AIM - " .. secondsLeft
+				elseif phase == "Countdown" then "GET READY - " .. secondsLeft
+				else "CONNECTING…"
+			hud.timer.Text = string.format("%02d:%02d", secondsLeft // 60, secondsLeft % 60)
+		end
 		local delayed = (phase == "Battle" or phase == "Overtime") and now - controller.lastReceived > 0.75
 		hud.status.Visible = delayed or replayAt ~= nil
 		if delayed then
 			hud.status.Text = "Connection delayed · waiting for server"
 		end
-		hud.gui:SetAttribute("Phase", phase)
-		hud.gui:SetAttribute("MatchId", v.id)
-		hud.gui:SetAttribute("RoundId", v.roundId)
 	elseif now - lastStateAt > 4 and now - lastSnapshot > 1 then
 		lastSnapshot = now
 		snapshotRequest:FireServer()

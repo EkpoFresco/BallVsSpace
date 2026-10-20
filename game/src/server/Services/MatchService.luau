@@ -225,7 +225,13 @@ function Match.command(m: State, userId: number, c: Types.Command, now: number):
 		return true
 	end
 	if c.kind == "Rematch" and m.phase == "MatchResult" then
-		m.rematch[userId] = true
+		if now >= m.deadline then
+			return false
+		end
+		if not m.rematch[userId] then
+			m.rematch[userId] = true
+			m.stateVersion += 1
+		end
 		return true
 	end
 	if now >= m.deadline then
@@ -324,6 +330,7 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 			for i, s in m.seats do
 				if not s.pickLocked and s.tentativeWildcard then
 					s.kitId = s.offer[1]
+					s.appearance = Appearances.default(s.kitId)
 					s.tentativeWildcard = false
 				end
 				s.pickLocked = true

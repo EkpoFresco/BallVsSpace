@@ -10,7 +10,7 @@ function Renderer.new(): State
 	local gui = Instance.new("ScreenGui")
 	gui.Name = "BVSTerritory"
 	gui.IgnoreGuiInset = true
-	gui.ScreenInsets = Enum.ScreenInsets.None
+	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 	gui.DisplayOrder = 2
 	gui.ResetOnSpawn = false
 	gui.Enabled = false

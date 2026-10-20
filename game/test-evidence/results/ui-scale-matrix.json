@@ -1,0 +1,1498 @@
+{
+  "scope": "Real engine layouts at emulated resolutions with isolated UI states; separate live-flow receipts validate input/gameplay.",
+  "results": [
+    {
+      "device": "small-window",
+      "viewport": "567, 320",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999569810647,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 26
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999569810647,
+          "issues": [],
+          "frame": "Store",
+          "texts": 18
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 14.399999715658097,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.25153332905252,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.232432025572301,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 14.399999715658097,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 15.999999564371215,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 17.09999921085368,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999491594401,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999491594401,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.009965896606445,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.757474422454834,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": false
+    },
+    {
+      "device": "iphone7",
+      "viewport": "666, 374",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999712192377,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 26
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999712192377,
+          "issues": [],
+          "frame": "Store",
+          "texts": 18
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 16.9999995552064,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.999999633699389,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.864864778324701,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 16.9999995552064,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 16.9999995552064,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.999999502877742,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999659863718,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999659863718,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999686028048,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.395348072052002,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.425248622894287,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": true
+    },
+    {
+      "device": "android",
+      "viewport": "705, 338",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 11.000000349446864,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 27
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 11.000000349446864,
+          "issues": [],
+          "frame": "Store",
+          "texts": 20
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 15.300000144698359,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.141104453251614,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.232432702293636,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 15.300000144698359,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 17.000000540054245,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.168750251310414,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 13.000000412982658,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 13.000000412982658,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 12.000000381214761,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.40531599521637,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.913621544837952,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": true
+    },
+    {
+      "device": "notched-phone",
+      "viewport": "749, 381",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999632300032,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 28
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999632300032,
+          "issues": [],
+          "frame": "Store",
+          "texts": 20
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 16.999999431736413,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.999999532018222,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.205405052481353,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 16.999999431736413,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 16.999999431736413,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.999999364881873,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999565445492,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999565445492,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999598872762,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.08803927898407,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.657806873321533,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": true
+    },
+    {
+      "device": "tablet",
+      "viewport": "1022, 767",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999574252541,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 28
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999574252541,
+          "issues": [],
+          "frame": "Store",
+          "texts": 21
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 16.999999342026655,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.999999458139598,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.999999458139598,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 16.999999342026655,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 16.999999342026655,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.999999264618026,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999496843913,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999496843913,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999535548227,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.81818151473999,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.727272510528564,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": true
+    },
+    {
+      "device": "hd720",
+      "viewport": "1278, 720",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 11.000000616285412,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 28
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 11.000000616285412,
+          "issues": [],
+          "frame": "Store",
+          "texts": 21
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 17.00000095244109,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 14.000000784363252,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 14.000000784363252,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 17.00000095244109,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 17.00000095244109,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 19.000001064492984,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 13.000000728337305,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 13.000000728337305,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 12.000000672311359,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.940199971199036,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 11.96013331413269,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": false
+    },
+    {
+      "device": "hd1080",
+      "viewport": "1917, 1080",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999466653207,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 28
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999466653207,
+          "issues": [],
+          "frame": "Store",
+          "texts": 21
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.999999321194991,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.999999321194991,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.99999907876463,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999369681063,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999369681063,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.940199375152588,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.558139562606812,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": false
+    },
+    {
+      "device": "ultrawide",
+      "viewport": "2559, 1080",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999466653207,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 28
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999466653207,
+          "issues": [],
+          "frame": "Store",
+          "texts": 21
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.999999321194991,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.999999321194991,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 16.999999175736775,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 18.99999907876463,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999369681063,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999369681063,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999418167135,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.940199375152588,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.558139562606812,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": false
+    },
+    {
+      "device": "small-return",
+      "viewport": "567, 320",
+      "rows": {
+        "1": {
+          "buttons": 11,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Lobby",
+          "texts": 18
+        },
+        "2": {
+          "buttons": 10,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Queued",
+          "texts": 19
+        },
+        "3": {
+          "buttons": 19,
+          "minimumFont": 10.999999569810647,
+          "issues": [],
+          "frame": "Inventory:Balls",
+          "texts": 26
+        },
+        "4": {
+          "buttons": 9,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Explosions",
+          "texts": 10
+        },
+        "5": {
+          "buttons": 9,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Flyers",
+          "texts": 10
+        },
+        "6": {
+          "buttons": 6,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Inventory:Fusion",
+          "texts": 8
+        },
+        "7": {
+          "buttons": 15,
+          "minimumFont": 10.999999569810647,
+          "issues": [],
+          "frame": "Store",
+          "texts": 18
+        },
+        "8": {
+          "buttons": 2,
+          "minimumFont": 14.399999715658097,
+          "issues": [],
+          "frame": "Rewards",
+          "texts": 4
+        },
+        "9": {
+          "buttons": 3,
+          "minimumFont": 13.25153332905252,
+          "issues": [],
+          "frame": "Play",
+          "texts": 4
+        },
+        "10": {
+          "buttons": 1,
+          "minimumFont": 13.232432025572301,
+          "issues": [],
+          "frame": "How to play",
+          "texts": 11
+        },
+        "11": {
+          "buttons": 1,
+          "minimumFont": 14.399999715658097,
+          "issues": [],
+          "frame": "Trade",
+          "texts": 3
+        },
+        "12": {
+          "buttons": 5,
+          "minimumFont": 15.999999564371215,
+          "issues": [],
+          "frame": "Emotes",
+          "texts": 5
+        },
+        "13": {
+          "buttons": 2,
+          "minimumFont": 17.09999921085368,
+          "issues": [],
+          "frame": "Invite friends",
+          "texts": 3
+        },
+        "14": {
+          "buttons": 3,
+          "minimumFont": 12.999999491594401,
+          "issues": [],
+          "frame": "Settings",
+          "texts": 3
+        },
+        "15": {
+          "buttons": 5,
+          "minimumFont": 12.999999491594401,
+          "issues": [],
+          "frame": "Draft",
+          "texts": 9
+        },
+        "16": {
+          "buttons": 14,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Collection",
+          "texts": 15
+        },
+        "17": {
+          "buttons": 2,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Aim",
+          "texts": 9
+        },
+        "18": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Countdown",
+          "texts": 8
+        },
+        "19": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Battle",
+          "texts": 8
+        },
+        "20": {
+          "buttons": 1,
+          "minimumFont": 11.999999530702524,
+          "issues": [],
+          "frame": "Overtime",
+          "texts": 8
+        },
+        "21": {
+          "buttons": 0,
+          "minimumFont": 17.009965896606445,
+          "issues": [],
+          "frame": "Results",
+          "texts": 2
+        },
+        "22": {
+          "buttons": 0,
+          "minimumFont": 12.757474422454834,
+          "issues": [],
+          "frame": "Toast",
+          "texts": 1
+        }
+      },
+      "touch": false
+    }
+  ],
+  "sourceSha256": {
+    "src/client/Bootstrap.client.luau": "3b6140c5e735dd5079f7b604496adda0512785d5317949328fb954d074586534",
+    "src/client/Controllers/ActionMenus.luau": "b546010ba437b291864474aa676d5d77ff8cc33cee71e4e5d8c4db1d5bbec83c",
+    "src/client/Controllers/AimController.luau": "6e6cc7a829469138ab9e0ee36691fe82c53fe97e841a4236e428c6c4f0a2e0c7",
+    "src/client/Controllers/Artwork.luau": "c177c58991de3c4f9cd53482687d0bbc7d06ef550cbd0fdd4c03fa14f45b99a0",
+    "src/client/Controllers/BallArt.luau": "a807ae0d1b8a493dcc5028bffd9a8b3f5a5863c5d5b9fbdf2e2a42a1fd45ab99",
+    "src/client/Controllers/BallRenderer.luau": "eabf68b0b9bdde42a46a69658d703021c31315b695474d60c57e1a6916d42e46",
+    "src/client/Controllers/CameraController.luau": "9b431a8c0ce103d0be5ef04412772febb192f73b2e5b3e3ade3d5091928361d8",
+    "src/client/Controllers/HudController.luau": "2d498593ef47ee7815db3fcf1515191a4b04db81fa42ae04da2f6e17730ada6c",
+    "src/client/Controllers/LobbyPanels.luau": "94f4fb192fe4c6bcc83489b73effe2bf41587289fd294d783ca5edf631ded2f5",
+    "src/client/Controllers/MatchController.luau": "9d64fc3e26bfb9458fbf0080fa08b9add79a43dadaa2b4cd5717361426525181",
+    "src/client/Controllers/ReferenceLayout.luau": "231b42982bc44bf6051adecd55b1639216b1760aa44caec98fd2949ac652562b",
+    "src/client/Controllers/ReferenceUi.luau": "9b69bdafe277d987ca21ad5dd441245a7d1f7e39a34c05b56002bfbfab8f105d",
+    "src/client/Controllers/TerritoryRenderer.luau": "ff0fc94ca518400460b261ef370a1de1f8fd8ccda9c76d69b9c937aaa26e0461",
+    "src/client/TestDriver.client.luau": "8dc85720bbaef0ae98e0a0f5a23674f97e180d616a0c3d5fda189e2483912184",
+    "src/server/Abilities/Anchor.luau": "1afdc8eaf767f049d0ad8762f1b0282bf2f84fd841aa562823e399da4c51b674",
+    "src/server/Abilities/Drift.luau": "837136263ac596aba3fa1f995d4e9284634bd0ff8f1b42faf7e2da75e4bf5afe",
+    "src/server/Bootstrap.server.luau": "675546d1995a25d34c5a2a267f98aa90838314a7e760806bb11b176521a6713c",
+    "src/server/Services/AbilityService.luau": "ae971d874be40a31244445b8f918c0aea17573de9c78eaf9468aab06050453c1",
+    "src/server/Services/AnalyticsService.luau": "1e39d60307d8577c48b1896c20b4362621226320c414f2e6f36433f396755005",
+    "src/server/Services/CommandHistory.luau": "d674abc84b0a78be82c1e96af212d5fd5f0e363ffb8202af5089739d9682d8fa",
+    "src/server/Services/CourtService.luau": "bfaf58294848d3c2bad343c33f026e2fe49b5bb1316b9c1ee82bbe53b97a32f0",
+    "src/server/Services/LobbyDetailService.luau": "278f177f8d28243cd5240f96260191349a56ff7c39c18e0d9600f04ef1200576",
+    "src/server/Services/MatchService.luau": "0e810dcfb8515d8edbac64211b7e6a51ef1cd26e37fe1ac37647ea931d1a90b1",
+    "src/server/Services/ProfileService.luau": "39e9b05aa3a451c1d37e15202926f8bce595e69f41110c034a03c058b3661458",
+    "src/server/Services/QueueService.luau": "83c63b803b998db7fbd00a68c07b79fd44951a73698cc088d34797128129b6ae",
+    "src/server/Services/ReplicationService.luau": "79af1204029fdb814356d9e7101db06220f3afb878d67d15abe772d7f01b582f",
+    "src/server/Services/SimService.luau": "0304904c649f2009f8516bb026f90dc3afe35980690d1f9b3d32b9d242be63be",
+    "src/server/Services/TerritoryService.luau": "5cd0e7d0ea89f7f8f9b0ba66799b4f144a4986208fe4dd3de4aa9e854e33285e",
+    "src/server/Tests/Multiplayer.server.luau": "75c160e6773f9f69d8eb2dd1b521cbda3ef1442b4db4847d0ee6243922937b81",
+    "src/server/Tests/Run.server.luau": "9efc395e9f3ac491c0a32afea53a650c7ae081a1b7bb0bf2bfb616e58c21a597",
+    "src/server/Tests/Suite.luau": "8cd74d2f5a4e88d47f275dd16bb9f804b17c927e5afe262dee75d63696c3e233",
+    "src/shared/AppearanceCatalog.luau": "248d0f27d5063b71d8c4e8ea8949abe820fcf756bc08799b545662eb7292fd2d",
+    "src/shared/ArenaDefinition.luau": "22e0267487eb4daab57b6d3fc1f4f9346d295d3d859094198e3e769f496d37cb",
+    "src/shared/BallCatalog.luau": "1fb9cc5e278310e3aa366abc9d0df9ce7a18f8dcc05e4791b8b2ea7a523bf27d",
+    "src/shared/Config.luau": "03e56ea974336eecc0b125be9fa16703b9e5760ac602c3234a4b739c4f45f5fb",
+    "src/shared/Geometry2D.luau": "19ff6acedfdfb5bf752b8d2ebe6c2c3992d8af9b9dc16a851cac2d55273db003",
+    "src/shared/Protocol.luau": "ab5f9aede973dcab6f8a62c350938189cac1bf6b9f9f5c0ec76a0e8a21e7565b",
+    "src/shared/RoundRules.luau": "d97efc875c1660df21027f6d90a091984e9612d2333cca42f9cf9fc2e41ec98f",
+    "src/shared/SeededDraft.luau": "89884a1d5a81b78443c9820d8b1beaf23c32028788bbba86ad251b8d58d9b197",
+    "src/shared/TerritoryMath.luau": "f0f6785ceaf961d889aa2c765df4fc63dd7c9b8617c4ef71373574e8ee470c6c",
+    "src/shared/Types.luau": "6766b30564456d472dd7a8a06342076bc48fc4ff8f886892b269846633c0d52e",
+    "src/shared/ViewTypes.luau": "11de0ae6d763a29f44dbf15ece670ab47e635e49bf61e7909b0ffc6fea7b76c4"
+  }
+}

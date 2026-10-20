@@ -1,0 +1,537 @@
+[
+  {
+    "path": ".gitattributes",
+    "bytes": 420,
+    "sha256": "3bac414beef59af802d92656d23d9ed18829e7a2f7da12607622655e3f6b892d"
+  },
+  {
+    "path": "game/.luaurc",
+    "bytes": 26,
+    "sha256": "bbbb2612b3e201ed83ae8f3a4b715a2d057a38541046b0177628da06e543c230"
+  },
+  {
+    "path": "game/assets/art/atlas.json",
+    "bytes": 4425,
+    "sha256": "8c4344307eb4d6647fda9b802e7b3394e21c5c4de2cd702929543a67efd2c126"
+  },
+  {
+    "path": "game/assets/art/balls.png",
+    "bytes": 323070,
+    "sha256": "a62c3cb3bc7c08823f90a90a277866035a4b4f714f8f036dc634f9a33e4e7f7a"
+  },
+  {
+    "path": "game/assets/art/balls.svg",
+    "bytes": 10101,
+    "sha256": "e9742625e7d0b3474fd2d2d47e6e10dc60360be611dd5bb82e6a335517e4ecae"
+  },
+  {
+    "path": "game/assets/art/icons.png",
+    "bytes": 98652,
+    "sha256": "18bd1802e7920e8622b6c5db5ca1238e89ba7d2cce6570006ce1c409b4a2ca14"
+  },
+  {
+    "path": "game/assets/art/icons.svg",
+    "bytes": 12329,
+    "sha256": "6a0ac47fee1196458acd012d89cbe412d16eca9a354bcc561c967882c4ab473e"
+  },
+  {
+    "path": "game/assets/runtime/.gitkeep",
+    "bytes": 1,
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/build-preview.mjs",
+    "bytes": 1873,
+    "sha256": "fc78e747c45838051dba73e1db59ce56fea1bd4d9327cba45369f1380a54e919"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/design.json",
+    "bytes": 6018,
+    "sha256": "4942b6f97bdc843458b1d29b3fe2a8b30a3bc4e1d9ff742261d7ddda75b5b389"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/fonts/Montserrat-BlackItalic.ttf",
+    "bytes": 183924,
+    "sha256": "740f89065bf962f16db6948647671000282c70d9300c4ca6df02f02f1c0dc51d"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/fonts/Montserrat-OFL.txt",
+    "bytes": 4489,
+    "sha256": "eee254b497f6f108c27a692892ee62b8b8c2da29e6c7acc7a39a122e2176b468"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/fonts/Montserrat-Regular.ttf",
+    "bytes": 197976,
+    "sha256": "dcfe8df29e553fbd655212f94300cb1e704c6cd147fa7a98cb4bcd9eb92c6707"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/pilot.json",
+    "bytes": 3544,
+    "sha256": "6c0017f4866808e888d3da45985b6656bab02b999256a3ebcb89e67bb462e386"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/preview-data.json",
+    "bytes": 4087,
+    "sha256": "717df06dd2397854ad2b588482d24909e3c5869e4996790fc51980ed802d5e22"
+  },
+  {
+    "path": "game/assets/ui-concepts/action-v1/preview.template.html",
+    "bytes": 34991,
+    "sha256": "fa72d8fac887416d35a771395901005892fc003847a70530d35cbb54e6459c22"
+  },
+  {
+    "path": "game/assets/ui-concepts/research-reset/research.json",
+    "bytes": 5333,
+    "sha256": "f4680e1f6939369e1d6dc54992b1851da23dd4dcdd7ad6ec644a8c9a3d07ebcf"
+  },
+  {
+    "path": "game/assets/ui-concepts/research-reset/user-action-ui-reference.png",
+    "bytes": 3927498,
+    "sha256": "a7c914cc43cadde0948c1c05e318482539c03f0f911c7c21fbb92059e4353341"
+  },
+  {
+    "path": "game/default.project.json",
+    "bytes": 476,
+    "sha256": "bd4b01fce310bb46d02127ebecc0814ab038b87468ea84ba80bf518f559484ac"
+  },
+  {
+    "path": "game/selene.toml",
+    "bytes": 15,
+    "sha256": "6c2077e5f51817ac9df8cdfaabb3f7b59204e1b09b72259596cd213686945ae8"
+  },
+  {
+    "path": "game/src/client/Bootstrap.client.luau",
+    "bytes": 15248,
+    "sha256": "677cdc542ca7dbae5bcbc40a11e36f66814450a631630c696aa5b80bb4ba5b5d"
+  },
+  {
+    "path": "game/src/client/Controllers/AimController.luau",
+    "bytes": 1508,
+    "sha256": "6e6cc7a829469138ab9e0ee36691fe82c53fe97e841a4236e428c6c4f0a2e0c7"
+  },
+  {
+    "path": "game/src/client/Controllers/Artwork.luau",
+    "bytes": 2621,
+    "sha256": "c177c58991de3c4f9cd53482687d0bbc7d06ef550cbd0fdd4c03fa14f45b99a0"
+  },
+  {
+    "path": "game/src/client/Controllers/BallArt.luau",
+    "bytes": 10020,
+    "sha256": "f424e0bc2b1e4ecf06c6aa239571ec5eebb40c86efb2b9573f79aec172c0e33a"
+  },
+  {
+    "path": "game/src/client/Controllers/BallRenderer.luau",
+    "bytes": 7127,
+    "sha256": "4af7b34262240b9a0dfe5e04a4597f1bccdcf54c1a9f48192b204114a9ff4ce8"
+  },
+  {
+    "path": "game/src/client/Controllers/CameraController.luau",
+    "bytes": 1072,
+    "sha256": "9b431a8c0ce103d0be5ef04412772febb192f73b2e5b3e3ade3d5091928361d8"
+  },
+  {
+    "path": "game/src/client/Controllers/HudController.luau",
+    "bytes": 32684,
+    "sha256": "f30f6ed4c6686ec25a731a5f800d690be183e33dcfed4965032b8b0a77d15602"
+  },
+  {
+    "path": "game/src/client/Controllers/LobbyPanels.luau",
+    "bytes": 25241,
+    "sha256": "a06f5c6fc534850b15d1cd6031d571a08a5aabb0a04b7109c68279a4bd756718"
+  },
+  {
+    "path": "game/src/client/Controllers/MatchController.luau",
+    "bytes": 2359,
+    "sha256": "9d64fc3e26bfb9458fbf0080fa08b9add79a43dadaa2b4cd5717361426525181"
+  },
+  {
+    "path": "game/src/client/Controllers/ReferenceLayout.luau",
+    "bytes": 1133,
+    "sha256": "231b42982bc44bf6051adecd55b1639216b1760aa44caec98fd2949ac652562b"
+  },
+  {
+    "path": "game/src/client/Controllers/ReferenceUi.luau",
+    "bytes": 5331,
+    "sha256": "e84a1d54f9c5dfd6081e7779032dd1580179d3ddbee059cb1d285c6893c254a6"
+  },
+  {
+    "path": "game/src/client/Controllers/TerritoryRenderer.luau",
+    "bytes": 1485,
+    "sha256": "7cd5766bb048ed4a1ed2f52fc11e68345c01b0e92ce7c366e30c7dff0b6a86e8"
+  },
+  {
+    "path": "game/src/client/TestDriver.client.luau",
+    "bytes": 3640,
+    "sha256": "8dc85720bbaef0ae98e0a0f5a23674f97e180d616a0c3d5fda189e2483912184"
+  },
+  {
+    "path": "game/src/server/Abilities/Anchor.luau",
+    "bytes": 358,
+    "sha256": "1afdc8eaf767f049d0ad8762f1b0282bf2f84fd841aa562823e399da4c51b674"
+  },
+  {
+    "path": "game/src/server/Abilities/Drift.luau",
+    "bytes": 389,
+    "sha256": "837136263ac596aba3fa1f995d4e9284634bd0ff8f1b42faf7e2da75e4bf5afe"
+  },
+  {
+    "path": "game/src/server/Bootstrap.server.luau",
+    "bytes": 9687,
+    "sha256": "675546d1995a25d34c5a2a267f98aa90838314a7e760806bb11b176521a6713c"
+  },
+  {
+    "path": "game/src/server/Services/AbilityService.luau",
+    "bytes": 748,
+    "sha256": "ae971d874be40a31244445b8f918c0aea17573de9c78eaf9468aab06050453c1"
+  },
+  {
+    "path": "game/src/server/Services/AnalyticsService.luau",
+    "bytes": 400,
+    "sha256": "1e39d60307d8577c48b1896c20b4362621226320c414f2e6f36433f396755005"
+  },
+  {
+    "path": "game/src/server/Services/CommandHistory.luau",
+    "bytes": 859,
+    "sha256": "d674abc84b0a78be82c1e96af212d5fd5f0e363ffb8202af5089739d9682d8fa"
+  },
+  {
+    "path": "game/src/server/Services/CourtService.luau",
+    "bytes": 6099,
+    "sha256": "92199074382deda7f304c47798058e82a1624789e521b86c513e0248afa624ab"
+  },
+  {
+    "path": "game/src/server/Services/LobbyDetailService.luau",
+    "bytes": 9645,
+    "sha256": "e10c27796b29e74e9778cda0f33f9f7c9af39cd8000ca13ff476883b1ca2bea0"
+  },
+  {
+    "path": "game/src/server/Services/MatchService.luau",
+    "bytes": 11320,
+    "sha256": "0e810dcfb8515d8edbac64211b7e6a51ef1cd26e37fe1ac37647ea931d1a90b1"
+  },
+  {
+    "path": "game/src/server/Services/ProfileService.luau",
+    "bytes": 1086,
+    "sha256": "39e9b05aa3a451c1d37e15202926f8bce595e69f41110c034a03c058b3661458"
+  },
+  {
+    "path": "game/src/server/Services/QueueService.luau",
+    "bytes": 1225,
+    "sha256": "83c63b803b998db7fbd00a68c07b79fd44951a73698cc088d34797128129b6ae"
+  },
+  {
+    "path": "game/src/server/Services/ReplicationService.luau",
+    "bytes": 2132,
+    "sha256": "79af1204029fdb814356d9e7101db06220f3afb878d67d15abe772d7f01b582f"
+  },
+  {
+    "path": "game/src/server/Services/SimService.luau",
+    "bytes": 5789,
+    "sha256": "0304904c649f2009f8516bb026f90dc3afe35980690d1f9b3d32b9d242be63be"
+  },
+  {
+    "path": "game/src/server/Services/TerritoryService.luau",
+    "bytes": 2489,
+    "sha256": "5cd0e7d0ea89f7f8f9b0ba66799b4f144a4986208fe4dd3de4aa9e854e33285e"
+  },
+  {
+    "path": "game/src/server/Tests/Multiplayer.server.luau",
+    "bytes": 2964,
+    "sha256": "75c160e6773f9f69d8eb2dd1b521cbda3ef1442b4db4847d0ee6243922937b81"
+  },
+  {
+    "path": "game/src/server/Tests/Run.server.luau",
+    "bytes": 312,
+    "sha256": "9efc395e9f3ac491c0a32afea53a650c7ae081a1b7bb0bf2bfb616e58c21a597"
+  },
+  {
+    "path": "game/src/server/Tests/Suite.luau",
+    "bytes": 11945,
+    "sha256": "8cd74d2f5a4e88d47f275dd16bb9f804b17c927e5afe262dee75d63696c3e233"
+  },
+  {
+    "path": "game/src/shared/AppearanceCatalog.luau",
+    "bytes": 2599,
+    "sha256": "248d0f27d5063b71d8c4e8ea8949abe820fcf756bc08799b545662eb7292fd2d"
+  },
+  {
+    "path": "game/src/shared/ArenaDefinition.luau",
+    "bytes": 768,
+    "sha256": "22e0267487eb4daab57b6d3fc1f4f9346d295d3d859094198e3e769f496d37cb"
+  },
+  {
+    "path": "game/src/shared/BallCatalog.luau",
+    "bytes": 1008,
+    "sha256": "1fb9cc5e278310e3aa366abc9d0df9ce7a18f8dcc05e4791b8b2ea7a523bf27d"
+  },
+  {
+    "path": "game/src/shared/Config.luau",
+    "bytes": 663,
+    "sha256": "03e56ea974336eecc0b125be9fa16703b9e5760ac602c3234a4b739c4f45f5fb"
+  },
+  {
+    "path": "game/src/shared/Geometry2D.luau",
+    "bytes": 1682,
+    "sha256": "19ff6acedfdfb5bf752b8d2ebe6c2c3992d8af9b9dc16a851cac2d55273db003"
+  },
+  {
+    "path": "game/src/shared/Protocol.luau",
+    "bytes": 5722,
+    "sha256": "ab5f9aede973dcab6f8a62c350938189cac1bf6b9f9f5c0ec76a0e8a21e7565b"
+  },
+  {
+    "path": "game/src/shared/RoundRules.luau",
+    "bytes": 790,
+    "sha256": "d97efc875c1660df21027f6d90a091984e9612d2333cca42f9cf9fc2e41ec98f"
+  },
+  {
+    "path": "game/src/shared/SeededDraft.luau",
+    "bytes": 733,
+    "sha256": "89884a1d5a81b78443c9820d8b1beaf23c32028788bbba86ad251b8d58d9b197"
+  },
+  {
+    "path": "game/src/shared/TerritoryMath.luau",
+    "bytes": 705,
+    "sha256": "f0f6785ceaf961d889aa2c765df4fc63dd7c9b8617c4ef71373574e8ee470c6c"
+  },
+  {
+    "path": "game/src/shared/Types.luau",
+    "bytes": 906,
+    "sha256": "6766b30564456d472dd7a8a06342076bc48fc4ff8f886892b269846633c0d52e"
+  },
+  {
+    "path": "game/src/shared/ViewTypes.luau",
+    "bytes": 652,
+    "sha256": "11de0ae6d763a29f44dbf15ece670ab47e635e49bf61e7909b0ffc6fea7b76c4"
+  },
+  {
+    "path": "game/stylua.toml",
+    "bytes": 101,
+    "sha256": "6d445f4d88126a16ec6a5c5b75777008f92b7bc9c826f6d2d1531a58339fd316"
+  },
+  {
+    "path": "game/tools/art/build.mjs",
+    "bytes": 10505,
+    "sha256": "4e81aad7f9f3fa703c2c2da0065f16faafb0612c57fdd6d828a1e7dea1678f47"
+  },
+  {
+    "path": "game/tools/art/package-lock.json",
+    "bytes": 7409,
+    "sha256": "894cfe5f5c7da4061b242e448e3c9a9c32414c5869bb5e74c13cadadf4725c70"
+  },
+  {
+    "path": "game/tools/art/package.json",
+    "bytes": 167,
+    "sha256": "3341d7890a8cf74c9248cc307234219623fbca010bc3d05683faaf94f34a0c03"
+  },
+  {
+    "path": "game/tools/art/serve.mjs",
+    "bytes": 498,
+    "sha256": "29803e0362adff0effe850564e14a3d76f0a13209252356b3b989d81886092b4"
+  },
+  {
+    "path": "game/tools/audit-repository.mjs",
+    "bytes": 1905,
+    "sha256": "92d112c56e08196e4b66ff9df6adb96f276900ccc998a7cce6444cfd4cad036f"
+  },
+  {
+    "path": "game/tools/build-presentation-comparison.mjs",
+    "bytes": 5386,
+    "sha256": "e07c5567d671e35d06228a9465424114242f365dbc25a153e33a8ab49c218384"
+  },
+  {
+    "path": "game/tools/build-ui-handoff.mjs",
+    "bytes": 9623,
+    "sha256": "f81b57f92d1e99b25b13e00183e75698d9fd1df31c15f2f1fb0d3ae6284e3601"
+  },
+  {
+    "path": "game/tools/ci/github-with-gcm.ps1",
+    "bytes": 1273,
+    "sha256": "e6cbb90e475d1d0b9ea975f2973aa746ae727b9f84d2d2ee5eca3cc1baa56af2"
+  },
+  {
+    "path": "game/tools/ci/install-rokit-ci.ps1",
+    "bytes": 1117,
+    "sha256": "b0611fee03bd10890ce57f93b2e7ebe419e73fe19f3152f7a11afebb935062b4"
+  },
+  {
+    "path": "game/tools/lib/documents.mjs",
+    "bytes": 1404,
+    "sha256": "2814c275bb0223a0924a807e56402830cd081a3180c832f5afd5e0ef67746d2d"
+  },
+  {
+    "path": "game/tools/lib/project.mjs",
+    "bytes": 2184,
+    "sha256": "d3e306dffc6c681d00c9525426c5796b4b4f4d4207844b5dc7af3b8e56aaf4ec"
+  },
+  {
+    "path": "game/tools/qa/devices/desktop.luau",
+    "bytes": 631,
+    "sha256": "facaee9b5356f89338910bfee72cb64d551a4e311f6aa89f28490dae1fac18f7"
+  },
+  {
+    "path": "game/tools/qa/devices/landscape.luau",
+    "bytes": 248,
+    "sha256": "64547ad68795db235e2434ee6c2466ce474789732480ae164d86116e18d2d324"
+  },
+  {
+    "path": "game/tools/qa/devices/phone.luau",
+    "bytes": 571,
+    "sha256": "69a1931ff817942542b64f4fd54284dfbb47c952bf4edc244948557ea82fd74d"
+  },
+  {
+    "path": "game/tools/qa/devices/reference.luau",
+    "bytes": 432,
+    "sha256": "152ed8eafb95cdf9fe8901060951172101d18798dc34e55e4cf150674cfb0444"
+  },
+  {
+    "path": "game/tools/qa/devices/reset.luau",
+    "bytes": 210,
+    "sha256": "f1d76ae072c747e9c1c05dd210143df6e21c5b4a6927bebe8a3f019c3c20cb4d"
+  },
+  {
+    "path": "game/tools/qa/fixtures/client-regressions.luau",
+    "bytes": 2704,
+    "sha256": "74801109c540e21aa6e0dfdadd0fe2299da5a9e5ad9d5afe7d250a1ea5f90b4e"
+  },
+  {
+    "path": "game/tools/qa/fixtures/equipped-draft.luau",
+    "bytes": 427,
+    "sha256": "36adecfb8705b746cb6f4a0afa2fb999acc7717bda7673aa1131b029544628e1"
+  },
+  {
+    "path": "game/tools/qa/fixtures/logic.luau",
+    "bytes": 196,
+    "sha256": "8eb5f53b9c0010698fe5b835ebdca02eaa0ba2c7ee51e7f120a97cd42e5e94e8"
+  },
+  {
+    "path": "game/tools/qa/fixtures/microprofiler.luau",
+    "bytes": 1484,
+    "sha256": "48108fd4c1a4d701bc0c9c32b25e438ba9d8598c5b4dd0326305edf7ea1dc42a"
+  },
+  {
+    "path": "game/tools/qa/fixtures/mirrored-result.luau",
+    "bytes": 224,
+    "sha256": "a965a875a737051e7debd13f2da10ac555b56889ef35b2f3dd777aa5c57b36ac"
+  },
+  {
+    "path": "game/tools/qa/fixtures/mirrored.luau",
+    "bytes": 2195,
+    "sha256": "ad3324209e259f9f81aed8376dd7526cfb297a3b9d94eba174139afecb98f3e8"
+  },
+  {
+    "path": "game/tools/qa/fixtures/multiplayer-result.luau",
+    "bytes": 162,
+    "sha256": "83d499067d8fbe2278dce5fabe79d24ed5401bfb43a1967d06d523cf301d438f"
+  },
+  {
+    "path": "game/tools/qa/fixtures/multiplayer-smoke.luau",
+    "bytes": 708,
+    "sha256": "95a26a90d5423304c1a6a53f4e4f1e8bee31cc80d009e3cfb8c2fe7a0e22d331"
+  },
+  {
+    "path": "game/tools/qa/fixtures/multiplayer.luau",
+    "bytes": 580,
+    "sha256": "058230968c01db7212a03da2c6c695242e2a2a5efb9bd1a6f4e20e4e538efcec"
+  },
+  {
+    "path": "game/tools/qa/fixtures/presentation-contracts.luau",
+    "bytes": 1910,
+    "sha256": "ac9d3c6c9ae452326edb35139dd2f5eea9a73c961cc0cd32521874b8c166fdd0"
+  },
+  {
+    "path": "game/tools/qa/fixtures/render-benchmark.luau",
+    "bytes": 1584,
+    "sha256": "c5c6fc59cdc12380cdd7eb991a962e58b076359002f31458c25ef1f649f5ff88"
+  },
+  {
+    "path": "game/tools/qa/fixtures/scene.luau",
+    "bytes": 945,
+    "sha256": "14dc7ccacdbbf507eb8dd79f3669bc45487f65cdd6a4404bdce7f01fe6b86248"
+  },
+  {
+    "path": "game/tools/qa/lobby.mjs",
+    "bytes": 2940,
+    "sha256": "effd819491bfced7b4176303202cdfaa8d3eada0205bba317aa1eb5a2eb2c6e9"
+  },
+  {
+    "path": "game/tools/qa/mirrored.mjs",
+    "bytes": 881,
+    "sha256": "9ab48d6de1f541ea120cf3c3d0a4c022d2e85055bd000e1fcb9a8ca134ce9f89"
+  },
+  {
+    "path": "game/tools/qa/ui-flow.mjs",
+    "bytes": 6197,
+    "sha256": "fcecbf9ff7ee7eae83e3d41d003ef82ca0fe93ce32af1c5d973bc0cc39e72768"
+  },
+  {
+    "path": "game/tools/qa/ui-layout.mjs",
+    "bytes": 5380,
+    "sha256": "61744f52755a079e8dc27fdb9998ed6c0829e5c189d7bb438838c4bfdd084db3"
+  },
+  {
+    "path": "game/tools/README.md",
+    "bytes": 1413,
+    "sha256": "882461814642c2f79e4fcbc28e7d436d4ca07f511a6dd334c414b1f4bca1d322"
+  },
+  {
+    "path": "game/tools/studio/call-studio.ps1",
+    "bytes": 728,
+    "sha256": "e0193a7d8b4cffd409cc8871b5a64ddc6132728265f375652fc5b77b229204f3"
+  },
+  {
+    "path": "game/tools/studio/client.mjs",
+    "bytes": 1657,
+    "sha256": "d564bc0055c2f2e25a2a4ad0c54c6e0d303503fe70ce8170eb557c4c86720851"
+  },
+  {
+    "path": "game/tools/studio/focus-studio-client.ps1",
+    "bytes": 744,
+    "sha256": "7bf33e1c3aa8c6ba510fa4dd8960504dcd7b62a0532e2a7ef2327e489d0aea60"
+  },
+  {
+    "path": "game/tools/studio/request-list.json",
+    "bytes": 46,
+    "sha256": "196d0c0c6a8a29f6242dc09d4043079eadd6ee79230a4cfa4fbd0d302b7fe341"
+  },
+  {
+    "path": "game/tools/studio/studio-mcp.mjs",
+    "bytes": 3183,
+    "sha256": "17f1b3ba7fa323c7804cef2349f945731f481b91f81c42a37ae93f12ef51f62d"
+  },
+  {
+    "path": "game/tools/studio/sync-studio.mjs",
+    "bytes": 1561,
+    "sha256": "62ca06c471b5d4e70864de283dff6659486d3ece4d20d2d31ff269a3ac22e64b"
+  },
+  {
+    "path": "game/tools/studio/verify-studio.mjs",
+    "bytes": 839,
+    "sha256": "e594eee64b8dc47d4999e59b644c6555efba072f2d9488e2071a71d8b70308c4"
+  },
+  {
+    "path": "game/tools/tests/tooling.test.mjs",
+    "bytes": 1649,
+    "sha256": "09df6d02c8c68d1edbb2e0f19fa46cb46c92b7f6b6e57a84d0aa74125438a2b0"
+  },
+  {
+    "path": "game/tools/types/roblox-types-LICENSE.txt",
+    "bytes": 1070,
+    "sha256": "5bf374ce7ab54c8d75f14e21f04932cae10708189afaec95321aed1a47701935"
+  },
+  {
+    "path": "game/tools/types/roblox-types.d.luau",
+    "bytes": 868857,
+    "sha256": "f2c5ca08f17a08e9ec43ee998f0ed2825b00b4adea83ece4775b21719e280765"
+  },
+  {
+    "path": "game/tools/verify.ps1",
+    "bytes": 1298,
+    "sha256": "753b5dcace0bf91553011c3b2c381aa99f2112510cef327ca179c579b1fe965f"
+  },
+  {
+    "path": "rokit.toml",
+    "bytes": 155,
+    "sha256": "031be6e1c082bfb6f59b373669faa03d3cc18441edbcbdd961393ab10a3a5200"
+  }
+]

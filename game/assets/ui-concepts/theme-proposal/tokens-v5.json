@@ -1,0 +1,231 @@
+{
+  "version": 5,
+  "date": "2026-10-18",
+  "status": "User-selected visual direction; requested yellow and gray stud refinement applied. Complete screen and native acceptance remain pending.",
+  "direction": "Royal purple structure, soft yellow headers and selection outlines, dimensional grey stud surfaces, native Roblox display and body fonts",
+  "palette": {
+    "purple": "#6225D1",
+    "header": "#FDEA8D",
+    "card": "#A3A2A5",
+    "cardLight": "#E5E4DF",
+    "cardDark": "#635F62",
+    "close": "#C4281C",
+    "primaryAction": "#008F9C",
+    "text": "#F2F3F3",
+    "outline": "#1B2A35",
+    "selection": "#FDEA8D"
+  },
+  "roles": {
+    "purple": "Studded frame and structural backplates",
+    "header": "Soft yellow (Cool yellow BrickColor) is the user-selected default for title bars and active category",
+    "card": "Grey stud surfaces across ball cards, item label bands, selected-ball details, inactive category buttons and other grey panels",
+    "close": "Bright red reserved for close/error controls, not broad branding surfaces",
+    "primaryAction": "Bright bluish green Equip button",
+    "text": "White outlined display text; Black body text on Light stone grey copy panels",
+    "selection": "Match the soft-yellow header for selected card and detail outlines, active-tab border, checkmark backing and selected badge"
+  },
+  "typography": {
+    "display": {
+      "family": "Fredoka One",
+      "robloxEnum": "FredokaOne",
+      "file": "fonts/FredokaOne-Regular.ttf",
+      "weight": 400,
+      "style": "Normal; genuine heavy display face, no synthetic bold, no wide tracking or italics",
+      "sizes": {
+        "windowTitle": 34,
+        "selectedBall": 25,
+        "button": 23,
+        "cardLabel": 16
+      },
+      "outline": "2px dark outside stroke on large text; 1.5px on card labels; crisp 2px downward shadow"
+    },
+    "interface": {
+      "family": "Source Sans Pro",
+      "robloxEnum": "SourceSansSemibold",
+      "file": "fonts/SourceSansPro-Semibold.ttf",
+      "weight": 600,
+      "sizes": {
+        "body": 15,
+        "status": 14,
+        "annotation": 12
+      },
+      "outline": "No outline on small copy; place it on a solid recessed surface"
+    }
+  },
+  "fontVerification": {
+    "source": "https://create.roblox.com/docs/reference/engine/enums/Font",
+    "date": "2026-10-18",
+    "method": "Read installed Roblox content/fonts/families JSON, inspected font name tables and embedded those exact local TrueType files; no external font dependency in preview",
+    "localFamilySources": [
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/FredokaOne.json",
+      "C:/Users/nsidi/AppData/Local/Roblox/Versions/version-4f087c32742644ab/content/fonts/families/SourceSansPro.json"
+    ],
+    "files": [
+      {
+        "file": "fonts/FredokaOne-Regular.ttf",
+        "bytes": 42452,
+        "sha256": "08a0193637baffaa1d9926085fe2a2716c1ce06136b74a9627e61663649c0f37"
+      },
+      {
+        "file": "fonts/SourceSansPro-Semibold.ttf",
+        "bytes": 268280,
+        "sha256": "3ba5c382a7ee6a8831bdf90192addceabe6db4278a679e67fe7e9c0226b729cf"
+      }
+    ],
+    "license": "fonts/LICENSE.txt"
+  },
+  "treatments": [
+    "Keep the accepted raised square stud treatment on purple structure and title bars",
+    "Extend matching gray stud relief to every gray surface: tiles, name strips, detail panel, description well, inactive category buttons and Fusion panel",
+    "Keep sphere and icon artwork unchanged above the surface texture",
+    "Use half-strength gray relief beneath small description/body copy for legibility",
+    "Match selected card, selected detail and active category outlines to the soft-yellow header; retain the checkmark and selected label",
+    "Keep current crisp borders, bevels, exact fonts, layout and category behavior"
+  ],
+  "scope": "Visual direction proposal only; no runtime source edits, new gameplay or benchmark implementation",
+  "gameplay": "Keep existing cyan/coral team identities and territory meaning; do not recolor gameplay by cosmetic palette.",
+  "pending": [
+    "Complete Inventory and Store mockups, including all appearances and phone layouts",
+    "Verify the refined gray texture and yellow selection styling at native Roblox sizes",
+    "Frozen benchmark target and acceptance scope"
+  ],
+  "preview": "Updated contained Inventory style sample with soft-yellow default, gray stud material and matching selected outlines. Category switching, selection/equip, close/reopen and responsive layout preserved.",
+  "browserQA": "Static markup, source, selector and JavaScript syntax checks only; exact fonts embedded. No rendered browser QA claimed.",
+  "contrastMethod": "Calculated solid sRGB foreground/background pairs only. Gradients, raised highlights and outlines also affect rendered appearance; native Studio and phone visual approval remains pending.",
+  "contrastRatios": {
+    "bodyOnLightGrey": 11.54,
+    "labelOnDarkGrey": 5.65,
+    "paperAgainstOutline": 13.22,
+    "inkOnSelection": 12.13
+  },
+  "previousVersion": "tokens-v4.json",
+  "brickColorReference": {
+    "source": "https://create.roblox.com/docs/reference/engine/datatypes/BrickColor",
+    "date": "2026-10-18",
+    "colors": {
+      "purple": {
+        "name": "Royal purple",
+        "number": 1031,
+        "rgb": [
+          98,
+          37,
+          209
+        ]
+      },
+      "header": {
+        "name": "Cool yellow",
+        "number": 226,
+        "rgb": [
+          253,
+          234,
+          141
+        ]
+      },
+      "card": {
+        "name": "Medium stone grey",
+        "number": 194,
+        "rgb": [
+          163,
+          162,
+          165
+        ]
+      },
+      "cardLight": {
+        "name": "Light stone grey",
+        "number": 208,
+        "rgb": [
+          229,
+          228,
+          223
+        ]
+      },
+      "cardDark": {
+        "name": "Dark stone grey",
+        "number": 199,
+        "rgb": [
+          99,
+          95,
+          98
+        ]
+      },
+      "close": {
+        "name": "Bright red",
+        "number": 21,
+        "rgb": [
+          196,
+          40,
+          28
+        ]
+      },
+      "primaryAction": {
+        "name": "Bright bluish green",
+        "number": 107,
+        "rgb": [
+          0,
+          143,
+          156
+        ]
+      },
+      "text": {
+        "name": "White",
+        "number": 1,
+        "rgb": [
+          242,
+          243,
+          243
+        ]
+      },
+      "outline": {
+        "name": "Black",
+        "number": 26,
+        "rgb": [
+          27,
+          42,
+          53
+        ]
+      },
+      "selection": {
+        "name": "Cool yellow",
+        "number": 226,
+        "rgb": [
+          253,
+          234,
+          141
+        ]
+      }
+    },
+    "note": "Base colors are exact BrickColor RGB values; bevel lighting and shadow tints are derived."
+  },
+  "headerAlternatives": [
+    {
+      "label": "Soft yellow",
+      "name": "Cool yellow",
+      "number": 226,
+      "hex": "#FDEA8D"
+    },
+    {
+      "label": "Cyan",
+      "name": "Cyan",
+      "number": 1013,
+      "hex": "#04AFEC"
+    },
+    {
+      "label": "Warm pink",
+      "name": "Pastel orange",
+      "number": 1025,
+      "hex": "#FFC9C9"
+    }
+  ],
+  "navigation": {
+    "userConfirmed": "Category tab inside Inventory; follow the in-game structure",
+    "source": "game/src/client/Controllers/LobbyPanels.luau",
+    "categories": [
+      "Balls",
+      "Explosions",
+      "Flyers",
+      "Fusion"
+    ],
+    "balls": "Selecting a ball updates the adjacent detail panel and Equip action; stack detail under the grid on narrow screens",
+    "otherCategories": "Use existing canonical icons and source copy for cosmetic previews and Fusion availability; no purchase, unlock or gameplay behavior added"
+  }
+}

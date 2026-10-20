@@ -1,8 +1,10 @@
 # Ball VS Space
 
-A Roblox territory battler: choose a ball, aim, then compete for space as the server simulates the round. **Current build: 0.3 presentation, 1v1 and solo Practice.** Twelve appearances share two ability kits. Human visual acceptance, physical-device testing, 2v2 and durable progression remain open.
+A Roblox territory battler: choose a ball, aim, then compete for space as the server simulates the round. **Current build: action-v1 UI, 1v1 and solo Practice.** Twelve appearances share two ability kits. Human visual acceptance, physical-device testing, 2v2 and durable progression remain open.
 
-![Current territory battle](game/test-evidence/screenshots/review-final-64-battle-1-0.jpg)
+![Current Inventory](game/test-evidence/screenshots/review20-ready-02-compact-inventory-0.jpg)
+
+**Play the saved game:** download [BallVsSpace.rbxl](game/places/BallVsSpace.rbxl), open it in Roblox Studio, press **Play / F5**, then **Practice**. This compact primary place includes the current scripts and game setup. Menus and the world are created during Play. Every verification build refreshes this file; CI rejects a saved place that differs from the source build.
 
 ## Find what you need
 
@@ -36,6 +38,7 @@ game/
   docs/            Architecture, testing, backlog, history and UI guide
   tools/           Build/export commands; studio/, qa/, art/, ci/, lib/, types/
   test-evidence/   Selected screenshots/results; earlier runs in one indexed archive
+  places/         One current, ready-to-open binary place saved in Git
   builds/          Generated places (ignored)
   exports/         Generated UI folder/ZIP (ignored)
 Ball_VS_Space_Evidence/   Untouched original research and references

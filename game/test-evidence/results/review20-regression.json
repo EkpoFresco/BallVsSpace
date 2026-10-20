@@ -1,0 +1,67 @@
+{
+  "help": {
+    "textFits": true,
+    "centered": true,
+    "nativeMovementHidden": true
+  },
+  "client": {
+    "fontRoundTrip": true,
+    "descendantsBefore": 722,
+    "uiCycles": 100,
+    "modalTweenCancellation": true,
+    "startupInterpolation": true,
+    "sameTickVelocity": true,
+    "staleMotion": true,
+    "toastRace": true,
+    "scope": "Isolated module fixture; not 100 character resets or physical-device input",
+    "descendantsAfter": 722
+  },
+  "renderer": {
+    "batches": 20,
+    "p95BatchMs": 0.24696299980860204,
+    "method": "Same two-ball loaded-atlas renderer, 20 batches of 100 calls; not a device FPS claim",
+    "iterations": 2000,
+    "medianMs": 0.18480699975043535,
+    "viewportParts": 2,
+    "partsAfterRender": 2,
+    "meanMs": 0.18801319992053322
+  },
+  "logic": {
+    "seconds": 0.8977598000201397,
+    "passed": 13,
+    "tests": {
+      "1": "all cell centers, bounds, mirrored spawn stamp",
+      "2": "126 influence cases and four-step reinforced capture",
+      "3": "maximum pressure, shape order and random full recounts",
+      "4": "capsule endpoints, tangent, sweep and empty range",
+      "5": "head-on, glancing, corner, triple, overlapping and bounced paths",
+      "6": "stable, matched, unique three-card drafts",
+      "7": "regulation cutoff, overtime reset, final-boundary hold, cap draw",
+      "8": "protocol atomicity, invalid buffers, stale delta, finite boundary",
+      "9": "motion seat identity and bounded acknowledgement replay",
+      "10": "incremental grid decode matches full recount and rejects corrupt changes atomically",
+      "11": "wildcard timeout restores appearance and rematch confirmation is authoritative",
+      "12": "state deadlines, early floors, late input, and post-result freeze",
+      "13": "disconnect cancellation, grace, simultaneous abort, fake reward dedup"
+    }
+  },
+  "presentation": {
+    "innerCourtPixels": 446,
+    "draftPrivacy": true,
+    "appearanceValidation": true,
+    "motionVersion": "bvs-motion-2",
+    "bodyDiameterPixels": 82.23125,
+    "passed": 8,
+    "spawnX": 268.59375
+  },
+  "multiplayer": {
+    "players": 2,
+    "comparisons": 6,
+    "mismatches": 0,
+    "visualFailures": 0,
+    "matches": 1,
+    "visualComparisons": 6,
+    "aborted": 0
+  },
+  "runId": "aaded5bd-799d-45c9-bc7a-e1bd69aa2b3d"
+}

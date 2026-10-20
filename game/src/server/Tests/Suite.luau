@@ -9,6 +9,7 @@ local Protocol = require(Shared.Protocol)
 local Rules = require(Shared.RoundRules)
 local Types = require(Shared.Types)
 local Match = require(script.Parent.Parent.Services.MatchService)
+local Replication = require(script.Parent.Parent.Services.ReplicationService)
 local Profile = require(script.Parent.Parent.Services.ProfileService)
 local Sim = require(script.Parent.Parent.Services.SimService)
 local Territory = require(script.Parent.Parent.Services.TerritoryService)
@@ -248,6 +249,90 @@ function Suite.run(): { string }
 			#history.ids == 64 and History.lookup(history, 1) == nil and last and last.accepted,
 			"Bounded replay cache"
 		)
+	end)
+	check("incremental grid decode matches full recount and rejects corrupt changes atomically", function()
+		local authoritative, decoded = Territory.new(), Territory.new()
+		local random = Random.new(20102026)
+		for step = 1, 300 do
+			local base = authoritative.version
+			local changes = {}
+			for i = 1, 12 do
+				local index = (step * 17 + i * 83) % 1024
+				local value = random:NextInteger(-3, 3)
+				buffer.writei8(authoritative.q, index, value)
+				table.insert(changes, { index = index, q = value })
+			end
+			authoritative.counts = Math.count(authoritative.q)
+			authoritative.version += 1
+			local payload = Protocol.territory(authoritative, changes, base, step * 6, step % 20 == 0)
+			local nextBoard = Protocol.decodeTerritory(payload, decoded)
+			assert(
+				nextBoard and buffer.tostring(nextBoard.q) == buffer.tostring(authoritative.q),
+				"Full/delta board equivalence"
+			)
+			assert(
+				nextBoard.counts[0] == authoritative.counts[0]
+					and nextBoard.counts[1] == authoritative.counts[1]
+					and nextBoard.counts[2] == authoritative.counts[2],
+				"Incremental counts"
+			)
+			local oldHash = Math.hash(decoded.q)
+			buffer.writeu16(payload, 13, 1025)
+			assert(
+				Protocol.decodeTerritory(payload, decoded) == nil and Math.hash(decoded.q) == oldHash,
+				"Bad totals cannot mutate base"
+			)
+			decoded = nextBoard
+			if step % 50 == 0 then
+				task.wait()
+			end
+		end
+		local bad = Protocol.territory(authoritative, {}, 0, 1800, true)
+		buffer.writei8(bad, 200, 4)
+		assert(Protocol.decodeTerritory(bad, decoded) == nil, "Full invalid influence")
+		bad = Protocol.territory(
+			authoritative,
+			{ { index = 0, q = 1 }, { index = 0, q = -1 } },
+			decoded.version,
+			1800,
+			false
+		)
+		assert(Protocol.decodeTerritory(bad, decoded) == nil, "Duplicate delta cell")
+	end)
+	check("wildcard timeout restores appearance and rematch confirmation is authoritative", function()
+		local m = Match.new("review", { 1, 2 }, 1, 0, false)
+		Match.beginRound(m, 0)
+		m.seats[1].offer = { "Drift" }
+		assert(
+			Match.command(m, 1, {
+				id = 1,
+				kind = "Select",
+				matchId = m.id,
+				roundId = m.roundId,
+				generation = m.generation,
+				kitId = "Anchor",
+				appearance = "Axe",
+				wildcard = true,
+			}, 1),
+			"Tentative wildcard"
+		)
+		Match.update(m, m.deadline, 0, true)
+		assert(
+			m.seats[1].kitId == "Drift" and m.seats[1].appearance == "Acid" and not m.seats[1].wildcardUsed,
+			"Timeout restores default appearance with kit"
+		)
+		Match.finish(m, 1, "match_points", 30)
+		local version = m.stateVersion
+		local c = { id = 2, kind = "Rematch", matchId = m.id, roundId = m.roundId, generation = m.generation }
+		assert(Match.command(m, 1, c, 31), "Rematch accepted")
+		assert(
+			m.stateVersion == version + 1
+				and Replication.stateFor(m, 1).rematchRequested
+				and not Replication.stateFor(m, 2).rematchRequested,
+			"Confirmation is private and replicated"
+		)
+		assert(Match.command(m, 1, c, 32) and m.stateVersion == version + 1, "Rematch is idempotent")
+		assert(not Match.command(m, 2, c, m.deadline) and not m.rematch[2], "Expired rematch rejected")
 	end)
 	check("state deadlines, early floors, late input, and post-result freeze", function()
 		local m = Match.new("state", { 1, 2 }, 1, 0, false)

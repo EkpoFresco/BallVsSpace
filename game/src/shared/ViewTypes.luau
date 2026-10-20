@@ -32,6 +32,7 @@ export type State = {
 	hold: number,
 	holdLeader: number,
 	persistence: string,
+	rematchRequested: boolean?,
 }
 local ViewTypes = {}
 return table.freeze(ViewTypes)

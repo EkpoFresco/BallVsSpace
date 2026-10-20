@@ -1,0 +1,99 @@
+{
+  "page": {
+    "id": "25:104",
+    "name": "02 — Action theme · Full game"
+  },
+  "screens": [
+    {
+      "id": "25:112",
+      "name": "Lobby · Action theme",
+      "width": 803,
+      "height": 602
+    },
+    {
+      "id": "25:159",
+      "name": "Draft · Choose your ball",
+      "width": 803,
+      "height": 602
+    },
+    {
+      "id": "25:191",
+      "name": "Match HUD · Aim and territory",
+      "width": 803,
+      "height": 602
+    },
+    {
+      "id": "25:237",
+      "name": "Results · Victory, defeat and draw",
+      "width": 803,
+      "height": 602
+    },
+    {
+      "id": "25:254",
+      "name": "All Balls · Draft picker",
+      "width": 803,
+      "height": 602
+    },
+    {
+      "id": "25:317",
+      "name": "View settings",
+      "width": 500,
+      "height": 300
+    },
+    {
+      "id": "25:333",
+      "name": "Rewards",
+      "width": 420,
+      "height": 340
+    },
+    {
+      "id": "25:350",
+      "name": "Play",
+      "width": 460,
+      "height": 326
+    },
+    {
+      "id": "25:373",
+      "name": "How to play",
+      "width": 500,
+      "height": 370
+    },
+    {
+      "id": "25:396",
+      "name": "Trade",
+      "width": 460,
+      "height": 340
+    },
+    {
+      "id": "25:410",
+      "name": "Emotes",
+      "width": 440,
+      "height": 306
+    },
+    {
+      "id": "25:440",
+      "name": "Invite friends",
+      "width": 500,
+      "height": 270
+    }
+  ],
+  "types": {
+    "COMPONENT": 16,
+    "FRAME": 173,
+    "TEXT": 120,
+    "RECTANGLE": 62,
+    "INSTANCE": 46
+  },
+  "fonts": [
+    "Montserrat Black Italic",
+    "Montserrat Regular"
+  ],
+  "collections": [
+    {
+      "id": "VariableCollectionId:8:2",
+      "name": "BVS · action-v1",
+      "count": 20
+    }
+  ],
+  "editable": true
+}

@@ -13,7 +13,7 @@ rokit install
 pwsh -File game/tools/verify.ps1
 ```
 
-Open `game/builds/BallVsSpace.rbxl`. Play → Practice runs a solo match. Test → Server & Clients → 2 clients, then Play in both, runs 1v1. Successful GitHub Actions runs also attach place builds. CI does not run Studio multiplayer or human tests.
+Open the committed `game/places/BallVsSpace.rbxl`, or `game/builds/BallVsSpace.rbxl` after building. Play → Practice runs a solo match. Test → Server & Clients → 2 clients, then Play in both, runs 1v1. Successful GitHub Actions runs also attach place builds. CI does not run Studio multiplayer or human tests.
 
 ## Edit the canonical project
 
@@ -52,4 +52,4 @@ Inspect the returned schema, list and place identity before using an ID. Source 
 
 Preserve the signed 32×32 grid, maximum team pressure, team-union scoring, exact cutoffs and overtime/draw rules unless the owner revises the design. The server owns game state. UI must distinguish implemented systems from previews, and territory from reference HP/lives.
 
-Do not commit generated places, exports, credentials or personal Studio settings. Original research stays untouched. GitHub access and Roblox Team Create are separate; the pending invitation recorded in history is not proof of accepted access. Publication, economy and Team Create configuration require their own instructions.
+Keep one current binary place at `game/places/BallVsSpace.rbxl` in the same commit as its source. `verify.ps1` refreshes it, and CI checks it matches a clean build. Other generated builds, XML copies, exports, credentials and personal Studio settings remain ignored. Original research stays untouched. GitHub access and Roblox Team Create are separate; the pending invitation recorded in history is not proof of accepted access. Publication, economy and Team Create configuration require their own instructions.

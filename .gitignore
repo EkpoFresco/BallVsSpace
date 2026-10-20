@@ -9,6 +9,7 @@ Thumbs.db
 node_modules/
 game/builds/
 game/exports/
+game/pilots/
 game/sourcemap.json
 # Keep only selected evidence; exploratory runs remain local.
 game/test-evidence/*

@@ -1,0 +1,143 @@
+{
+  "title": "Ball VS Space — angular action menus",
+  "date": "2026-10-18",
+  "status": "User-approved visual direction; shared target for implementation pilot",
+  "scope": "Inventory, Store and their category views. Native GUI implementation and A/B/C execution remain pending.",
+  "approval": {
+    "date": "2026-10-18",
+    "userMessage": "yurrr. apply to all in prog pages or if we are good, lmk the next step",
+    "meaning": "Approval of the action-v1 visual direction across the current Inventory/Store preview set. This does not establish rendered phone or native-runtime acceptance.",
+    "sharedTarget": "pilot.json",
+    "coverage": [
+      "Inventory: Balls grid, selected details, equipped state",
+      "Inventory: Explosions, Flyers and Fusion preview/availability pages",
+      "Store: Events and Balls offers plus collection spotlight",
+      "Store: Explosions and Flyers routes to matching Inventory categories",
+      "Shared headers, category navigation, primary actions, close/reopen"
+    ]
+  },
+  "supersedes": "All earlier stud and theme-proposal concepts are historical, not active targets.",
+  "primaryReference": "../research-reset/user-action-ui-reference.png",
+  "research": "../research-reset/research.json",
+  "preview": {
+    "path": "C:/Users/nsidi/.codex/visualizations/2026/10/18/01a150bc-2fe5-7203-b0c9-e75daef4b949/bvs-action-menus.html",
+    "bytes": 998516,
+    "sha256": "bde435a80d1cc6f70a9367fdb597709593da754d35bbfc7397f73261479da54c",
+    "rebuild": "node game/assets/ui-concepts/action-v1/build-preview.mjs <absolute-output-path.html>",
+    "source": "preview.template.html",
+    "data": "preview-data.json"
+  },
+  "palette": {
+    "ink": "#100d14",
+    "surface": "#211c25",
+    "cards": "#302b34",
+    "paper": "#ede6dd",
+    "text": "#fff9f4",
+    "secondary": "#c4bbc5",
+    "header": [
+      "#b80b51",
+      "#f02a5b",
+      "#ce1256"
+    ],
+    "selectionAndActions": "#8eefe5",
+    "close": "#ef273f"
+  },
+  "typography": {
+    "display": {
+      "family": "Montserrat Black Italic",
+      "weight": 900,
+      "style": "italic",
+      "file": "fonts/Montserrat-BlackItalic.ttf",
+      "source": "Google Fonts CSS API https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap",
+      "sha256": "740f89065bf962f16db6948647671000282c70d9300c4ca6df02f02f1c0dc51d"
+    },
+    "body": {
+      "family": "Montserrat Regular",
+      "weight": 400,
+      "style": "normal",
+      "file": "fonts/Montserrat-Regular.ttf",
+      "source": "Audited installed Roblox content/fonts/Montserrat-Regular.ttf",
+      "sha256": "dcfe8df29e553fbd655212f94300cb1e704c6cd147fa7a98cb4bcd9eb92c6707"
+    },
+    "license": "fonts/Montserrat-OFL.txt",
+    "notes": "Exact unmodified font files embedded. No synthetic weight/italic. Title outlined, ordinary text unoutlined. Minimum labels 11px, descriptions 13–14px, main titles 29–42px."
+  },
+  "composition": [
+    "Crisp dark frame, graphic crimson-magenta header with diagonal shapes and outlined ghost typography; no studs.",
+    "Quiet collection cards: cyan selected border and label, equipped check plus named footer state.",
+    "Pale ball showcase, unchanged canonical ball and existing Axe/Blade weapon icons, kit and description, cyan Equip action.",
+    "Store: cyan collection feature and four aligned offers using canonical artwork.",
+    "850/650/450px container breakpoints: 4→3 collection columns, detail below collection on phones, Store feature above two-column offers. No fixed outer height or internal scrolling."
+  ],
+  "interactions": [
+    "Inventory/Store navigation",
+    "Balls/Explosions/Flyers/Fusion categories",
+    "Local selection and equip for all 12 balls",
+    "Store View Ball and Flyer routing",
+    "Explore balls, close/reopen and Escape",
+    "Optional graphic-intensity and hero-size design controls",
+    "v7 state persistence; ignores older stud state"
+  ],
+  "functionalLimits": [
+    "Cosmetics remain static previews.",
+    "Events/Balls Store categories retain all four preview offers.",
+    "No purchases, rarity, XP, gifting, economy, new kits or fusion mechanic."
+  ],
+  "assets": {
+    "balls": {
+      "path": "../../art/balls.png",
+      "sha256": "a62c3cb3bc7c08823f90a90a277866035a4b4f714f8f036dc634f9a33e4e7f7a"
+    },
+    "icons": {
+      "path": "../../art/icons.svg",
+      "sha256": "6a0ac47fee1196458acd012d89cbe412d16eca9a354bcc561c967882c4ab473e"
+    }
+  },
+  "validation": {
+    "javascriptSyntax": "passed",
+    "literalSelectorTargets": 27,
+    "missingLiteralTargets": [],
+    "canonicalNames": "12 checked against AppearanceCatalog.luau",
+    "embeddedAssets": [
+      {
+        "type": "font/ttf",
+        "sha256": "740f89065bf962f16db6948647671000282c70d9300c4ca6df02f02f1c0dc51d"
+      },
+      {
+        "type": "font/ttf",
+        "sha256": "dcfe8df29e553fbd655212f94300cb1e704c6cd147fa7a98cb4bcd9eb92c6707"
+      },
+      {
+        "type": "image/svg+xml",
+        "sha256": "6a0ac47fee1196458acd012d89cbe412d16eca9a354bcc561c967882c4ab473e"
+      },
+      {
+        "type": "image/png",
+        "sha256": "a62c3cb3bc7c08823f90a90a277866035a4b4f714f8f036dc634f9a33e4e7f7a"
+      }
+    ],
+    "maximumBytes": 1000000,
+    "solidColorContrast": {
+      "bodyOnPaper": 8.76,
+      "secondaryOnPanel": 8.96,
+      "action": 14.34,
+      "headlineOnBrightestHeader": 3.88,
+      "offerLabelOnBrightestCard": 5.19
+    },
+    "fontMetricsAtNarrowLayout": {
+      "INVENTORY_29px": 186,
+      "EXPLOSIONS_12px": 83,
+      "SELECTED_11px": 59,
+      "VIEW_BALL_11px": 68,
+      "PREVIEW_11px": 56
+    },
+    "limits": "Static checks and font metrics only, not rendered or browser interaction validation. Earlier local-preview URL-policy restriction remains; no alternate browser or rendering bypass used.",
+    "pending": [
+      "Rendered desktop and phone review",
+      "User acceptance of final native implementation",
+      "Figma transfer/fidelity",
+      "Native Roblox implementation and checks",
+      "A/B/C benchmark"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "loaded": {
+    "authoredImages": 9,
+    "loaded": true
+  },
+  "outcome": {
+    "a": 450,
+    "b": 386,
+    "phase": "MatchResult",
+    "resultVisible": true,
+    "resultTitle": "VICTORY!",
+    "reason": "match_points",
+    "panelsClosed": true,
+    "tick": 1800,
+    "observedAt": 115494.6647854
+  },
+  "panels": true,
+  "equip": true,
+  "storeNavigation": true,
+  "queueCancellation": true,
+  "privateDraft": true,
+  "ballDiameter": true,
+  "completePractice": true,
+  "resultActions": {
+    "rematchConfirmed": true,
+    "replayStarted": true,
+    "resultRestored": true
+  },
+  "landscapePhoneEmulation": true,
+  "physicalDevice": false
+}

@@ -38,7 +38,8 @@ local function label(
 	t.Position = UDim2.fromOffset(10, y)
 	t.Text = text
 	t.TextColor3 = color
-	t.FontFace = Font.new("rbxasset://fonts/families/Michroma.json")
+	t.FontFace =
+		Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.Heavy, Enum.FontStyle.Italic)
 	t.TextSize = size
 	t.TextStrokeTransparency = 0
 	t.TextWrapped = true
@@ -142,30 +143,34 @@ function Detail.build(root: Folder)
 			if g then
 				local t = g:FindFirstChildOfClass("TextLabel")
 				if t then
-					t.FontFace = Font.new("rbxasset://fonts/families/Michroma.json")
-					t.TextSize = 19
+					t.FontFace = Font.new(
+						"rbxasset://fonts/families/Montserrat.json",
+						Enum.FontWeight.Heavy,
+						Enum.FontStyle.Italic
+					)
+					t.TextSize = 14
 					t.Text = if item.Position.X < 0
-						then "Choose + Play\nFind Your Favorite Ball"
-						else "Free Collection\nEvery Ball, Your Choice"
+						then "CHOOSE + PLAY\nFind your favorite"
+						else "FREE COLLECTION\nEvery ball is yours"
 				end
 			end
 		elseif item.Name == "Leaderboard" and item:IsA("BasePart") then
-			item.Color = Color3.fromRGB(13, 24, 59)
+			item.Color = Color3.fromRGB(16, 13, 20)
 			local g = item:FindFirstChildOfClass("SurfaceGui")
 			if g then
 				g:ClearAllChildren()
 				g.CanvasSize = Vector2.new(500, 740)
 				label(g, "THE ARENA", 8, 72, 40, Color3.new(1, 1, 1))
-				label(g, "CLAIM YOUR SPACE", 78, 45, 22, Color3.fromRGB(173, 221, 255))
+				label(g, "CLAIM YOUR SPACE", 78, 45, 22, Color3.fromRGB(142, 239, 229))
 				for i = 1, 7 do
 					local row = Instance.new("Frame")
 					row.Size = UDim2.fromOffset(470, 70)
 					row.Position = UDim2.fromOffset(15, 135 + (i - 1) * 81)
 					row.BorderSizePixel = 0
 					row.BackgroundColor3 = if i == 1
-						then Color3.fromRGB(210, 153, 21)
-						elseif i % 2 == 0 then Color3.fromRGB(50, 61, 167)
-						else Color3.fromRGB(30, 39, 123)
+						then Color3.fromRGB(184, 11, 81)
+						elseif i % 2 == 0 then Color3.fromRGB(48, 43, 52)
+						else Color3.fromRGB(33, 28, 37)
 					row.Parent = g
 					local steps = {
 						"CHOOSE YOUR BALL",

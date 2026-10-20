@@ -1,0 +1,212 @@
+<!-- __FONT_LICENSE__ -->
+<style>
+@font-face{font-family:BVSAction;src:url('__DISPLAY_FONT__') format('truetype');font-style:italic;font-weight:900;font-display:swap}
+@font-face{font-family:BVSAction;src:url('__BODY_FONT__') format('truetype');font-style:normal;font-weight:400;font-display:swap}
+#bvs-action-menus{--am-ink:#100d14;--am-surface:#211c25;--am-card:#302b34;--am-line:#645866;--am-white:#fff9f4;--am-muted:#c4bbc5;--am-paper:#ede6dd;--am-red:#ff3560;--am-magenta:#b9105b;--am-accent:#8eefe5;--am-graphic:.85;--am-hero-scale:1;color:var(--am-white);font-family:BVSAction,Arial,sans-serif;font-size:14px;font-weight:400;line-height:1.4;font-synthesis:none;container-type:inline-size;isolation:isolate}
+#bvs-action-menus *{box-sizing:border-box}
+#bvs-action-menus [hidden]{display:none!important}
+#bvs-action-menus button{font:inherit;color:inherit;position:relative;touch-action:manipulation}
+#bvs-action-menus button:disabled{cursor:default}
+#bvs-action-menus h2,#bvs-action-menus h3,#bvs-action-menus p{margin:0}
+#bvs-action-menus .am-display{font-family:BVSAction,Arial,sans-serif;font-weight:900;font-style:italic;letter-spacing:-.045em;line-height:1.05}
+#bvs-action-menus .am-stage{padding:0 18px 22px;background:repeating-linear-gradient(128deg,transparent 0 120px,#ffffff03 120px 121px),radial-gradient(ellipse at 65% 30%,#42333d 0,#201921 58%,#151219 100%);border-radius:8px;overflow:hidden}
+#bvs-action-menus .am-topbar{display:flex;align-items:center;gap:22px;min-height:76px;padding:14px 96px 14px 4px;flex-wrap:wrap}
+#bvs-action-menus .am-brand{font-size:21px;line-height:.9;letter-spacing:-1px;transform:rotate(-3deg);padding-right:20px;text-shadow:2px 3px #100d14}
+#bvs-action-menus .am-brand span{color:var(--am-accent)}
+#bvs-action-menus .am-mainnav{display:flex;gap:6px;flex-wrap:wrap}
+#bvs-action-menus .am-nav{border:0;background:transparent;min-height:44px;padding:10px 16px;font-size:14px;letter-spacing:0;font-style:italic;font-weight:900;z-index:0}
+#bvs-action-menus .am-nav:before{content:"";position:absolute;inset:0;z-index:-1;background:#29222d;border:1px solid #786572;transform:skew(-10deg)}
+#bvs-action-menus .am-nav[aria-pressed=true]{color:var(--am-ink)}
+#bvs-action-menus .am-nav[aria-pressed=true]:before{background:var(--am-paper);border-color:var(--am-paper);box-shadow:0 3px var(--am-red)}
+#bvs-action-menus .am-window{background:var(--am-ink);border:2px solid #08070a;box-shadow:0 0 0 1px #8a6874,0 10px 0 #09070b80,0 14px 30px #0007;position:relative}
+#bvs-action-menus .am-header{position:relative;min-height:100px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 22px 20px;background:linear-gradient(115deg,#b80b51,#f02a5b 49%,#ce1256);border-bottom:4px solid #07060a;isolation:isolate;overflow:hidden}
+#bvs-action-menus .am-header:before{content:"";position:absolute;inset:0;z-index:-1;opacity:var(--am-graphic);background:linear-gradient(122deg,transparent 0 57%,#ff8aa54d 57% 61%,transparent 61% 64%,#63002980 64% 66%,transparent 66% 81%,#ffb0c660 81% 82%,transparent 82%),repeating-linear-gradient(128deg,transparent 0 75px,#ff608a33 75px 115px,transparent 115px 145px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#bvs-action-menus .am-header:after{content:attr(data-ghost);position:absolute;left:7px;top:-18px;font-style:italic;font-weight:900;font-size:102px;line-height:1;letter-spacing:-6px;color:transparent;-webkit-text-stroke:2px #40071b50;z-index:-1;opacity:var(--am-graphic);white-space:nowrap;pointer-events:none}
+#bvs-action-menus .am-title{font-size:42px;-webkit-text-stroke:5px var(--am-ink);paint-order:stroke fill;filter:drop-shadow(3px 4px 0 #100d1466)}
+#bvs-action-menus .am-close{align-self:center;width:48px;height:48px;flex:0 0 48px;background:#ef273f;border:2px solid var(--am-white);box-shadow:3px 3px 0 var(--am-ink);transform:rotate(4deg);font-size:32px;line-height:1;font-weight:900;font-style:italic;text-shadow:1px 2px var(--am-ink)}
+#bvs-action-menus .am-close:hover{background:#ff5467;transform:rotate(0)}
+#bvs-action-menus .am-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px 13px;background:#1e1921;border-bottom:1px solid #5d3e50}
+#bvs-action-menus .am-categories{display:flex;gap:7px;flex-wrap:wrap}
+#bvs-action-menus .am-category{display:flex;align-items:center;justify-content:center;gap:5px;min-height:46px;padding:5px 12px;border:0;background:transparent;font-weight:900;font-style:italic;font-size:13px;z-index:0}
+#bvs-action-menus .am-category:before{content:"";position:absolute;inset:0;z-index:-1;background:#322735;border:1px solid #766274;transform:skew(-6deg);box-shadow:0 3px #08070a}
+#bvs-action-menus .am-category[aria-pressed=true]{color:var(--am-ink)}
+#bvs-action-menus .am-category[aria-pressed=true]:before{background:var(--am-accent);border-color:#dcfff9;box-shadow:0 3px #3d837c}
+#bvs-action-menus .am-category:hover:before,#bvs-action-menus .am-nav:hover:before{border-color:var(--am-white)}
+#bvs-action-menus .am-icon{display:block;flex-shrink:0;background-image:url('__ICONS__');background-size:800% 400%;width:29px;aspect-ratio:1;background-repeat:no-repeat}
+#bvs-action-menus .am-orb{display:block;background-image:url('__BALLS__');background-size:400% 300%;background-repeat:no-repeat;width:100%;aspect-ratio:1;flex-shrink:0;filter:drop-shadow(0 8px 6px #0005)}
+#bvs-action-menus .am-balances{display:flex;gap:10px;align-items:center;font-size:14px;white-space:nowrap}
+#bvs-action-menus .am-balance{display:flex;align-items:center;gap:4px}
+#bvs-action-menus .am-balance .am-icon{width:23px}
+#bvs-action-menus .am-inventory{display:grid;grid-template-columns:minmax(0,1fr) 294px;gap:15px;padding:16px}
+#bvs-action-menus .am-collection{min-width:0}
+#bvs-action-menus .am-section-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+#bvs-action-menus .am-section-line h3{font-size:18px}
+#bvs-action-menus .am-count{color:var(--am-muted);font-size:12px;white-space:nowrap}
+#bvs-action-menus .am-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#bvs-action-menus .am-ball-button{padding:0;border:1px solid #655866;background:var(--am-card);text-align:left;min-width:0;box-shadow:0 4px #08070c;isolation:isolate}
+#bvs-action-menus .am-ball-button:before{content:"";position:absolute;inset:5px;border-top:1px solid #ffffff18;border-right:1px solid #ffffff12;z-index:-1;pointer-events:none}
+#bvs-action-menus .am-ball-button:hover{background:#433547;border-color:#e4d4df}
+#bvs-action-menus .am-ball-button[aria-pressed=true]{border-color:var(--am-accent);box-shadow:0 0 0 2px var(--am-accent),0 4px #08070c;background:#3b4242}
+#bvs-action-menus .am-ball-picture{display:flex;align-items:center;justify-content:center;padding:16px 10px 1px;position:relative}
+#bvs-action-menus .am-ball-picture>.am-orb{width:min(100%,99px)}
+#bvs-action-menus .am-ball-name{display:block;padding:7px 8px 9px;font-size:12px;line-height:1.25;min-height:44px;background:#1c1820d9;border-top:1px solid #ffffff13;overflow-wrap:anywhere}
+#bvs-action-menus .am-ball-button[aria-pressed=true] .am-ball-name{background:var(--am-accent);color:var(--am-ink)}
+#bvs-action-menus .am-card-state{position:absolute;top:0;right:0;max-width:100%;background:var(--am-accent);color:var(--am-ink);font-size:11px;letter-spacing:.025em;line-height:1;padding:4px 5px;font-style:italic;font-weight:900;z-index:1}
+#bvs-action-menus .am-equipped-mark{position:absolute;top:5px;left:5px;width:19px;height:19px;background:var(--am-paper);border:1px solid var(--am-ink);color:var(--am-ink);font-size:12px;text-align:center;z-index:2}
+#bvs-action-menus .am-detail{background:var(--am-paper);color:var(--am-ink);min-width:0;display:flex;flex-direction:column;border:1px solid #fff5ee;box-shadow:4px 4px #000}
+#bvs-action-menus .am-detail-art{background:radial-gradient(ellipse at 50% 75%,#b9afb8 0,transparent 46%),linear-gradient(135deg,#fbf5eb,#d6cdd2);isolation:isolate;position:relative;min-height:268px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#bvs-action-menus .am-detail-art:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(128deg,transparent 40%,#fff8 40% 42%,transparent 42% 50%,#fff6 50% 63%,transparent 63%);opacity:var(--am-graphic)}
+#bvs-action-menus .am-detail-art:after{content:"BVS";position:absolute;bottom:-17px;left:4px;font-size:100px;font-weight:900;font-style:italic;line-height:1;letter-spacing:-7px;color:transparent;-webkit-text-stroke:1px #6f5f743b;z-index:-1}
+#bvs-action-menus .am-detail-state{position:absolute;top:14px;left:14px;font-style:italic;font-weight:900;font-size:12px;letter-spacing:.04em;padding:5px 8px;background:var(--am-ink);color:var(--am-white);transform:skew(-6deg)}
+#bvs-action-menus .am-hero-wrap{position:relative;width:220px;aspect-ratio:1;margin-top:23px;transform:scale(var(--am-hero-scale))}
+#bvs-action-menus .am-weapon{position:absolute;width:85px;right:3px;bottom:10px;filter:drop-shadow(0 5px 3px #0004)}
+#bvs-action-menus .am-detail-copy{padding:19px 18px 18px;display:flex;flex-direction:column;flex:1;gap:12px}
+#bvs-action-menus .am-kit{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+#bvs-action-menus .am-kit:before{content:"";width:14px;height:4px;background:var(--am-red);transform:skew(-25deg)}
+#bvs-action-menus .am-ball-heading{font-size:31px;line-height:1.02;overflow-wrap:anywhere}
+#bvs-action-menus .am-description{font-size:13px;line-height:1.65;color:#463947;min-height:44px}
+#bvs-action-menus .am-action{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:10px 17px;border:0;background:transparent;font-style:italic;font-weight:900;font-size:17px;line-height:1.15;text-align:left;z-index:0;color:var(--am-ink);margin:4px 3px 4px}
+#bvs-action-menus .am-action:before{content:"";position:absolute;inset:0;z-index:-1;background:var(--am-accent);border:2px solid var(--am-ink);transform:skew(-7deg);box-shadow:3px 4px var(--am-ink)}
+#bvs-action-menus .am-action:after{content:"↗";font-family:Arial,sans-serif;font-size:25px;font-style:normal;font-weight:400}
+#bvs-action-menus .am-action:hover:not(:disabled):before{background:#c5fff4}
+#bvs-action-menus .am-action:active:not(:disabled){transform:translateY(2px)}
+#bvs-action-menus .am-action:disabled:after{content:"✓"}
+#bvs-action-menus .am-action:disabled:before{background:#d6d0cb;box-shadow:1px 2px var(--am-ink)}
+#bvs-action-menus .am-detail .am-action{margin-top:auto}
+#bvs-action-menus .am-footer{border-top:1px solid #59414e;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--am-muted);font-size:11px}
+#bvs-action-menus .am-equipped{display:flex;align-items:center;gap:6px;color:var(--am-white)}
+#bvs-action-menus .am-equipped>.am-orb{width:27px;filter:none}
+#bvs-action-menus .am-store{padding:16px;display:grid;grid-template-columns:254px minmax(0,1fr);gap:16px}
+#bvs-action-menus .am-feature{position:relative;isolation:isolate;display:flex;flex-direction:column;padding:21px 20px;background:var(--am-accent);color:var(--am-ink);border:1px solid #defff9;box-shadow:4px 4px #000;overflow:hidden}
+#bvs-action-menus .am-feature:before{content:"";position:absolute;inset:0;z-index:-1;opacity:var(--am-graphic);background:repeating-linear-gradient(124deg,transparent 0 60px,#ffffff4d 60px 87px,transparent 87px 99px,#092d3212 99px 101px)}
+#bvs-action-menus .am-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;line-height:1.5}
+#bvs-action-menus .am-feature-heading{font-size:37px;margin-top:10px;letter-spacing:-.06em}
+#bvs-action-menus .am-feature-art{position:relative;min-height:224px;flex:1;isolation:isolate}
+#bvs-action-menus .am-feature-art:before{content:"";position:absolute;width:180px;height:180px;top:30px;left:calc(50% - 90px);border:1px solid #163c3b66;border-radius:50%;transform:rotate(-25deg) scaleY(.6);box-shadow:0 0 0 18px #163c3b0a,0 0 0 36px #163c3b08;z-index:-1}
+#bvs-action-menus .am-feature-orb{position:absolute;width:155px;left:calc(50% - 72px);top:29px;transform:rotate(-12deg)}
+#bvs-action-menus .am-feature-small{position:absolute;width:88px;left:calc(50% - 115px);top:139px;transform:rotate(18deg)}
+#bvs-action-menus .am-feature-tiny{position:absolute;width:72px;right:calc(50% - 112px);top:133px;transform:rotate(-7deg)}
+#bvs-action-menus .am-feature p{font-size:13px;line-height:1.65;margin:8px 0 15px;max-width:190px}
+#bvs-action-menus .am-feature .am-action{color:var(--am-white);font-size:14px;padding-left:12px}
+#bvs-action-menus .am-feature .am-action:before{background:var(--am-ink);border-color:var(--am-ink);box-shadow:3px 4px #438a81}
+#bvs-action-menus .am-feature .am-action:hover:before{background:#3e263b}
+#bvs-action-menus .am-offers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;min-width:0}
+#bvs-action-menus .am-offer{border:1px solid #796273;display:flex;flex-direction:column;background:#28202c;min-width:0;box-shadow:3px 4px #000}
+#bvs-action-menus .am-offer-art{min-height:164px;position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate;overflow:hidden;background:linear-gradient(155deg,#685378,#2d2638)}
+#bvs-action-menus .am-offer:nth-child(2) .am-offer-art{background:linear-gradient(155deg,#965b43,#3c2630)}
+#bvs-action-menus .am-offer:nth-child(3) .am-offer-art{background:linear-gradient(155deg,#486461,#23363d)}
+#bvs-action-menus .am-offer:nth-child(4) .am-offer-art{background:linear-gradient(155deg,#4a667e,#282f43)}
+#bvs-action-menus .am-offer-art:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(122deg,transparent 0 38%,#ffffff12 38% 56%,transparent 56% 61%,#ffffff1a 61% 63%,transparent 63%);opacity:var(--am-graphic)}
+#bvs-action-menus .am-offer-art>.am-orb,#bvs-action-menus .am-offer-art>.am-icon{width:138px;filter:drop-shadow(0 8px 8px #0007)}
+#bvs-action-menus .am-offer-tag{position:absolute;top:9px;left:11px;font-size:11px;letter-spacing:.12em;line-height:1.3;text-transform:uppercase;color:var(--am-white)}
+#bvs-action-menus .am-offer-copy{padding:12px 13px 15px;flex:1;display:flex;flex-direction:column;gap:8px}
+#bvs-action-menus .am-offer-name{font-size:20px;line-height:1.1;overflow-wrap:anywhere}
+#bvs-action-menus .am-offer .am-action{font-size:13px;min-height:41px;padding:7px 12px;margin-top:auto}
+#bvs-action-menus .am-offer .am-action:after{font-size:20px}
+#bvs-action-menus .am-other{padding:22px 20px}
+#bvs-action-menus .am-other-title{font-size:28px;margin-bottom:8px}
+#bvs-action-menus .am-other-copy{font-size:13px;color:var(--am-muted);margin-bottom:20px}
+#bvs-action-menus .am-previews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#bvs-action-menus .am-preview-item{background:var(--am-card);border:1px solid var(--am-line);padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+#bvs-action-menus .am-preview-item>.am-icon{width:120px}
+#bvs-action-menus .am-preview-item h3{font-size:19px}
+#bvs-action-menus .am-preview-item .am-action{font-size:14px;align-self:stretch}
+#bvs-action-menus .am-fusion{padding:35px 0;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+#bvs-action-menus .am-fusion>.am-icon{width:125px}
+#bvs-action-menus .am-fusion p{font-size:14px;color:var(--am-muted);max-width:420px;margin-top:14px}
+#bvs-action-menus .am-closed{padding:55px 20px;background:#19151e;text-align:center;border:1px solid #735266}
+#bvs-action-menus .am-closed h2{font-size:35px}
+#bvs-action-menus .am-closed .am-action{margin:25px auto 4px;max-width:250px}
+#bvs-action-menus .am-announcer{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@container (max-width:850px){#bvs-action-menus .am-inventory{grid-template-columns:minmax(0,1fr) 266px;gap:13px}#bvs-action-menus .am-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#bvs-action-menus .am-detail-art{min-height:260px}#bvs-action-menus .am-store{grid-template-columns:220px minmax(0,1fr)}#bvs-action-menus .am-feature{padding:19px 14px}#bvs-action-menus .am-feature-heading{font-size:33px}#bvs-action-menus .am-category{padding:5px 8px;font-size:12px}#bvs-action-menus .am-toolbar{flex-wrap:wrap}#bvs-action-menus .am-offer-name{font-size:18px}}
+@container (max-width:650px){#bvs-action-menus .am-stage{padding:0 10px 16px}#bvs-action-menus .am-topbar{gap:14px;min-height:112px;padding-top:15px;padding-bottom:13px}#bvs-action-menus .am-brand{font-size:19px;width:100%}#bvs-action-menus .am-mainnav{gap:7px}#bvs-action-menus .am-nav{padding:10px 12px;font-size:12px}#bvs-action-menus .am-header{min-height:88px;padding:16px}#bvs-action-menus .am-title{font-size:34px}#bvs-action-menus .am-header:after{font-size:80px;top:-5px}#bvs-action-menus .am-inventory{grid-template-columns:minmax(0,1fr);padding:14px}#bvs-action-menus .am-detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#bvs-action-menus .am-detail-art{min-height:265px}#bvs-action-menus .am-hero-wrap{width:min(100%,220px)}#bvs-action-menus .am-detail-copy{padding:17px 14px}#bvs-action-menus .am-ball-heading{font-size:28px}#bvs-action-menus .am-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}#bvs-action-menus .am-ball-picture>.am-orb{width:110px;max-width:100%}#bvs-action-menus .am-ball-name{font-size:12px;min-height:44px}#bvs-action-menus .am-store{grid-template-columns:1fr;padding:14px}#bvs-action-menus .am-feature{display:grid;grid-template-columns:minmax(0,1fr) 160px;padding:20px;align-items:start}#bvs-action-menus .am-feature .am-eyebrow,#bvs-action-menus .am-feature-heading,#bvs-action-menus .am-feature p,#bvs-action-menus .am-feature .am-action{grid-column:1}#bvs-action-menus .am-feature-art{grid-column:2;grid-row:1/5;align-self:center;min-height:210px}#bvs-action-menus .am-feature-heading{font-size:32px}#bvs-action-menus .am-feature-orb{width:140px;left:10px;top:10px}#bvs-action-menus .am-feature-small{width:77px;left:-8px;top:123px}#bvs-action-menus .am-feature-tiny{width:65px;right:-8px;top:119px}#bvs-action-menus .am-feature p{max-width:230px}#bvs-action-menus .am-feature .am-action{font-size:13px}#bvs-action-menus .am-previews{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container (max-width:450px){#bvs-action-menus .am-stage{padding:0 6px 14px}#bvs-action-menus .am-header{padding:14px 12px;min-height:80px}#bvs-action-menus .am-title{font-size:29px;-webkit-text-stroke:4px var(--am-ink)}#bvs-action-menus .am-close{width:44px;height:44px;flex-basis:44px;font-size:28px}#bvs-action-menus .am-toolbar{padding:10px}#bvs-action-menus .am-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:7px}#bvs-action-menus .am-category{font-size:12px;min-height:44px;justify-content:flex-start;padding-left:12px}#bvs-action-menus .am-category>.am-icon{width:24px}#bvs-action-menus .am-inventory{padding:12px 10px;gap:17px}#bvs-action-menus .am-section-line h3{font-size:15px}#bvs-action-menus .am-count{font-size:11px}#bvs-action-menus .am-grid{gap:8px}#bvs-action-menus .am-ball-picture{padding:20px 3px 4px}#bvs-action-menus .am-ball-name{padding:6px 5px;min-height:42px;font-size:11px}#bvs-action-menus .am-card-state{font-size:11px;padding:4px 3px}#bvs-action-menus .am-detail{display:flex}#bvs-action-menus .am-detail-art{min-height:252px}#bvs-action-menus .am-hero-wrap{width:220px}#bvs-action-menus .am-detail-copy{padding:20px}#bvs-action-menus .am-ball-heading{font-size:31px}#bvs-action-menus .am-description{font-size:14px;min-height:0}#bvs-action-menus .am-action{margin-top:10px}#bvs-action-menus .am-store{padding:12px 10px}#bvs-action-menus .am-feature{display:flex;padding:22px 18px}#bvs-action-menus .am-feature-heading{font-size:38px;max-width:240px}#bvs-action-menus .am-feature-art{min-height:230px;width:100%;align-self:stretch}#bvs-action-menus .am-feature-orb{width:174px;left:calc(50% - 87px);top:5px}#bvs-action-menus .am-feature-small{width:90px;left:calc(50% - 121px);top:133px}#bvs-action-menus .am-feature-tiny{width:78px;right:calc(50% - 117px);top:128px}#bvs-action-menus .am-feature .am-action{align-self:stretch;font-size:15px}#bvs-action-menus .am-offers{gap:10px}#bvs-action-menus .am-offer-art{min-height:140px}#bvs-action-menus .am-offer-art>.am-orb,#bvs-action-menus .am-offer-art>.am-icon{width:110px;max-width:100%}#bvs-action-menus .am-offer-name{font-size:17px;min-height:38px}#bvs-action-menus .am-offer-copy{padding:10px 9px 13px}#bvs-action-menus .am-offer .am-action{font-size:11px;min-height:44px;padding:7px 8px;gap:3px}#bvs-action-menus .am-offer .am-action:after{font-size:17px}#bvs-action-menus .am-other{padding:18px 13px}#bvs-action-menus .am-preview-item{padding:15px 10px}#bvs-action-menus .am-preview-item>.am-icon{width:95px}#bvs-action-menus .am-preview-item h3{font-size:17px}#bvs-action-menus .am-preview-item .am-action{font-size:11px;padding:8px}#bvs-action-menus .am-footer{font-size:11px;padding:10px 12px}}
+#bvs-action-menus .am-category>.am-orb{width:29px;filter:none}
+@media(pointer:coarse){#bvs-action-menus .am-offer .am-action{min-height:44px}}
+@media(prefers-reduced-motion:reduce){#bvs-action-menus *{scroll-behavior:auto}}
+</style>
+<section id="bvs-action-menus" aria-label="Ball VS Space action menu design">
+ <div class="am-stage">
+  <div class="am-topbar">
+   <div class="am-brand am-display">BALL <span>VS</span><br>SPACE</div>
+   <nav class="am-mainnav" aria-label="Game menus"><button type="button" class="am-nav cursor-interaction" data-screen="Inventory">INVENTORY</button><button type="button" class="am-nav cursor-interaction" data-screen="Store">STORE</button></nav>
+  </div>
+  <section class="am-window" data-window aria-label="Inventory">
+   <header class="am-header" data-header data-ghost="INVENTORY"><h2 class="am-title am-display" data-title>INVENTORY</h2><button type="button" class="am-close cursor-interaction" data-close aria-label="Close Inventory">×</button></header>
+   <div class="am-toolbar"><nav class="am-categories" data-inventory-tabs aria-label="Inventory categories"></nav><nav class="am-categories" data-store-tabs aria-label="Store categories" hidden></nav><div class="am-balances" data-balances hidden><span class="am-balance" aria-label="0 coins"><span class="am-icon" data-icon="Coin" aria-hidden="true"></span>0</span><span class="am-balance" aria-label="0 gems"><span class="am-icon" data-icon="Gem" aria-hidden="true"></span>0</span></div></div>
+   <div class="am-inventory" data-inventory>
+    <section class="am-collection" aria-label="Ball collection"><div class="am-section-line"><h3 class="am-display">YOUR COLLECTION</h3><span class="am-count">12 appearances</span></div><div class="am-grid" data-grid></div></section>
+    <section class="am-detail" data-detail aria-label="Axe Ball details"><div class="am-detail-art"><span class="am-detail-state" data-detail-state>SELECTED</span><div class="am-hero-wrap"><span class="am-orb" data-hero aria-hidden="true"></span><span class="am-icon am-weapon" data-weapon aria-hidden="true"></span></div></div><div class="am-detail-copy"><span class="am-kit" data-kit>Anchor kit</span><h3 class="am-ball-heading am-display" data-name>Axe Ball</h3><p class="am-description" data-description>Spins an axe, widening its territory.</p><button type="button" class="am-action cursor-interaction" data-equip> EQUIP BALL </button></div></section>
+   </div>
+   <div class="am-other" data-other hidden></div>
+   <div class="am-store" data-store hidden>
+    <section class="am-feature" aria-label="Collection spotlight"><span class="am-eyebrow">THE BALL COLLECTION</span><h3 class="am-feature-heading am-display">FIND YOUR<br>NEXT FAVORITE.</h3><div class="am-feature-art" aria-hidden="true"><span class="am-orb am-feature-orb" data-art="Verity"></span><span class="am-orb am-feature-small" data-art="Orbit"></span><span class="am-orb am-feature-tiny" data-art="Burst"></span></div><p>12 ball appearances.<br>Yours to explore.</p><button type="button" class="am-action cursor-interaction" data-explore>EXPLORE BALLS</button></section>
+    <section class="am-offers" data-offers aria-label="Store collection previews"></section>
+   </div>
+   <footer class="am-footer"><span data-footer>All 12 appearances are available.</span><span class="am-equipped"><span class="am-orb" data-equipped-art aria-hidden="true"></span><span data-equipped>Equipped: Verity Ball</span></span></footer>
+  </section>
+  <section class="am-closed" data-closed hidden><h2 class="am-display" data-closed-title>INVENTORY CLOSED</h2><button type="button" class="am-action cursor-interaction" data-open>OPEN INVENTORY</button></section>
+  <div class="am-announcer" aria-live="polite" data-feedback></div>
+ </div>
+</section>
+<script>
+(() => {
+ const root=document.getElementById('bvs-action-menus');
+ const entries=__ENTRIES__,icons=__ICON_POSITIONS__;
+ const q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));
+ const state={version:7,view:'Inventory',category:'Balls',storeCategory:'Events',selected:'Axe',equipped:'Verity',open:true,graphics:.85,heroScale:1};
+ let feedback='';
+ const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text)n.textContent=text;return n;};
+ const button=(cls,text)=>{const b=el('button',cls+' cursor-interaction',text);b.type='button';return b;};
+ const setBall=(n,id)=>{n.style.backgroundPosition=entries[id].x+'% '+entries[id].y+'%';};
+ const setIcon=(n,id)=>{n.style.backgroundPosition=icons[id][0]+'% '+icons[id][1]+'%';};
+ const icon=id=>{const n=el('span','am-icon');n.setAttribute('aria-hidden','true');setIcon(n,id);return n;};
+ const orb=id=>{const n=el('span','am-orb');n.setAttribute('aria-hidden','true');setBall(n,id);return n;};
+ const categoryIcon={Balls:'Inventory',Explosions:'Explosion',Flyers:'Ufo',Fusion:'Fusion',Events:'Events'};
+ for(const scope of ['Inventory','Store']){const parent=q(scope==='Inventory'?'[data-inventory-tabs]':'[data-store-tabs]');for(const category of (scope==='Inventory'?['Balls','Explosions','Flyers','Fusion']:['Events','Balls','Explosions','Flyers'])){const b=button('am-category');b.dataset.category=category;b.dataset.scope=scope;b.append(category==='Balls'?orb('Verity'):icon(categoryIcon[category]),el('span','',category.toUpperCase()));parent.append(b);}}
+ for(const [id,entry] of Object.entries(entries)){const b=button('am-ball-button');b.dataset.ball=id;b.setAttribute('aria-label',entry.name);const pic=el('span','am-ball-picture');pic.append(orb(id));const chosen=el('span','am-card-state','SELECTED');chosen.hidden=true;chosen.setAttribute('aria-hidden','true');const equipped=el('span','am-equipped-mark','✓');equipped.hidden=true;equipped.setAttribute('aria-hidden','true');b.append(pic,el('span','am-ball-name',entry.name),chosen,equipped);q('[data-grid]').append(b);}
+ const offerData=[['Laser','Laser Ball','BALL APPEARANCE'],['Ray','Ray Ball','BALL APPEARANCE'],['Balloons','Colorful Balloon','FLYER PREVIEW'],['Parasol','Blue Parasol','FLYER PREVIEW']];
+ for(const [id,name,kind] of offerData){const card=el('article','am-offer');card.dataset.offerCard=id;const art=el('div','am-offer-art');art.append(Object.hasOwn(entries,id)?orb(id):icon(id),el('span','am-offer-tag',kind));const copy=el('div','am-offer-copy');const b=button('am-action',Object.hasOwn(entries,id)?'VIEW BALL':'PREVIEW');b.dataset.offer=id;copy.append(el('h3','am-offer-name am-display',name),b);card.append(art,copy);q('[data-offers]').append(card);}
+ const cosmetic={Explosions:[['Explosion','Explosion'],['Spark','Spark'],['Ring','Ring']],Flyers:[['Ufo','UFO'],['Balloons','Balloons'],['Parasol','Parasol']]};
+ const panels={};
+ for(const [category,items] of Object.entries(cosmetic)){const panel=el('section');panel.hidden=true;panel.setAttribute('aria-label',category+' previews');panel.append(el('h3','am-other-title am-display',category.toUpperCase()),el('p','am-other-copy','Cosmetic previews'));const list=el('div','am-previews');for(const [id,name]of items){const card=el('article','am-preview-item');const b=button('am-action','PREVIEW');b.dataset.preview=name;card.append(icon(id),el('h3','am-display',name),b);list.append(card);}panel.append(list);panels[category]=panel;q('[data-other]').append(panel);}
+ const fusion=el('section','am-fusion');fusion.hidden=true;const fusionCopy=el('div'),explore=button('am-action','EXPLORE BALLS');explore.dataset.explore='';fusionCopy.append(el('h3','am-other-title am-display','BUILD YOUR COLLECTION'),el('p','','Every ball appearance is available to explore. Choose your next look from the Balls tab.'),explore);fusion.append(icon('Fusion'),fusionCopy);panels.Fusion=fusion;q('[data-other]').append(fusion);
+ qa('[data-art]').forEach(n=>setBall(n,n.dataset.art));qa('[data-icon]').forEach(n=>setIcon(n,n.dataset.icon));
+ const load=saved=>{if(!saved||saved.version!==7)return;for(const k of ['selected','equipped'])if(Object.hasOwn(entries,saved[k]))state[k]=saved[k];if(['Inventory','Store'].includes(saved.view))state.view=saved.view;if(['Balls','Explosions','Flyers','Fusion'].includes(saved.category))state.category=saved.category;if(['Events','Balls'].includes(saved.storeCategory))state.storeCategory=saved.storeCategory;if(typeof saved.open==='boolean')state.open=saved.open;for(const [k,min,max] of [['graphics',.25,1],['heroScale',.9,1.08]])if(Number.isFinite(saved[k]))state[k]=Math.max(min,Math.min(max,saved[k]));};
+ const save=()=>window.openai?.setWidgetState?.({modelContent:{design:'Angular action menus',version:7,palette:'Charcoal, crimson-magenta, pale neutral, cyan actions',view:state.view,category:state.category,selected:state.selected,equipped:state.equipped,graphics:state.graphics,heroScale:state.heroScale},privateContent:{...state}})?.catch(()=>{});
+ function render(){
+  const inventory=state.view==='Inventory',balls=inventory&&state.category==='Balls';
+  root.style.setProperty('--am-graphic',state.graphics);root.style.setProperty('--am-hero-scale',state.heroScale);
+  q('[data-window]').hidden=!state.open;q('[data-closed]').hidden=state.open;q('[data-window]').setAttribute('aria-label',state.view);q('[data-title]').textContent=state.view.toUpperCase();q('[data-header]').dataset.ghost=state.view.toUpperCase();q('[data-close]').setAttribute('aria-label','Close '+state.view);
+  q('[data-closed-title]').textContent=state.view.toUpperCase()+' CLOSED';q('[data-open]').textContent='OPEN '+state.view.toUpperCase();
+  q('[data-inventory-tabs]').hidden=!inventory;q('[data-store-tabs]').hidden=inventory;q('[data-balances]').hidden=inventory;q('[data-inventory]').hidden=!balls;q('[data-other]').hidden=!inventory||balls;q('[data-store]').hidden=inventory;
+  qa('[data-screen]').forEach(n=>n.setAttribute('aria-pressed',String(state.open&&n.dataset.screen===state.view)));
+  qa('[data-category]').forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.category===(n.dataset.scope==='Inventory'?state.category:state.storeCategory))));
+  for(const [category,panel]of Object.entries(panels))panel.hidden=category!==state.category;
+  qa('[data-ball]').forEach(n=>{const id=n.dataset.ball;n.setAttribute('aria-pressed',String(state.selected===id));n.setAttribute('aria-label',entries[id].name+(state.equipped===id?', equipped':''));n.querySelector('.am-card-state').hidden=id!==state.selected;n.querySelector('.am-card-state').textContent=id===state.equipped?'EQUIPPED':'SELECTED';n.querySelector('.am-equipped-mark').hidden=id!==state.equipped||id===state.selected;});
+  const entry=entries[state.selected],equipped=state.selected===state.equipped;q('[data-name]').textContent=entry.name;q('[data-kit]').textContent=entry.kit+' kit';q('[data-description]').textContent=entry.description;q('[data-detail]').setAttribute('aria-label',entry.name+' details');q('[data-detail-state]').textContent=equipped?'EQUIPPED':'SELECTED';setBall(q('[data-hero]'),state.selected);
+  const weapon=q('[data-weapon]');weapon.hidden=!['Axe','Blade'].includes(state.selected);if(!weapon.hidden)setIcon(weapon,state.selected);
+  q('[data-equip]').disabled=equipped;q('[data-equip]').textContent=equipped?'EQUIPPED':'EQUIP BALL';q('[data-equip]').setAttribute('aria-label',equipped?entry.name+' equipped':'Equip '+entry.name);
+  setBall(q('[data-equipped-art]'),state.equipped);q('[data-equipped]').textContent='Equipped: '+entries[state.equipped].name;
+  q('[data-footer]').textContent=inventory?(balls?'All 12 appearances are available.':'Collection previews'):'All ball appearances are free. No purchase needed.';
+  q('[data-feedback]').textContent=feedback;
+ }
+ root.addEventListener('click',event=>{const target=event.target.closest('button');if(!target||!root.contains(target)||target.disabled)return;feedback='';let focus=null;
+  if(target.hasAttribute('data-screen')){state.view=target.dataset.screen;state.open=true;}
+  else if(target.hasAttribute('data-category')){const category=target.dataset.category;if(target.dataset.scope==='Store'){if(['Explosions','Flyers'].includes(category)){state.view='Inventory';state.category=category;focus='[data-inventory-tabs] [data-category="'+category+'"]';}else state.storeCategory=category;}else state.category=category;}
+  else if(target.hasAttribute('data-ball')){state.selected=target.dataset.ball;feedback=entries[state.selected].name+' selected';}
+  else if(target.hasAttribute('data-equip')){state.equipped=state.selected;feedback=entries[state.selected].name+' equipped';}
+  else if(target.hasAttribute('data-offer')){const id=target.dataset.offer;state.view='Inventory';state.category=Object.hasOwn(entries,id)?'Balls':'Flyers';if(state.category==='Balls')state.selected=id;else feedback=(id==='Balloons'?'Colorful Balloon':'Blue Parasol')+' preview';focus='[data-inventory-tabs] [data-category="'+state.category+'"]';}
+  else if(target.hasAttribute('data-preview'))feedback=target.dataset.preview+' preview';
+  else if(target.hasAttribute('data-explore')){state.view='Inventory';state.category='Balls';focus='[data-inventory-tabs] [data-category="Balls"]';}
+  else if(target.hasAttribute('data-close')){state.open=false;focus='[data-open]';}
+  else if(target.hasAttribute('data-open')){state.open=true;focus='[data-screen="'+state.view+'"]';}
+  else return;
+  render();save();if(focus)q(focus).focus();
+ });
+ root.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.open){state.open=false;feedback='';render();save();q('[data-open]').focus();}});
+ window.addEventListener('openai:set_globals',event=>{load(event.detail?.globals?.widgetState?.privateContent);feedback='';render();});
+ load(window.openai?.widgetState?.privateContent);render();
+ if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:()=>{render();save();}});tweak.addSlider(state,'graphics',{label:'Graphic intensity',min:.25,max:1,step:.05});tweak.addSlider(state,'heroScale',{label:'Ball preview size',min:.9,max:1.08,step:.02});}
+})();
+</script>

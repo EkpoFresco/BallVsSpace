@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-18",
+  "status": "Stud direction rejected. Reference research completed; new design not yet authored or approved.",
+  "userInstruction": "Scratch previous stud-style requirements; research practical, pleasing UI. User supplied an angular action/anime-style Inventory and Store example during research.",
+  "supersedes": [
+    "tokens-v1 through tokens-v6 as active visual targets",
+    "Mandatory stud textures and previous stud-theme palette/font restrictions"
+  ],
+  "preserved": [
+    "Existing Inventory and Store behavior",
+    "Canonical appearance and icon artwork",
+    "Twelve appearances / two kits",
+    "No new purchases, progression or gameplay systems",
+    "Design approval before A/B/C benchmark"
+  ],
+  "userReference": {
+    "file": "user-action-ui-reference.png",
+    "credit": "Visible watermark: za_heerpsd; independent attribution not verified",
+    "observed": [
+      "Heavy italic white sans-serif titles with dark outlining",
+      "Angular cut corners and layered accent borders",
+      "Coordinated red/pink graphic header, diagonal bands and restrained graphic motifs",
+      "Dark grid and separate selected-item details",
+      "Store combines a featured column and a two-by-two offer grid"
+    ],
+    "notRequirements": [
+      "Exact red/pink palette",
+      "XP and levels",
+      "Rarity system",
+      "Purchase or gifting systems",
+      "Unusual star-shaped Close control"
+    ]
+  },
+  "recommendation": {
+    "direction": "Stylized action-game menus with a deliberate graphic identity, strong item-art hierarchy and clear interactive states",
+    "layout": "Inventory grid plus a large selected-ball panel and one prominent Equip action. Store uses four existing preview offers and a featured collection area.",
+    "artwork": "Create original header accents, shaped frames and button artwork as coordinated assets; keep labels, artwork slots, selection and controls separate and editable.",
+    "typography": "Heavy italic sans for display headings; simpler upright sans for descriptions and small labels. Exact font not selected and no font identification claim.",
+    "color": "Do not inherit the discarded palette as a constraint. Establish a new coherent accent system while keeping content and interactions readable.",
+    "practical": "Phone reflow, consistent selected/equipped labels, readable copy and normal obvious Close target; only existing functions represented."
+  },
+  "sources": [
+    {
+      "title": "OTRON_TV — Character Choosing",
+      "page": "https://otrontv.com/",
+      "image": "https://otrontv.com/assets/work/character-choosing.webp",
+      "visuallyInspected": true,
+      "use": "Large item preview, heavy italic display face, coordinated graphic assets; simplify small-copy texture for our game.",
+      "status": "Designer portfolio example; no independent runtime test."
+    },
+    {
+      "title": "OTRON_TV — Anime Shop",
+      "page": "https://otrontv.com/",
+      "image": "https://otrontv.com/assets/work/anime-shop.webp",
+      "visuallyInspected": true,
+      "use": "Consistent card geometry, common label/action positions, controlled category hierarchy.",
+      "status": "Designer portfolio example; no independent runtime test."
+    },
+    {
+      "title": "Solys Design — ACX MOBA UI System",
+      "page": "https://solysdesign.artstation.com/projects/xdYb0X",
+      "image": "https://cdnb.artstation.com/p/assets/images/images/101/910/585/large/solys-design-inventory.webp?1787751048",
+      "visuallyInspected": true,
+      "use": "Reusable panel and selected-state system, shared language across PC/mobile; do not copy high catalog density.",
+      "status": "Designer describes 14 screens and reusable nine-slice/state components. Claims not runtime-verified by this task."
+    },
+    {
+      "title": "Roblox adaptive design guidelines",
+      "page": "https://create.roblox.com/docs/production/publishing/adaptive-design",
+      "use": "Reflow layouts, support different inputs and readable small-screen type; distinguish states beyond color."
+    }
+  ],
+  "otherInspected": [
+    {
+      "page": "https://www.biggames.io/post/pet-simulator-99-update-5",
+      "image": "https://bigblog-storage.s3.us-east-1.amazonaws.com/31_6252593e48.png",
+      "note": "Official Pet Simulator shop; practical card clarity, but less aligned with the later user-supplied style."
+    },
+    {
+      "page": "https://www.pcgamer.com/fall-guys-item-shop-new-skins/",
+      "image": "https://cdn.mos.cms.futurecdn.net/3iQJDyXcbf6PrSQZk4PFGc.jpg",
+      "note": "Older Fall Guys customization screenshot; large preview and clear selection; less aligned with later user sample."
+    },
+    {
+      "page": "https://acts.artstation.com/projects/RKBNmO",
+      "note": "Inspected template; useful separation, but too empty to serve as primary polish target."
+    },
+    {
+      "page": "https://acts.artstation.com/projects/98gLoy",
+      "note": "Inspected; too dark and thin for recommended direction."
+    }
+  ],
+  "limits": [
+    "Reference pixels inspected through remote browser screenshots; no external media downloaded.",
+    "No new UI implementation or native tests this turn.",
+    "Earlier local-fragment browser URL-policy restriction remains in force. Remote research browsing does not validate the previous mockup."
+  ]
+}

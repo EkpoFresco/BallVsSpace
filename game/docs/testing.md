@@ -10,7 +10,7 @@ node --test game/tools/tests/*.test.mjs
 node game/tools/audit-repository.mjs
 ```
 
-The build command runs StyLua, Selene, strict Luau analysis and both Rojo place builds. Logs go to ignored `game/test-evidence/runs/`. The Node tests cover shared tooling error handling, safe evidence names and source mapping. The repository audit checks original reference hashes, local links and folder invariants. CI runs these checks and uploads places/logs; it does not launch Studio.
+The build command runs StyLua, Selene, strict Luau analysis and both Rojo place builds, then refreshes the compact primary file at `game/places/BallVsSpace.rbxl`. Commit that file with source changes; CI rejects a stale saved place. Logs go to ignored `game/test-evidence/runs/`. The Node tests cover shared tooling error handling, safe evidence names and source mapping. The repository audit checks original reference hashes, local links and folder invariants. CI runs these checks and uploads places/logs; it does not launch Studio.
 
 ## Studio logic and multiplayer
 
@@ -28,7 +28,7 @@ require(game:GetService("ServerScriptService").Server.Tests.Suite).run()
 | `multiplayer-smoke.luau` | Edit | Fresh two-client, one-match state/art regression |
 | `multiplayer.luau` | Edit | Longer ten-match normal-clock test |
 | `multiplayer-result.luau` | Edit | Read multiplayer results |
-| `client-regressions.luau` | Client | Interpolation, fonts/toast and 100 menu/skin cycles |
+| `client-regressions.luau` | Client | Interpolation, fonts/toast, modal tween cancellation and 100 menu/skin cycles |
 | `equipped-draft.luau` | Client | Equip makes the chosen appearance available in draft |
 | `render-benchmark.luau` | Client | 2,000 two-ball render calls, not whole-game FPS |
 | `scene.luau` / `microprofiler.luau` | Client | Engine analysis / snapshot profiler |
@@ -47,12 +47,17 @@ Poll `mirrored-result.luau` until all 200 pairs finish. A timeout or partial res
 Start ordinary Play in Lobby, then choose the affected driver:
 
 ```powershell
+node game/tools/qa/action-menus.mjs <verified-studio-id> action-check
 node game/tools/qa/ui-flow.mjs <verified-studio-id> ui-check
-node game/tools/qa/ui-layout.mjs <verified-studio-id> layout-check
+node game/tools/qa/ui-flow.mjs <verified-studio-id> phone-check --landscape --help-check --result-actions
+node game/tools/qa/scale-review.mjs <verified-studio-id> scale-check
+node game/tools/qa/scale-captures.mjs <verified-studio-id>
 node game/tools/qa/lobby.mjs <verified-studio-id> lobby-check
 ```
 
-The flow driver uses actual menu clicks, selection and aim through a complete Practice match. Layout checks desktop/portrait/landscape bounds, reroll, aim and touch-target geometry. Lobby checks real E prompts after explicit test character placement. Requests use temporary files; receipts/screenshots land in `runs/`. Reset device emulation with `tools/qa/devices/reset.luau` afterward.
+The flow driver uses actual menu clicks, selection and aim through a complete Practice match. `--help-check` opens instructions during battle; `--result-actions` clicks Replay and Rematch and verifies result restoration and persistent server confirmation. The scale driver renders 27 isolated UI states across ten emulator sizes and a resize round trip (297 checks), including round/match/service results and connection/replay banners. It checks effective font sizes, text fit, 44-pixel targets, button overlaps and modal bounds; its process fails if any issues remain. The capture driver follows the scale driver in the same Play session. Stop/restart Play afterward to remove the isolated fixture. These are presentation checks, not live input or physical-device evidence.
+
+Lobby checks real E prompts after explicit test character placement. Requests use temporary files; receipts/screenshots land in `runs/`. `final-regression.mjs <verified-studio-id>` runs How to Play, the 100-cycle client fixture, then stops Play and runs 13 logic groups, presentation and a fresh two-client match. Start it in Lobby after the menu flow, or restart Play after the rematch test. Reset device emulation with `tools/qa/devices/reset.luau` afterward.
 
 Compare [current/reference screens](ui/reference-comparison.html). Keep Studio restored with the Client viewport selected: a minimized/unselected viewport previously produced blank or 1×1 captures. Check loaded atlas images, modal stacking, private opponent choice, Lock Aim, final area and rematch. For court sizing changes, also check input alignment and visible/solver diameter.
 
