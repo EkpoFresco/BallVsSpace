@@ -19,3 +19,5 @@ Run from the repository root unless a command says otherwise. Canonical gameplay
 | `types/` | Vendored Roblox analyzer definitions and license |
 
 The UI QA drivers share one RPC helper. Request files are temporary, output goes to `test-evidence/runs/`, and Studio IDs must be explicitly verified. [Testing](../docs/testing.md) lists supported commands. Superseded diagnostics are recoverable in Git history.
+
+The primary place is `game/places/BallVsSpace.rbxl`; verification writes that file directly. The lobby is a static Rojo asset at `game/assets/world/Lobby.rbxm`, with lighting in `default.project.json`. To retain intentional Edit-mode changes to `Workspace.BVSCourt`, run `node game/tools/studio/save-world.mjs VERIFIED_STUDIO_ID`, then rebuild. Sync imports this canonical scene, so export intended world edits before syncing. Play never regenerates it.

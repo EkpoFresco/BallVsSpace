@@ -10,7 +10,20 @@
 
 For visual browsing use the [UI map](../docs/ui/map.html) and [reference comparison](../docs/ui/reference-comparison.html). The gallery is historical (17 October). Current action-v1 evidence is listed below.
 
-## Current review / 20 October
+## Current menu and static-world corrections / 20 October
+
+- [Final save/source verification](results/fixes20-verification.json): one primary place, static authored model, unchanged approved inputs and fresh-file verification.
+- [Menu input](results/fixes20-menus.json): actual clicks at three sizes, including blank spaces, first/last rows, scrolling, Store category return and close.
+- [Scale matrix](results/fixes20-scale.json): 297 checks, zero issues; ten sizes and a return pass. Borders and Store card containment added.
+- [Static-world round trip](results/fixes20-world.json) and [lobby actions](results/fixes20-world-lobby.json): Edit/Play/Stop identity, 13 logic groups and actual E-key prompt routes into Practice.
+- [Final lifecycle](results/fixes20-lifecycle.json): 100 UI/skin cycles, 795 descendants before/after, after the final close transition fix.
+- [First-row Inventory](screenshots/fixes20-final-04-inventory-0.jpg), [short scrolled Inventory](screenshots/fixes20-menus-20-inventory-image-short-0.jpg), [wide scrolled Inventory](screenshots/fixes20-menus-98-inventory-image-wide-0.jpg).
+- Direct Inventory → Store, with visible close control: [900×650](screenshots/fixes20-close-v2-05-store-medium-0.jpg), [568×320](screenshots/fixes20-close-v2-11-store-short-0.jpg), [1920×1080](screenshots/fixes20-close-v2-17-store-wide-0.jpg).
+- [Saved Edit map](screenshots/fixes20-map-edit.jpg). No new two-client or physical-device claim; the earlier full-match receipts below retain their original scope.
+
+Earlier close omissions were a real rendered regression despite passing bounds/click checks. The new transition captures supersede that earlier assessment. Retired save-location receipts below are historical.
+
+## Earlier review / 20 October
 
 - [Primary save verification](results/primary-place-save.json): the primary local file, generated build and GitHub-ready place have the same SHA-256; 42 sources verified in the primary Studio window and six fresh desktop/landscape panel checks passed.
 - [Scale matrix](results/review20-scale.json): 27 states × 11 viewport passes = 297 checks, zero flagged issues; ten sizes plus return-to-small, all catalog strings. Includes round/service/rematch states and connection/replay banners.

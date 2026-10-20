@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-20",
+  "studio": "df1a3bfc-d542-46b0-8d61-634c11afc038",
+  "primary": "game/places/BallVsSpace.rbxl",
+  "savedFileOpenedFresh": true,
+  "sourceFilesVerified": 40,
+  "edit": {
+    "descendants": 427,
+    "style": "Enum.LightingStyle.Soft",
+    "edit": true,
+    "cameras": 1,
+    "overviewSaved": true
+  },
+  "checks": {
+    "format": true,
+    "lint": true,
+    "strictAnalysis": true,
+    "nodeTests": 4,
+    "binaryBuild": true,
+    "xmlBuild": true,
+    "scaleStates": 297,
+    "scaleIssues": 0,
+    "realMenuInputSizes": [
+      [
+        568,
+        320
+      ],
+      [
+        900,
+        650
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "finalCloseTransitionVisuallyInspected": true,
+    "finalUiCycles": 100
+  },
+  "closeEvidence": [
+    "fixes20-close-v2-05-store-medium-0.jpg",
+    "fixes20-close-v2-11-store-short-0.jpg",
+    "fixes20-close-v2-17-store-wide-0.jpg"
+  ],
+  "hashes": {
+    "game/places/BallVsSpace.rbxl": "8d239d8b4336b882b0b10b63d35c1ef4b440e4ca7bc97813c2ee558ee1ae6973",
+    "game/assets/world/Lobby.rbxm": "1ac2eab6d9a4fb54948dc61d0e324885caf47915ed9dc7c70e79992339cf1590",
+    "game/assets/ui-concepts/action-v1/design.json": "4942b6f97bdc843458b1d29b3fe2a8b30a3bc4e1d9ff742261d7ddda75b5b389",
+    "game/assets/ui-concepts/action-v1/pilot.json": "6c0017f4866808e888d3da45985b6656bab02b999256a3ebcb89e67bb462e386"
+  },
+  "retiredLocalFiles": [
+    ".local/legacy-places/BallVsSpace-from-Reaction-Game.rbxl",
+    ".local/legacy-places/BallVsSpace-retired-Studio-session.rbxl",
+    ".local/legacy-places/BallVsSpace-former-generated-build.rbxl"
+  ],
+  "autoRecovery": "Untouched",
+  "limits": [
+    "Physical phone touch/FPS and gamepad remain pending",
+    "No new multiplayer run in this correction pass",
+    "Earlier failed close-transition captures remain in ignored runs; these final captures supersede them"
+  ],
+  "studioLeft": "Edit, primary place with static lobby overview"
+}

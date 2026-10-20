@@ -1,0 +1,12 @@
+{
+  "fontRoundTrip": true,
+  "descendantsBefore": 795,
+  "uiCycles": 100,
+  "modalTweenCancellation": true,
+  "startupInterpolation": true,
+  "sameTickVelocity": true,
+  "staleMotion": true,
+  "toastRace": true,
+  "scope": "Isolated module fixture; not 100 character resets or physical-device input",
+  "descendantsAfter": 795
+}

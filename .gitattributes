@@ -1,5 +1,6 @@
 * text=auto eol=lf
 *.rbxl binary
+*.rbxm binary
 *.png binary
 *.jpg binary
 *.mp4 binary

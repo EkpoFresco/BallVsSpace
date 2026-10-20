@@ -134,7 +134,7 @@ local function card(parent: Instance, id: string, x: number, y: number, width: n
 	local entry = Appearances.entries[id]
 	local b = Ui.button(parent, id, "", x, y, width, 212, Color3.fromRGB(22, 25, 38))
 	b.BackgroundTransparency = 0.10
-	local edge = b:FindFirstChild("Edge") :: UIStroke
+	local edge = b:FindFirstChild("Edge", true) :: UIStroke
 	edge.Enabled = false
 	for _, side in { 0, width - 1 } do
 		Ui.frame(b, "CardDivider", side, 0, 1, 212, Color3.fromRGB(185, 186, 199))
@@ -458,7 +458,7 @@ function Hud.new()
 		local entry = Appearances.entries[id]
 		local x, y = 4 + ((i - 1) % 6) * 73, 31 + ((i - 1) // 6) * 73
 		local slot = Ui.button(collection, id, "", x, y, 70, 69, Color3.fromRGB(37, 41, 60))
-		local edge = slot:FindFirstChild("Edge") :: UIStroke
+		local edge = slot:FindFirstChild("Edge", true) :: UIStroke
 		edge.Color = Color3.fromRGB(106, 142, 201)
 		edge.Thickness = 0.8
 		local preview = Art.viewport(slot, "Preview", id)
@@ -598,7 +598,7 @@ function Hud.new()
 		slot.Activated:Connect(function()
 			state.pendingAppearance = slot.Name
 			for _, other in collectionCards do
-				local edge = other:FindFirstChild("Edge") :: UIStroke
+				local edge = other:FindFirstChild("Edge", true) :: UIStroke
 				edge.Color = if other == slot then Ui.actionColors.cyan else Ui.actionColors.line
 				edge.Thickness = if other == slot then 2 else 0.8
 			end

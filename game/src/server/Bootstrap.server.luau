@@ -8,13 +8,15 @@ local Shared = ReplicatedStorage.Shared
 local Math = require(Shared.TerritoryMath)
 local Protocol = require(Shared.Protocol)
 local Match = require(script.Parent.Services.MatchService)
-local Court = require(script.Parent.Services.CourtService)
 local Profiles = require(script.Parent.Services.ProfileService)
 local Queue = require(script.Parent.Services.QueueService)
 local Replication = require(script.Parent.Services.ReplicationService)
 local History = require(script.Parent.Services.CommandHistory)
 Players.CharacterAutoLoads = true
-Court.build()
+assert(
+	Workspace:FindFirstChild("BVSCourt"),
+	"Missing authored lobby. Rebuild the place from default.project.json."
+)
 local remotes = Instance.new("Folder")
 remotes.Name = "Remotes"
 local function remote(name: string): RemoteEvent

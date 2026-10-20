@@ -1,4 +1,20 @@
-# UI and logic review — 20 October 2026
+# Menu and static-world correction review — 20 October 2026
+
+This pass responds to the user's screenshots and actual interaction report. It is a local source review with engine tests, not an independent review. The previous geometry-only checks missed click-through and rendered border/close-control defects.
+
+| Finding | Correction |
+| --- | --- |
+| Blank modal areas clicked the outside backdrop | Full-size transparent button under modal contents consumes those clicks. Actual blank grid/header/card-padding clicks pass at three sizes. |
+| Centered selection strokes clipped at the scroll origin; inset strokes could sit behind child fills | Inset outline layer above artwork/footer; 3px grid inset, reserved scrollbar gutter and complete last-row canvas height. |
+| X artwork differed from Figma; direct menu switching sometimes omitted it | Native Montserrat × with matching fill/border. Show the close control one rendered frame after its parent; inspect medium, short and wide transition captures, plus lifecycle cancellation. |
+| Store offers read as floating artwork and buttons | One bounded frame per offer, shared surface/padding, aligned CTA and 14px gutters; reachable scrolling at short heights. |
+| Store category stayed selected after routing elsewhere | Only Events/Balls mutate Store selection; other tabs open the matching Inventory category. |
+| Lobby existed only at runtime | Script-free authored model in the Rojo tree. Removed two builders; verify the same scene before/after Play, fresh-file load, and real proximity-prompt actions. |
+| Repeated same-name saves and unrelated folder | One tracked primary binary built directly by verification/CI. Preserve former copies under descriptive ignored backup names. |
+
+The [current evidence](../../test-evidence/README.md) separates 297 geometry checks, actual clicks, visual inspection, final lifecycle checks and the static-world round trip. Physical devices remain untested. Approved art and design inputs are unchanged.
+
+## Earlier UI and logic review — 20 October 2026
 
 Reviewed the client update loop, territory decoder, command validation, match/rematch transitions, replication, modal lifecycle and native layouts. The approved action-v1 inputs and territory rules are unchanged. This is a local source review with engine checks, not an independent agent review.
 

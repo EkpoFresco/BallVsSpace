@@ -104,9 +104,15 @@ function Ui.button(
 	local edge = Instance.new("UIStroke")
 	edge.Name = "Edge"
 	edge.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	edge.BorderStrokePosition = Enum.BorderStrokePosition.Inner
 	edge.Color = color:Lerp(Color3.new(0, 0, 0), 0.6)
 	edge.Thickness = 2
-	edge.Parent = b
+	-- Render the inset border above fills/footers; otherwise children cover it.
+	local outline = Ui.frame(b, "Outline", 0, 0, w, h, Color3.new())
+	outline.BackgroundTransparency = 1
+	outline.Size = UDim2.fromScale(1, 1)
+	outline.ZIndex = 6
+	edge.Parent = outline
 	local hover = false
 	local function tint(brightness: number)
 		TweenService:Create(
@@ -209,7 +215,7 @@ function Ui.actionTheme(root: Instance, skip: { [string]: boolean }?)
 					gradient.Color = ColorSequence.new(color, color:Lerp(c.ink, 0.08))
 				end
 			end
-			local edge = item:FindFirstChild("Edge")
+			local edge = item:FindFirstChild("Edge", true)
 			if edge and edge:IsA("UIStroke") then
 				edge.Color = c.line
 				edge.Thickness = 1

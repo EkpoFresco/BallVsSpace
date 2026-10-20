@@ -45,7 +45,7 @@ jobs:
         with:
           name: BallVsSpace-${{ github.sha }}
           path: |
-            game/builds/BallVsSpace.rbxl
+            game/places/BallVsSpace.rbxl
             game/builds/BallVsSpace.rbxlx
           if-no-files-found: error
           retention-days: 14

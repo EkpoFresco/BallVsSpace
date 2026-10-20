@@ -22,7 +22,7 @@ local ok,result=pcall(function()
  local s=Panels.new(gui)
  Panels.layout(s,Vector2.new(800,600),1)
  task.wait()
- local action=s.windows.Store.Content.Offers.ViewLaser
+ local action=s.windows.Store.Content.Offers.LaserOffer.ViewLaser
  local original=action.TextSize
  Panels.layout(s,Vector2.new(873,401),0.5)
  task.wait()

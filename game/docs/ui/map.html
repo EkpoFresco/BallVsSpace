@@ -28,7 +28,7 @@ const hud='../../src/client/Controllers/HudController.luau';
 const panels='../../src/client/Controllers/LobbyPanels.luau';
 const ball='../../src/client/Controllers/BallRenderer.luau';
 const art='../../src/client/Controllers/BallArt.luau';
-const world='../../src/server/Services/LobbyDetailService.luau';
+const world='../../assets/world/Lobby.rbxm';
 const root='BallVsSpace.ReferenceCanvas.';
 const region=(box,title,kind,path,source,note)=>({box,title,kind,path,source,note});
 const ui=(box,title,path,note,source=hud)=>region(box,title,'ui',root+path,source,note);
@@ -44,7 +44,7 @@ ui([674,225,189,45],'Practice button','Controls.Right','Visually inside QuickJoi
 ui([274,564,270,86],'Play and mode controls','Controls.Left / Lobby.Mode / Lobby.Reward','Play queues a duel. The 1v1 button opens the mode panel. All Balls Free is a label.'),
 ui([17,530,95,111],'Currency display','Currency','Images, fallback shapes and labels. Current values are zero; this is not an implemented economy.'),
 ui([807,530,76,92],'Invite button','Lobby.Invite','Opens Panels["Invite friends"]. The responsive layout moves this button on phones.'),
-region([692,340,106,96],'Purple lobby prop','world','Workspace.BVSCourt','../../src/server/Services/CourtService.luau','World geometry, separate from the match ball renderer. Ground shading and the sky also belong to the 3D scene.')]),
+region([692,340,106,96],'Purple lobby prop','world','Workspace.BVSCourt','../../assets/world/Lobby.rbxm','World geometry, separate from the match ball renderer. Ground shading and the sky also belong to the 3D scene.')]),
 screen('battle','Battle — UI court and balls','review-final-64-battle-1-0.jpg',[
 region([160,50,570,44],'Navy court bevel','ui','BVSReferenceCourt.ReferenceCanvas.Court',hud,'The apparent depth is made from many thin UI Frames. Playfield and its inner-shadow Frames sit inside the visible border.'),
 region([201,97,201,482],'Territory tiles','ui','BVSTerritory.ReferenceCanvas.Cell0 … Cell1023','../../src/client/Controllers/TerritoryRenderer.luau','32×32 Frames show signed territory pressure. Their positions share ReferenceLayout with the court and ball projection.'),

@@ -12,8 +12,8 @@ The [clickable screenshot map](map.html) and [reference comparison](reference-co
 
 | What you see | What it actually is | Main place to edit |
 | --- | --- | --- |
-| Walkable lobby, kiosks, arena pads, purple prop | 3D Parts in `Workspace.BVSCourt` | [CourtService](../../src/server/Services/CourtService.luau), [LobbyDetailService](../../src/server/Services/LobbyDetailService.luau) |
-| Floating lobby signs and kiosk screens | BillboardGui / SurfaceGui attached to world Parts | LobbyDetailService; base boards in CourtService |
+| Walkable lobby, kiosks, arena pads, purple prop | 3D Parts in `Workspace.BVSCourt` | [Authored lobby](../../assets/world/Lobby.rbxm) |
+| Floating lobby signs and kiosk screens | BillboardGui / SurfaceGui attached to world Parts | The same authored lobby asset |
 | Large charcoal match court, including its apparent depth | 2D Frames, gradients and bevel strips | [HudController](../../src/client/Controllers/HudController.luau) |
 | Cyan/coral territory | 1,024 screen-space Frames | [TerritoryRenderer](../../src/client/Controllers/TerritoryRenderer.luau) |
 | Shaded moving balls and rotating weapons | Primarily ImageLabels; a ViewportFrame holds a 3D fallback | [BallArt](../../src/client/Controllers/BallArt.luau), [BallRenderer](../../src/client/Controllers/BallRenderer.luau), [Artwork](../../src/client/Controllers/Artwork.luau) |
@@ -23,6 +23,8 @@ The [clickable screenshot map](map.html) and [reference comparison](reference-co
 | Roblox menu/chat/top bar and native mobile controls | Platform CoreGui | Outside this project's authored frame tree |
 
 The 3D arena pads visible in the lobby are decorative world geometry. They are **not** the large 2D match court. Match motion comes from the server simulation; dragging a lobby Part will not change ball collisions.
+
+The lobby is saved in `Workspace.BVSCourt` and remains visible in Edit mode. Its canonical model is `game/assets/world/Lobby.rbxm`; lighting lives in `game/default.project.json`. Export intentional Studio world edits with `node game/tools/studio/save-world.mjs VERIFIED_STUDIO_ID` before syncing or rebuilding. Runtime scripts no longer rebuild or replace the map.
 
 ## Where to find the frames in Studio
 
@@ -130,7 +132,7 @@ npm ci --prefix game/tools/art --no-audit --no-fund
 node game/tools/art/build.mjs
 ```
 
-A changed local PNG **does not automatically change the Roblox image**. Upload the revised atlas, update its ID in Artwork (and the world kiosk image in LobbyDetailService where applicable), then verify it loads in a real client. Keep the cell layout and ImageRect offsets/sizes consistent. On an owner/group change, verify images load and update image IDs if new uploads are required.
+A changed local PNG **does not automatically change the Roblox image**. Upload the revised atlas, update its ID in Artwork (and the world kiosk ImageLabel in the authored lobby where applicable), then verify it loads in a real client. Keep the cell layout and ImageRect offsets/sizes consistent. On an owner/group change, verify images load and update image IDs if new uploads are required.
 
 ## Before you keep a UI edit
 

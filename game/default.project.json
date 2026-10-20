@@ -6,6 +6,17 @@
     "ServerScriptService": {"Server": {"$path": "src/server"}},
     "StarterPlayer": {"StarterPlayerScripts": {"Client": {"$path": "src/client"}}},
     "StarterGui": {"$properties": {"ScreenOrientation": "LandscapeSensor"}},
-    "Workspace": {"$properties": {"Gravity": 196.2, "StreamingEnabled": false}, "AuthoredWorld": {"$className":"Folder", "$ignoreUnknownInstances":true}}
+    "Lighting": {
+      "$properties": {"Technology": "Unified", "LightingStyle": "Soft", "ClockTime": 13.6, "Brightness": 2, "ExposureCompensation": 0, "Ambient": [0.372549, 0.454902, 0.572549], "OutdoorAmbient": [0.501961, 0.568627, 0.65098], "FogColor": [0.458824, 0.74902, 0.905882], "FogStart": 300, "FogEnd": 1350},
+      "Sky": {"$className": "Sky"},
+      "Atmosphere": {"$className": "Atmosphere", "$properties": {"Density": 0.18, "Offset": 0.1, "Color": [0.745098, 0.862745, 0.960784], "Decay": [0.478431, 0.658824, 0.823529], "Haze": 0.3}}
+    },
+    "Workspace": {
+      "$properties": {"Gravity": 196.2, "StreamingEnabled": false},
+      "$attributes": {"Rojo_Target_CurrentCamera": "lobby-camera"},
+      "Camera": {"$className": "Camera", "$id": "lobby-camera", "$properties": {"CFrame": [85, 95, 260, 0.916696, -0.162942, 0.364854, 0, 0.913081, 0.407778, -0.399585, -0.373808, 0.837018], "Focus": [0, 0, 65, 1, 0, 0, 0, 1, 0, 0, 0, 1]}},
+      "BVSCourt": {"$path": "assets/world/Lobby.rbxm"},
+      "Terrain": {"$className": "Terrain", "Clouds": {"$className": "Clouds", "$properties": {"Cover": 0.5, "Density": 0.65, "Color": [0.980392, 0.996078, 1]}}}
+    }
   }
 }

@@ -4,7 +4,7 @@ A Roblox territory battler: choose a ball, aim, then compete for space as the se
 
 ![Current Inventory](game/test-evidence/screenshots/review20-ready-02-compact-inventory-0.jpg)
 
-**Play the saved game:** download [BallVsSpace.rbxl](game/places/BallVsSpace.rbxl), open it in Roblox Studio, press **Play / F5**, then **Practice**. This compact primary place includes the current scripts and game setup. Menus and the world are created during Play. Every verification build refreshes this file; CI rejects a saved place that differs from the source build.
+**Play the saved game:** download [BallVsSpace.rbxl](game/places/BallVsSpace.rbxl), open it in Roblox Studio, press **Play / F5**, then **Practice**. The map is saved in the place and visible in Edit mode; menus appear during Play. Every verification build refreshes this same primary file; CI rejects a saved place that differs from the source build.
 
 ## Find what you need
 
@@ -27,7 +27,7 @@ rokit install
 pwsh -File game/tools/verify.ps1
 ```
 
-Open `game/builds/BallVsSpace.rbxl`, press **Play**, then **Practice**. For 1v1, start two Studio clients and click Play in both. Source changes belong in `game/src/`; use `rojo serve game/default.project.json` for live sync.
+Open `game/places/BallVsSpace.rbxl`, press **Play**, then **Practice**. For 1v1, start two Studio clients and click Play in both. Source changes belong in `game/src/`; use `rojo serve game/default.project.json` for live sync.
 
 ## Repository layout
 
@@ -39,7 +39,7 @@ game/
   tools/           Build/export commands; studio/, qa/, art/, ci/, lib/, types/
   test-evidence/   Selected screenshots/results; earlier runs in one indexed archive
   places/         One current, ready-to-open binary place saved in Git
-  builds/          Generated places (ignored)
+  builds/          Generated XML inspection build (ignored)
   exports/         Generated UI folder/ZIP (ignored)
 Ball_VS_Space_Evidence/   Untouched original research and references
 .local/                  Ignored temporary work and recovery files

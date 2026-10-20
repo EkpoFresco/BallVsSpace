@@ -73,12 +73,16 @@ function Review.inspect(name)
   end
   if n:IsA('GuiButton') then
    buttons+=1
-   if n.Name~='Dismiss' then
+   local edge=n:FindFirstChild('Edge',true)
+   if edge and edge:IsA('UIStroke') and edge.BorderStrokePosition~=Enum.BorderStrokePosition.Inner then
+    table.insert(issues,{kind='stroke-outside-target',path=n:GetFullName()})
+   end
+   if n.Name~='Dismiss' and n.Name~='ModalSurface' then
     local p,q=n.AbsolutePosition,n.AbsolutePosition+n.AbsoluteSize;local a=n.Parent
     while a do if a:IsA('GuiObject') and a.ClipsDescendants then p=Vector2.new(math.max(p.X,a.AbsolutePosition.X),math.max(p.Y,a.AbsolutePosition.Y));q=Vector2.new(math.min(q.X,a.AbsolutePosition.X+a.AbsoluteSize.X),math.min(q.Y,a.AbsolutePosition.Y+a.AbsoluteSize.Y)) end;a=a.Parent end
     if q.X>p.X and q.Y>p.Y then table.insert(targets,{node=n,p=p,s=q-p}) end
    end
-   if n.Name~='Dismiss' and (n.AbsoluteSize.X<43.5 or n.AbsoluteSize.Y<43.5) then table.insert(issues,{kind='target-small',path=n:GetFullName(),size=tostring(n.AbsoluteSize)}) end
+   if n.Name~='Dismiss' and n.Name~='ModalSurface' and (n.AbsoluteSize.X<43.5 or n.AbsoluteSize.Y<43.5) then table.insert(issues,{kind='target-small',path=n:GetFullName(),size=tostring(n.AbsoluteSize)}) end
   end
  end
  for i,a in targets do
@@ -98,6 +102,16 @@ function Review.inspect(name)
  if root~=h.root then
   local p=root.AbsolutePosition-h.gui.AbsolutePosition;local s=root.AbsoluteSize;local v=h.gui.AbsoluteSize
   if p.X<-.5 or p.Y<-.5 or p.X+s.X>v.X+.5 or p.Y+s.Y>v.Y+.5 then table.insert(issues,{kind='outside-safe',path=root.Name,position=tostring(p),size=tostring(s),viewport=tostring(v)}) end
+ end
+ if name=='Store' then
+  local offers=root.Content.Offers
+  for _,id in {'Laser','Ray','Balloons','Parasol'} do
+   local group=offers[id..'Offer'];local card=group[id];local action=group['View'..id]
+   local a,b=action.AbsolutePosition-group.AbsolutePosition,card.AbsolutePosition-group.AbsolutePosition
+   if a.X<0 or a.Y<0 or a.X+action.AbsoluteSize.X>group.AbsoluteSize.X+.5 or a.Y+action.AbsoluteSize.Y>group.AbsoluteSize.Y+.5 or b.Y+card.AbsoluteSize.Y>a.Y then
+    table.insert(issues,{kind='offer-containment',path=group:GetFullName()})
+   end
+  end
  end
  return {frame=name,texts=texts,buttons=buttons,minimumFont=smallest,issues=issues}
 end

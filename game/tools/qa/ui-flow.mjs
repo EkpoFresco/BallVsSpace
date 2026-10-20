@@ -29,7 +29,7 @@ code(`local d=${g}.ReferenceCanvas.Panels.Inventory.Content.BallsPage.Details;lo
 click('Panels.Inventory.Content.BallsPage.Grid.Axe','select-axe');click('Panels.Inventory.Content.BallsPage.Details.Equip','equip-axe');
 code(`assert(${g}.ReferenceCanvas.Panels.Inventory.Content.BallsPage.Details.Equipped.Text=="Equipped: Axe");return true`,'equip-feedback');
 click('Panels.Inventory.Explosions','explosions');capture('explosions');click('Panels.Inventory.Flyers','flyers');capture('flyers');click('Panels.Inventory.Close','close-inventory');
-click('Lobby.Store','store');panel('Store');capture('store');click('Panels.Store.Content.Offers.ViewLaser','inspect-laser');panel('Inventory');
+click('Lobby.Store','store');panel('Store');capture('store');click('Panels.Store.Content.Offers.LaserOffer.ViewLaser','inspect-laser');panel('Inventory');
 code(`assert(${g}.ReferenceCanvas.Panels.Inventory.Content.BallsPage.Details:FindFirstChild("Name").Text=="Laser Ball");return true`,'store-detail');click('Panels.Inventory.Close','close-detail');
 for(const [button,name] of [['Rewards','Rewards'],['Lobby.Emotes','Emotes'],['Lobby.Trade','Trade'],['Lobby.Invite','Invite friends'],['Lobby.Mode','Play']]){
  click(button,'open-'+name);panel(name);capture(name.toLowerCase().replaceAll(' ','-'));click('Panels.'+name+'.Close','close-'+name);

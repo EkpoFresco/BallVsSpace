@@ -13,7 +13,7 @@ rokit install
 pwsh -File game/tools/verify.ps1
 ```
 
-Open the committed `game/places/BallVsSpace.rbxl`, or `game/builds/BallVsSpace.rbxl` after building. Play → Practice runs a solo match. Test → Server & Clients → 2 clients, then Play in both, runs 1v1. Successful GitHub Actions runs also attach place builds. CI does not run Studio multiplayer or human tests.
+Open `game/places/BallVsSpace.rbxl`; verification rebuilds this same primary file. Play → Practice runs a solo match. Test → Server & Clients → 2 clients, then Play in both, runs 1v1. Successful GitHub Actions runs also attach place builds. CI does not run Studio multiplayer or human tests.
 
 ## Edit the canonical project
 

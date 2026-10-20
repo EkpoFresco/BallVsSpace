@@ -45,7 +45,7 @@ local function button(node: GuiObject, color: Color3, foreground: Color3, size: 
 	if caption and caption:IsA("TextLabel") then
 		text(caption, foreground, size, true)
 	end
-	local stroke = node:FindFirstChild("Edge")
+	local stroke = node:FindFirstChild("Edge", true)
 	if stroke and stroke:IsA("UIStroke") then
 		stroke.Color = line
 		stroke.Thickness = 1
@@ -164,7 +164,7 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 			balance.BackgroundTransparency = 1
 			balance.ZIndex = 4
 			tabs(window, storeTabs, "Events")
-			for _, tabName in storeTabs do
+			for _, tabName in { "Events", "Balls" } do
 				local tabButton = child(window, tabName) :: TextButton
 				tabButton.Activated:Connect(function()
 					tabs(window, storeTabs, tabName)
@@ -231,6 +231,14 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 		child(child(offers, id), "Foot").BackgroundColor3 = surface
 		text(child(child(child(offers, id), "Foot"), "Name"), white, 20, true)
 		button(child(offers, "View" .. id), cyan, ink, 13)
+		local group = Ui.frame(offers, id .. "Offer", 0, 0, 100, 100, surface)
+		-- Art, name and action share one bounded card instead of floating siblings.
+		child(offers, id).Parent = group
+		child(offers, "View" .. id).Parent = group
+	end
+	local offersEdge = offers:FindFirstChildOfClass("UIStroke")
+	if offersEdge then
+		offersEdge:Destroy()
 	end
 	local feature = child(offers, "Spotlight")
 	feature.BackgroundColor3 = cyan
@@ -271,7 +279,7 @@ function Menus.select(windows: { [string]: Frame }, selected: string, preferred:
 	local grid = child(page, "Grid")
 	for _, id in Catalog.ids do
 		local item = child(grid, id)
-		local stroke = item:FindFirstChild("Edge") :: UIStroke
+		local stroke = item:FindFirstChild("Edge", true) :: UIStroke
 		stroke.Color = if id == selected then cyan else line
 		stroke.Thickness = if id == selected then 2 else 1
 		local foot = child(item, "Footer")
@@ -311,8 +319,21 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 		local scale = window:FindFirstChildOfClass("UIScale") :: UIScale
 		scale.Scale = 1 / rootScale
 		box(child(window, "ActionHeader"), 0, 0, width, headerHeight)
-		box(child(window, "Heading"), 18, 6, (if compact then width - 270 else width - 90), headerHeight - 12)
-		text(child(window, "Heading"), white, if compact then 31 else 42, true)
+		-- The short landscape header shares its top edge with Roblox's menu/chat controls.
+		local headingX = if compact and viewport.X < 1240 then 108 else 18
+		box(
+			child(window, "Heading"),
+			headingX,
+			6,
+			(if compact then width - headingX - 252 else width - 90),
+			headerHeight - 12
+		)
+		text(
+			child(window, "Heading"),
+			white,
+			if compact and width < 680 then 25 elseif compact then 31 else 42,
+			true
+		)
 		local titleStroke = child(window, "Heading"):FindFirstChild("TextOutline") :: UIStroke
 		titleStroke.Transparency = 0
 		box(child(window, "Close"), width - 60, (headerHeight - 44) / 2, 44, 44)
@@ -351,9 +372,11 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 	local detailWidth = if compact then 242 else 284
 	local gridWidth = inner - detailWidth - 16
 	local columns = math.clamp(math.floor((gridWidth + 10) / 100), 2, 4)
-	local cardWidth = (gridWidth - 4 - (columns - 1) * 10) / columns
+	local gridPadding = 3 -- Room for the full selection stroke on all four edges.
+	local scrollGutter = 8
+	local cardWidth = (gridWidth - 4 - gridPadding * 2 - scrollGutter - (columns - 1) * 10) / columns
 	local cardHeight = if compact then 112 else math.min(160, cardWidth + 36)
-	local gridHeight = math.ceil(#Catalog.ids / columns) * (cardHeight + 10)
+	local gridHeight = gridPadding * 2 + math.ceil(#Catalog.ids / columns) * (cardHeight + 10) - 10
 	local detailHeight = contentHeight
 	local pageHeight = contentHeight
 	box(page, 0, 0, inner, pageHeight)
@@ -372,8 +395,8 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 		local item = child(grid, id)
 		box(
 			item,
-			(i - 1) % columns * (cardWidth + 10),
-			math.floor((i - 1) / columns) * (cardHeight + 10),
+			gridPadding + (i - 1) % columns * (cardWidth + 10),
+			gridPadding + math.floor((i - 1) / columns) * (cardHeight + 10),
 			cardWidth,
 			cardHeight
 		)
@@ -474,13 +497,13 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 	local offers = child(storeContent, "Offers")
 	local featureWidth = if compact then 222 else 254
 	local storeVisibleHeight = contentHeight
-	local storeBodyHeight = if compact then math.max(240, contentHeight) else contentHeight
+	local storeBodyHeight = math.max(320, contentHeight)
 	local compactStore = compact or storeBodyHeight < 500
 	local featureHeight = storeBodyHeight
 	local startX = featureWidth + 16
-	local offerWidth = (inner - startX - 14) / 2
-	local offerHeight = (storeBodyHeight - (if compactStore then 10 else 14)) / 2
-	local gap = if compactStore then 10 else 14
+	local offerWidth = (inner - startX - 14 - 8) / 2
+	local gap = 14
+	local offerHeight = (storeBodyHeight - gap) / 2
 	local storeHeight = offerHeight * 2 + gap
 	box(offers, 0, 0, inner, storeHeight)
 	local feature = child(offers, "Spotlight")
@@ -522,16 +545,19 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 	for i, id in { "Laser", "Ray", "Balloons", "Parasol" } do
 		local x = startX + (i - 1) % 2 * (offerWidth + 14)
 		local y = math.floor((i - 1) / 2) * (offerHeight + gap)
-		local offer = child(offers, id)
-		local artHeight = offerHeight - (if compactStore then 78 else 100)
-		box(offer, x, y, offerWidth, offerHeight - 48)
-		local size = math.min(138, offerWidth - 16, artHeight)
-		box(child(offer, "Art"), (offerWidth - size) / 2, 0, size, size)
+		local group = child(offers, id .. "Offer")
+		box(group, x, y, offerWidth, offerHeight)
+		local offer = child(group, id)
+		local nameHeight = if compactStore then 36 else 52
+		local artHeight = offerHeight - nameHeight - 58
+		box(offer, 2, 2, offerWidth - 4, artHeight + nameHeight)
+		local size = math.min(138, offerWidth - 20, artHeight - 8)
+		box(child(offer, "Art"), (offerWidth - 4 - size) / 2, (artHeight - size) / 2, size, size)
 		local foot = child(offer, "Foot")
-		box(foot, 0, artHeight, offerWidth, if compactStore then 28 else 52)
-		box(child(foot, "Name"), 8, 0, offerWidth - 16, if compactStore then 28 else 52)
+		box(foot, 0, artHeight, offerWidth - 4, nameHeight)
+		box(child(foot, "Name"), 6, 0, offerWidth - 16, nameHeight)
 		text(child(foot, "Name"), white, if compactStore then 15 else 20, true)
-		box(child(offers, "View" .. id), x + 6, y + offerHeight - 44, offerWidth - 12, 44)
+		box(child(group, "View" .. id), 6, offerHeight - 50, offerWidth - 12, 44)
 	end
 	storeContent.CanvasSize = UDim2.fromOffset(0, storeHeight)
 	storeContent.ScrollingEnabled = storeBodyHeight > storeVisibleHeight

@@ -17,7 +17,7 @@ test('Evidence filenames cannot escape the run directory',()=>{
  assert.match(outputFile('run-01.json'),/runs[\\/]run-01\.json$/);
 });
 test('Shared inventory maps each canonical script once to its Rojo instance',()=>{
- const files=sourceInventory();assert.equal(files.length,42);assert.equal(new Set(files.map(f=>f.parts.join('.'))).size,files.length);
+ const files=sourceInventory();assert.equal(files.length,40);assert.equal(new Set(files.map(f=>f.parts.join('.'))).size,files.length);
  assert(files.every(f=>f.source.startsWith('--!strict')));
  assert.equal(files.find(f=>f.relative==='src/client/Bootstrap.client.luau').cls,'LocalScript');
  assert.equal(files.find(f=>f.relative==='src/server/Bootstrap.server.luau').cls,'Script');

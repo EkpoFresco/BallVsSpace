@@ -1,6 +1,6 @@
 # Current action-v1 build
 
-Open **`game/builds/BallVsSpace.rbxl`** in Roblox Studio and press **Play / F5**. The UI is created during Play; Edit mode does not show the menus. Permanent source is under `game/src/`.
+Open **`game/places/BallVsSpace.rbxl`** in Roblox Studio and press **Play / F5**. The UI is created during Play; Edit mode does not show the menus. Permanent source is under `game/src/`.
 
 1. Open **Inventory** on the lobby's left. Select a ball, then Equip. Selection and equipment have separate markers. All twelve appearances remain free and map to the same two gameplay kits.
 2. Try Balls, Explosions, Flyers and Fusion. Preview/availability copy describes the systems that exist.

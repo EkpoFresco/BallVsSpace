@@ -1,7 +1,11 @@
 param()
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
-New-Item -ItemType Directory -Force builds, test-evidence/runs | Out-Null
+New-Item -ItemType Directory -Force places, builds, test-evidence/runs | Out-Null
+# Quiet successful tools must not leave a prior failure in their log.
+foreach ($checkName in 'format', 'lint', 'typecheck') {
+  Set-Content -LiteralPath "test-evidence/runs/$checkName.log" -Value ''
+}
 function CheckExit([string]$name) { if ($LASTEXITCODE -ne 0) { throw "$name failed with exit $LASTEXITCODE" } }
 stylua --check src 2>&1 | Tee-Object test-evidence/runs/format.log
 CheckExit 'Formatting'
@@ -14,12 +18,10 @@ if (-not (Test-Path -LiteralPath tools/types/roblox-types.d.luau)) {
 }
 luau-lsp analyze --platform=roblox --sourcemap=sourcemap.json --definitions=tools/types/roblox-types.d.luau src 2>&1 | Tee-Object test-evidence/runs/typecheck.log
 CheckExit 'Strict type analysis'
-rojo build default.project.json -o builds/BallVsSpace.rbxl
+rojo build default.project.json -o places/BallVsSpace.rbxl
 CheckExit 'Binary build'
 rojo build default.project.json -o builds/BallVsSpace.rbxlx
 CheckExit 'XML build'
-# Keep one compact, ready-to-open place in Git; verbose/generated outputs stay ignored.
-New-Item -ItemType Directory -Force places | Out-Null
-Copy-Item -LiteralPath builds/BallVsSpace.rbxl -Destination places/BallVsSpace.rbxl
-Get-FileHash builds/BallVsSpace.rbxl, builds/BallVsSpace.rbxlx | Select-Object Algorithm,Hash,Path | ConvertTo-Json | Set-Content test-evidence/runs/build-hashes.json
+# One ready-to-open binary; the XML build is generated inspection output.
+Get-FileHash places/BallVsSpace.rbxl, builds/BallVsSpace.rbxlx | Select-Object Algorithm,Hash,Path | ConvertTo-Json | Set-Content test-evidence/runs/build-hashes.json
 Write-Output 'Static checks and both place builds passed. Run the Studio tests separately.'

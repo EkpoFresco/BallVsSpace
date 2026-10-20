@@ -12,6 +12,8 @@ node game/tools/audit-repository.mjs
 
 The build command runs StyLua, Selene, strict Luau analysis and both Rojo place builds, then refreshes the compact primary file at `game/places/BallVsSpace.rbxl`. Commit that file with source changes; CI rejects a stale saved place. Logs go to ignored `game/test-evidence/runs/`. The Node tests cover shared tooling error handling, safe evidence names and source mapping. The repository audit checks original reference hashes, local links and folder invariants. CI runs these checks and uploads places/logs; it does not launch Studio.
 
+For menu regressions, run `node game/tools/qa/menu-regression.mjs VERIFIED_STUDIO_ID PREFIX` in Play mode, then `node game/tools/qa/scale-review.mjs VERIFIED_STUDIO_ID PREFIX`. The first uses real clicks at three sizes to check empty-area dismissal, first/last selection rows, Store actions and category returns. The scale fixture checks inset strokes and offer containment as well as text, target sizes and overlap. Inspect the captures: geometry assertions alone cannot prove the border is drawn above its fill.
+
 ## Studio logic and multiplayer
 
 Verify the local place identity and client/Edit context first. In the Edit command bar:

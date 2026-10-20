@@ -47,6 +47,7 @@ local function edge(parent: Instance, color: Color3, thickness: number)
 	s.Color = color
 	s.Thickness = thickness
 	s.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	s.BorderStrokePosition = Enum.BorderStrokePosition.Inner
 	s.Parent = parent
 end
 function Panels.notify(s: State, message: string)
@@ -81,6 +82,7 @@ function Panels.close(s: State)
 	s.layer.Visible = false
 	for _, w in s.windows do
 		w.Visible = false
+		(w:FindFirstChild("Close") :: GuiButton).Visible = false
 	end
 end
 function Panels.open(s: State, name: string)
@@ -96,6 +98,15 @@ function Panels.open(s: State, name: string)
 	s.active = name
 	s.layer.Visible = true
 	window.Visible = true
+	-- Reintroduce the close control after the new parent has a rendered layout.
+	-- Simultaneous parent/child visibility changes can retain a stale culled subtree.
+	local close = window:FindFirstChild("Close") :: GuiButton
+	task.defer(function()
+		task.wait()
+		if window.Parent and s.active == name and window.Visible then
+			close.Visible = true
+		end
+	end)
 	local center = UDim2.fromOffset(s.layer.Size.X.Offset / 2, 303)
 	window.Position = center
 	if s.layer:GetAttribute("ReducedMotion") ~= true then
@@ -134,6 +145,16 @@ local function window(s: State, name: string, width: number, height: number): Fr
 	w.Active = true
 	w.Visible = false
 	w.ZIndex = 2
+	-- A Frame does not consume clicks destined for the backdrop GuiButton.
+	local catch = Instance.new("TextButton")
+	catch.Name = "ModalSurface"
+	catch.Text = ""
+	catch.BackgroundTransparency = 1
+	catch.AutoButtonColor = false
+	catch.Selectable = false
+	catch.Size = UDim2.fromScale(1, 1)
+	catch.ZIndex = 0
+	catch.Parent = w
 	edge(w, Color3.fromRGB(75, 130, 195), 1)
 	local scale = Instance.new("UIScale")
 	scale.Parent = w
@@ -141,8 +162,12 @@ local function window(s: State, name: string, width: number, height: number): Fr
 	local title = Ui.text(w, "Heading", name, 20, 4, width - 60, 53, 36, true)
 	title.TextXAlignment = Enum.TextXAlignment.Left
 	local close = Ui.button(w, "Close", "", width - 20, -14, 46, 46, Color3.fromRGB(133, 137, 144))
-	Art.image(close, "Cross", "Close", 5, 5, 36, 36)
+	local cross = Ui.text(close, "Cross", "×", 0, 0, 46, 46, 30, true)
+	cross.Size = UDim2.fromScale(1, 1)
+	cross.ZIndex = 3
+	(cross:FindFirstChild("TextOutline") :: UIStroke).Transparency = 1
 	close.ZIndex = 5
+	close.Visible = false
 	close.Activated:Connect(function()
 		Panels.close(s)
 	end)
@@ -575,6 +600,15 @@ function Panels.new(parent: Instance): State
 	ActionMenus.install(s.windows, function(name)
 		Panels.open(s, name)
 	end)
+	for _, panel in s.windows do
+		local close = panel:FindFirstChild("Close") :: TextButton
+		local stroke = close:FindFirstChild("Edge", true) :: UIStroke
+		stroke.Color = Ui.actionColors.text
+		stroke.Thickness = 2
+		local cross = close:FindFirstChild("Cross") :: TextLabel
+		cross.FontFace = Ui.displayFont
+		cross.TextColor3 = Ui.actionColors.text
+	end
 	Panels.select(s, "Verity")
 	return s
 end
@@ -640,11 +674,16 @@ function Panels.layout(s: State, viewport: Vector2, rootScale: number)
 			math.max(46, minimum)
 		)
 		local cross = child(close, "Cross")
-		cross.Position = UDim2.fromScale(0.12, 0.12)
-		cross.Size = UDim2.fromScale(0.76, 0.76)
+		cross.Position = UDim2.fromScale(0, 0)
+		cross.Size = UDim2.fromScale(1, 1)
 		do
 			for _, b in parent:GetDescendants() do
-				if b:IsA("TextButton") and b.Name ~= "Close" and b.Size.Y.Offset < minimum then
+				if
+					b:IsA("TextButton")
+					and b.Name ~= "Close"
+					and b.Name ~= "ModalSurface"
+					and b.Size.Y.Offset < minimum
+				then
 					local owner = b.Parent
 					if owner and owner:IsA("GuiObject") then
 						b.Size = UDim2.fromOffset(b.Size.X.Offset, minimum)

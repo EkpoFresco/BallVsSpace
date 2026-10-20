@@ -4,7 +4,7 @@ The latest user instruction expands the approved Inventory/Store theme to all ex
 
 ## Current working version
 
-Use the canonical `game/src/` and `game/builds/BallVsSpace.rbxl`, following the [play guide](action-v1.md). Inventory/Store have been implemented natively; the same theme now covers the lobby controls, draft, picker, match HUD/results, Settings and utility dialogs. This is the working implementation, not a completed independent A/B/C benchmark.
+Use the canonical `game/src/` and `game/places/BallVsSpace.rbxl`, following the [play guide](action-v1.md). Inventory/Store have been implemented natively; the same theme now covers the lobby controls, draft, picker, match HUD/results, Settings and utility dialogs. This is the working implementation, not a completed independent A/B/C benchmark.
 
 The [Figma file](https://www.figma.com/design/oOA0AIBygAKBqgHUtdhwkz?node-id=11-3) contains editable Inventory/Store screens, shared tokens/components and a [full-game UI page](https://www.figma.com/design/oOA0AIBygAKBqgHUtdhwkz?node-id=25-112). Earlier portrait explorations are archived. Figma screenshots are design evidence; only Studio captures establish native rendering.
 
