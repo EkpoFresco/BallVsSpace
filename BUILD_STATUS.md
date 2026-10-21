@@ -8,7 +8,7 @@ The studded board uses 1,027 descendants instead of 4,098. Its measured fully ch
 
 **Resume:** human play/readability review and matchup tuning, then physical-phone touch/FPS, physical gamepad, and network stress. 2v2, durable progression, final audio and public release remain open. Local development and the requested GitHub source push do not publish a Roblox experience.
 
-The rebuilt [primary place](game/places/BallVsSpace.rbxl) was reopened from disk under Studio `0.743.0.7431133`; all 43 saved sources match, the authored lobby still has 427 descendants, and ordinary Play starts without client errors. The final session has [Inventory open](game/test-evidence/screenshots/polish-v4-final-inventory.jpg), with Practice accessible after closing it.
+The rebuilt [primary place](game/places/BallVsSpace.rbxl) was reopened from disk under Studio `0.743.0.7431133`; all 43 saved sources match, the authored lobby still has 427 descendants, and ordinary Play starts without client errors. The final session has [Inventory open](game/test-evidence/screenshots/polish-v4-final-inventory.jpg), with Practice accessible after closing it. A clean-checkout comparison caught an empty retired source folder affecting only local packaging; it was preserved in local recovery and the verifier now rejects empty source directories. The corrected binary matches the committed-source build byte-for-byte.
 
 ## Prior flat armory implementation — 21 October 2026
 

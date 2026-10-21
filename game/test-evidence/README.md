@@ -13,6 +13,8 @@ The final camera/tint changes followed the broad layout tests; the camera, 100-c
 
 - [Fresh saved file](results/polish-v4-saved-place.json): all 43 sources match, 30 heroes, 427-descendant authored lobby and binary hash. [Local launch](results/polish-v4-launch.json): ordinary Play, no client errors, loaded new icons and fitting stat text. [Final Inventory](screenshots/polish-v4-final-inventory.jpg) and [lobby](screenshots/polish-v4-launched-lobby.jpg). [Repository audit](results/polish-v4-audit.json) verifies all 63 protected reference hashes and local document links.
 
+The initial GitHub run passed source checks/builds but failed binary consistency because an empty retired `server/Abilities` directory produced a local-only Folder. [Packaging correction](results/polish-v4-packaging.json): the empty directory is preserved in ignored local recovery, verification rejects empty source directories, and the rebuilt binary matches a clean committed snapshot byte-for-byte. No Luau gameplay or presentation sources changed in this correction. The saved-file/hash receipts above refer to the corrected binary.
+
 ## Prior flat armory v3 / 21 October
 
 - [Logic](results/flat-v3-logic.json): 22 groups passed with unchanged weapon-v2 rules. [Fresh multiplayer](results/flat-v3-multiplayer.json): two clients, one complete match, eight state/visual comparisons, zero mismatches, visual failures or aborts.

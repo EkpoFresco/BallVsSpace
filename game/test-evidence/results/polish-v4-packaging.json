@@ -1,0 +1,11 @@
+{
+  "initialCommit": "db0e0cddb621d03c4c3307cc5c29eaa6ff7b8f48",
+  "initialCiRun": "https://github.com/EkpoFresco/BallVsSpace/actions/runs/39555697702",
+  "initialFailure": "Saved primary place differed; static checks and builds passed.",
+  "cause": "Empty retired src/server/Abilities directory generated a local-only Rojo Folder absent in Git checkout.",
+  "correction": "Preserved empty directory in ignored .local recovery; verify.ps1 now rejects empty source directories.",
+  "canonicalScriptsChanged": false,
+  "localSha256": "02bd17b293eace8b2768d5343940a2bc3329f6f098efac3d0986e33e0cb77dcc",
+  "cleanCommittedSnapshotSha256": "02bd17b293eace8b2768d5343940a2bc3329f6f098efac3d0986e33e0cb77dcc",
+  "buildsMatch": true
+}

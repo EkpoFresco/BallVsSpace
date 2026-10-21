@@ -2,6 +2,14 @@ param()
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 New-Item -ItemType Directory -Force places, builds, test-evidence/runs | Out-Null
+# Rojo turns empty source directories into Folders, but Git does not retain them.
+# Reject these local-only Instances so saved binaries match clean-checkout builds.
+$emptySourceDirectories = @(Get-ChildItem -LiteralPath src -Directory -Recurse | Where-Object {
+  @(Get-ChildItem -LiteralPath $_.FullName -Force).Count -eq 0
+})
+if ($emptySourceDirectories.Count -gt 0) {
+  throw ('Empty source directories produce local-only Rojo Folders. Remove them or declare intended Folders in the project file: ' + ($emptySourceDirectories.FullName -join ', '))
+}
 # Quiet successful tools must not leave a prior failure in their log.
 foreach ($checkName in 'format', 'lint', 'typecheck') {
   Set-Content -LiteralPath "test-evidence/runs/$checkName.log" -Value ''
