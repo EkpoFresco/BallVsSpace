@@ -1,0 +1,39 @@
+{
+  "rounds": [
+    {
+      "a": 529,
+      "b": 234,
+      "hpB": "40 / 100 HP",
+      "metric": "FINAL TERRITORY",
+      "heroA": "Pax",
+      "tick": 2700,
+      "hpA": "12 / 100 HP",
+      "round": 1,
+      "heroB": "Oren",
+      "reason": "final_area"
+    },
+    {
+      "a": 477,
+      "b": 355,
+      "hpB": "68 / 100 HP",
+      "metric": "FINAL TERRITORY",
+      "heroA": "Toren",
+      "tick": 2700,
+      "hpA": "70 / 100 HP",
+      "round": 2,
+      "heroB": "Cira",
+      "reason": "final_area"
+    }
+  ],
+  "resultActions": {
+    "rematchConfirmed": true,
+    "replayStarted": true,
+    "replayBallsVisible": true,
+    "resultRestored": true
+  },
+  "actualClicks": true,
+  "lastHeroReachable": true,
+  "completeMatch": true,
+  "clientErrors": [],
+  "physicalDevice": false
+}

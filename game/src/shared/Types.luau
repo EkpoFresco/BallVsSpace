@@ -1,6 +1,30 @@
 --!strict
 export type Point = { x: number, z: number }
-export type Segment = { ax: number, az: number, bx: number, bz: number, team: number, radius: number }
+export type Segment = {
+	ax: number,
+	az: number,
+	bx: number,
+	bz: number,
+	team: number,
+	radius: number,
+	ballId: number?,
+	t0: number?,
+	t1: number?,
+}
+export type WeaponState = {
+	spin: number,
+	hp: number,
+	angle: number,
+	omega: number,
+	poweredUntil: number,
+	slowUntil: number,
+	guardReadyTick: number,
+	castTick: number,
+	castX: number,
+	castZ: number,
+	castAngle: number,
+	castCancelled: boolean,
+}
 export type Shape = {
 	ax: number,
 	az: number,
@@ -26,6 +50,10 @@ export type Ball = {
 	effectEndTick: number,
 	lastDx: number,
 	lastDz: number,
+	weapon: WeaponState?,
+	hitAt: { [number]: number }?,
+	touchAt: { [number]: number }?,
+	healReadyTick: number?,
 }
 export type Board = { q: buffer, counts: { number }, version: number }
 export type Change = { index: number, q: number }

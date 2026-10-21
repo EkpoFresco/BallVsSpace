@@ -1,0 +1,15 @@
+{
+  "studio": "d53194e7-cb7b-4695-b4c6-0b49239af613",
+  "canonicalScripts": 42,
+  "allSourcesMatch": true,
+  "file": "C:\\Users\\nsidi\\Desktop\\Ball_VS_Space_Build_Pack\\game/places/BallVsSpace.rbxl",
+  "sha256": "5f3166142fbea3545b27a1aab9c9445f27ea8b9e0b0529ea9e593c445f119df6",
+  "identity": {
+    "rules": "bvs-rules-2-weapon",
+    "heroes": 30,
+    "motion": "bvs-motion-3",
+    "worldDescendants": 427,
+    "placeId": 0,
+    "build": "0.4.0-weapon-heroes"
+  }
+}

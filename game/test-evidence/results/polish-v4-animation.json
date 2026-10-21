@@ -1,0 +1,14 @@
+{
+  "reversalAndWindup": true,
+  "packetGapBoundTicks": 6,
+  "roundReset": true,
+  "scope": "Real renderer with synthetic timing and weapon states; gameplay is covered separately by logic, roster and full-flow tests.",
+  "reducedMotion": true,
+  "historyImmutable": true,
+  "heroes": 30,
+  "fractionalPoseClock": true,
+  "noRepeatedHit": true,
+  "poses": 3600,
+  "damageBlockHealing": true,
+  "projectileBetweenSnapshots": true
+}

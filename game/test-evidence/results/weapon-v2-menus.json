@@ -1,0 +1,63 @@
+{
+  "scope": "Actual mouse input at three emulated landscape/desktop resolutions",
+  "checks": [
+    {
+      "device": "short",
+      "closeMatches": true,
+      "selectionInset": true,
+      "insideInventory": true
+    },
+    {
+      "device": "short",
+      "lastRowFullyVisible": true
+    },
+    {
+      "device": "short",
+      "groupedOffer": true,
+      "insideStore": true
+    },
+    {
+      "device": "short",
+      "categoryReturn": true
+    },
+    {
+      "device": "desktop",
+      "closeMatches": true,
+      "selectionInset": true,
+      "insideInventory": true
+    },
+    {
+      "device": "desktop",
+      "lastRowFullyVisible": true
+    },
+    {
+      "device": "desktop",
+      "groupedOffer": true,
+      "insideStore": true
+    },
+    {
+      "device": "desktop",
+      "categoryReturn": true
+    },
+    {
+      "device": "wide",
+      "closeMatches": true,
+      "selectionInset": true,
+      "insideInventory": true
+    },
+    {
+      "device": "wide",
+      "lastRowFullyVisible": true
+    },
+    {
+      "device": "wide",
+      "groupedOffer": true,
+      "insideStore": true
+    },
+    {
+      "device": "wide",
+      "categoryReturn": true
+    }
+  ],
+  "physicalTouch": false
+}

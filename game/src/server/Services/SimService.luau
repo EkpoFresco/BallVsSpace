@@ -57,7 +57,13 @@ local function separate(balls: { Types.Ball })
 end
 function Sim.step(state: State)
 	state.tick += 1
-	separate(state.balls)
+	local balls: { Types.Ball } = {}
+	for _, b in state.balls do
+		if not b.weapon or b.weapon.hp > 0 then
+			table.insert(balls, b)
+		end
+	end
+	separate(balls)
 	local remaining = 1 / 60
 	local iterations = 0
 	while remaining > 1e-10 do
@@ -66,7 +72,7 @@ function Sim.step(state: State)
 			state.capHits += 1
 			-- Never advance through an unresolved contact or paint a fictitious chord.
 			state.recoveries += 1
-			separate(state.balls)
+			separate(balls)
 			break
 		end
 		local earliest = remaining
@@ -83,7 +89,7 @@ function Sim.step(state: State)
 				table.insert(contacts, contact)
 			end
 		end
-		for i, a in state.balls do
+		for i, a in balls do
 			candidate(
 				Geometry.sweepCircleWall(a.x, a.vx, Config.CenterBound, remaining),
 				{ a = i, b = 0, axis = 1 }
@@ -92,8 +98,8 @@ function Sim.step(state: State)
 				Geometry.sweepCircleWall(a.z, a.vz, Config.CenterBound, remaining),
 				{ a = i, b = 0, axis = 2 }
 			)
-			for j = i + 1, #state.balls do
-				local b = state.balls[j]
+			for j = i + 1, #balls do
+				local b = balls[j]
 				candidate(
 					Geometry.sweepCircleCircle(
 						b.x - a.x,
@@ -107,24 +113,34 @@ function Sim.step(state: State)
 				)
 			end
 		end
-		for _, b in state.balls do
+		for _, b in balls do
 			local x, z = b.x, b.z
 			b.x += b.vx * earliest
 			b.z += b.vz * earliest
-			table.insert(state.paths, { ax = x, az = z, bx = b.x, bz = b.z, team = b.team, radius = b.brush })
+			table.insert(state.paths, {
+				ax = x,
+				az = z,
+				bx = b.x,
+				bz = b.z,
+				team = b.team,
+				radius = 0,
+				ballId = b.id,
+				t0 = 1 - remaining * 60,
+				t1 = 1 - (remaining - earliest) * 60,
+			})
 		end
 		remaining -= earliest
 		if #contacts == 0 then
 			break
 		end
 		local dvx, dvz = {}, {}
-		for i = 1, #state.balls do
+		for i = 1, #balls do
 			dvx[i] = 0
 			dvz[i] = 0
 		end
 		-- All impulses use velocities from before the simultaneous-contact batch.
 		for _, contact in contacts do
-			local a = state.balls[contact.a]
+			local a = balls[contact.a]
 			if contact.b == 0 then
 				if contact.axis == 1 then
 					dvx[contact.a] -= 2 * a.vx
@@ -132,7 +148,7 @@ function Sim.step(state: State)
 					dvz[contact.a] -= 2 * a.vz
 				end
 			else
-				local b = state.balls[contact.b]
+				local b = balls[contact.b]
 				local dx, dz = b.x - a.x, b.z - a.z
 				local length = math.sqrt(dx * dx + dz * dz)
 				local nx, nz =
@@ -146,7 +162,7 @@ function Sim.step(state: State)
 				end
 			end
 		end
-		for i, b in state.balls do
+		for i, b in balls do
 			b.vx += dvx[i]
 			b.vz += dvz[i]
 			normalize(b)
@@ -159,7 +175,7 @@ function Sim.step(state: State)
 			if contact.b == 0 then
 				continue
 			end
-			local a, b = state.balls[contact.a], state.balls[contact.b]
+			local a, b = balls[contact.a], balls[contact.b]
 			local dx, dz = b.x - a.x, b.z - a.z
 			local length = math.sqrt(dx * dx + dz * dz)
 			if length < 1e-9 then
@@ -181,9 +197,9 @@ function Sim.step(state: State)
 				end
 			end
 		end
-		separate(state.balls)
+		separate(balls)
 	end
-	for _, b in state.balls do
+	for _, b in balls do
 		assert(
 			b.x == b.x
 				and b.z == b.z

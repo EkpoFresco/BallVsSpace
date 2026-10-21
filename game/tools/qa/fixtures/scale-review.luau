@@ -40,7 +40,7 @@ function Review.show(name)
  h.primary.Text=if phase=='MatchResult' then 'Rematch' elseif phase=='Queued' then 'Leave' else 'Lock Aim'
  h.help.Text='Waiting for another player…'
  for i,n in h.sideLabels do n.Text=if i==1 then 'LongestDisplayNameTest' else 'Practice opponent' end
- for i,n in h.kitNames do n.Text=if i==1 then 'Poison Canister' else 'Vampire' end
+ for i,n in h.kitNames do n.Text=if i==1 then 'Vaska Canister' else 'Runa' end
  local root=h.root
  if h.panels.windows[name] then Panels.open(h.panels,name);root=h.panels.windows[name]
  elseif name:match('^Inventory:') then
@@ -51,7 +51,7 @@ function Review.show(name)
  elseif name=='Collection' then h.collection.Visible=true;root=h.collection
  elseif name=='Draft' then root=h.draft
  elseif name=='Results' or name=='Round result' or name=='Rematch queued' or name=='Service result' then
-  local view={id='scale',phase=phase,generation=1,roundId=3,roundNumber=3,deadline=100,tick=1800,points2={4,2},winner=if name=='Service result' then 0 else 1,reason=if name=='Service result' then 'simulation_debt' else 'match_points',practice=true,offer={'Drift','Anchor'},wildcardUsed=false,localKit='Drift',localAngle=0,hold=0,holdLeader=0,persistence='Session only',rematchRequested=name=='Rematch queued',seats={{id=1,userId=player.UserId,team=1,name='LongestDisplayNameTest',kitId='Drift',appearance='Acid',pickLocked=true,aimLocked=true,x=-19,z=0},{id=2,userId=-999999,team=2,name='Practice opponent',kitId='Anchor',appearance='Axe',pickLocked=true,aimLocked=true,x=19,z=0}}}
+  local view={id='scale',phase=phase,generation=1,roundId=3,roundNumber=3,deadline=100,tick=1800,points2={4,2},winner=if name=='Service result' then 0 else 1,reason=if name=='Service result' then 'simulation_debt' else 'match_points',practice=true,offer={'Astra','Bram'},wildcardUsed=false,localKit='Astra',localAngle=0,hold=0,holdLeader=0,persistence='Session only',rematchRequested=name=='Rematch queued',seats={{id=1,userId=player.UserId,team=1,name='LongestDisplayNameTest',kitId='Astra',appearance='Nix',pickLocked=true,aimLocked=true,x=-19,z=0},{id=2,userId=-999999,team=2,name='Practice opponent',kitId='Bram',appearance='Bram',pickLocked=true,aimLocked=true,x=19,z=0}}}
   Hud.render(h,view,phase,{q=buffer.create(1024),counts={[0]=282,[1]=489,[2]=253},version=1},true)
   root=h.result
  elseif name=='Connection delayed' or name=='Replay' then
@@ -105,7 +105,7 @@ function Review.inspect(name)
  end
  if name=='Store' then
   local offers=root.Content.Offers
-  for _,id in {'Laser','Ray','Balloons','Parasol'} do
+  for _,id in {'Cira','Ravi','Balloons','Parasol'} do
    local group=offers[id..'Offer'];local card=group[id];local action=group['View'..id]
    local a,b=action.AbsolutePosition-group.AbsolutePosition,card.AbsolutePosition-group.AbsolutePosition
    if a.X<0 or a.Y<0 or a.X+action.AbsoluteSize.X>group.AbsoluteSize.X+.5 or a.Y+action.AbsoluteSize.Y>group.AbsoluteSize.Y+.5 or b.Y+card.AbsoluteSize.Y>a.Y then
@@ -117,13 +117,13 @@ function Review.inspect(name)
 end
 function Review.all()
  local rows={}
- for _,name in {'Lobby','Queued','Inventory:Balls','Inventory:Explosions','Inventory:Flyers','Inventory:Fusion','Store','Rewards','Play','How to play','Trade','Emotes','Invite friends','Settings','Draft','Collection','Aim','Countdown','Battle','Overtime','Results','Round result','Rematch queued','Service result','Connection delayed','Replay','Toast'} do table.insert(rows,Review.inspect(name)) end
+ for _,name in {'Lobby','Queued','Inventory:Balls','Inventory:Explosions','Inventory:Flyers','Inventory:Fusion','Store','Rewards','Play','How to play','Trade','Emotes','Invite friends','Settings','Draft','Collection','Aim','Countdown','Battle','Results','Round result','Rematch queued','Service result','Connection delayed','Replay','Toast'} do table.insert(rows,Review.inspect(name)) end
  -- Exercise all catalog strings in both selection surfaces.
  for _,id in catalog.ids do
   Review.show('Inventory:Balls');Panels.select(h.panels,id);task.wait()
-  for _,n in {h.panels.detailName,h.panels.detailText} do assert(n.TextFits,id..' inventory copy clipped') end
+  for _,n in {h.panels.detailName,h.panels.detailText,h.panels.equipped} do assert(n.TextFits,id..' inventory copy clipped') end
  end
- for offset=0,11,3 do
+ for offset=0,29,3 do
   Review.show('Draft');Hud.reroll(h,offset);task.wait()
   for _,c in h.cards do
    for _,key in {'Title','Description'} do local n=c[key];if not n.TextFits then table.insert(rows,{frame='Draft:'..c.Name,issues={{kind='catalog-fit',path=key,text=n.Text,box=tostring(n.AbsoluteSize)}}}) end end

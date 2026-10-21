@@ -28,9 +28,7 @@ local function send(kind: string, v: ViewTypes.State?, kit: string?, angle: numb
 		roundId = if v then v.roundId else 0,
 		generation = if v then v.generation else 0,
 		kitId = kit,
-		appearance = if kind == "Select"
-			then (if kit == "Anchor" then "Axe" elseif v and v.roundNumber == 2 then "Cell" else "Acid")
-			else nil,
+		appearance = if kind == "Select" then kit else nil,
 		angle = angle,
 	})
 end
@@ -47,7 +45,7 @@ states.OnClientEvent:Connect(function(v: ViewTypes.State)
 	end
 	seen[key] = true
 	if v.phase == "Draft" then
-		local kit = if (v.roundNumber + Players.LocalPlayer.UserId) % 2 == 0 then "Drift" else "Anchor"
+		local kit = v.offer[(v.roundNumber + math.abs(Players.LocalPlayer.UserId)) % #v.offer + 1]
 		task.delay(0.3, function()
 			send("Select", v, kit)
 			task.wait(0.25)
@@ -70,17 +68,15 @@ states.OnClientEvent:Connect(function(v: ViewTypes.State)
 				for i, seat in v.seats do
 					local ball = if canvas then canvas:FindFirstChild("Ball" .. i) else nil
 					local viewport = if ball then ball:FindFirstChild("Model") else nil
-					local world = if viewport then viewport:FindFirstChildOfClass("WorldModel") else nil
-					local model = if world then world:FindFirstChildOfClass("Model") else nil
-					local sprite = if viewport then viewport:FindFirstChild("Sprite") else nil
-					if
-						not model
-						or model.Name ~= seat.appearance
-						or not sprite
-						or not sprite:IsA("ImageLabel")
-						or not sprite.IsLoaded
-						or sprite:GetAttribute("ArtworkId") ~= seat.appearance
-					then
+					local portrait = if viewport then viewport:FindFirstChild("HeroPortrait") else nil
+					if not portrait or not viewport or viewport:GetAttribute("HeroId") ~= seat.appearance then
+						visualPass = false
+					end
+					local side = gui.ReferenceCanvas:FindFirstChild("PlayerSide" .. i)
+					local label = if side then side:FindFirstChild("HealthLabel") else nil
+					local hp = if seat.weapon then seat.weapon.hp else 100
+					local expected = if hp > 0 then string.format("%d / 100 HP", hp) else "KNOCKED OUT"
+					if not label or not label:IsA("TextLabel") or label.Text ~= expected then
 						visualPass = false
 					end
 				end

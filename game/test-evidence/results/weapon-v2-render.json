@@ -1,0 +1,9 @@
+{
+  "screenPosition": true,
+  "maxCenterErrorPixels": 0.000034119690099032596,
+  "heroes": 30,
+  "screenWidth": true,
+  "edges": 54,
+  "method": "Actual GuiObject absolute coordinates versus authoritative shared edge geometry; 1.5px center / 1px width tolerance for nested GUI pixel rounding",
+  "maxWidthErrorPixels": 6.85453416693349e-7
+}

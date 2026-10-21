@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-21",
+  "selectedDirection": "A — flat balls and crisp weapons",
+  "selectionSource": "User response to character-direction question",
+  "status": "Direction selected; six-character refinement concept",
+  "tool": "Built-in image_gen.imagegen",
+  "sourceReference": "option-a-flat.png",
+  "image": "a-refined-six.png",
+  "characters": [
+    "Astra / Spear",
+    "Korra / Axe",
+    "Bram / Hammer",
+    "Nix / Twin Daggers",
+    "Nerio / Trident",
+    "Kesh / Flail"
+  ],
+  "visualRules": [
+    "Plain colored circular bodies with restrained cel shading",
+    "No faces or humanoid costumes",
+    "Crisp dark outlines and recognizable weapon construction",
+    "Distinct blade, head, shaft and grip silhouettes",
+    "Charcoal, magenta and mint remain the UI target"
+  ],
+  "review": [
+    "Six distinct weapon silhouettes are visible, including three separate trident prongs and open flail chain links.",
+    "The generator retained rear handle extensions on the polearm, axe and hammer designs; these are concept details, not approved hit geometry.",
+    "Small thumbnails are illustrative previews, not engine readability tests.",
+    "Keep bodies and weapons separate in production so spin, reach and visible contact remain consistent."
+  ],
+  "prompt": "Use case: stylized-concept.\nAsset type: second-pass character design sheet for Ball VS Space.\nInput image: the supplied Option A sheet is the SELECTED STYLE REFERENCE. Keep its plain round balls, crisp dark contour, small cel-shaded rim, restrained material details and highly readable steel weapon silhouettes. Do not reproduce its whole layout; expand this selected direction into a carefully spaced 3-column by 2-row sheet of six original weapon-ball characters.\nPrimary request: refine the chosen flat-ball style, slightly simplify unnecessary handle bands, improve separation of blade/head, grip and shaft, and add a trident and a chain flail. This must look like polished simple 2D game art, not realistic metal renders or humanoid character art.\nBalls are perfect circles with a flat saturated base, one small rim highlight and at most one discrete darker cel-shaded edge region. No gradients, metallic ball reflections, faces, eyes, mouths, ears, limbs, hats, helmets, hair, body costumes, emblems or equator bands. The weapon is the identity.\nExactly these six characters, one per grid cell:\nTop left: ASTRA / SPEAR. Golden-yellow ball. Long brown wooden spear shaft; a pointed silver leaf-shaped spearhead with one contrasting edge bevel, tiny gold socket. A slender, long-reach silhouette.\nTop center: KORRA / AXE. Crimson-red ball. A single-bit battle axe with dark brown haft, real asymmetric crescent blade, concave beard, small opposing poll. A thin bright cutting edge distinct from the darker steel face.\nTop right: BRAM / HAMMER. Violet ball. A heavy angular war hammer, broad rectangular iron striking face on one side and compact rear pick on the other, visibly perpendicular to its short thick dark wooden handle. Limited steel facets, no giant fantasy spikes.\nBottom left: NIX / TWIN DAGGERS. Teal-green ball. Two separate short daggers at opposite ends of a diagonal diameter. Tapered sharp silver blades, small crossguards and short dark wrapped grips. Both daggers point away from the ball; only two cutting blades.\nBottom center: NERIO / TRIDENT. Cyan ball. Long brown shaft, a steel head with exactly three well-separated sharp prongs, central prong slightly longer, restrained gold collar. It must instantly read as a trident and not a spear or fork emoji.\nBottom right: KESH / FLAIL. Orange ball. A short dark brown grip leads to 4–5 large open interlocking chain links in a gentle visible curve, then ONE solid dark steel striking ball with only a few large short triangular studs. The chain links have clear holes and the flail weight is distinct from the orange character body. It must not read as a hammer, mace on a rigid stick, or whip.\nAll ball diameters equal. All characters shown flat in the picture plane, no perspective or ground shadows. Four single weapons extend from the rim, their grips terminating neatly at the rim: no long countershaft protruding behind the ball. Nix alone has weapons on opposite sides. Kesh has a flexible chain. Spears/tridents visibly longer than daggers and hammer handles. Fully show each weapon with padding; nothing overlaps another character or label. Handles are dark wood or wrapped leather, blades steel gray with one light edge. Do not turn anything into a beige pill, foam bat, spoon or rounded capsule.\nBelow each large character include one small matching thumbnail as a rough readability preview, not a different pose, keeping the outline and material contrast.\nPresentation board: quiet matte charcoal #211c25, warm-white clear labels, one restrained magenta #ce1256 divider at the header. Main heading exactly \"FLAT BALLS · CRISP WEAPONS\". Labels only the exact names and weapon types specified above. No stats, lore, UI controls, decorative frames, mock gameplay, logos, texture noise, blue interface panels, or extra explanatory text. The result should feel simpler and more economical than the reference, with the full weapons doing the visual work."
+}

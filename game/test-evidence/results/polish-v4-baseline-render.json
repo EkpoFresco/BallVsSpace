@@ -1,0 +1,10 @@
+{
+  "batches": 20,
+  "p95BatchMs": 0.08781999989878386,
+  "method": "Two-hero native weapon renderer, 20 batches of 100 calls; not a device FPS claim",
+  "iterations": 2000,
+  "medianMs": 0.06790500017814338,
+  "viewportParts": 2,
+  "partsAfterRender": 2,
+  "meanMs": 0.07299725004122593
+}

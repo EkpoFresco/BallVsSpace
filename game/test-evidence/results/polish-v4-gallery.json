@@ -1,0 +1,12 @@
+{
+  "heroes": [
+    "Iria",
+    "Mira",
+    "Ravi",
+    "Kesh",
+    "Bram",
+    "Pax"
+  ],
+  "captures": 3,
+  "scope": "Native real-time sprite animation gallery, separate from authoritative combat tests."
+}

@@ -1,5 +1,45 @@
 # Test evidence
 
+## Armory polish v4 / 21 October
+
+- [Logic](results/polish-v4-logic.json): 22 groups. [Roster](results/polish-v4-roster.json): 30 mirrored pairs, 60 rounds, 30,720 matching cells. [Two clients](results/polish-v4-multiplayer.json): one completed match, six state/visual comparisons, zero mismatches, visual failures or aborts.
+- [Animation](results/polish-v4-animation.json): 30 heroes / 3,600 native poses, fractional clock, projectile movement between territory packets, bounded extrapolation, immutable history, damage/healing/block feedback, reduced motion and round reset. [Alignment](results/polish-v4-render.json): 90 poses, 130 active edges, 36 guard checks. [Real-time gallery](results/polish-v4-gallery.json) and [two](screenshots/polish-v4-motion-1.jpg) [frames](screenshots/polish-v4-motion-2.jpg) show synthetic native weapon animation; separate live matches verify gameplay.
+- [Scale](results/polish-v4-scale.json): 286 emulated checks, zero flagged issues, all thirty description/stat strings fit. [Menus](results/polish-v4-menus.json): actual clicks at 568×320, 900×650 and 1920×1080. Visually inspected [short Inventory](screenshots/polish-v4-inventory-short.jpg), [short Store](screenshots/polish-v4-store-short.jpg), [desktop Inventory](screenshots/polish-v4-inventory-desktop.jpg), [short Rewards](screenshots/polish-v4-rewards-short.jpg), [help](screenshots/polish-v4-help-short.jpg), [settings](screenshots/polish-v4-settings-short.jpg), and [effects](screenshots/polish-v4-effects.jpg). [Utility panels](results/polish-v4-screens.json) add eight states at two sizes and verify visible new icon images loaded.
+- [Complete Practice](results/polish-v4-flow.json): three rounds at tick 2700, real selection/aim clicks, visible Replay, restored results and acknowledged Rematch; no client errors. [Battle 1](screenshots/polish-v4-battle-1.jpg), [battle 2](screenshots/polish-v4-battle-2.jpg), [confirmed rematch](screenshots/polish-v4-rematch.jpg).
+- [Lifecycle](results/polish-v4-client.json): 100 menu/skin cycles, 1,778 descendants before/after. [Camera](results/polish-v4-camera.json): replacement camera, both jump modes, original movement restored, 1,000 unchanged calls with zero camera writes. [Actual respawn](results/polish-v4-respawn.json): one reset, retained single UI, new camera subject and movement available.
+- Board [before](results/polish-v4-baseline-board.json) / [after](results/polish-v4-board.json): 4,098 → 1,027 descendants, median fully changed update 3.2223 → 2.0242 ms. Two-hero renderer [before](results/polish-v4-baseline-render.json) / [after](results/polish-v4-render-benchmark.json) remains around 0.066 ms median. These are isolated CPU microbenchmarks, not device FPS. [Build hashes](results/polish-v4-build-hashes.json).
+
+The final camera/tint changes followed the broad layout tests; the camera, 100-cycle client, real respawn, roster, multiplayer, complete flow and utility-panel checks used the final sources. Runtime tests used Studio `0.743.0.7431133`. One initial utility fixture incorrectly required hidden ImageLabels to report loaded; direct inspection showed visible images loaded and hidden pages initialized lazily. The corrected fixture checks visible labels and passed; the first failure remains in local `runs/`. Human acceptance, physical phone/gamepad/FPS, network stress and broad balance remain pending. Original research evidence is preserved.
+
+- [Fresh saved file](results/polish-v4-saved-place.json): all 43 sources match, 30 heroes, 427-descendant authored lobby and binary hash. [Local launch](results/polish-v4-launch.json): ordinary Play, no client errors, loaded new icons and fitting stat text. [Final Inventory](screenshots/polish-v4-final-inventory.jpg) and [lobby](screenshots/polish-v4-launched-lobby.jpg). [Repository audit](results/polish-v4-audit.json) verifies all 63 protected reference hashes and local document links.
+
+## Prior flat armory v3 / 21 October
+
+- [Logic](results/flat-v3-logic.json): 22 groups passed with unchanged weapon-v2 rules. [Fresh multiplayer](results/flat-v3-multiplayer.json): two clients, one complete match, eight state/visual comparisons, zero mismatches, visual failures or aborts.
+- [Native roster review](results/flat-v3-roster-art.json): all 30 heroes, loaded sprite images, circular bodies, restored palette and italic display font. Captures: [polearms and heavy](screenshots/flat-v3-roster-1.jpg), [blades and chains](screenshots/flat-v3-roster-2.jpg), [guards and ranged](screenshots/flat-v3-roster-3.jpg).
+- [Weapon alignment](results/flat-v3-render.json): 90 poses, 130 active edges and 36 guard-segment checks. Actual sprite bounds follow capsule geometry; includes powered widths, extensions and projectiles. This does not claim per-pixel collision or human art acceptance.
+- [Scale](results/flat-v3-scale.json): 286 emulated layout checks, zero flagged issues. [Actual menu input](results/flat-v3-menus.json): scrolling, first/last selection, empty clicks, Store routes and closing at three sizes. [Short Inventory](screenshots/flat-v3-inventory-short.jpg) and [short Store](screenshots/flat-v3-store-short.jpg) were visually inspected.
+- [Practice, replay and rematch](results/flat-v3-flow.json): two full rounds using actual clicks, final-row wildcard reachable, replay visible, results restored, rematch acknowledged, client errors empty. [Battle](screenshots/flat-v3-battle.jpg), [draft](screenshots/flat-v3-draft.jpg), [rematch](screenshots/flat-v3-rematch.jpg).
+- [Lifecycle](results/flat-v3-client.json): 100 menu/skin cycles, 1,778 descendants before/after; interpolation, font resize, modal and toast checks pass. [Result metrics](results/flat-v3-results.json) and [final build hashes](results/flat-v3-build-hashes.json).
+- [Fresh saved file](results/flat-v3-saved-place.json): all 43 sources match, 30 heroes, 427-descendant authored lobby and the final binary hash. [Local launch](results/flat-v3-launch.json): ordinary Play, Lobby and Practice ready, no client errors. [Final presentation](results/flat-v3-final-visual.json): new and lobby weapon renderers hidden until posed, white gradient multiplier with charcoal endpoints, and actual Inventory click. [Final Inventory](screenshots/flat-v3-final-inventory.jpg) and [launched lobby](screenshots/flat-v3-launched-lobby.jpg) were visually inspected. [Repository audit](results/flat-v3-audit.json) checks protected evidence and local links.
+
+Broad runtime checks used Studio 0.744. The final startup-visibility and charcoal-gradient corrections followed the full flow. After reopening the saved binary, source matching, weapon alignment (90 poses), lifecycle (100 cycles), launch and final presentation checks passed under Studio `0.743.0.7431133`; the linked alignment/lifecycle receipts are those fresh-file reruns. The earlier full-flow battle image predates the gradient multiplier correction. Physical-device touch/FPS, gamepad, human acceptance and broad matchup balance remain pending. The sixty mirrored simulation rounds in v2 remain the balance-independent symmetry evidence; this visual pass did not change tuning or rerun that batch.
+
+## Prior weapon-v2 build / 20 October
+
+- [Logic](results/weapon-v2-logic.json): 22 groups, including body-inert capture, hit rearming, simultaneous damage, KO cutoff, wire validation and all 30 heroes.
+- [Roster symmetry](results/weapon-v2-roster.json): 30 mirrored pairs / 60 accelerated full rounds. All paired end ticks, HP, area and 30,720 cell comparisons match. Not exhaustive balance evidence.
+- [Two clients](results/weapon-v2-multiplayer.json): one fresh normal-clock match, eight state and eight visual comparisons, zero mismatches/failures/aborts.
+- [Scale](results/weapon-v2-scale.json): 26 states × 11 viewport passes = 286, zero flagged issues; all 30 catalog strings checked. [Actual menus](results/weapon-v2-menus.json) use mouse clicks at three sizes, including the final hero row and Store routes.
+- [Complete Practice](results/weapon-v2-flow.json): actual hero/aim input, two rounds, replay with visible heroes, result restoration and server-confirmed rematch; no client MessageError entries. Studio CorePackages/external-asset warnings were observed in earlier sessions, so this is not a warning-free claim.
+- [Client lifecycle](results/weapon-v2-client.json): 100 menu/skin cycles, 2,694 descendants before/after; interpolation, toast and font restoration checks. [Renderer benchmark](results/weapon-v2-benchmark.json): 2,000 two-hero render calls; not phone FPS.
+- [Weapon alignment](results/weapon-v2-render.json): all 30 heroes / 54 visible edges, actual GUI centers and widths against shared authoritative geometry. [Result metrics](results/weapon-v2-results.json): KO/health show HP and area shows percentages.
+- [Fresh saved-place verification](results/weapon-v2-saved-place.json): all 42 sources match, 30 heroes, unchanged 427-descendant lobby, version and binary hash. [Build hashes](results/weapon-v2-build-hashes.json) and [repository audit](results/weapon-v2-audit.json).
+- [Final local launch](results/weapon-v2-launch.json): ordinary Play, lobby and Practice ready, after Studio's automatic update to 0.744. The saved-source, weapon-alignment and result-metric checks passed on that version; the earlier full-match, multiplayer and scale runs used 0.743.
+- Visual review: [battle](screenshots/weapon-v2-battle.jpg), [draft](screenshots/weapon-v2-draft.jpg), [last-row wildcard](screenshots/weapon-v2-collection.jpg), [short Inventory](screenshots/weapon-v2-inventory-short.jpg), [short Store](screenshots/weapon-v2-store-short.jpg), [confirmed rematch](screenshots/weapon-v2-rematch.jpg).
+
+The complete match and scale captures precede the final subpixel weapon-coordinate refinement and shorter Sola description; the saved-place alignment/result checks validate those final source changes. No combat rules changed afterward. Physical touch, phone FPS, gamepad, broad balance and human acceptance remain pending. Older receipts below are historical v1 evidence.
+
 | Location | Contents |
 | --- | --- |
 | [screenshots/](screenshots/) | Current action-v1 captures plus retained 0.3 desktop, phone and world-prompt evidence |
@@ -10,7 +50,7 @@
 
 For visual browsing use the [UI map](../docs/ui/map.html) and [reference comparison](../docs/ui/reference-comparison.html). The gallery is historical (17 October). Current action-v1 evidence is listed below.
 
-## Current menu and static-world corrections / 20 October
+## Earlier v1 menu and static-world corrections / 20 October
 
 - [Final save/source verification](results/fixes20-verification.json): one primary place, static authored model, unchanged approved inputs and fresh-file verification.
 - [Menu input](results/fixes20-menus.json): actual clicks at three sizes, including blank spaces, first/last rows, scrolling, Store category return and close.

@@ -4,6 +4,7 @@ local SocialService = game:GetService("SocialService")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Catalog = require(game:GetService("ReplicatedStorage").Shared.AppearanceCatalog)
+local Heroes = require(game:GetService("ReplicatedStorage").Shared.HeroDefinitions)
 local Ui = require(script.Parent.ReferenceUi)
 local Art = require(script.Parent.Artwork)
 local ActionMenus = require(script.Parent.ActionMenus)
@@ -181,9 +182,9 @@ function Panels.select(s: State, id: string)
 	end
 	s.selected = id
 	s.detailName.Text = entry.name
-	s.detailText.Text = string.gsub(entry.description, "\n", " ")
+	s.detailText.Text = Heroes.heroes[id].ability
 	Art.set(s.detailImage, id, true)
-	s.detailWeapon.Visible = id == "Axe" or id == "Blade"
+	s.detailWeapon.Visible = false
 	if s.detailWeapon.Visible then
 		Art.set(s.detailWeapon, id)
 	end
@@ -218,7 +219,7 @@ function Panels.new(parent: Instance): State
 		windows = {},
 		scales = {},
 		active = "",
-		selected = "Verity",
+		selected = "Astra",
 		equip = event(layer, "EquipRequested"),
 		play = event(layer, "PlayRequested"),
 		toast = toast,
@@ -231,7 +232,7 @@ function Panels.new(parent: Instance): State
 		tabs = {},
 		inventoryPages = {},
 		storePages = {},
-		preferred = "Verity",
+		preferred = "Astra",
 		layoutSize = Vector2.zero,
 		base = {},
 	}
@@ -247,7 +248,7 @@ function Panels.new(parent: Instance): State
 	local inventory = window(s, "Inventory", 600, 430)
 	for i, definition in
 		{
-			{ name = "Balls", icon = "Vampire", color = gold },
+			{ name = "Balls", icon = "Runa", color = gold },
 			{ name = "Explosions", icon = "Explosion", color = purple },
 			{ name = "Flyers", icon = "Ufo", color = Color3.fromRGB(237, 62, 120) },
 			{ name = "Fusion", icon = "Fusion", color = blue },
@@ -290,8 +291,7 @@ function Panels.new(parent: Instance): State
 		)
 		Art.portrait(b, id, 6, 0, 122)
 		local foot = Ui.frame(b, "Footer", 0, 112, 134, 22, Color3.fromRGB(51, 77, 123))
-		local title =
-			Ui.text(foot, "Name", Catalog.entries[id].name, 3, 0, 113, 22, if id == "Poison" then 10 else 13)
+		local title = Ui.text(foot, "Name", id, 3, 0, 113, 22, if id == "Vaska" then 10 else 13)
 		title.TextXAlignment = Enum.TextXAlignment.Left
 		Ui.text(foot, "Quantity", "x1", 111, 0, 21, 22, 12)
 		b.Activated:Connect(function()
@@ -300,11 +300,11 @@ function Panels.new(parent: Instance): State
 	end
 	local details = Ui.frame(inventoryBody, "Details", 437, 0, 143, 292, Color3.fromRGB(25, 27, 43))
 	s.detailName = Ui.text(details, "Name", "", 2, 4, 139, 32, 18)
-	s.detailImage = Art.image(details, "Ball", "Verity", 19, 35, 104, 104, true)
-	s.detailWeapon = Art.image(details, "Weapon", "Axe", 51, 23, 43, 71)
+	s.detailImage = Art.image(details, "Ball", "Astra", 19, 35, 104, 104, true)
+	s.detailWeapon = Art.image(details, "Weapon", "Bram", 51, 23, 43, 71)
 	s.detailText = Ui.text(details, "Description", "", 8, 143, 127, 65, 12)
 	Ui.frame(details, "Divider", 9, 211, 125, 1, Color3.fromRGB(107, 134, 188))
-	s.equipped = Ui.text(details, "Equipped", "Equipped: Verity", 5, 217, 133, 21, 11)
+	s.equipped = Ui.text(details, "Equipped", "Equipped: Astra", 5, 217, 133, 21, 11)
 	local equip = Ui.button(details, "Equip", "Equip", 9, 246, 125, 35, Color3.fromRGB(0, 165, 232))
 	equip.TextSize = 18
 	equip.Activated:Connect(function()
@@ -324,7 +324,7 @@ function Panels.new(parent: Instance): State
 			Ui.text(
 				p,
 				"Body",
-				"Every ball appearance is available to explore.\nChoose your next look from the Balls tab.",
+				"Every hero is available to explore.\nChoose your next look from the Balls tab.",
 				60,
 				195,
 				460,
@@ -381,7 +381,7 @@ function Panels.new(parent: Instance): State
 	for i, d in
 		{
 			{ name = "Events", icon = "Events", color = blue },
-			{ name = "Balls", icon = "Vampire", color = gold },
+			{ name = "Balls", icon = "Runa", color = gold },
 			{ name = "Explosions", icon = "Explosion", color = purple },
 			{ name = "Flyers", icon = "Ufo", color = Color3.fromRGB(237, 62, 120) },
 		}
@@ -408,8 +408,8 @@ function Panels.new(parent: Instance): State
 	Ui.text(offers, "Availability", "Free collection", 457, 8, 198, 24, 14)
 	for i, item in
 		{
-			{ id = "Laser", name = "Laser Ball", ball = true },
-			{ id = "Ray", name = "Ray Ball", ball = true },
+			{ id = "Cira", name = "Cira Mirrorwake", ball = true },
+			{ id = "Ravi", name = "Ravi Sunwheel", ball = true },
 			{ id = "Balloons", name = "Colorful Balloon", ball = false },
 			{ id = "Parasol", name = "Blue Parasol", ball = false },
 		}
@@ -448,9 +448,9 @@ function Panels.new(parent: Instance): State
 	sub.TextXAlignment = Enum.TextXAlignment.Left
 	local headline = Ui.text(bundle, "Name", "Find your next favorite", 12, 29, 440, 35, 25)
 	headline.TextXAlignment = Enum.TextXAlignment.Left
-	Ui.text(bundle, "Caption", "12 ball appearances • Yours to explore", 12, 70, 400, 23, 14)
-	Art.image(bundle, "GlowBall", "Laser", 492, -6, 119, 119, true)
-	Ui.text(store, "Footer", "All ball appearances are free. No purchase needed.", 30, 477, 640, 22, 12)
+	Ui.text(bundle, "Caption", "30 original heroes • Yours to explore", 12, 70, 400, 23, 14)
+	Art.image(bundle, "GlowBall", "Cira", 492, -6, 119, 119, true)
+	Ui.text(store, "Footer", "All heroes are free. No purchase needed.", 30, 477, 640, 22, 12)
 	local rewards = window(s, "Rewards", 420, 340)
 	Art.image(rewards, "Gift", "Gift", 168, 71, 84, 84)
 	Ui.text(rewards, "Headline", "Your collection starts here", 25, 170, 370, 38, 23)
@@ -483,7 +483,7 @@ function Panels.new(parent: Instance): State
 			171,
 			if i == 1 then blue else Color3.fromRGB(130, 106, 190)
 		)
-		Art.image(b, "Ball", if i == 1 then "Axe" else "Verity", 42, 5, 110, 110, true)
+		Art.image(b, "Ball", if i == 1 then "Bram" else "Astra", 42, 5, 110, 110, true)
 		b.TextYAlignment = Enum.TextYAlignment.Bottom
 		b.TextSize = 26
 		b.Activated:Connect(function()
@@ -503,9 +503,9 @@ function Panels.new(parent: Instance): State
 	)
 	local help = window(s, "How to play", 500, 370)
 	local steps = {
-		{ "1", "Choose your ball", "Pick a look and a territory kit." },
+		{ "1", "Choose a hero", "Three offers each round. One free pick per match." },
 		{ "2", "Set your direction", "Aim on the court, then lock it in." },
-		{ "3", "Claim more space", "Your ball paints as it moves. More area wins." },
+		{ "3", "Spin, paint, win", "Weapons paint. KO, or area then HP." },
 	}
 	for i, step in steps do
 		local row = Ui.frame(help, "Step" .. i, 20, 71 + (i - 1) * 77, 460, 65, Color3.fromRGB(25, 46, 71))
@@ -609,7 +609,7 @@ function Panels.new(parent: Instance): State
 		cross.FontFace = Ui.displayFont
 		cross.TextColor3 = Ui.actionColors.text
 	end
-	Panels.select(s, "Verity")
+	Panels.select(s, "Astra")
 	return s
 end
 function Panels.layout(s: State, viewport: Vector2, rootScale: number)

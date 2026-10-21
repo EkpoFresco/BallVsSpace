@@ -1,6 +1,7 @@
 --!strict
 local Math = require(script.Parent.TerritoryMath)
 local Types = require(script.Parent.Types)
+local Weapon = require(script.Parent.WeaponGeometry)
 local Protocol = {}
 local commandFields = table.freeze({
 	id = true,
@@ -141,11 +142,11 @@ function Protocol.decodeTerritory(payload: buffer, board: Types.Board): (Types.B
 	return { q = q, counts = counts, version = version }, tick, nil
 end
 function Protocol.motion(balls: { Types.Ball }, tick: number): buffer
-	local payload = buffer.create(5 + #balls * 29)
+	local payload = buffer.create(5 + #balls * 74)
 	buffer.writeu32(payload, 0, tick)
 	buffer.writeu8(payload, 4, #balls)
 	for i, b in balls do
-		local o = 5 + (i - 1) * 29
+		local o = 5 + (i - 1) * 74
 		buffer.writeu8(payload, o, b.id)
 		buffer.writef32(payload, o + 1, b.x)
 		buffer.writef32(payload, o + 5, b.z)
@@ -154,11 +155,25 @@ function Protocol.motion(balls: { Types.Ball }, tick: number): buffer
 		buffer.writef32(payload, o + 17, b.brush)
 		buffer.writeu32(payload, o + 21, b.nextAbilityTick)
 		buffer.writeu32(payload, o + 25, b.effectEndTick)
+		local w = b.weapon or Weapon.new(b.x, b.z, 0)
+		buffer.writef32(payload, o + 29, w.hp)
+		buffer.writef32(payload, o + 33, w.angle)
+		buffer.writef32(payload, o + 37, w.omega)
+		buffer.writeu32(payload, o + 41, w.poweredUntil)
+		buffer.writeu32(payload, o + 45, w.slowUntil)
+		buffer.writeu32(payload, o + 49, w.guardReadyTick)
+		buffer.writei32(payload, o + 53, w.castTick)
+		buffer.writef32(payload, o + 57, w.castX)
+		buffer.writef32(payload, o + 61, w.castZ)
+		buffer.writef32(payload, o + 65, w.castAngle)
+		buffer.writeu8(payload, o + 69, if w.castCancelled then 1 else 0)
+		buffer.writef32(payload, o + 70, w.spin)
 	end
 	assert(buffer.len(payload) < 900, "Motion payload budget")
 	return payload
 end
 export type Motion = {
+	weapon: Types.WeaponState,
 	id: number,
 	x: number,
 	z: number,
@@ -173,12 +188,12 @@ function Protocol.decodeMotion(payload: buffer): ({ Motion }?, number)
 		return nil, 0
 	end
 	local count = buffer.readu8(payload, 4)
-	if count > 4 or buffer.len(payload) ~= 5 + 29 * count then
+	if count > 4 or buffer.len(payload) ~= 5 + 74 * count then
 		return nil, 0
 	end
 	local balls: { Motion } = {}
 	for i = 1, count do
-		local o = 5 + (i - 1) * 29
+		local o = 5 + (i - 1) * 74
 		local b = {
 			id = buffer.readu8(payload, o),
 			x = buffer.readf32(payload, o + 1),
@@ -188,6 +203,20 @@ function Protocol.decodeMotion(payload: buffer): ({ Motion }?, number)
 			brush = buffer.readf32(payload, o + 17),
 			nextAbilityTick = buffer.readu32(payload, o + 21),
 			effectEndTick = buffer.readu32(payload, o + 25),
+			weapon = {
+				spin = buffer.readf32(payload, o + 70),
+				hp = buffer.readf32(payload, o + 29),
+				angle = buffer.readf32(payload, o + 33),
+				omega = buffer.readf32(payload, o + 37),
+				poweredUntil = buffer.readu32(payload, o + 41),
+				slowUntil = buffer.readu32(payload, o + 45),
+				guardReadyTick = buffer.readu32(payload, o + 49),
+				castTick = buffer.readi32(payload, o + 53),
+				castX = buffer.readf32(payload, o + 57),
+				castZ = buffer.readf32(payload, o + 61),
+				castAngle = buffer.readf32(payload, o + 65),
+				castCancelled = buffer.readu8(payload, o + 69) == 1,
+			},
 		}
 		if
 			b.id ~= i
@@ -202,6 +231,28 @@ function Protocol.decodeMotion(payload: buffer): ({ Motion }?, number)
 			or math.abs(b.vz) > 30.01
 			or b.brush < 0
 			or b.brush > 8
+		then
+			return nil, 0
+		end
+		local w = b.weapon
+		if
+			not Protocol.finite(w.hp)
+			or not Protocol.finite(w.spin)
+			or w.spin < 0
+			or w.spin > 100000
+			or w.hp < 0
+			or w.hp > 100
+			or not Protocol.finite(w.angle)
+			or math.abs(w.angle) > 100000
+			or not Protocol.finite(w.omega)
+			or math.abs(w.omega) > 20
+			or not Protocol.finite(w.castX)
+			or math.abs(w.castX) > 45
+			or not Protocol.finite(w.castZ)
+			or math.abs(w.castZ) > 45
+			or not Protocol.finite(w.castAngle)
+			or math.abs(w.castAngle) > 100000
+			or buffer.readu8(payload, o + 69) > 1
 		then
 			return nil, 0
 		end

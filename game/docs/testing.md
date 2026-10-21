@@ -16,6 +16,44 @@ For menu regressions, run `node game/tools/qa/menu-regression.mjs VERIFIED_STUDI
 
 ## Studio logic and multiplayer
 
+### Current weapon-v2 commands
+
+Select the intended local `BallVsSpace.rbxl` instance, verify PlaceId 0 and use its explicit Studio ID. Sync canonical source only while in Edit; do not sync over a running test. The commands below retain results/screenshots in ignored `runs/`.
+
+```powershell
+node game/tools/studio/sync-studio.mjs VERIFIED_STUDIO_ID
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID logic weapon-v2-logic
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID roster weapon-v2-roster
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID multiplayer weapon-v2-multiplayer
+```
+
+The logic suite has 22 groups; roster runs 30 mirrored pairs (60 accelerated rounds). Multiplayer runs a fresh two-client normal-clock match. After that finishes, start ordinary Play and run these sequentially:
+
+```powershell
+node game/tools/qa/scale-review.mjs VERIFIED_STUDIO_ID weapon-v2-scale
+node game/tools/qa/menu-regression.mjs VERIFIED_STUDIO_ID weapon-v2-menus
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID render weapon-v2-render
+node game/tools/qa/flat-art-review.mjs VERIFIED_STUDIO_ID flat-v3-art
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID weapon-results weapon-v2-results
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID client-regressions weapon-v2-client
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID render-benchmark weapon-v2-benchmark
+node game/tools/qa/polish-review.mjs VERIFIED_STUDIO_ID animation-polish polish-animation
+node game/tools/qa/polish-review.mjs VERIFIED_STUDIO_ID territory-benchmark polish-board
+node game/tools/qa/polish-review.mjs VERIFIED_STUDIO_ID camera-polish polish-camera
+node game/tools/qa/polish-review.mjs VERIFIED_STUDIO_ID respawn polish-respawn
+node game/tools/qa/animation-gallery.mjs VERIFIED_STUDIO_ID polish-gallery
+node game/tools/qa/polish-screens.mjs VERIFIED_STUDIO_ID polish-screens
+node game/tools/qa/weapon-v2.mjs VERIFIED_STUDIO_ID flow weapon-v2-flow --result-actions
+```
+
+The current scale fixture checks 26 states × 11 viewport passes = 286 checks, plus all 30 catalog descriptions. The menu runner clears its isolated UI. The render fixture checks loaded sprites and actual GUI geometry in 90 poses against authoritative weapon capsules, allowing nested GUI pixel rounding (1.5 px center / 1 px width), plus shield recovery cues. The flat-art review produces three native roster sheets. Inspect screenshots as well: these checks do not establish per-pixel collision or artistic acceptance. The lifecycle fixture returns to the same hero before comparing Instance counts. The complete flow clicks the last wildcard hero and tests Replay and Rematch, leaving a rematch in Draft. Stop Play afterward and reset the device emulator with `tools/qa/devices/reset.luau`.
+
+The polish fixtures exercise 3,600 poses through the native renderer, immutable history, projectile display timing, bounded extrapolation, feedback/reduced motion, board buffer caching and camera replacement/movement restoration. Run `respawn` only in a single-client local Lobby; it performs one actual character reset, then checks camera, movement and retained UI. The six-hero gallery captures real-time synthetic weapon motion and cleans up afterward. CPU benchmarks are not FPS measurements. See the [polish review](design/armory-polish-v4.md) for scope and measurements.
+
+The older `ui-flow`, `final-regression`, `presentation-contracts`, `equipped-draft` and `mirrored` drivers below describe v1 and are retained for history; they are not the v2 acceptance commands. Use the new commands above for this build.
+
+### Historical v1 commands and scope
+
 Verify the local place identity and client/Edit context first. In the Edit command bar:
 
 ```lua

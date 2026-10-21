@@ -261,7 +261,8 @@ RunService.Heartbeat:Connect(function(dt)
 	if m.practice then
 		local bot = m.seats[2]
 		if m.phase == "Draft" and now - m.entered > 1 then
-			bot.kitId = if m.roundNumber % 2 == 1 then "Anchor" else "Drift"
+			bot.kitId = bot.offer[(m.roundNumber - 1) % #bot.offer + 1]
+			bot.appearance = bot.kitId
 			bot.pickLocked = true
 			bot.interactedDraft = true
 		elseif m.phase == "Aim" and now - m.entered > 1 then
@@ -284,7 +285,7 @@ RunService.Heartbeat:Connect(function(dt)
 	local forceFull = now - lastFull >= 2 or changed or m.territorySerial - lastTerritory > 1
 	-- These buffers are identical for every participant. Build once per update.
 	local territoryPayload = if grid or forceFull
-		then Protocol.territory(m.board, m.lastChanges, m.lastBase, m.sim.tick - m.sim.tick % 6, forceFull)
+		then Protocol.territory(m.board, m.lastChanges, m.lastBase, m.territoryTick, forceFull)
 		else nil
 	local motionPayload = if moving or changed then Protocol.motion(m.sim.balls, m.sim.tick) else nil
 	for _, p in Players:GetPlayers() do

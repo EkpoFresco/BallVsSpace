@@ -1,0 +1,10 @@
+{
+  "movementAvailable": true,
+  "cameraSubjectRestored": true,
+  "guiCounts": {
+    "BallVsSpace": 1,
+    "BVSBallLabels": 1
+  },
+  "guiRetained": true,
+  "actualCharacterResets": 1
+}

@@ -5,6 +5,7 @@ local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local Shared = game:GetService("ReplicatedStorage").Shared
 local Appearances = require(Shared.AppearanceCatalog)
+local Heroes = require(Shared.HeroDefinitions)
 local Types = require(Shared.Types)
 local ViewTypes = require(Shared.ViewTypes)
 local Art = require(script.Parent.BallArt)
@@ -14,6 +15,11 @@ local Panels = require(script.Parent.LobbyPanels)
 local Ui = require(script.Parent.ReferenceUi)
 local Hud = {}
 local resultReasons = {
+	knockout = "Knockout",
+	double_ko = "Simultaneous knockout",
+	health_tiebreak = "Equal territory · health wins",
+	equal_area_health = "Equal territory and health",
+	final_area = "Most territory at the buzzer",
 	disconnect_forfeit = "Disconnect forfeit",
 	voluntary_forfeit = "Player left the match",
 	inactivity_forfeit = "Inactive player forfeited",
@@ -139,7 +145,7 @@ local function card(parent: Instance, id: string, x: number, y: number, width: n
 	for _, side in { 0, width - 1 } do
 		Ui.frame(b, "CardDivider", side, 0, 1, 212, Color3.fromRGB(185, 186, 199))
 	end
-	Ui.text(b, "Title", entry.name, 3, 16, width - 6, 30, if #entry.name > 12 then 14 else 21)
+	Ui.text(b, "Title", id, 3, 16, width - 6, 30, if #entry.name > 12 then 14 else 21)
 	local square = Ui.frame(b, "PreviewBackground", (width - 76) / 2, 52, 76, 76, Color3.fromRGB(80, 84, 93))
 	local line = Instance.new("UIStroke")
 	line.Color = Color3.fromRGB(204, 207, 211)
@@ -149,17 +155,31 @@ local function card(parent: Instance, id: string, x: number, y: number, width: n
 	preview.Size = UDim2.fromOffset(108, 108)
 	preview.Position = UDim2.fromOffset(-16, -16)
 	if preview.CurrentCamera then
-		preview.CurrentCamera.CFrame = if id == "Axe"
+		preview.CurrentCamera.CFrame = if id == "Bram"
 			then CFrame.new(0, 0.85, 10.5)
 			else CFrame.new(0, 0, 7.2)
 	end
-	Ui.text(b, "Description", entry.description, 6, 136, width - 12, 65, 16)
+	local h = Heroes.heroes[id]
+	Ui.text(
+		b,
+		"Description",
+		string.format("%s\n%d HIT · %.2g SPIN\n%s", h.weapon, h.damage, h.rps, h.ability),
+		6,
+		136,
+		width - 12,
+		65,
+		13
+	)
 	return b
 end
 function Hud.new()
 	local g = gui("BallVsSpace", 20)
 	local root, scale = Layout.root(g)
 	local courtGui = gui("BVSReferenceCourt", 1)
+	local backdrop = Ui.frame(courtGui, "ArenaBackdrop", 0, 0, 1, 1, Color3.new(1, 1, 1))
+	backdrop.Size = UDim2.fromScale(1, 1)
+	backdrop.ZIndex = 0
+	Ui.gradient(backdrop, Ui.actionColors.card, Ui.actionColors.ink)
 	local courtRoot, courtScale = Layout.root(courtGui)
 	local outer = Ui.frame(courtRoot, "Court", 145, 45, 512, 510, Color3.fromRGB(8, 19, 34))
 	Ui.gradient(outer, Color3.fromRGB(14, 29, 47), Color3.fromRGB(6, 16, 30))
@@ -250,20 +270,23 @@ function Hud.new()
 	draft.AnchorPoint = Vector2.new(0.5, 0.5)
 	local draftScale = Instance.new("UIScale")
 	draftScale.Parent = draft
-	local draftTitle = Ui.text(draft, "Title", "CHOOSE YOUR BALL", 180, 127, 444, 42, 23, true)
+	local draftTitle = Ui.text(draft, "Title", "CHOOSE YOUR HERO", 180, 127, 444, 42, 23, true)
 	local cards = {}
-	for i, id in { "Cell", "Axe", "Poison" } do
+	for i, id in { "Enna", "Bram", "Vaska" } do
 		cards[i] = card(draft, id, 160 + (i - 1) * 175, 194, 132)
 	end
-	local allBalls = Ui.button(draft, "AllBalls", "All Balls", 335, 438, 132, 36, purple)
+	local allBalls = Ui.button(draft, "AllBalls", "All 30 Heroes", 335, 438, 132, 36, purple)
 	allBalls.TextSize = 17
-	Ui.text(draft, "Free", "Free", 346, 424, 50, 20, 14, true)
+	Ui.text(draft, "Free", "1 free pick / match", 346, 424, 50, 20, 14, true)
 	local reroll = Ui.button(draft, "Reroll", "Reroll", 490, 438, 72, 36, purple)
+	reroll.Visible = false
 	reroll.TextSize = 13
 	reroll.TextYAlignment = Enum.TextYAlignment.Bottom
 	reroll.Size = UDim2.fromOffset(72, 44)
 	Artwork.image(reroll, "RerollIcon", "Reroll", 24, 1, 25, 25)
 	local sides, sideLabels, figures, portraits, kitIcons, kitNames, matchPoints = {}, {}, {}, {}, {}, {}, {}
+	local hpLabels: { TextLabel } = {}
+	local hpFills: { Frame } = {}
 	for i = 1, 2 do
 		local f = Ui.frame(root, "PlayerSide" .. i, if i == 1 then 0 else 663, 0, 140, 480, Color3.new())
 		f.BackgroundTransparency = 1
@@ -283,7 +306,7 @@ function Hud.new()
 		tally.BackgroundColor3 = Ui.actionColors.ink
 		tally.BackgroundTransparency = 0.15
 		tally.TextColor3 = name.TextColor3
-		local kitIcon = Art.viewport(f, "KitIcon", "Acid")
+		local kitIcon = Art.viewport(f, "KitIcon", "Nix")
 		kitIcon.Size = UDim2.fromOffset(66, 66)
 		kitIcon.Position = UDim2.fromOffset(if i == 1 then 12 else 64, 151)
 		local kitName = Ui.text(f, "KitName", "?", if i == 1 then 0 else 45, 137, 90, 20, 13)
@@ -294,6 +317,17 @@ function Hud.new()
 		kitIcons[i] = kitIcon
 		kitNames[i] = kitName
 		matchPoints[i] = tally
+		local track = Ui.frame(f, "HealthTrack", 8, 212, 124, 12, Ui.actionColors.surface)
+		hpFills[i] = Ui.frame(
+			track,
+			"Health",
+			0,
+			0,
+			124,
+			12,
+			if i == 1 then Color3.fromRGB(61, 205, 217) else Color3.fromRGB(245, 139, 114)
+		)
+		hpLabels[i] = Ui.text(f, "HealthLabel", "100 / 100 HP", 0, 232, 140, 24, 13, true)
 	end
 	local currency = Ui.frame(root, "Currency", 17, 481, 180, 100, Color3.new())
 	currency.BackgroundTransparency = 1
@@ -342,7 +376,7 @@ function Hud.new()
 	Ui.gradient(questTab, Color3.fromRGB(161, 198, 233), Color3.fromRGB(70, 122, 176))
 	Ui.text(questTab, "Title", "Practice Quests", 6, 2, 180, 22, 12, true)
 	local questEntries = {}
-	for i, label in { "Choose a ball", "Lock your aim", "Win a round" } do
+	for i, label in { "Choose a hero", "Lock your aim", "Win a round" } do
 		local row = Ui.frame(quests, "Quest" .. i, 5, 30 + (i - 1) * 39, 182, 37, Color3.fromRGB(37, 56, 79))
 		row.BackgroundTransparency = 0.25
 		local title = Ui.text(row, "Title", label, 5, 0, 172, 19, 14)
@@ -353,7 +387,7 @@ function Hud.new()
 		rewardLabel.TextColor3 = gold
 		questEntries[i] = progress
 	end
-	local reward = Ui.text(lobby, "Reward", "All Balls Free", 322, 510, 165, 26, 13, true)
+	local reward = Ui.text(lobby, "Reward", "30 Heroes · All Free", 322, 510, 165, 26, 13, true)
 	reward.BackgroundColor3 = Color3.fromRGB(18, 37, 62)
 	reward.BackgroundTransparency = 0.3
 	local settings = Ui.button(root, "Settings", "", 372, 12, 45, 45, Color3.fromRGB(18, 27, 35))
@@ -453,11 +487,17 @@ function Hud.new()
 		Ui.button(collection, "Close", "Back", 70, 281, 129, 31, Color3.fromRGB(235, 8, 0))
 	local confirmCollection =
 		Ui.button(collection, "Confirm", "Choose Ball", 248, 281, 129, 31, Color3.fromRGB(155, 158, 159))
+	local collectionScroll = Instance.new("ScrollingFrame")
+	collectionScroll.Name = "HeroScroll"
+	collectionScroll.BackgroundTransparency = 1
+	collectionScroll.BorderSizePixel = 0
+	collectionScroll.ScrollBarThickness = 6
+	collectionScroll.ScrollingDirection = Enum.ScrollingDirection.Y
+	collectionScroll.Parent = collection
 	local collectionCards = {}
 	for i, id in Appearances.ids do
-		local entry = Appearances.entries[id]
 		local x, y = 4 + ((i - 1) % 6) * 73, 31 + ((i - 1) // 6) * 73
-		local slot = Ui.button(collection, id, "", x, y, 70, 69, Color3.fromRGB(37, 41, 60))
+		local slot = Ui.button(collectionScroll, id, "", x, y, 70, 69, Color3.fromRGB(37, 41, 60))
 		local edge = slot:FindFirstChild("Edge", true) :: UIStroke
 		edge.Color = Color3.fromRGB(106, 142, 201)
 		edge.Thickness = 0.8
@@ -465,11 +505,11 @@ function Hud.new()
 		preview.Position = UDim2.fromOffset(2, 0)
 		preview.Size = UDim2.fromOffset(66, 57)
 		if preview.CurrentCamera then
-			preview.CurrentCamera.CFrame = if id == "Axe"
+			preview.CurrentCamera.CFrame = if id == "Bram"
 				then CFrame.new(0, 0.7, 8.3)
 				else CFrame.new(0, 0, 6.2)
 		end
-		local name = Ui.text(slot, "BallName", entry.name, 0, 56, 70, 13, if id == "Poison" then 6 else 9)
+		local name = Ui.text(slot, "BallName", id, 0, 56, 70, 13, if id == "Vaska" then 6 else 9)
 		name.BackgroundColor3 = Color3.fromRGB(32, 36, 58)
 		name.BackgroundTransparency = 0.25
 		collectionCards[i] = slot
@@ -539,9 +579,13 @@ function Hud.new()
 		motionToggle = motionToggle,
 		collection = collection,
 		collectionCards = collectionCards,
+		collectionScroll = collectionScroll,
+		hpLabels = hpLabels,
+		hpFills = hpFills,
+		draftKey = "",
 		collectionTitle = collectionTitle,
 		confirmCollection = confirmCollection,
-		pendingAppearance = "Acid",
+		pendingAppearance = "Nix",
 		store = store,
 		inventory = inventory,
 		emotes = emotes,
@@ -553,7 +597,7 @@ function Hud.new()
 		resultNote = resultNote,
 		winnerAvatar = winnerAvatar,
 		showTerritory = true,
-		selectedAppearance = "Acid",
+		selectedAppearance = "Nix",
 		previousPhase = "",
 		layoutViewport = Vector2.zero,
 		layoutMargin = 0,
@@ -596,7 +640,11 @@ function Hud.new()
 	end)
 	for _, slot in collectionCards do
 		slot.Activated:Connect(function()
+			if slot:GetAttribute("Available") == false then
+				return
+			end
 			state.pendingAppearance = slot.Name
+			state.confirmCollection.Text = "Choose " .. slot.Name
 			for _, other in collectionCards do
 				local edge = other:FindFirstChild("Edge", true) :: UIStroke
 				edge.Color = if other == slot then Ui.actionColors.cyan else Ui.actionColors.line
@@ -648,16 +696,21 @@ function Hud.new()
 	return state
 end
 export type State = typeof(Hud.new())
-function Hud.reroll(h: State, offset: number)
+function Hud.reroll(h: State, offset: number, offer: { string }?)
 	for i, button in h.cards do
-		local id = Appearances.ids[(offset + i - 1) % #Appearances.ids + 1]
-		local entry = Appearances.entries[id]
+		local id = if offer then offer[i] else Appearances.ids[(offset + i - 1) % #Appearances.ids + 1]
+		if not id then
+			button.Visible = false
+			continue
+		end
 		button.Name = id
 		local title = button:FindFirstChild("Title") :: TextLabel
-		title.Text = entry.name
-		title.TextSize = if #entry.name > 12 then 16 else 21
+		title.Text = id
+		title.TextSize = 21
 		local description = button:FindFirstChild("Description") :: TextLabel
-		description.Text = string.gsub(entry.description, "\n", " ")
+		local hero = Heroes.heroes[id]
+		description.Text =
+			string.format("%s\n%d HIT · %.2g SPIN\n%s", hero.weapon, hero.damage, hero.rps, hero.ability)
 		local square = button:FindFirstChild("PreviewBackground") :: Frame
 		local preview = square:FindFirstChild("KitPreview") :: ViewportFrame
 		Art.setSkin(preview, id)
@@ -738,13 +791,16 @@ function Hud.layout(h: State, phase: string)
 	box(header, 0, 0, collectionWidth, 40)
 	box(h.collectionTitle, 10, 0, collectionWidth - 20, 40)
 	h.collectionTitle.TextSize = 20
-	local slotWidth = (collectionWidth - 54) / 4
-	local slotHeight = (collectionHeight - 112) / 3
+	local slotWidth = (collectionWidth - 64) / 4
+	local slotHeight = 96
+	box(h.collectionScroll, 0, 46, collectionWidth, collectionHeight - 102)
+	h.collectionScroll.CanvasSize =
+		UDim2.fromOffset(0, math.ceil(#h.collectionCards / 4) * (slotHeight + 6) + 6)
 	for i, slot in h.collectionCards do
 		box(
 			slot,
 			12 + (i - 1) % 4 * (slotWidth + 10),
-			46 + math.floor((i - 1) / 4) * (slotHeight + 6),
+			4 + math.floor((i - 1) / 4) * (slotHeight + 6),
 			slotWidth,
 			slotHeight
 		)
@@ -829,7 +885,9 @@ function Hud.layout(h: State, phase: string)
 		ownScale.Scale = 1 / scale
 		box(
 			frame,
-			if i == 1 then leftEdge + 8 / scale else rightEdge + 803 - (sideWidth + 8) / scale,
+			if i == 1
+				then math.max(leftEdge + 8 / scale, 145 - (sideWidth + 16) / scale)
+				else math.min(rightEdge + 803 - (sideWidth + 8) / scale, 657 + 16 / scale),
 			60 / scale,
 			sideWidth,
 			viewport.Y - 100
@@ -843,7 +901,10 @@ function Hud.layout(h: State, phase: string)
 		h.kitNames[i].TextSize = 12
 		box(h.kitIcons[i], sideWidth / 2 - 32, 134, 64, 64)
 		box(h.figures[i], sideWidth / 2 - 60, 206, 120, 130)
-		h.figures[i].Visible = viewport.Y >= 450
+		h.figures[i].Visible = false
+		local hpTrack = h.hpFills[i].Parent :: Frame
+		box(hpTrack, 8, 208, sideWidth - 16, 12)
+		box(h.hpLabels[i], 0, 226, sideWidth, 24)
 		local tallyWidth = math.min(116, sideWidth - 8)
 		box(h.matchPoints[i], (sideWidth - tallyWidth) / 2, 74, tallyWidth, 24)
 		h.matchPoints[i].TextSize = 12
@@ -983,7 +1044,7 @@ function Hud.layout(h: State, phase: string)
 	draftScale.Scale = 1 / scale
 	local cardWidth = math.min(192, (draftWidth - 64) / 3)
 	local cardHeight = math.min(244, draftHeight - 128)
-	local previewSize = math.min(100, cardHeight - 104)
+	local previewSize = math.min(100, math.max(36, cardHeight - 128))
 	local groupWidth = cardWidth * 3 + 32
 	local startX = (draftWidth - groupWidth) / 2
 	local startY = math.max(4, (draftHeight - cardHeight - 124) / 2)
@@ -1003,7 +1064,6 @@ function Hud.layout(h: State, phase: string)
 		)
 		local description = choice:FindFirstChild("Description") :: TextLabel
 		description.TextSize = 13
-		description.Text = string.gsub(description.Text, "\n", " ")
 		local art = choice:FindFirstChild("PreviewBackground") :: Frame
 		box(art, (cardWidth - previewSize) / 2, 46, previewSize, previewSize)
 		box(
@@ -1020,7 +1080,7 @@ function Hud.layout(h: State, phase: string)
 		end
 	end
 	local actionsY = startY + cardHeight + 72
-	box(h.allBalls, draftWidth / 2 - 144, actionsY, 160, 44)
+	box(h.allBalls, draftWidth / 2 - 105, actionsY, 210, 44)
 	box(h.reroll, draftWidth / 2 + 36, actionsY, 108, 44)
 	box(h.reroll:FindFirstChild("RerollIcon") :: ImageLabel, 42, 1, 25, 25)
 	local free = h.draft:FindFirstChild("Free") :: TextLabel
@@ -1063,12 +1123,33 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 	end
 	h.panels.layer:SetAttribute("ReducedMotion", reduced)
 	h.motionToggle.Text = if reduced then "Reduced motion: ON" else "Reduced motion: OFF"
-	h.territoryToggle.Text = if h.showTerritory then "Territory overlay: ON" else "Territory overlay: OFF"
+	h.territoryToggle.Text = "Territory stays visible during play"
 	if not view then
 		h.left.Text = if phase == "Queued" then "Searching…" else "Play"
 		h.primary.Text = "Leave"
 		h.help.Text = if phase == "Queued" then "Waiting for another player…" else ""
 		return
+	end
+	if phase == "Draft" then
+		local key = view.id .. ":" .. view.roundId .. ":" .. table.concat(view.offer, ",")
+		if h.draftKey ~= key then
+			h.draftKey = key
+			Hud.reroll(h, 0, view.offer)
+		end
+		h.reroll.Visible = false
+		h.allBalls.Text = if view.wildcardUsed then "View all heroes" else "All 30 · free pick"
+		for _, slot in h.collectionCards do
+			local allowed = not view.wildcardUsed or table.find(view.offer, slot.Name) ~= nil
+			slot.Active = allowed
+			slot.AutoButtonColor = allowed
+			slot:SetAttribute("Available", allowed)
+			local caption = slot:FindFirstChild("BallName") :: TextLabel
+			caption.Text = slot.Name .. (if allowed then "" else " · locked")
+		end
+		h.confirmCollection.Text = if table.find(view.offer, h.pendingAppearance)
+			then "Choose Hero"
+			elseif view.wildcardUsed then "Free pick used"
+			else "Use free pick"
 	end
 	if phase == "Aim" then
 		h.questsDone[1] = true
@@ -1125,7 +1206,10 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 		end
 		h.kitNames[i].Text = if skin ~= "" then Appearances.entries[skin].name else "?"
 		Art.animate(h.kitIcons[i], 0, 0, true)
-		h.matchPoints[i].Text = string.format("%g / 2 PTS", view.points2[seat.team] / 2)
+		h.matchPoints[i].Text = string.format("%g / 2 ROUNDS", view.points2[seat.team] / 2)
+		local hp = if seat.weapon then seat.weapon.hp else 100
+		h.hpLabels[i].Text = if hp > 0 then string.format("%d / 100 HP", hp) else "KNOCKED OUT"
+		h.hpFills[i].Size = UDim2.fromScale(hp / 100, 1)
 		if seat.userId == Players.LocalPlayer.UserId then
 			if skin ~= "" then
 				h.selectedAppearance = skin
@@ -1150,13 +1234,26 @@ function Hud.render(h: State, view: ViewTypes.State?, phase: string, board: Type
 			else "DEFEAT"
 		local crown = h.result:FindFirstChild("Crown") :: Frame
 		crown.Visible = not stopped
+		local weaponA = if view.seats[1] then view.seats[1].weapon else nil
+		local weaponB = if view.seats[2] then view.seats[2].weapon else nil
 		h.resultMetric.Text = if stopped
 			then "NO RESULT RECORDED"
 			elseif complete then "MATCH POINTS"
+			elseif view.reason == "knockout" or view.reason == "double_ko" then "KNOCKOUT"
+			elseif view.reason == "health_tiebreak" then "HEALTH TIEBREAK"
 			else "FINAL TERRITORY"
 		h.resultScore.Text = if stopped
 			then "—"
 			elseif complete then string.format("%g — %g", view.points2[1] / 2, view.points2[2] / 2)
+			elseif
+				view.reason == "health_tiebreak"
+				or view.reason == "knockout"
+				or view.reason == "double_ko"
+			then string.format(
+				"%g HP — %g HP",
+				if weaponA then weaponA.hp else 100,
+				if weaponB then weaponB.hp else 100
+			)
 			else string.format("%.1f%% — %.1f%%", board.counts[1] / 10.24, board.counts[2] / 10.24)
 
 		h.resultNote.Text = if resultReasons[view.reason]

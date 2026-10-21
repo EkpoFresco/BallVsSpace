@@ -1,0 +1,15 @@
+{
+  "studio": "5da0885d-fc5c-40b7-80cf-824308d7029e",
+  "canonicalScripts": 43,
+  "allSourcesMatch": true,
+  "file": "C:\\Users\\nsidi\\Desktop\\Ball_VS_Space_Build_Pack\\game/places/BallVsSpace.rbxl",
+  "sha256": "8f02f0287f29e5dd83999e777587ef1881e41e5936ed63465205eea0fbb82b30",
+  "identity": {
+    "rules": "bvs-rules-2-weapon",
+    "heroes": 30,
+    "motion": "bvs-motion-3",
+    "worldDescendants": 427,
+    "placeId": 0,
+    "build": "0.4.1-flat-armory"
+  }
+}

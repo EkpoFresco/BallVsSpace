@@ -1,11 +1,16 @@
 --!strict
 -- Original SVG sources and the reproducible atlas builder live in game/tools/art.
--- These two published images belong to this project; no reference pixels are embedded.
+-- The published icon atlas belongs to this project; heroes use the original flat weapon atlas.
 local Artwork = {}
+local Heroes = require(game:GetService("ReplicatedStorage").Shared.HeroDefinitions)
+local Portrait = require(script.Parent.HeroPortrait)
+local WeaponArt = require(script.Parent.WeaponArt)
+Artwork.iconAsset = "rbxassetid://90376324892151"
+Artwork.studAsset = "rbxassetid://77193408549941"
 function Artwork.preload()
 	local ok, message = pcall(function()
 		game:GetService("ContentProvider")
-			:PreloadAsync({ "rbxassetid://132245039697166", "rbxassetid://105537358583136" })
+			:PreloadAsync({ Artwork.iconAsset, Artwork.studAsset, WeaponArt.asset })
 	end)
 	if not ok then
 		warn("BVS artwork preload: " .. tostring(message))
@@ -45,22 +50,29 @@ local icons = {
 	"Spark",
 	"Shadow",
 }
-local balls =
-	{ "Verity", "Axe", "Poison", "Burst", "Cell", "Vampire", "Acid", "Blade", "WDC", "Orbit", "Ray", "Laser" }
 local iconIndex: { [string]: number } = {}
-local ballIndex: { [string]: number } = {}
 for i, id in icons do
 	iconIndex[id] = i - 1
 end
-for i, id in balls do
-	ballIndex[id] = i - 1
-end
-function Artwork.set(image: ImageLabel, id: string, ball: boolean?)
-	local index = (if ball then ballIndex else iconIndex)[id]
+function Artwork.set(image: ImageLabel, id: string, _ball: boolean?)
+	if Heroes.heroes[id] then
+		image.Image = ""
+		image.ImageRectOffset = Vector2.zero
+		image.ImageRectSize = Vector2.zero
+		Portrait.draw(image, id, true)
+		image:SetAttribute("ArtworkId", id)
+		return
+	end
+	local old = image:FindFirstChild("HeroPortrait")
+	if old then
+		old:Destroy()
+	end
+	image:SetAttribute("HeroPortraitKey", nil)
+	local index = iconIndex[id]
 	assert(index, "Unknown authored image: " .. id)
-	local size = if ball then 256 else 128
-	local columns = if ball then 4 else 8
-	image.Image = if ball then "rbxassetid://132245039697166" else "rbxassetid://105537358583136"
+	local size = 128
+	local columns = 8
+	image.Image = Artwork.iconAsset
 	image.ImageRectOffset = Vector2.new(index % columns * size, (index // columns) * size)
 	image.ImageRectSize = Vector2.new(size, size)
 	image:SetAttribute("ArtworkId", id)
@@ -93,9 +105,6 @@ function Artwork.portrait(parent: Instance, id: string, x: number, y: number, si
 	frame.Size = UDim2.fromOffset(size, size)
 	frame.Parent = parent
 	Artwork.image(frame, "Ball", id, 0, 0, size, size, true)
-	if id == "Axe" or id == "Blade" then
-		Artwork.image(frame, "Weapon", id, size * 0.31, -size * 0.16, size * 0.4, size * 0.67)
-	end
 	return frame
 end
 return table.freeze(Artwork)

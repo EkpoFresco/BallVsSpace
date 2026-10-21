@@ -15,6 +15,15 @@ Controller.receive(state,payload(3,-11,20))
 assert(#state.samples==2 and state.samples[2].balls[1].vx==20,"Same-tick velocity refresh")
 Controller.receive(state,payload(2,-20,10))
 assert(state.latestTick==3 and state.samples[2].balls[1].x==-11,"Stale motion ignored")
+local Weapon=require(game.ReplicatedStorage.Shared.WeaponGeometry)
+local angles=Controller.new()
+local function spinPacket(tick,angle)
+ local w=Weapon.new(0,0,angle)
+ return Protocol.motion({{id=1,x=0,z=0,vx=0,vz=0,brush=0,nextAbilityTick=240,effectEndTick=0,weapon=w}},tick)
+end
+Controller.receive(angles,spinPacket(0,6.2));Controller.receive(angles,spinPacket(6,6.5))
+local interpolated=Controller.positions(angles,angles.samples[2].received+.05)[1].weapon.angle
+assert(math.abs(interpolated-6.35)<.0001,"Weapon reversed across a full rotation")
 local gui=Instance.new("ScreenGui")
 gui.Name="BVSReviewRegression"
 gui.Parent=player.PlayerGui
@@ -22,7 +31,7 @@ local ok,result=pcall(function()
  local s=Panels.new(gui)
  Panels.layout(s,Vector2.new(800,600),1)
  task.wait()
- local action=s.windows.Store.Content.Offers.LaserOffer.ViewLaser
+ local action=s.windows.Store.Content.Offers.CiraOffer.ViewCira
  local original=action.TextSize
  Panels.layout(s,Vector2.new(873,401),0.5)
  task.wait()
@@ -41,17 +50,18 @@ local ok,result=pcall(function()
  Panels.notify(s,"second")
  task.wait(0.3)
  assert(s.toast.Visible and s.toast.TextTransparency==0 and s.toast.Text=="second","Older fade must not hide newer notification")
- local preview=Art.viewport(gui,"ReviewPreview","Acid")
+ local preview=Art.viewport(gui,"ReviewPreview","Nix")
  task.wait(1)
  Art.animate(preview,0,0,true)
+ Panels.select(s,'Nix') -- Compare the same final selection before/after.
  local before=#gui:GetDescendants()
  for index=1,100 do
   Panels.open(s,if index%2==0 then "Inventory" else "Store")
-  Panels.select(s,if index%2==0 then "Acid" else "Axe")
+  Panels.select(s,if index%2==0 then "Nix" else "Bram")
   Panels.close(s)
   local world=preview:FindFirstChildOfClass("WorldModel")
   world:ClearAllChildren()
-  local id=if index%2==0 then "Acid" else "Axe"
+  local id=if index%2==0 then "Nix" else "Bram"
   Art.setSkin(preview,id)
   Art.build(world,id)
   Art.animate(preview,0,index,true)

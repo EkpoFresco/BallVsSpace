@@ -7,7 +7,7 @@ local Config = require(Shared.Config)
 local Draft = require(Shared.SeededDraft)
 local Rules = require(Shared.RoundRules)
 local Types = require(Shared.Types)
-local Ability = require(script.Parent.AbilityService)
+local Combat = require(script.Parent.CombatService)
 local Analytics = require(script.Parent.AnalyticsService)
 local Sim = require(script.Parent.SimService)
 local Territory = require(script.Parent.TerritoryService)
@@ -56,6 +56,7 @@ export type State = {
 	lastChanges: { Types.Change },
 	lastBase: number,
 	territorySerial: number,
+	territoryTick: number,
 	trace: { Analytics.Event },
 	replay: { { tick: number, q: buffer, motion: buffer } },
 	rematch: { [number]: boolean },
@@ -74,6 +75,7 @@ function Match.beginRound(m: State, now: number)
 	m.roundId += 1
 	m.roundLocked = false
 	m.board = Territory.new()
+	m.territoryTick = 0
 	m.effects = {}
 	m.hold = { leader = 0, updates = 0 }
 	m.accumulator = 0
@@ -109,6 +111,9 @@ function Match.beginRound(m: State, now: number)
 			lastDz = 0,
 		})
 	end
+	for _, b in balls do
+		Combat.initialize(b)
+	end
 	m.sim = Sim.new(balls)
 	Territory.seed(m.board, balls)
 	m.territorySerial += 1
@@ -123,7 +128,7 @@ function Match.new(id: string, users: { number }, seed: number, now: number, pra
 			userId = userId,
 			team = i,
 			offer = {},
-			kitId = "Drift",
+			kitId = "Astra",
 			angle = 0,
 			pickLocked = false,
 			aimLocked = false,
@@ -164,6 +169,7 @@ function Match.new(id: string, users: { number }, seed: number, now: number, pra
 		lastChanges = {},
 		lastBase = 0,
 		territorySerial = 0,
+		territoryTick = 0,
 		trace = {},
 		replay = {},
 		rematch = {},
@@ -180,13 +186,13 @@ function Match.finish(m: State, winner: number, reason: string, now: number)
 	transition(m, "MatchResult", now, 8)
 	Analytics.record(m.trace, "match_finished", m.sim.tick, m.points2[1], m.points2[2], reason)
 end
-function Match.lockRound(m: State, winner: number, now: number)
+function Match.lockRound(m: State, winner: number, now: number, reason: string?)
 	if m.roundLocked then
 		return
 	end
 	m.roundLocked = true
 	m.winner = winner
-	m.reason = if winner == 0 then "overtime_draw" else "final_area"
+	m.reason = reason or (if winner == 0 then "equal_area_health" else "final_area")
 	if winner == 0 then
 		m.points2[1] += 1
 		m.points2[2] += 1
@@ -340,6 +346,7 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 				b.speed = k.speed
 				b.brush = k.brushRadius
 				b.nextAbilityTick = k.firstReadyTick
+				Combat.initialize(b)
 			end
 			transition(m, "Aim", now, Config.AimSeconds)
 		end
@@ -366,8 +373,8 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 			b.lastDz = b.vz / b.speed
 		end
 		m.accumulator = 0
-		transition(m, "Battle", now, 30)
-	elseif m.phase == "Battle" or m.phase == "Overtime" then
+		transition(m, "Battle", now, Config.BattleTicks / Config.Hz)
+	elseif m.phase == "Battle" then
 		m.accumulator += dt
 		if m.accumulator > 0.5 then
 			m.debtSince = m.debtSince or now
@@ -382,26 +389,28 @@ function Match.update(m: State, now: number, dt: number, ready: boolean)
 		while m.accumulator >= 1 / 60 - 1e-10 and steps < 8 and not m.roundLocked do
 			m.accumulator -= 1 / 60
 			steps += 1
-			Ability.beforeStep(m.sim.tick + 1, m.sim.balls)
-			Sim.step(m.sim)
-			Ability.afterStep(m.sim.tick, m.sim.balls, m.effects)
+			if Combat.step(m.sim, m.effects) then
+				m.stateVersion += 1
+			end
 			if m.sim.recoveries > 3 then
 				Match.finish(m, 0, "simulation_failure", now)
 				return
 			end
-			if m.sim.tick % 6 == 0 then
+			local alive = Rules.health(m.sim.balls)
+			local terminal = alive[1] == 0 or alive[2] == 0 or m.sim.tick >= Config.BattleTicks
+			if m.sim.tick % Config.TerritoryEvery == 0 or terminal then
 				m.lastBase = m.board.version
-				m.lastChanges = Territory.resolve(m.board, m.sim.paths, m.effects)
+				m.lastChanges = Territory.resolve(m.board, {}, m.effects)
 				m.territorySerial += 1
-				table.clear(m.sim.paths)
+				m.territoryTick = m.sim.tick
 				table.clear(m.effects)
-				local finished, winner, overtime =
-					Rules.evaluate(m.sim.tick, m.board.counts[1], m.board.counts[2], m.hold)
-				if finished then
-					Match.lockRound(m, winner, now)
-				elseif overtime then
-					transition(m, "Overtime", now, 15)
-				end
+			end
+			table.clear(m.sim.paths)
+			if terminal then
+				local finished, winner, reason =
+					Rules.evaluate(m.sim.tick, m.board.counts[1], m.board.counts[2], m.sim.balls)
+				assert(finished, "Terminal rules disagreement")
+				Match.lockRound(m, winner, now, reason)
 			end
 		end
 	elseif m.phase == "RoundResult" and now >= m.deadline then

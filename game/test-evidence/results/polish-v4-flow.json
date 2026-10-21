@@ -1,0 +1,51 @@
+{
+  "rounds": [
+    {
+      "a": 399,
+      "b": 400,
+      "hpB": "40 / 100 HP",
+      "metric": "FINAL TERRITORY",
+      "heroA": "Pax",
+      "tick": 2700,
+      "hpA": "48 / 100 HP",
+      "round": 1,
+      "heroB": "Bori",
+      "reason": "final_area"
+    },
+    {
+      "a": 534,
+      "b": 320,
+      "hpB": "37 / 100 HP",
+      "metric": "FINAL TERRITORY",
+      "heroA": "Zefi",
+      "tick": 2700,
+      "hpA": "4 / 100 HP",
+      "round": 2,
+      "heroB": "Pax",
+      "reason": "final_area"
+    },
+    {
+      "a": 279,
+      "b": 582,
+      "hpB": "48 / 100 HP",
+      "metric": "FINAL TERRITORY",
+      "heroA": "Bori",
+      "tick": 2700,
+      "hpA": "45 / 100 HP",
+      "round": 3,
+      "heroB": "Nix",
+      "reason": "final_area"
+    }
+  ],
+  "resultActions": {
+    "rematchConfirmed": true,
+    "replayStarted": true,
+    "replayBallsVisible": true,
+    "resultRestored": true
+  },
+  "actualClicks": true,
+  "lastHeroReachable": true,
+  "completeMatch": true,
+  "clientErrors": [],
+  "physicalDevice": false
+}

@@ -1,5 +1,6 @@
 --!strict
 -- action-v1: presentation only. Catalog, equip events and server rules stay canonical.
+local Heroes = require(game:GetService("ReplicatedStorage").Shared.HeroDefinitions)
 local Catalog = require(game:GetService("ReplicatedStorage").Shared.AppearanceCatalog)
 local Ui = require(script.Parent.ReferenceUi)
 local Art = require(script.Parent.Artwork)
@@ -93,7 +94,7 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 		local header = Ui.frame(window, "ActionHeader", 0, 0, 100, 88, Color3.new(1, 1, 1))
 		header.ClipsDescendants = true
 		header.ZIndex = 1
-		Ui.gradient(header, Color3.fromRGB(184, 11, 81), Color3.fromRGB(240, 42, 91), 10)
+		Ui.gradient(header, theme.crimson, theme.pink, 10)
 		for i = 1, 6 do
 			local slash = Ui.frame(
 				header,
@@ -180,7 +181,7 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 	grid.ScrollBarThickness = 0
 	grid.ClipsDescendants = false
 	label(page, "CollectionTitle", "YOUR COLLECTION", white, 18, true)
-	label(page, "Count", "12 appearances", muted, 12)
+	label(page, "Count", "30 heroes", muted, 12)
 	for _, id in Catalog.ids do
 		local item = child(grid, id)
 		button(item, card, white, 12)
@@ -203,7 +204,7 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 	light.Rotation = 32
 	light.BackgroundTransparency = 0.5
 	child(detail, "Divider").Visible = false
-	label(detail, "Kit", "DRIFT KIT", ink, 12)
+	label(detail, "Kit", "SUN SPEAR", ink, 12)
 	local state = label(detail, "State", "SELECTED", white, 12, true)
 	state.BackgroundColor3 = ink
 	state.BackgroundTransparency = 0
@@ -220,7 +221,7 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 	offers.BackgroundColor3 = ink
 	child(offers, "Title").Visible = false
 	child(offers, "Availability").Visible = false
-	for i, id in { "Laser", "Ray", "Balloons", "Parasol" } do
+	for i, id in { "Cira", "Ravi", "Balloons", "Parasol" } do
 		local colors = {
 			Color3.fromRGB(85, 66, 102),
 			Color3.fromRGB(116, 67, 52),
@@ -248,17 +249,17 @@ function Menus.install(windows: { [string]: Frame }, open: (string) -> ())
 	end
 	text(child(feature, "Tag"), ink, 11)
 	local featureTag = child(feature, "Tag") :: TextLabel
-	featureTag.Text = "THE BALL COLLECTION"
+	featureTag.Text = "THE HERO COLLECTION"
 	text(child(feature, "Name"), ink, 37, true)
 	local featureName = child(feature, "Name") :: TextLabel
 	featureName.Text = "FIND YOUR\nNEXT FAVORITE."
 	text(child(feature, "Caption"), ink, 13)
 	local featureCaption = child(feature, "Caption") :: TextLabel
-	featureCaption.Text = "12 ball appearances.\nYours to explore."
-	Art.set(child(feature, "GlowBall") :: ImageLabel, "Verity", true)
-	Art.image(feature, "Orbit", "Orbit", 0, 0, 88, 88, true)
-	Art.image(feature, "Burst", "Burst", 0, 0, 72, 72, true)
-	local explore = Ui.button(feature, "Explore", "EXPLORE BALLS  >", 0, 0, 200, 48, ink)
+	featureCaption.Text = "30 original heroes.\nYours to explore."
+	Art.set(child(feature, "GlowBall") :: ImageLabel, "Astra", true)
+	Art.image(feature, "Kesh", "Kesh", 0, 0, 88, 88, true)
+	Art.image(feature, "Perri", "Perri", 0, 0, 72, 72, true)
+	local explore = Ui.button(feature, "Explore", "EXPLORE HEROES  >", 0, 0, 200, 48, ink)
 	button(explore, ink, white, 13)
 	explore.Activated:Connect(function()
 		open("Inventory")
@@ -297,9 +298,13 @@ function Menus.select(windows: { [string]: Frame }, selected: string, preferred:
 	end
 	local detail = child(page, "Details")
 	local target = child(detail, "Kit") :: TextLabel
-	target.Text = string.upper(Catalog.entries[selected].kit) .. " KIT"
+	local hero = Heroes.heroes[selected]
+	target.Text = string.upper(hero.weapon)
+	local stats = child(detail, "Equipped") :: TextLabel
+	stats.Text = string.format("%d hit · %g reach · %.2g spin/s", hero.damage, hero.reach, hero.rps)
+	stats.TextSize = 12
 	local equip = child(detail, "Equip") :: TextButton
-	equip.Text = if selected == preferred then "EQUIPPED  ✓" else "EQUIP BALL  >"
+	equip.Text = if selected == preferred then "EQUIPPED  ✓" else "EQUIP HERO  >"
 	button(equip, if selected == preferred then Color3.fromRGB(214, 208, 203) else cyan, ink, 17)
 end
 function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale: number)
@@ -445,13 +450,13 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 		copyWidth,
 		if compactDetail then 32 else 66
 	)
-	text(child(detail, "Name"), ink, if compactDetail then 23 else 31, true)
+	text(child(detail, "Name"), ink, if compactDetail then 18 else 27, true)
 	box(
 		child(detail, "Description"),
 		16,
-		if compactDetail then detailHeight - 105 else copyY + 98,
+		if compactDetail then detailHeight - 126 else copyY + 98,
 		copyWidth,
-		if compactDetail then 32 else 54
+		if compactDetail then 52 else 70
 	)
 	text(child(detail, "Description"), Color3.fromRGB(70, 57, 71), 13)
 	box(child(detail, "Equipped"), 16, detailHeight - 70, copyWidth, 20)
@@ -526,14 +531,14 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 		heroSize
 	)
 	box(
-		child(feature, "Orbit"),
+		child(feature, "Kesh"),
 		12,
 		if compactStore then 116 else 295,
 		if compactStore then 48 else 88,
 		if compactStore then 48 else 88
 	)
 	box(
-		child(feature, "Burst"),
+		child(feature, "Perri"),
 		featureWidth - (if compactStore then 52 else 84),
 		if compactStore then 122 else 302,
 		if compactStore then 42 else 72,
@@ -542,7 +547,7 @@ function Menus.layout(windows: { [string]: Frame }, viewport: Vector2, rootScale
 	box(child(feature, "Caption"), 12, featureHeight - 90, featureWidth - 24, 34)
 	text(child(feature, "Caption"), ink, if compactStore then 11 else 13)
 	box(child(feature, "Explore"), 12, featureHeight - 48, featureWidth - 24, 44)
-	for i, id in { "Laser", "Ray", "Balloons", "Parasol" } do
+	for i, id in { "Cira", "Ravi", "Balloons", "Parasol" } do
 		local x = startX + (i - 1) % 2 * (offerWidth + 14)
 		local y = math.floor((i - 1) / 2) * (offerHeight + gap)
 		local group = child(offers, id .. "Offer")

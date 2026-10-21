@@ -46,8 +46,8 @@ telemetry.OnServerEvent:Connect(function(p, raw: unknown)
 	local serverHash = Workspace:GetAttribute("BVSBoardHash")
 	local serverTick = Workspace:GetAttribute("BVSTick")
 	assert(type(serverTick) == "number", "Missing server simulation tick")
-	-- An overload abort can freeze between grid updates. The board represents the last sixth tick.
-	local pass = t.clientHash == serverHash and t.clientTick == serverTick - serverTick % 6
+	-- Terminal KO frames flush partial territory and carry the exact cutoff tick.
+	local pass = t.clientHash == serverHash and t.clientTick == serverTick
 	if not pass then
 		mismatches += 1
 	end

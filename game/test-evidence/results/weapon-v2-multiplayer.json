@@ -1,0 +1,12 @@
+{
+  "runId": "579f7f3a-8d5a-4780-9d5f-906c3221fbaf",
+  "result": {
+    "players": 2,
+    "comparisons": 8,
+    "mismatches": 0,
+    "visualFailures": 0,
+    "matches": 1,
+    "visualComparisons": 8,
+    "aborted": 0
+  }
+}

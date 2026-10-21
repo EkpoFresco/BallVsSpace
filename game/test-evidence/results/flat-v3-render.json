@@ -1,0 +1,13 @@
+{
+  "screenPosition": true,
+  "method": "Actual active sprite bounds versus shared capsule geometry at three poses, including projectiles, extensions, power and spent guards. 1.5px center / 1px width tolerance. Silhouettes use capsule collision approximation, not per-pixel collision.",
+  "screenWidth": true,
+  "asset": "rbxassetid://77146942181804",
+  "maxWidthErrorPixels": 0.000001269578934426363,
+  "poses": 90,
+  "heroes": 30,
+  "loadedSprites": true,
+  "edges": 130,
+  "maxCenterErrorPixels": 0.00006823938019806519,
+  "guardSegments": 36
+}

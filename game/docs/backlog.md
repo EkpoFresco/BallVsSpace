@@ -1,6 +1,6 @@
 # Remaining game work
 
-The 0.3 presentation pass implements the authored screens, 32 symbols, 12 ball appearances, responsive menus and detailed interactive lobby. The subsequent code review fixes input races, interpolation, font restoration and hidden rendering cost. See [presentation](ui/README.md#presentation-status), [code review](testing.md#review-and-performance) and the [actual comparisons](ui/reference-comparison.html). Pixel-perfect identity and subjective acceptance are not claimed.
+The [weapon-v2 build](design/weapon-territory-v2-build.md) implements 30 original heroes, weapon-only territory capture, health/KO combat and a centered studded arena. The authored lobby and responsive menu infrastructure remain. Automated evidence is separate from human acceptance and balance.
 
 These remaining concept/product tasks retain section 12's dependencies.
 
@@ -9,7 +9,7 @@ These remaining concept/product tasks retain section 12's dependencies.
 | P0 | Human visual and territory-readability acceptance | Review eight paired surfaces; record the ten-observer M1 comprehension/appeal gate and agree which game differences to retain |
 | P1 | Remaining M2 reliability matrix | Async inbox where required, latency/loss/disconnect/exploit scenarios; original-ack replay is now implemented and regression tested |
 | P1 | 2v2, parties and four arenas | Four real clients, team-union scoring, arena isolation and measured capacity; depends on M2 |
-| P2 | More abilities and guided practice | Distinct abilities with counterplay, teaching and balance evidence; twelve appearances currently share Drift/Anchor |
+| P1 | Hero balance and guided practice | Test all weapon families, matchups and aim strategies; improve teaching and counterplay from human play evidence |
 | P2 | Audio, accessibility and physical devices | Ownership without color alone, audio controls, physical touch/gamepad and phone profiling; emulator layouts already checked |
 | P2 | Persistence, progression and rewards | Durable profile/session safety, migration and reward deduplication; current profiles are explicitly session-only |
 | P3 | Beta/release gates | 100 actual character resets, network/capacity/device evidence, human gates and explicit release decision |

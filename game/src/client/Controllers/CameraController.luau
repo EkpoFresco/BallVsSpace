@@ -1,27 +1,42 @@
 --!strict
 local Players = game:GetService("Players")
 local Camera = {}
-local wasLobby = false
+local lastCamera: Camera? = nil
+local lastHumanoid: Humanoid? = nil
+local lastLobby: boolean? = nil
+local movement: { walk: number, power: number, height: number }? = nil
 function Camera.fit(camera: Camera, phase: string)
 	local lobby = phase == "Lobby" or phase == "Queued"
 	local character = Players.LocalPlayer.Character
 	local humanoid = if character then character:FindFirstChildOfClass("Humanoid") else nil
+	if camera == lastCamera and humanoid == lastHumanoid and lobby == lastLobby then
+		return
+	end
+	if humanoid ~= lastHumanoid then
+		movement = nil
+	end
+	lastCamera, lastHumanoid, lastLobby = camera, humanoid, lobby
 	if lobby then
-		if not wasLobby and humanoid and character then
+		if humanoid and character then
 			camera.CameraType = Enum.CameraType.Custom
 			camera.CameraSubject = humanoid
 			camera.FieldOfView = 70
 			local p = character:GetPivot().Position
 			camera.CFrame = CFrame.lookAt(p + Vector3.new(0, 7, 16), p + Vector3.new(0, 2, 0))
-			humanoid.WalkSpeed = 16
-			humanoid.JumpPower = 50
-			wasLobby = true
+			if movement then
+				humanoid.WalkSpeed = movement.walk
+				humanoid.JumpPower = movement.power
+				humanoid.JumpHeight = movement.height
+				movement = nil
+			end
 		end
 	else
-		wasLobby = false
 		if humanoid then
+			movement = movement
+				or { walk = humanoid.WalkSpeed, power = humanoid.JumpPower, height = humanoid.JumpHeight }
 			humanoid.WalkSpeed = 0
 			humanoid.JumpPower = 0
+			humanoid.JumpHeight = 0
 		end
 		camera.CameraType = Enum.CameraType.Scriptable
 		camera.FieldOfView = 55

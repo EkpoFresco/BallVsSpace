@@ -1,0 +1,28 @@
+{
+  "seconds": 1.0028115000459366,
+  "passed": 22,
+  "tests": {
+    "1": "all cell centers, bounds, mirrored spawn stamp",
+    "2": "126 influence cases and four-step reinforced capture",
+    "3": "maximum pressure, shape order and random full recounts",
+    "4": "capsule endpoints, tangent, sweep and empty range",
+    "5": "head-on, glancing, corner, triple, overlapping and bounced paths",
+    "6": "stable, matched, unique three-card drafts",
+    "7": "KO, simultaneous KO, time, area then normalized health",
+    "8": "protocol atomicity, invalid buffers, stale delta, finite boundary",
+    "9": "motion seat identity and bounded acknowledgement replay",
+    "10": "incremental grid decode matches full recount and rejects corrupt changes atomically",
+    "11": "wildcard timeout restores appearance and rematch confirmation is authoritative",
+    "12": "state deadlines, early floors, late input, and post-result freeze",
+    "13": "disconnect cancellation, grace, simultaneous abort, fake reward dedup",
+    "14": "30 original heroes, finite bounded geometry, different kits",
+    "15": "charge timing ignores starting side and snapshot tick matches resolved grid",
+    "16": "body travel is inert; only weapon contact paints",
+    "17": "multi-head hits share rearm; friendly bodies take no damage",
+    "18": "simultaneous damage and no lethal healing",
+    "19": "dead heroes have no motion or future weapon footprint",
+    "20": "KO flushes partial tick once and locks damage, score and points",
+    "21": "weapon pose and HP packet round trip, finite rejection",
+    "22": "all heroes finish a bounded combat simulation without body pressure"
+  }
+}

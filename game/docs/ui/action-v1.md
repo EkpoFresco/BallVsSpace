@@ -1,4 +1,6 @@
-# Current action-v1 build
+# Historical action-v1 build
+
+This guide describes the earlier two-kit build. Use the [weapon territory v2 guide](../design/weapon-territory-v2-build.md) for the current 30-hero implementation; the primary saved place now contains v2.
 
 Open **`game/places/BallVsSpace.rbxl`** in Roblox Studio and press **Play / F5**. The UI is created during Play; Edit mode does not show the menus. Permanent source is under `game/src/`.
 

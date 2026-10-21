@@ -1,0 +1,11 @@
+{
+  "studio": "d53194e7-cb7b-4695-b4c6-0b49239af613",
+  "clientErrors": [],
+  "rules": "bvs-rules-2-weapon",
+  "heroes": 30,
+  "practiceVisible": true,
+  "viewport": "954, 472",
+  "engineVersion": "0.744.0.7441077",
+  "phase": "Lobby",
+  "build": "0.4.0-weapon-heroes"
+}

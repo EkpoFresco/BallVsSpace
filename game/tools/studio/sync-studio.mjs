@@ -30,6 +30,8 @@ local legacy=workspace:FindFirstChild('AuthoredWorld');if legacy and #legacy:Get
 for _,name in {'CourtService','LobbyDetailService'} do
  local old=game.ServerScriptService.Server.Services:FindFirstChild(name);if old then old:Destroy() end
 end
+local obsolete=game.ServerScriptService.Server.Services:FindFirstChild('AbilityService');if obsolete then obsolete:Destroy() end
+local abilities=game.ServerScriptService.Server:FindFirstChild('Abilities');if abilities then abilities:Destroy() end
 return 'Synced authored lobby'
 `});
 const tree=JSON.parse(readFileSync(path.join(gameRoot,'default.project.json'),'utf8')).tree;

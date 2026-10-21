@@ -1,6 +1,6 @@
 # Ball VS Space — UI editing handoff
 
-Current presentation: **action-v1 across the existing game UI**, 19 October 2026. See the [current build and test guide](action-v1.md). The screenshot map retains historical 0.3 captures.
+Current presentation: **flat armory v3**, 21 October 2026: 30 plain-ball heroes with crisp weapon sprites, studded arena, HP panels and restored charcoal/magenta/mint menus. See the [visual build guide](../design/flat-armory-v3.md) and [unchanged rules](../design/weapon-territory-v2-build.md). The action-v1 menu design remains the visual target; its old roster examples and screenshot map are historical.
 
 The [approved design](../../assets/ui-concepts/action-v1/design.json) and [pilot contract](../../assets/ui-concepts/action-v1/pilot.json) remain unchanged. The user's later requirement supersedes their old portrait examples: **phones keep the desktop's horizontal composition**. Inventory keeps two to four columns beside the selected item. Store keeps its feature beside the offers. The compact collection scrolls; actions remain visible.
 
@@ -16,7 +16,7 @@ The [clickable screenshot map](map.html) and [reference comparison](reference-co
 | Floating lobby signs and kiosk screens | BillboardGui / SurfaceGui attached to world Parts | The same authored lobby asset |
 | Large charcoal match court, including its apparent depth | 2D Frames, gradients and bevel strips | [HudController](../../src/client/Controllers/HudController.luau) |
 | Cyan/coral territory | 1,024 screen-space Frames | [TerritoryRenderer](../../src/client/Controllers/TerritoryRenderer.luau) |
-| Shaded moving balls and rotating weapons | Primarily ImageLabels; a ViewportFrame holds a 3D fallback | [BallArt](../../src/client/Controllers/BallArt.luau), [BallRenderer](../../src/client/Controllers/BallRenderer.luau), [Artwork](../../src/client/Controllers/Artwork.luau) |
+| Original moving heroes and rotating weapons | Separate atlas sprites assembled from hero definitions and authoritative weapon geometry | [HeroPortrait](../../src/client/Controllers/HeroPortrait.luau), [WeaponArt](../../src/client/Controllers/WeaponArt.luau), [BallRenderer](../../src/client/Controllers/BallRenderer.luau) |
 | Standing avatars beside the court / winner in results | Actual 3D avatar models inside **ViewportFrames**, composited into UI | HudController's `avatar` / `loadAvatarAsync` helpers |
 | Player's walking avatar in the lobby | World character Model | Normal Roblox character system; [CameraController](../../src/client/Controllers/CameraController.luau) controls the view |
 | Menus, cards, icons, hearts, buttons, labels, aim arrow | Screen UI | HudController, [LobbyPanels](../../src/client/Controllers/LobbyPanels.luau), BallRenderer |

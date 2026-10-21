@@ -1,0 +1,8 @@
+{
+  "changedBoardMedianMs": 2.0242066665863,
+  "descendants": 1027,
+  "tiles": 1024,
+  "iterations": 360,
+  "sameBoardMeanMs": 0.00006210000719875097,
+  "method": "12 batches of 30 fully changed immutable boards, then 1000 repeated draws. CPU calls only; not device FPS."
+}

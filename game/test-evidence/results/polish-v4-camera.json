@@ -1,0 +1,7 @@
+{
+  "replacementCamera": true,
+  "movementRestored": true,
+  "unchangedCalls": 1000,
+  "jumpModesFrozen": true,
+  "cameraWrites": 0
+}

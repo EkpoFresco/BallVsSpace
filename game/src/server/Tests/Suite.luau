@@ -14,6 +14,8 @@ local Profile = require(script.Parent.Parent.Services.ProfileService)
 local Sim = require(script.Parent.Parent.Services.SimService)
 local Territory = require(script.Parent.Parent.Services.TerritoryService)
 local History = require(script.Parent.Parent.Services.CommandHistory)
+local WeaponTests = require(script.Parent.WeaponSuite)
+local Weapon = require(Shared.WeaponGeometry)
 local Suite = {}
 function Suite.run(): { string }
 	local passed = {}
@@ -105,7 +107,7 @@ function Suite.run(): { string }
 				id = id,
 				userId = id,
 				team = id % 2 + 1,
-				kitId = "Drift",
+				kitId = "Astra",
 				x = x,
 				z = z,
 				vx = vx,
@@ -152,42 +154,44 @@ function Suite.run(): { string }
 		end
 	end)
 	check("stable, matched, unique three-card drafts", function()
-		local catalog = { "Drift", "Anchor", "Echo", "Prism", "Null", "Seeder", "Skimmer", "Surveyor" }
+		local catalog = { "Astra", "Bram", "Echo", "Prism", "Null", "Seeder", "Skimmer", "Surveyor" }
 		for seed = 1, 200 do
 			local a = Draft.offers(seed, 2, 1, catalog)
 			local b = Draft.offers(
 				seed,
 				2,
 				1,
-				{ "Surveyor", "Skimmer", "Seeder", "Null", "Prism", "Echo", "Anchor", "Drift" }
+				{ "Surveyor", "Skimmer", "Seeder", "Null", "Prism", "Echo", "Bram", "Astra" }
 			)
 			assert(#a == 3 and a[1] ~= a[2] and a[2] ~= a[3] and a[1] ~= a[3], "Three distinct offers")
 			assert(table.concat(a) == table.concat(b), "Stable catalog order")
 		end
 	end)
-	check("regulation cutoff, overtime reset, final-boundary hold, cap draw", function()
-		local hold = { leader = 0, updates = 0 }
-		local finished, winner, ot = Rules.evaluate(1800, 501, 500, hold)
-		assert(finished and winner == 1 and not ot, "One-cell regulation win")
-		finished, winner, ot = Rules.evaluate(1800, 512, 512, hold)
-		assert(not finished and ot, "Exact tie only")
-		for tick = 1806, 1860, 6 do
-			Rules.evaluate(tick, 501, 500, hold)
-		end
-		assert(hold.updates == 0, "One-cell margin")
-		for tick = 1866, 1914, 6 do
-			finished = Rules.evaluate(tick, 502, 500, hold)
-			assert(not finished, "Nine updates")
-		end
-		Rules.evaluate(1920, 501, 500, hold)
-		assert(hold.updates == 0, "Reset")
-		for tick = 2646, 2700, 6 do
-			finished, winner = Rules.evaluate(tick, 500, 502, hold)
-		end
-		assert(finished and winner == 2, "Final-boundary hold must win")
-		finished, winner = Rules.evaluate(2700, 502, 500, { leader = 1, updates = 3 })
-		assert(finished and winner == 0, "Unheld cap is draw")
-		assert(Rules.matchFinished(3, 3, 3) and Rules.matchFinished(2, 4, 0), "Match points")
+	check("KO, simultaneous KO, time, area then normalized health", function()
+		local m = Match.new("rules", { 1, 2 }, 1, 0, false)
+		Match.beginRound(m, 0)
+		local balls = m.sim.balls
+		balls[1].weapon = Weapon.new(0, 0, 0)
+		balls[2].weapon = Weapon.new(0, 0, 0)
+		local a, b = balls[1].weapon :: Types.WeaponState, balls[2].weapon :: Types.WeaponState
+		local done, winner, reason = Rules.evaluate(Config.BattleTicks - 1, 500, 400, balls)
+		assert(not done, "Timer cut off early")
+		done, winner, reason = Rules.evaluate(Config.BattleTicks, 501, 500, balls)
+		assert(done and winner == 1 and tostring(reason) == "final_area", "One-cell regulation win")
+		a.hp = 20
+		b.hp = 80
+		done, winner, reason = Rules.evaluate(Config.BattleTicks, 500, 500, balls)
+		assert(done and winner == 2 and tostring(reason) == "health_tiebreak", "Health tiebreak")
+		a.hp = 80
+		done, winner, reason = Rules.evaluate(Config.BattleTicks, 500, 500, balls)
+		assert(done and winner == 0 and tostring(reason) == "equal_area_health", "Exact draw")
+		a.hp = 0
+		done, winner, reason = Rules.evaluate(1, 1000, 0, balls)
+		assert(done and winner == 2 and tostring(reason) == "knockout", "KO precedes area")
+		b.hp = 0
+		done, winner, reason = Rules.evaluate(1, 1000, 0, balls)
+		assert(done and winner == 0 and tostring(reason) == "double_ko", "Simultaneous KO")
+		assert(Rules.matchFinished(3, 3, 3) and Rules.matchFinished(2, 4, 0), "Round points")
 	end)
 	check("protocol atomicity, invalid buffers, stale delta, finite boundary", function()
 		local a, b = Territory.new(), Territory.new()
@@ -231,7 +235,7 @@ function Suite.run(): { string }
 		Match.beginRound(m, 0)
 		local payload = Protocol.motion(m.sim.balls, 6)
 		assert(Protocol.decodeMotion(payload), "Valid motion")
-		buffer.writeu8(payload, 5 + 29, 1)
+		buffer.writeu8(payload, 5 + 74, 1)
 		assert(Protocol.decodeMotion(payload) == nil, "Duplicate seat must not swap appearance")
 		local history = History.new()
 		History.record(history, 1, true, "ok")
@@ -302,7 +306,7 @@ function Suite.run(): { string }
 	check("wildcard timeout restores appearance and rematch confirmation is authoritative", function()
 		local m = Match.new("review", { 1, 2 }, 1, 0, false)
 		Match.beginRound(m, 0)
-		m.seats[1].offer = { "Drift" }
+		m.seats[1].offer = { "Astra" }
 		assert(
 			Match.command(m, 1, {
 				id = 1,
@@ -310,15 +314,15 @@ function Suite.run(): { string }
 				matchId = m.id,
 				roundId = m.roundId,
 				generation = m.generation,
-				kitId = "Anchor",
-				appearance = "Axe",
+				kitId = "Bram",
+				appearance = "Bram",
 				wildcard = true,
 			}, 1),
 			"Tentative wildcard"
 		)
 		Match.update(m, m.deadline, 0, true)
 		assert(
-			m.seats[1].kitId == "Drift" and m.seats[1].appearance == "Acid" and not m.seats[1].wildcardUsed,
+			m.seats[1].kitId == "Astra" and m.seats[1].appearance == "Astra" and not m.seats[1].wildcardUsed,
 			"Timeout restores default appearance with kit"
 		)
 		Match.finish(m, 1, "match_points", 30)
@@ -378,17 +382,17 @@ function Suite.run(): { string }
 		Match.update(m, 5, 0, true)
 		Match.update(m, 7, 0, true)
 		assert(tostring(m.phase) == "Battle", "Countdown")
-		m.sim.tick = 1794
+		m.sim.tick = Config.BattleTicks - 6
 		m.board.q = buffer.create(1024)
 		m.board.counts = { [0] = 1024, [1] = 0, [2] = 0 }
-		m.sim.balls[1].kitId = "Drift"
+		m.sim.balls[1].kitId = "Astra"
 		m.sim.balls[1].nextAbilityTick = 1800
-		m.sim.balls[2].kitId = "Anchor"
+		m.sim.balls[2].kitId = "Bram"
 		Match.update(m, 37, 0.12, true)
-		assert(m.sim.tick == 1800 and m.roundLocked, "Cutoff must stop leftover accumulator")
+		assert(m.sim.tick == Config.BattleTicks and m.roundLocked, "Cutoff must stop leftover accumulator")
 		local before = Math.hash(m.board.q)
 		Match.update(m, 37.5, 1, true)
-		assert(m.sim.tick == 1800 and Math.hash(m.board.q) == before, "No late paint")
+		assert(m.sim.tick == Config.BattleTicks and Math.hash(m.board.q) == before, "No late paint")
 		local points = m.points2[1] + m.points2[2]
 		Match.lockRound(m, 1, 38)
 		assert(m.points2[1] + m.points2[2] == points, "Idempotent round")
@@ -411,6 +415,9 @@ function Suite.run(): { string }
 		assert(p.matches == 1, "Dedup")
 		Profile.release(90001)
 	end)
+	for _, name in WeaponTests.run() do
+		table.insert(passed, name)
+	end
 	return passed
 end
 return table.freeze(Suite)

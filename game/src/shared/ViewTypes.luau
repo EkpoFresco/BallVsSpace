@@ -1,4 +1,5 @@
 --!strict
+local Types = require(script.Parent.Types)
 export type Seat = {
 	id: number,
 	userId: number,
@@ -11,6 +12,7 @@ export type Seat = {
 	aimLocked: boolean,
 	x: number,
 	z: number,
+	weapon: Types.WeaponState?,
 }
 export type State = {
 	id: string,

@@ -1,0 +1,25 @@
+{
+  "studio": "5da0885d-fc5c-40b7-80cf-824308d7029e",
+  "initial": {
+    "initialRendererHidden": true,
+    "lobbyWeaponsHidden": true,
+    "build": "0.4.1-flat-armory",
+    "engineVersion": "0.743.0.7431133",
+    "gradientWhiteMultiplier": true,
+    "charcoalGradient": true
+  },
+  "inventory": {
+    "phase": "Lobby",
+    "clientErrors": [],
+    "candidates": {
+      "1": {
+        "visible": true,
+        "path": "Players.Fresc0_fr.PlayerGui.BallVsSpace.ReferenceCanvas.Lobby.Inventory"
+      },
+      "2": {
+        "visible": true,
+        "path": "Players.Fresc0_fr.PlayerGui.BallVsSpace.ReferenceCanvas.Panels.Inventory"
+      }
+    }
+  }
+}

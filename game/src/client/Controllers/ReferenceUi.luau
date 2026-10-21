@@ -114,12 +114,18 @@ function Ui.button(
 	outline.ZIndex = 6
 	edge.Parent = outline
 	local hover = false
+	local tintTween: Tween? = nil
 	local function tint(brightness: number)
-		TweenService:Create(
+		if tintTween then
+			tintTween:Cancel()
+		end
+		local tween = TweenService:Create(
 			background,
 			TweenInfo.new(0.12),
 			{ BackgroundColor3 = Color3.new(brightness, brightness, brightness) }
-		):Play()
+		)
+		tintTween = tween
+		tween:Play()
 	end
 	b.MouseEnter:Connect(function()
 		hover = true
@@ -128,6 +134,12 @@ function Ui.button(
 	b.MouseLeave:Connect(function()
 		hover = false
 		tint(0.94)
+	end)
+	b.SelectionGained:Connect(function()
+		tint(1)
+	end)
+	b.SelectionLost:Connect(function()
+		tint(if hover then 1 else 0.94)
 	end)
 	b.MouseButton1Down:Connect(function()
 		tint(0.78)
@@ -178,7 +190,7 @@ local preserveColor = { ScoreA = true, ScoreB = true, BarA = true, BarB = true, 
 function Ui.actionTheme(root: Instance, skip: { [string]: boolean }?)
 	local c = Ui.actionColors
 	local function visit(item: Instance)
-		if skip and skip[item.Name] then
+		if item.Name == "HeroPortrait" or (skip and skip[item.Name]) then
 			return
 		end
 		if item:IsA("ViewportFrame") or item:IsA("WorldModel") then

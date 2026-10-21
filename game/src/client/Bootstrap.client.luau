@@ -10,6 +10,7 @@ local Shared = ReplicatedStorage:WaitForChild("Shared", 15)
 assert(Shared, "Missing shared modules")
 local Appearances = require(Shared.AppearanceCatalog)
 local Math = require(Shared.TerritoryMath)
+local Config = require(Shared.Config)
 local Protocol = require(Shared.Protocol)
 local Types = require(Shared.Types)
 local ViewTypes = require(Shared.ViewTypes)
@@ -50,6 +51,7 @@ local reduced = false
 local readySent = false
 local lastStateAt = os.clock()
 local replayAt: number? = nil
+local replayIndex = 0
 type Frame = { board: Types.Board, positions: { Protocol.Motion }, tick: number }
 local history: { Frame } = {}
 type Pending = { board: Types.Board, tick: number, due: number }
@@ -67,6 +69,7 @@ local function send(kind: string, kit: string?, direction: number?, appearance: 
 		kitId = kit,
 		appearance = appearance,
 		angle = direction,
+		wildcard = if v and kind == "Select" and kit then table.find(v.offer, kit) == nil else nil,
 	})
 	return id
 end
@@ -106,6 +109,10 @@ local function chooseAppearance(appearance: string)
 	end
 	local entry = Appearances.entries[appearance]
 	if not entry then
+		return
+	end
+	if view and phase == "Draft" and view.wildcardUsed and not table.find(view.offer, entry.kit) then
+		Panels.notify(hud.panels, "Free pick used. Choose one of the three offered heroes.")
 		return
 	end
 	hud.selectedAppearance = appearance
@@ -151,17 +158,8 @@ end
 hud.confirmCollection.Activated:Connect(function()
 	chooseAppearance(hud.pendingAppearance)
 end)
-local rerollOffset = 0
-hud.reroll.Activated:Connect(function()
-	if phase ~= "Draft" then
-		return
-	end
-	rerollOffset = (rerollOffset + 3) % #Appearances.ids
-	Hud.reroll(hud, rerollOffset)
-end)
 hud.territoryToggle.Activated:Connect(function()
-	hud.showTerritory = not hud.showTerritory
-	renderUi()
+	Panels.notify(hud.panels, "Territory stays visible so you can read the score.")
 end)
 hud.motionToggle.Activated:Connect(function()
 	reduced = not reduced
@@ -173,6 +171,7 @@ hud.left.Activated:Connect(function()
 		send("Queue")
 	elseif (phase == "RoundResult" or phase == "MatchResult") and #history > 1 then
 		replayAt = os.clock()
+		replayIndex = 0
 		renderUi()
 	end
 end)
@@ -399,7 +398,7 @@ RunService.RenderStepped:Connect(function()
 		readySent = true
 		send("Ready")
 	end
-	local positions = Controller.positions(controller, now)
+	local positions, poseTick = Controller.positions(controller, now)
 	local boardUpdated = false
 	while #pending > 0 and pending[1].due <= now do
 		local update = table.remove(pending, 1)
@@ -433,8 +432,9 @@ RunService.RenderStepped:Connect(function()
 	end
 	if view and view.phase ~= "Battle" and view.phase ~= "Overtime" and #controller.samples > 0 then
 		positions = controller.samples[#controller.samples].balls
+		poseTick = controller.samples[#controller.samples].tick
 	end
-	local displayedBoard = controller.board
+	local renderedView = view
 	if replayAt then
 		local index = math.floor((now - replayAt) * 10) + 1
 		if index > #history then
@@ -444,17 +444,39 @@ RunService.RenderStepped:Connect(function()
 			renderUi()
 		else
 			local frame = history[index]
-			displayedBoard = frame.board
-			positions = frame.positions
-			Territory.apply(floor, frame.board)
-			score(frame.board)
+			local nextFrame = history[math.min(index + 1, #history)]
+			local alpha = ((now - replayAt) * 10) % 1
+			positions = Controller.interpolate(frame.positions, nextFrame.positions, alpha)
+			poseTick = frame.tick + (nextFrame.tick - frame.tick) * alpha
+			if view then
+				local replayView = table.clone(view)
+				replayView.phase = "Battle"
+				replayView.tick = frame.tick
+				replayView.seats = {}
+				for i, s in view.seats do
+					local seat = table.clone(s)
+					local p = positions[i]
+					if p then
+						seat.weapon = p.weapon
+					end
+					table.insert(replayView.seats, seat)
+				end
+				renderedView = replayView
+			end
+			if replayIndex ~= index then
+				replayIndex = index
+				Territory.apply(floor, frame.board)
+				score(frame.board)
+				for i, p in positions do
+					local hp = p.weapon.hp
+					hud.hpLabels[i].Text = if hp > 0 then string.format("%d / 100 HP", hp) else "KNOCKED OUT"
+					hud.hpFills[i].Size = UDim2.fromScale(hp / 100, 1)
+				end
+			end
 			hud.status.Text = "REPLAY · last 2 seconds · result locked"
 		end
 	end
-	Balls.render(balls, positions, view, reduced)
-	for i, ball in balls.balls do
-		ball.label.Text = string.format("%d%%", math.floor(displayedBoard.counts[i] / 10.24 + 0.5))
-	end
+	Balls.render(balls, positions, renderedView, reduced, poseTick)
 	local v = view
 	if v then
 		if phase == "Aim" or phase == "Countdown" then
@@ -470,16 +492,16 @@ RunService.RenderStepped:Connect(function()
 			end
 		end
 		local seconds = if phase == "Battle"
-			then (1800 - v.tick) / 60
+			then (Config.BattleTicks - v.tick) / 60
 			elseif phase == "Overtime" then (2700 - v.tick) / 60
 			else v.deadline - Workspace:GetServerTimeNow()
 		local secondsLeft = math.max(0, math.ceil(seconds))
 		if lastClockPhase ~= phase or lastClockSecond ~= secondsLeft then
 			lastClockPhase, lastClockSecond = phase, secondsLeft
-			hud.draftTitle.Text = "CHOOSE YOUR BALL - " .. secondsLeft
+			hud.draftTitle.Text = "CHOOSE YOUR HERO · " .. secondsLeft
 			hud.collectionTitle.Text = if phase == "Draft"
-				then "Select Any Ball - " .. secondsLeft
-				else "Select Any Ball"
+				then "30 HEROES · " .. secondsLeft
+				else "30 HEROES"
 			hud.phase.Text = if phase == "Aim"
 				then "ADJUST YOUR AIM - " .. secondsLeft
 				elseif phase == "Countdown" then "GET READY - " .. secondsLeft

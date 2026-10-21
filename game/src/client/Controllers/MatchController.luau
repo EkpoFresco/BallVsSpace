@@ -34,13 +34,36 @@ function Controller.receive(state: State, payload: buffer)
 		table.remove(state.samples, 1)
 	end
 end
-function Controller.positions(state: State, now: number): { Protocol.Motion }
+function Controller.interpolate(
+	first: { Protocol.Motion },
+	last: { Protocol.Motion },
+	alpha: number
+): { Protocol.Motion }
+	local result = {}
+	for i, b in last do
+		local copy = table.clone(b)
+		copy.weapon = table.clone(b.weapon)
+		local a = first[i]
+		if a and a.id == b.id then
+			copy.x = a.x + (b.x - a.x) * alpha
+			copy.z = a.z + (b.z - a.z) * alpha
+			copy.weapon.angle = a.weapon.angle + (b.weapon.angle - a.weapon.angle) * alpha
+			copy.weapon.spin = a.weapon.spin + (b.weapon.spin - a.weapon.spin) * alpha
+		end
+		table.insert(result, copy)
+	end
+	return result
+end
+function Controller.positions(state: State, now: number): ({ Protocol.Motion }, number)
 	local samples = state.samples
 	if #samples == 0 then
-		return {}
+		return {}, 0
 	end
 	local latest = samples[#samples]
-	local target = latest.tick + math.min(now - latest.received, 0.25) * 60 - 6
+	-- Geometry and angles share this fractional clock. A 10 Hz territory tick
+	-- makes whips and projectiles visibly step even when the ball is interpolated.
+	local target =
+		math.clamp(latest.tick + (now - latest.received) * 60 - 6, samples[1].tick, latest.tick + 6)
 	local first = latest
 	local last = latest
 	if target <= samples[1].tick then
@@ -54,21 +77,18 @@ function Controller.positions(state: State, now: number): { Protocol.Motion }
 			break
 		end
 	end
-	local result = {}
-	for i, b in last.balls do
-		local copy = table.clone(b)
-		local a = first.balls[i]
-		if a and first.tick ~= last.tick then
-			local alpha = math.clamp((target - first.tick) / (last.tick - first.tick), 0, 1)
-			copy.x = a.x + (b.x - a.x) * alpha
-			copy.z = a.z + (b.z - a.z) * alpha
-		elseif target > last.tick then
-			local dt = math.min(0.15, (target - last.tick) / 60)
+	local alpha = if first.tick ~= last.tick then (target - first.tick) / (last.tick - first.tick) else 1
+	local result = Controller.interpolate(first.balls, last.balls, math.clamp(alpha, 0, 1))
+	if target > last.tick then
+		for i, copy in result do
+			local b = last.balls[i]
+			local dt = math.min(0.10, (target - last.tick) / 60)
+			copy.weapon.angle += b.weapon.omega * dt
+			copy.weapon.spin += math.abs(b.weapon.omega) * dt
 			copy.x = math.clamp(b.x + b.vx * dt, -Config.CenterBound, Config.CenterBound)
 			copy.z = math.clamp(b.z + b.vz * dt, -Config.CenterBound, Config.CenterBound)
 		end
-		table.insert(result, copy)
 	end
-	return result
+	return result, target
 end
 return table.freeze(Controller)

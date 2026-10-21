@@ -1,0 +1,72 @@
+{
+  "pages": [
+    {
+      "roundBodies": true,
+      "heroes": {
+        "1": "Astra",
+        "2": "Nerio",
+        "3": "Veyra",
+        "4": "Oren",
+        "5": "Sola",
+        "6": "Bram",
+        "7": "Korra",
+        "8": "Dorrin",
+        "9": "Tala",
+        "10": "Mako"
+      },
+      "viewport": {
+        "1": 1279,
+        "2": 720
+      },
+      "paletteRestored": true,
+      "displayItalic": true,
+      "loadedSprites": 55
+    },
+    {
+      "roundBodies": true,
+      "heroes": {
+        "1": "Nix",
+        "2": "Iria",
+        "3": "Zefi",
+        "4": "Perri",
+        "5": "Rook",
+        "6": "Kesh",
+        "7": "Mira",
+        "8": "Toren",
+        "9": "Vaska",
+        "10": "Edda"
+      },
+      "viewport": {
+        "1": 1279,
+        "2": 720
+      },
+      "paletteRestored": true,
+      "displayItalic": true,
+      "loadedSprites": 63
+    },
+    {
+      "roundBodies": true,
+      "heroes": {
+        "1": "Luma",
+        "2": "Bori",
+        "3": "Cira",
+        "4": "Fen",
+        "5": "Runa",
+        "6": "Ravi",
+        "7": "Tavi",
+        "8": "Suri",
+        "9": "Enna",
+        "10": "Pax"
+      },
+      "viewport": {
+        "1": 1279,
+        "2": 720
+      },
+      "paletteRestored": true,
+      "displayItalic": true,
+      "loadedSprites": 49
+    }
+  ],
+  "heroes": 30,
+  "physicalDevice": false
+}

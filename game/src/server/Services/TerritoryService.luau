@@ -41,24 +41,16 @@ function Territory.seed(board: Types.Board, balls: { Types.Ball })
 end
 function Territory.resolve(
 	board: Types.Board,
-	paths: { Types.Segment },
+	_paths: { Types.Segment },
 	effects: { Types.Shape }
 ): { Types.Change }
 	local masks = { buffer.create(1024), buffer.create(1024) }
 	local drain = buffer.create(1024)
-	for _, path in paths do
-		stamp(masks[path.team], {
-			ax = path.ax,
-			az = path.az,
-			bx = path.bx,
-			bz = path.bz,
-			radius = path.radius,
-			team = path.team,
-			strength = 1,
-		})
-	end
+	-- Body paths are deliberately inert in weapon rules v2.
 	for _, shape in effects do
-		stamp(if shape.drain then drain else masks[shape.team], shape)
+		if shape.strength > 0 then
+			stamp(if shape.drain then drain else masks[shape.team], shape)
+		end
 	end
 	local changes: { Types.Change } = {}
 	for i = 0, 1023 do

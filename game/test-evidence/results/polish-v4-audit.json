@@ -1,0 +1,15 @@
+{
+  "referenceFiles": 63,
+  "referenceHashMismatches": [],
+  "localLinksChecked": 346,
+  "missingLinks": [],
+  "canonicalScripts": 43,
+  "trackedGeneratedFiles": [],
+  "topLevelTools": [
+    "audit-repository.mjs",
+    "build-presentation-comparison.mjs",
+    "build-ui-handoff.mjs",
+    "README.md",
+    "verify.ps1"
+  ]
+}

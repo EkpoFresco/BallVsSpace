@@ -35,6 +35,7 @@ function Replication.stateFor(m: Match.State, userId: number): ViewTypes.State
 			aimLocked = s.aimLocked,
 			x = if b then b.x else 0,
 			z = if b then b.z else 0,
+			weapon = if b and b.weapon then table.clone(b.weapon) else nil,
 		})
 		if own then
 			localKit = s.kitId
@@ -67,6 +68,6 @@ function Replication.stateFor(m: Match.State, userId: number): ViewTypes.State
 	}
 end
 function Replication.full(m: Match.State): buffer
-	return Protocol.territory(m.board, {}, 0, m.sim.tick - m.sim.tick % 6, true)
+	return Protocol.territory(m.board, {}, 0, m.territoryTick, true)
 end
 return table.freeze(Replication)

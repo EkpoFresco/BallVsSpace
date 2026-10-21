@@ -1,0 +1,17 @@
+{
+  "studio": "84490ad7-bb9d-489b-97b5-17eeffd277c7",
+  "clientErrors": [],
+  "rules": "bvs-rules-2-weapon",
+  "heroes": 30,
+  "practiceVisible": true,
+  "viewport": "1279, 720",
+  "engineVersion": "0.743.0.7431133",
+  "phase": "Lobby",
+  "build": "0.4.2-armory-polish",
+  "inventory": {
+    "visible": true,
+    "stats": "14 hit · 9 reach · 0.9 spin/s",
+    "iconsLoaded": true,
+    "viewport": "1279, 720"
+  }
+}

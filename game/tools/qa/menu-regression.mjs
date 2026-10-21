@@ -22,27 +22,27 @@ for(const [name,width,height] of [['short',568,320],['desktop',900,650],['wide',
  click('Lobby.Inventory','inventory-'+name);
  click('Panels.Inventory.Balls','balls-'+name);
  run(`local g=${root}.Panels.Inventory.Content.BallsPage.Grid;g.CanvasPosition=Vector2.zero;task.wait(.1);return true`,'scroll-top-'+name);
- click('Panels.Inventory.Content.BallsPage.Grid.Verity','select-left-'+name);
+ click('Panels.Inventory.Content.BallsPage.Grid.Astra','select-left-'+name);
  click('Panels.Inventory.Content.BallsPage.Grid','empty-grid-'+name,0,0);
  click('Panels.Inventory','empty-header-'+name,.52,.02);
  checks.push(run(`local p=${root}.Panels.Inventory;assert(p.Visible,'Empty inside click dismissed Inventory');local g=p.Content.BallsPage.Grid
- local n=g.Verity;assert(n:FindFirstChild('Selected').Visible,'First card not selected');assert(n.Outline.Edge.BorderStrokePosition==Enum.BorderStrokePosition.Inner,'Border must be inset')
+ local n=g.Astra;assert(n:FindFirstChild('Selected').Visible,'First card not selected');assert(n.Outline.Edge.BorderStrokePosition==Enum.BorderStrokePosition.Inner,'Border must be inset')
  assert(n.AbsolutePosition.X>=g.AbsolutePosition.X and n.AbsolutePosition.Y>=g.AbsolutePosition.Y)
  assert(p.Close.Cross:IsA('TextLabel') and p.Close.Cross.Text=='×')
  g.CanvasPosition=Vector2.new(0,g.AbsoluteCanvasSize.Y);task.wait(.1);return {device=${JSON.stringify(name)},insideInventory=true,selectionInset=true,closeMatches=true}`,'inventory-check-'+name));
- click('Panels.Inventory.Content.BallsPage.Grid.Laser','select-last-'+name);
- checks.push(run(`local p=${root}.Panels.Inventory;local g=p.Content.BallsPage.Grid;local n=g.Laser
+ click('Panels.Inventory.Content.BallsPage.Grid.Pax','select-last-'+name);
+ checks.push(run(`local p=${root}.Panels.Inventory;local g=p.Content.BallsPage.Grid;local n=g.Pax
  assert(p.Visible and n:FindFirstChild('Selected').Visible);assert(n.AbsolutePosition.Y+n.AbsoluteSize.Y<=g.AbsolutePosition.Y+g.AbsoluteSize.Y+.5,'Last row clipped')
  return {device=${JSON.stringify(name)},lastRowFullyVisible=true}`,'scroll-check-'+name));
  rpc('screen_capture',{capture_id:prefix+'-inventory-'+name},'inventory-image-'+name);
  click('Panels.Inventory.SwitchMenu','store-'+name);
  click('Panels.Store','empty-store-'+name,.52,.02);
- click('Panels.Store.Content.Offers.LaserOffer','card-padding-'+name,.02,.98);
- checks.push(run(`local p=${root}.Panels.Store;assert(p.Visible,'Empty inside click dismissed Store');local g=p.Content.Offers.LaserOffer;assert(g.Laser.Parent==g and g.ViewLaser.Parent==g)
+ click('Panels.Store.Content.Offers.CiraOffer','card-padding-'+name,.02,.98);
+ checks.push(run(`local p=${root}.Panels.Store;assert(p.Visible,'Empty inside click dismissed Store');local g=p.Content.Offers.CiraOffer;assert(g.Cira.Parent==g and g.ViewCira.Parent==g)
  return {device=${JSON.stringify(name)},insideStore=true,groupedOffer=true}`,'store-check-'+name));
  rpc('screen_capture',{capture_id:prefix+'-store-'+name},'store-image-'+name);
- click('Panels.Store.Content.Offers.LaserOffer.ViewLaser','view-'+name);
- run(`local p=${root}.Panels.Inventory;assert(p.Visible and p.Content.BallsPage.Details:FindFirstChild('Name').Text=='Laser Ball');return true`,'view-check-'+name);
+ click('Panels.Store.Content.Offers.CiraOffer.ViewCira','view-'+name);
+ run(`local p=${root}.Panels.Inventory;assert(p.Visible and p.Content.BallsPage.Details:FindFirstChild('Name').Text=='Cira Mirrorwake');return true`,'view-check-'+name);
  click('Panels.Inventory.SwitchMenu','store-return-'+name);
  click('Panels.Store.Explosions','category-'+name);
  click('Panels.Inventory.SwitchMenu','category-return-'+name);
